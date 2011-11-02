@@ -1,3 +1,4 @@
+*.pyc
 mpatlas/local_settings.py
 mpatlas/www
 mpatlas/deploy/logs/*
