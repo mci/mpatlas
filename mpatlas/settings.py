@@ -1,6 +1,20 @@
-# Django settings for testgeo project.
+# Django settings for mpatlas project.
+
+# -*- coding: utf-8 -*-
+import os
+#gettext = lambda s: s
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+SITE_PATH = os.path.dirname(PROJECT_PATH)
 
 DEBUG = True
+
+# Override DEBUG with local_settings.py value right away.  We override all other global
+# settings with local_settings.py values at the end of this file.
+try:
+    from local_settings import DEBUG
+except ImportError:
+    pass
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -70,13 +84,14 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = os.path.join(STATIC_URL, 'admin/')
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -121,6 +136,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates')
 )
 
 INSTALLED_APPS = (

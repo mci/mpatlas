@@ -15,7 +15,8 @@ django-haystack
 django-reversion<1.4
 django-sekizai
 django-staticfiles
-django-storages
+#django-storages
+hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
 django-tinymce
 docutils
 easy-thumbnails==1.0-alpha-16
