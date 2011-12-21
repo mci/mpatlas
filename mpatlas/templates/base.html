@@ -1,0 +1,346 @@
+{% comment %}
+{% load sekizai_tags %}
+{% endcomment %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+	<head>
+		<title>MPAtlas » {% block title %}{% endblock %}</title>
+		
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		
+		{% comment %}
+		{% render_block "css" %}
+		{% endcomment %}
+		
+		<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400' rel='stylesheet' type='text/css'>
+		<!--
+		<link href='http://fonts.googleapis.com/css?family=Quicksand:400,300|Josefin+Sans:300,400|Marvel|Yanone+Kaffeesatz:200,300|Jura:400,300' rel='stylesheet' type='text/css'>
+		-->
+		
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8">
+    	<style type="text/css" media="screen">
+    	    body {font: 12px/20px 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
+    	    h1, .heading {font: 50px/56px 'TitilliumText22LRegular', Arial, sans-serif; letter-spacing: 0;}
+    	    .heading.bold {font: 50px/56px 'TitilliumText22LBold', Arial, sans-serif; letter-spacing: 0;}
+    		.thin {font: 18px/27px 'TitilliumText22LThin', Arial, sans-serif;}
+    		.light {font: 18px/27px 'TitilliumText22LLight', Arial, sans-serif;}
+    		.regular {font: 18px/27px 'TitilliumText22LRegular', Arial, sans-serif;}
+    		.medium {font: 18px/27px 'TitilliumText22LMedium', Arial, sans-serif;}
+    		.bold {font: 18px/27px 'TitilliumText22LBold', Arial, sans-serif;}
+    		.xbold {font: 18px/27px 'TitilliumText22LXBold', Arial, sans-serif;}
+    	</style>
+		
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="{{ STATIC_URL }}css/mpatlas_main.css" media="screen" rel="stylesheet" type="text/css" />
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+		
+		<style>
+		body {
+		    margin: 0;
+		    padding: 0;
+		}
+		
+		#body_full {
+            position:relative;
+            width: 960px;
+		    margin: 0 auto 0 auto;
+        }
+        
+        #header_full {
+            position:relative;
+            height:79px;
+            min-width:960px;
+            background: url('{{ STATIC_URL }}images/header_bg.png') repeat-x;
+        }
+        
+        #header_center {
+            position:relative;
+            top: 0px;
+            width:960px;
+            height:79px;
+            /*background: url('{{ STATIC_URL }}images/header_all.png') no-repeat 0 5px;*/
+            margin:0 auto 0 auto;
+        }
+        
+        #footer_full {
+            position:relative;
+            min-height:86px;
+            min-width:960px;
+            background: url('{{ STATIC_URL }}images/footer_bg.png') repeat-x;
+            margin:0;
+            padding:0;
+        }
+		
+		.contentmax_centered {
+		    position: relative;
+		    
+		}
+		
+		#mainlogo {
+		    float: left;
+		    display: block;
+		    position: relative;
+		    width: 197px;
+		    height: 57px;
+		    top: 5px;
+		    background: url('{{ STATIC_URL }}images/header_logo.png') no-repeat;
+		    overflow: hidden;
+		    outline: none;
+		    text-indent: -9999px;
+		}
+		
+		#waittlogo {
+		    float: right;
+		    display: block;
+		    position: relative;
+		    width: 130px;
+		    height: 66px;
+		    top: 5px;
+		    margin-right: 17px;
+		    background: url('{{ STATIC_URL }}images/header_waittlogo.png') no-repeat;
+		    overflow: hidden;
+		    outline: none;
+		    text-indent: -9999px;
+		}
+		
+		#helpbutton {
+		    float: right;
+		    display: block;
+		    position: relative;
+		    width: 28px;
+		    height: 28px;
+		    right: 270px;
+		    top: 40px;
+		    background: url('{{ STATIC_URL }}images/header_helpicon.png') no-repeat;
+		    overflow: hidden;
+		    outline: none;
+		    text-indent: -9999px;
+		}
+        
+        .searchform {
+            position: absolute;
+            display: block;
+            bottom: 0;
+            right: 150px;
+        }
+        
+        .searchform fieldset {
+            position: relative;
+            display: block;
+            margin: 0;
+            padding-bottom: 6px;
+            border: none;
+        }
+        
+        .searchform input.text {
+            width:155px;
+            border-radius:6px;
+            border-color: #AAA #5A81A7 #5A81A7;
+            float: left;
+            font-size: 11px;
+            height: 12px;
+            margin: 0;
+            padding: 3px 10px 5px 6px;
+            background: url("../images/textboxbg.png") repeat-x scroll 0 100% white;
+            border: 1px solid #A0A0A0;
+            color: #606060;
+            font: 14px/1.2em 'Abel', verdana,sans-serif;
+            font-weight: normal;
+        }
+        
+        .searchform input.image {
+            background: url("{{ STATIC_URL }}images/header_searchbutton.png") no-repeat scroll 0 0 transparent;
+            border: medium none;
+            color: #F60;
+            float: left;
+            font-weight: bold;
+            height: 29px;
+            left: -10px;
+            margin: 0 -5px 0 0;
+            margin-bottom: -1px;
+            position: relative;
+            top: -3px;
+            width: 29px;
+        }
+		
+		ul#mainmenu, ul#mainmenu li, ul#mainmenu ul {
+		    padding: 0;
+		    margin: 0;
+		    list-style: none;
+		}
+		
+		ul#mainmenu {
+		    display: block;
+		    position: absolute;
+            z-index: 597;
+		    border-top: 1px solid #79A;
+		    padding-left: 4px;
+		    padding-right: 4px;
+		    left: 250px;
+		    bottom: 0px;
+		}
+		
+		ul#mainmenu li {
+		    float: left;
+		    position: relative;
+		    line-height: 1.3em;
+            vertical-align: middle;
+            zoom: 1;
+            color: white;
+            font-family: 'Josefin Sans', Georgia;
+            font-weight: 300;
+            font-size: 20px;
+            text-shadow: #000 1px 1px 1px;
+		}
+		
+		ul#mainmenu > li {
+		    padding-top: 3px;
+		    padding-right: 15px;
+		    padding-left: 15px;
+		    padding-bottom: 5px;
+		}
+		
+		ul#mainmenu > li:first-child {
+		    padding-left: 0;
+		}
+		ul#mainmenu > li:last-child {
+		    padding-right: 0;
+		}
+		
+		ul#mainmenu a {
+		    color: white;
+		    text-decoration: none;
+		}
+		
+		ul#mainmenu a:hover, ul#mainmenu li.selected > a {
+		    color: #e03e8a;
+		}
+		
+		ul#mainmenu ul {
+		    visibility: hidden;
+		    width: 232px;
+		    position: absolute;
+		    top: 100%;
+		    left: 0;
+		    z-index: 598;
+		    background-color: #333;
+		}
+		
+		ul#mainmenu li:hover > ul {
+		    visibility: visible;
+		}
+		
+		ul#mainmenu ul li {
+		    float: none;
+		}
+		</style>
+		
+		{% block base_head_extra %}{% endblock %}
+		
+	</head>
+	<body>
+		<div id='header_full'>
+			<div id='header_center'>
+			    <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
+			    <a id="waittlogo" href="/">brought to you by the Waitt Foundation</a>
+			    <ul id="mainmenu">
+			        <li class="selected">
+			            <a href="/">Explore</a>
+			            <ul>
+			                <li>
+			                    <a href="/">Map</a>
+			                </li>
+			                <li>
+			                    <a href="/mpa/sites">List</a>
+			                </li>
+			            </ul>
+			        </li>
+			        <li>
+			            <a href="/">Learn</a>
+			        </li>
+			        <li>
+			            <a href="/">News</a>
+			        </li>
+			    </ul>
+			    
+			    <form id="mainsearchform" name="mainsearchform" class="searchform" method="get" action="/mpa/sites/?">
+                    <fieldset class="search">
+                        <input type="text" class="text defaultValue" name="q" id="mainsearchbox" data-placeholder="Search for an MPA or Country" placeholder="Search for an MPA or Country" value="Search for an MPA or Country">
+                    	<input type="image" alt="Search" src="{{ STATIC_URL }}images/header_searchbutton.png" class="image">
+                    </fieldset>
+                </form>
+			    
+			    <a id="helpbutton" href="/help">Help</a>
+                
+			</div>
+		</div>
+		<div id='body_full'>
+			{% block base_body_content %}{% endblock %}
+		</div>
+		<div id='footer_full'>
+			<div id='footer_center' style="position:relative; width:960px; height:86px; margin:0 auto 0 auto;">
+			    <div id='footer_bluebar' style="height:28px;"></div>
+			    <div id='footer_graybar'>
+			        <img src="{{ STATIC_URL }}images/footer_logos.png" style="margin-top:6px;" />
+			    </div>
+			</div>
+		</div>
+		{% block base_body_extra %}{% endblock %}
+		{% comment %}
+		{% render_block "js" %}
+		{% endcomment %}
+		{% block bodyend_js %}{% endblock %}
+		<script>
+        	$(function() {
+    		    $( "#mainsearchbox" ).autocomplete({
+        			source: function( request, response ) {
+        				$.ajax({
+        					url: "/mpa/sites/json/?q="+request.term,
+        					success: function( data ) {
+        						response( $.map( data.mpas, function( item ) {
+        							return {
+        								label: item.name + (item.designation ? ", " + item.designation : "") + ", " + item.country,
+        								value: item.name,
+        								url: item.url
+        							}
+        						}));
+        					}
+        				});
+        			},
+        			minLength: 2,
+        			select: function( event, ui ) {
+        			    if (ui.item) {
+        			        window.location = ui.item.url
+        			    }
+        			}
+        		});
+        		
+                $('form input:text.defaultValue, form textarea.defaultValue').each(function(){
+    		        $.data(this, 'default', $(this).attr("data-placeholder"));
+    		    }).focus(function(){
+    		        if ($.data(this, 'default') == $(this).val()) {
+    		            $(this).val('');
+    		        }
+    				$(this).removeClass('defaultValue');
+
+    		    }).blur(function(){
+    		        if ($(this).val() == '') {
+    		            $(this).val($.data(this, 'default'));
+    		        }
+    				$(this).addClass('defaultValue');
+    		    });
+    		    
+    		    {% block js_onready %}{% endblock %}
+    		    
+        	});
+        </script>
+	</body>
+</html>
+

@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% comment %}
+{% load sekizai_tags %}
+{% endcomment %}
+
+{% block title %}Home{% endblock %}
+
+{% block base_head_extra %}
+<style>
+    #body_full {
+        position:relative;
+        width:100%;
+        height:100%;
+        margin: none;
+    }
+    
+    #stats_overlay {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 200px;
+        height: 100%;
+        background-color: transparent;
+        background-color: rgba(10,10,10,0.8);
+        color:white;
+        text-align:center;
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
+        zoom: 1;
+    }
+
+    #layers_overlay {
+        /*background-color: rgba(10,10,10,0.3);
+        padding: 5px;*/
+        background-color: transparent;
+        background: rgba(10,10,10,0.8);
+        border-radius: 0px 8px 8px 0px;
+        padding: 0px;
+        color: white;
+        min-width: 150px;
+        /*background-color: transparent;*/
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
+        zoom: 1;
+    }
+
+    .maplayer {
+        clear: both;
+        border-radius: 4px 4px 4px 4px;
+        background-color: rgba(255,255,255,0.1);
+        border: 1px solid silver;
+        padding: 4px;
+        margin: 8px;
+    }
+
+    .layerstitle {
+        font-size: 14px;
+        line-height: 1;
+        margin: 4px 8px;
+        text-align: center;
+    }
+
+    .addlayer {
+        float: right;
+        margin-bottom: 10px;
+        margin-right: 8px;
+    }
+    
+    .addlayer, .addfilter {
+        font-size: 11px;
+        color: #9F9;
+    }
+    .addlayer:hover, .addfilter:hover {
+        color: #0F0;
+    }
+
+    .layercolor {
+        width: 10px;
+        height: 10px;
+        background-color: blue;
+        float: left;
+        margin-right: 4px;
+        margin-top: 2px;
+    }
+
+    .layercolor.designatedmpa {
+        background-color: #70F;
+    }
+    .layercolor.candidatempa {
+        background-color: orange;
+    }
+    
+    .layercheck {
+        float: left;
+        padding: 0;
+        margin: 0;
+        margin-right: 3px;
+    }
+    
+    /* OpenLayers: make missing tiles transparent, not pink! */
+    .olImageLoadError { 
+        background-color: transparent !important; 
+        opacity: 0 !important; 
+        filter: alpha(opacity=100) !important; /* IE */ 
+    }
+    
+</style>
+
+<link rel="stylesheet" href="{{ STATIC_URL }}openlayers/theme/default/style.css" type="text/css">
+{% endblock %}
+
+
+		<div id='body_full'>
+		    {% block base_body_content %}
+			
+			<iframe id='demomap' style="width:100%; height:100%; border:none; padding:0; margin:0;" src="http://dev.moosepoint.com/mpatlas/"></iframe>
+			
+			
+			<div id="mainmap" style="position:relative; width:100%; height:100%;"></div>
+			
+			
+			<div id='modetoggle_overlay' style="position:absolute; right:200px; top:0px; padding-right:8px;">
+			    <div class='modetoggle medium'>
+			        <a class="modebutton selected" >Map View</a><a class="modebutton" href="{% url wdpa-siteslist %}">List View</a>
+			    </div>
+			</div>
+			
+			<div id='filters_overlay' style="position:absolute; left:50px; top:0px;">
+			    <p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
+			    <p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+			    <p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+			    <div class="clear"></div>
+			</div>
+			
+			<div id='layers_overlay' style="position:absolute; left:0px; top:100px;">
+			    <a class="addlayer" style="float:right;" href="#" onclick="showlayerdialog(); return(false);" title="Add new map layer"><em>+</em> Add Layer</a>
+			    <p class="layerstitle medium">Map Layers</p>
+			    <div class="maplayer">
+			        <input class="layercheck" type="checkbox" checked /><div class="layercolor designatedmpa"></div>Designated Marine Protected Areas
+			    </div>
+			    <div class="maplayer">
+			        <input class="layercheck" type="checkbox" checked /><div class="layercolor candidatempa"></div>Candidate Marine Protected Areas
+			    </div>
+			</div>
+			
+			<div id='stats_overlay'>
+			    <p>
+			        <span class="medium" style="text-shadow: #000 1px 1px 1px;">Currently Protected</span>
+			        <br />
+			        <span class="heading bold" style="color:#e03e5d; text-shadow: #000 1px 1px 2px;">1.2%</span>
+			    </p>
+			    <p style="margin-bottom:4px;">
+			        <span class="medium" style="text-shadow: #000 1px 1px 1px;">Current Statistics</span>
+			    </p>
+			    <p style="border:1px solid #666; width:80%; padding:8px; margin: 0 auto 0 auto; font-size:14px; background-color: rgba(10,10,10,0.4);">
+			        <span style="font-weight:bold;">MPAs:</span> 6,978
+			        <br />
+			        <span style="font-weight:bold;">Within EEZs:</span> 98%
+			        <br />
+			        <span style="font-weight:bold;">High Seas:</span> 2%
+			        <br />
+			        <span style="font-weight:bold;">No Take:</span> 12%
+			        <br />
+			        <span style="font-style:italic;">Showing all MPAs</span>
+			    </p>
+			    <br />
+			    <p style="margin-bottom:4px;">
+			        <span style="font-weight:bold; font-size:18px; text-shadow: #000 1px 1px 1px;">Latest MPA News</span>
+			    </p>
+			    <p style="border:1px solid #666; width:80%; padding:8px; margin: 0 auto 0 auto; background-color: rgba(10,10,10,0.4); font-size:12px;">
+			        New community MPA efforts
+			        <br /><br />
+			        Recent human interactions with whales on US west coast
+			        <br /><br />
+			        Ocean Zoning
+			    </p>
+			</div>
+			{% endblock %}
+		</div>
+
+{% block base_body_extra %}
+    <div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
+        <p>Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.</p>
+        <img src="{{ STATIC_URL }}images/filters/filter_demo.png" />
+    </div>
+    <div id="addlayerdialog" title="Add a new map layer" style="display:none;">
+    	<img src="{{ STATIC_URL }}images/layers/layer_demo.png" />
+    </div>
+{% endblock %}
+
+{% block bodyend_js %}
+	<script>
+	    function resize_viewport() {
+	        $('#body_full').height($(window).height() - $('#header_full').height() - $('#footer_full').height());
+	    }
+        $(window).resize(resize_viewport);
+        resize_viewport();
+
+	    function showfilterdialog() {
+    		$( "#addfilterdialog" ).dialog({
+                modal: true,
+                width: 610
+    		});
+    		return(false);
+    	}
+    	function showlayerdialog() {
+    		$( "#addlayerdialog" ).dialog({
+                modal: true,
+                width: 600
+    		});
+    		return(false);
+    	}
+    </script>
+    
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="{{ STATIC_URL }}openlayers/OpenLayers.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block js_onready %}
+    OpenLayers.Util.onImageLoadErrorColor = "transparent";
+    map = new OpenLayers.Map('mainmap', {
+        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+        numZoomLevels:18,
+        maxResolution:156543.0339,
+        units:'m',
+        projection: "EPSG:900913",
+        displayProjection: new OpenLayers.Projection("EPSG:4326")
+    });
+    var ol_wms = new OpenLayers.Layer.WMS(
+        "OpenLayers WMS",
+        "http://vmap0.tiles.osgeo.org/wms/vmap0",
+        {layers: 'basic'},
+        {wrapDateLine: true}
+    );
+    
+    var gphy = new OpenLayers.Layer.Google(
+        "Google Physical",
+        {
+            type: google.maps.MapTypeId.TERRAIN,
+            opacity: 0.9
+        }
+    );
+    
+    function get_mpa_url(bounds) {
+        var res = this.map.getResolution();
+        var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+        //var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+        var y = Math.round ((bounds.bottom - this.maxExtent.bottom) / (res * this.tileSize.h));
+        var z = this.map.getZoom();
+
+        var path = z + "/" + x + "/" + y + "." + this.type; 
+        var url = this.url;
+        if (url instanceof Array) {
+            url = this.selectUrl(path, url);
+        }
+        return url + path;
+    }
+    
+    var mpas = new OpenLayers.Layer.TMS(
+        "Existing MPAs",
+        "http://cdn.mpatlas.org/tilecache/mpas/",
+        {
+            type: 'png',
+            getURL: get_mpa_url,
+            isBaseLayer: false,
+            transparent: true,
+            opacity: 0.8,
+            transitionEffect: 'resize',
+            wrapDateLine: true,
+            displayOutsideMaxExtent: true
+        },
+        {wrapDateLine: true}
+    );
+    var proposed = new OpenLayers.Layer.TMS(
+        "Proposed MPAs",
+        "http://cdn.mpatlas.org/tilecache/candidates/",
+        {
+            type: 'png',
+            getURL: get_mpa_url,
+            isBaseLayer: false,
+            transparent: true,
+            opacity: 0.8,
+            transitionEffect: 'resize',
+            wrapDateLine: true,
+            displayOutsideMaxExtent: true
+        },
+        {wrapDateLine: true}
+    );
+    
+    map.addLayers([proposed, mpas, gphy]);
+    map.setCenter(new OpenLayers.LonLat(0, 0).transform(
+        new OpenLayers.Projection("EPSG:4326"),
+        map.getProjectionObject()
+    ), 1);
+{% endblock %}
+
+

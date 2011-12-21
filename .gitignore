@@ -2,4 +2,5 @@
 mpatlas/local_settings.py
 mpatlas/www
 mpatlas/deploy/logs/*
+mpatlas/openlayers
 !.gitignore

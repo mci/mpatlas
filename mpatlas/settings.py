@@ -35,6 +35,15 @@ DATABASES = {
     }
 }
 
+# Uncomment to enable caching with memcached
+#CACHE_BACKEND = 'memcached://unix:/home/mpatlas/memcached.sock'
+#CACHE_BACKEND = 'dummy://'
+# For per-site cache (UpdateCache and FetchFromCache Middleware)
+#CACHE_MIDDLEWARE_SECONDS = 4800
+CACHE_MIDDLEWARE_SECONDS = 5
+CACHE_MIDDLEWARE_KEY_PREFIX = 'mpatlas'
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'secret'
 
@@ -113,11 +122,15 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # Uncomment to enable caching with memcached
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # Uncomment to enable caching with memcached
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'mpatlas.urls'
@@ -157,7 +170,8 @@ INSTALLED_APPS = (
     'south',
     'django.contrib.gis',
     'world',
-
+    'wdpa',
+    'mpa',
 )
 
 # A sample logging configuration. The only tangible logging
