@@ -23,7 +23,7 @@ class WorldBorder(models.Model):
     def __unicode__(self):
         return self.name
     
-worldborders_mapping = {
+worldborder_mapping = {
     'fips' : 'FIPS',
     'iso2' : 'ISO2',
     'iso3' : 'ISO3',
