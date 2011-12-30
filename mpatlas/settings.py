@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'world',
     'wdpa',
     'mpa',
+    'spatialdata',
 )
 
 # A sample logging configuration. The only tangible logging
