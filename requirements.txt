@@ -1,5 +1,6 @@
 BeautifulSoup
-Django
+#Django
+git+git://github.com/mci/django.git@1.3.1_postgis2.0#egg=Django
 Fabric
 git+git://github.com/jlopez/maxmind-geoip.git#egg=GeoIP-Python
 Pillow
