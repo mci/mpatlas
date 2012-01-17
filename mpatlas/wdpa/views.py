@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
@@ -7,7 +7,6 @@ from django.db.models import Q
 import re
 from itertools import chain
 
-#from django.contrib.gis import gdal
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
@@ -89,9 +88,9 @@ def lookup_point(request):
             method = 'point'
     except:
         # Bad input, return empty list
-        return render_to_response('wdpa/mpalookup.json', {
-            'mpalist': mpa_list,
-        }, context_instance=RequestContext(request))
+        return render(request, 'wdpa/mpalookup.json', {
+            'mpa_list': mpa_list,
+        }, content_type='application/json; charset=utf-8')
     else:
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
@@ -128,10 +127,10 @@ def lookup_point(request):
         elif (method == 'point'):
             mpa_list = WdpaPolygon.objects.filter(geog__intersects=point).defer(*WdpaPolygon.get_geom_fields())
             search = point
-        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer('geog')
+        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*MpaCandidate.get_geom_fields())
         search.transform(4326)
-        return render_to_response('wdpa/mpalookup.json', {
+        return render(request, 'wdpa/mpalookup.json', {
             'search': search.coords,
             'mpa_list': mpa_list,
             'mpa_candidate_list': mpa_candidate_list,
-        }, context_instance=RequestContext(request))
+        }, content_type='application/json; charset=utf-8')

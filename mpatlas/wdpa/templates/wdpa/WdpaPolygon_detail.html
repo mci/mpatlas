@@ -2,12 +2,57 @@
 
 {% block title %}{{ mpa.name }}{% endblock %}
 
+{% block base_head_extra %}
+    <style>
+        .siteinfo {
+            background-color: transparent;
+            background-color: rgba(10,10,10,0.8);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
+            zoom: 1;
+            border-color: black;
+        }
+        
+        .siteinfo .name {
+            
+        }
+        
+        .siteinfo .value {
+            color: #ddd;
+            padding-left: 2px;
+        }
+        
+        .siteinfo .infolist {
+            height: 12em;
+            overflow: hidden;
+            
+        }
+        
+        .siteinfo .infoexpander {
+            position: relative;
+            
+            margin-left: auto;
+            margin-right: auto;
+            top:1em;
+            width: 18em;
+            text-align: center;
+            background-color: #3C6289;
+            border-radius: 4px;
+            color: white;
+            font-style: italic;
+            font-size: 11px;
+        }
+    </style>
+{% endblock %}
+
 {% block base_body_content %}
     <div class='modetoggle medium' style="float:right;">
         <a class="modebutton" href="/">Map View</a><a class="modebutton" href="{% url wdpa-siteslist %}">List View</a>
     </div>
 
-    <h3 style="float:left;">{{ mpa.country }}</h3>
+    <h3 style="float:left; margin-bottom:4px;">{{ mpa.country }}</h3>
     <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:10px;">
         {{ mpa.name }}
         <span style="font-size:20px;">{{ mpa.desig_eng }} {% if mpa.desig_eng != mpa.desig %}({{ mpa.desig }}){% endif %}</span>
@@ -32,14 +77,15 @@
             {% endif %}
         </div>
         <div class="sidebar_item_title">Site Information</div>
-    	<div class="sidebar_item_content">
-    		<ul>
+    	<div class="sidebar_item_content siteinfo">
+    		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
             {% for key, value in mpa.myfieldslist %}
                 {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' %}
-                <li style="border-bottom:1px solid #DDD;"> <strong>{{ value.verbose }}</strong>: <span style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
+                <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
                 {% endif %}
             {% endfor %}
             </ul>
+            <div class="infoexpander"><span style="font-style:normal;">⤋</span> See all data records for this site</div>
     	</div>
     </div>
     <div id="rightcol" style="float:right; width: 66%;">

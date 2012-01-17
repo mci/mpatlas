@@ -13,20 +13,41 @@ class Eez(models.Model):
     eez_id = models.IntegerField()
     area = models.FloatField()
     
+    # Spatial analyses and stats for MPAs
+    mpas = models.ManyToManyField('wdpa.WdpaPolygon', through='EezMembership', verbose_name="MPAs within this EEZ")
+    
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
-    #geom_smerc = models.MultiPolygonField(srid=900913, null=True)
+    geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    #geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    
+    simple_geom_smerc = models.MultiPolygonField(srid=900913, null=True)
+    simple_geom = models.MultiPolygonField(srid=4326, null=True)
+    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    
     objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.eez
     
+    @property
+    def name(self):
+        return self.eez
+    
+    @property
+    def area_km2(self):
+        return self.area / 1000.0
+    
     @classmethod
     def get_geom_fields(cls):
-        return ('geog', 'geom', 'geom_smerc')
+        return ('geog', 'geom', 'geom_smerc', 'simple_geog', 'simple_geom', 'simple_geom_smerc')
+
+class EezMembership(models.Model):
+    eez = models.ForeignKey(Eez)
+    mpa = models.ForeignKey('wdpa.WdpaPolygon')
+    area_in_eez = models.FloatField('mpa area in eez (m2)', null=True)
 
 class EezSimplified(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
@@ -43,9 +64,9 @@ class EezSimplified(models.Model):
     
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
-    #geom_smerc = models.MultiPolygonField(srid=900913, null=True)
+    geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    #geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
     objects = models.GeoManager()
     
     # Returns the string representation of the model.
