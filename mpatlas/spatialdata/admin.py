@@ -1,4 +1,4 @@
 from django.contrib.gis import admin
-from models import Eez
+from models import EezSimplified
 
-#admin.site.register(Eez, admin.GeoModelAdmin)
+admin.site.register(EezSimplified, admin.GeoModelAdmin)

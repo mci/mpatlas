@@ -18,6 +18,7 @@ urlpatterns = patterns('',
      url(r'^admin/', include(admin.site.urls)),
      
      url(r'^mpa/', include('wdpa.urls')),
+     url(r'^region/', include('spatialdata.urls')),
      
      url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home_map.html')),
 )

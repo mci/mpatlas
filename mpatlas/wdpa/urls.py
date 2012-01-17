@@ -35,7 +35,7 @@ urlpatterns = patterns('',
             context_object_name='mpa_list',
             paginate_by=None,
             template_name='wdpa/WdpaPolygon_list.json'),
-        name='wdpa-siteslistall'),
+        name='wdpa-siteslistjson'),
     url(r'^sites/(?P<pk>\d+)/$',
         DetailView.as_view(
             model=WdpaPolygon,
