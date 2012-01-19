@@ -16,17 +16,7 @@
 
 		    {% block base_body_content %}
 			
-			<!--
-			<iframe id='demomap' style="width:100%; height:100%; border:none; padding:0; margin:0;" src="http://dev.moosepoint.com/mpatlas/"></iframe>
-			-->
-			
-			<div id="leafletmap" style="position:relative; width:100%; height:100%; z-index:0;">
-			    
-			</div>
-			
-			<div id="mainmap" style="position:relative; width:100%; height:100%; bottom:-100px; z-index:0;">
-			    
-			</div>
+			<div id="leafletmap" style="position:relative; width:100%; height:100%; z-index:0;"></div>
 			
 			
 			<div id='modetoggle_overlay' style="position:absolute; right:200px; top:0px; padding-right:8px;">
@@ -42,22 +32,35 @@
 			    <div class="clear"></div>
 			</div>
 			
-			<div id='layers_overlay' style="position:absolute; left:0px; top:100px;">
+			<div id='explore_overlay' style="position:absolute; top:80px;">
+			    <p class="layerstitle medium">Explore MPAs by:</p>
+			    <select style="float:right;">
+			        <option>MPAs</option>
+			        <option>EEZs (country)</option>
+			        <option>Ecoregions</option>
+			    </select>
+			</div>
+			
+			<div id='layers_overlay' style="position:absolute; left:0px; top:150px;">
 			    <a class="addlayer" style="float:right;" href="#" onclick="showlayerdialog(); return(false);" title="Add new map layer"><em>+</em> Add Layer</a>
 			    <p class="layerstitle medium">Map Layers</p>
+			    <div class="layershider">H I D E</div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor designatedmpa"></div>
+			        <div class="layeractive active"><div class="layeractivearrow"></div>Active &#x2605;</div>
 			        Designated Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor candidatempa"></div>
+			        <div class="layeractive">&#x2605;</div>
 			        Candidate Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor eezs"></div>
+			        <div class="layeractive ">&#x2605;</div>
 			        Exclusive Economic Zones
 			    </div>
 			</div>
@@ -117,16 +120,10 @@
 {% endblock %}
 
 {% block bodyend_js %}
-<script src="{{ STATIC_URL }}openlayers/OpenLayers.js" type="text/javascript"></script>
 <script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/app.js"></script>
 
 <script>
-    function resize_viewport() {
-        $('#body_full').height($(window).height() - $('#header_full').height() - $('#footer_full').height());
-    }
-    $(window).resize(resize_viewport);
-    resize_viewport();
-
     function showfilterdialog() {
 		$( "#addfilterdialog" ).dialog({
             modal: true,
@@ -145,493 +142,12 @@
 
 <script>
     $(function() {
-        OpenLayers.Util.onImageLoadErrorColor = "transparent";
-
-        map = new OpenLayers.Map('mainmap', { 
-            //maxExtent: baseLayer.maxExtent,
-            //units: baseLayer.units,
-            //resolutions: baseLayer.resolutions,
-            //numZoomLevels: baseLayer.numZoomLevels,
-            //tileSize: baseLayer.tileSize,
-            //displayProjection: baseLayer.displayProjection
-
-            maxExtent: new OpenLayers.Bounds(-20037508.342787,-20037508.342787,20037508.342787,20037508.342787),
-            numZoomLevels: 18,
-            maxResolution: 156543.0339,
-            units: 'm',
-            projection: new OpenLayers.Projection("EPSG:3857"),
-            displayProjection: new OpenLayers.Projection("EPSG:4326"),
-            controls: [
-        		new OpenLayers.Control.ArgParser(),
-        		new OpenLayers.Control.Navigation(),
-        		new OpenLayers.Control.TouchNavigation(),
-        		new OpenLayers.Control.PinchZoom(),
-        		new OpenLayers.Control.ZoomPanel()
-            ],
+        var mpatlas = new MPAtlas($('#leafletmap'));
+        mpatlas.map.on('locationfound', function(location) {
+            //mpatlas.map.panTo(new L.LatLng(0, location.latlng.lng)); // center on lng at equator
+            mpatlas.map.panTo(location.latlng);
         });
-
-        function getEsriOceanURL(bounds) {
-            var res = this.map.getResolution();
-            var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-            var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-            //var y = Math.round ((bounds.bottom - this.maxExtent.bottom) / (res * this.tileSize.h));
-            var z = this.map.getZoom();
-
-            // wrap the dateline
-            var limit = Math.pow(2, z);
-            if (this.wrapDateLine) {
-               x = ((x % limit) + limit) % limit;
-            }
-
-            // stop at upper and lower tile to prevent missing tile images
-            if (y < 0 || y >= (this.maxExtent.top - this.maxExtent.bottom) / (res * this.tileSize.h) ) {
-                return null;
-            }
-
-            var path = z + "/" + y + "/" + x + "." + this.type; 
-            var url = this.url;
-            if (url instanceof Array) {
-                url = this.selectUrl(path, url);
-            }
-            return url + '/tile/' + path;
-        }
-
-        var esriocean = new OpenLayers.Layer.XYZ(
-            "ESRI Ocean Layer",
-            "http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer",
-            {
-                type: 'png',
-                getURL: getEsriOceanURL,
-                wrapDateLine: true,
-                isBaseLayer: true,
-                transparent: true,
-                opacity: 1,
-                transitionEffect: 'resize',
-                wrapDateLine: true,
-                sphericalMercator: true,
-                displayOutsideMaxExtent: false
-            }
-        );
-        map.addLayers([esriocean]);
-
-        function get_mpa_url(bounds) {
-            var res = this.map.getResolution();
-            var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-            //var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-            var y = Math.round ((bounds.bottom - this.maxExtent.bottom) / (res * this.tileSize.h));
-            var z = this.map.getZoom();
-
-            var limit = Math.pow(2, z);
-            if (this.wrapDateLine) {
-               x = ((x % limit) + limit) % limit;
-            }
-
-            var path = z + "/" + x + "/" + y + "." + this.type; 
-            var url = this.url;
-            if (url instanceof Array) {
-                url = this.selectUrl(path, url);
-            }
-            return url + path;
-        }
-
-        var mpas = new OpenLayers.Layer.XYZ(
-            "Existing MPAs",
-            "http://cdn.mpatlas.org/tilecache/mpas/",
-            {
-                type: 'png',
-                getURL: get_mpa_url,
-                wrapDateLine: true,
-                isBaseLayer: false,
-                transparent: true,
-                opacity: 0.8,
-                transitionEffect: 'resize',
-                wrapDateLine: true,
-                sphericalMercator: true,
-            }
-        );
-        var proposed = new OpenLayers.Layer.XYZ(
-            "Proposed MPAs",
-            "http://cdn.mpatlas.org/tilecache/candidates/",
-            {
-                type: 'png',
-                getURL: get_mpa_url,
-                isBaseLayer: false,
-                transparent: true,
-                opacity: 0.8,
-                transitionEffect: 'resize',
-                wrapDateLine: true,
-                sphericalMercator: true,
-            }
-        );
-        var eezs = new OpenLayers.Layer.XYZ(
-            'Exclusive Economic Zones (EEZs)',
-        	"http://cdn.mpatlas.org/tilecache/eezs/",
-    		{
-    			type: 'png',
-    			getURL: get_mpa_url,
-    			isBaseLayer: false,
-    			transparent: true,
-    			opacity: 0.3,
-    			transitionEffect: 'resize',
-    			wrapDateLine: true,
-    			//visibility: false,
-    			displayInLayerSwitcher: true,
-    			displayOutsideMaxExtent: true,
-    			options: {
-    				color:  '#00CC99'
-    			}
-    		}
-    	);
-
-        var osm = new OpenLayers.Layer.OSM();
-        osm.isBaseLayer = true;
-        map.addLayers([osm]);
-
-        /*var gphy = new OpenLayers.Layer.Google(
-            "Google Physical",
-            {
-                type: google.maps.MapTypeId.TERRAIN,
-                opacity: 0.9,
-                transitionEffect: 'resize'
-            }
-        );
-        map.addLayers([gphy]);*/
-
-        map.addLayers([proposed, mpas, eezs]);
-
-        //map.addControl(new OpenLayers.Control.ZoomPanel());
-        //map.addControl(new OpenLayers.Control.LayerSwitcher());
-        //map.addControl(new OpenLayers.Control.MousePosition() );            
-        //map.zoomToExtent(new OpenLayers.Bounds(-8341644, 4711236, -8339198, 4712459));
-        //map.zoomToExtent(new OpenLayers.Bounds(-8725663.6225564, 4683718.6735907, -8099491.4868444, 4996804.7414467));
-
-        map.setCenter(new OpenLayers.LonLat(0, 0).transform(
-            new OpenLayers.Projection("EPSG:4326"),
-            map.getProjectionObject()
-        ), 1);
-
-
-        // LEAFLET Config
-        var leafmap = new L.Map('leafletmap');
-
-    	whitepng = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAADGUlEQVR4nO3UMQEAAAiAMPuX1hgebAm4mAWy5jsA+GMAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEGYAEHbmUDvFpM58qAAAAABJRU5ErkJggg==';
-
-    	esriblanktile = 'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/13/4919/7472.png';
-
-    	var whiteTileBg = new L.TileLayer(whitepng, {maxZoom: 18});
-    	//leafmap.addLayer(whiteTileBg);
-
-        var esriOceanUrl = 'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
-    		esriOceanAttribution = 'ESRI Ocean Baselayer',
-    		esriOcean = new L.TileLayer(esriOceanUrl, {maxZoom: 18, opacity: 1, attribution: esriOceanAttribution});
-
-    	leafmap.setView(new L.LatLng(0, 0), 1).addLayer(esriOcean);
-
-    	var mpa_tiles_url = 'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-    		mpa_tiles = new L.TileLayer(mpa_tiles_url, {maxZoom: 18, opacity: 0.7, scheme: 'tms'});
-    	leafmap.addLayer(mpa_tiles);
-
-    	var proposed_tiles_url = 'http://cdn.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-    		proposed_tiles = new L.TileLayer(proposed_tiles_url, {maxZoom: 18, opacity: 0.8, scheme: 'tms'});
-    	leafmap.addLayer(proposed_tiles);
-
-    	var eez_tiles_url = 'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-    		eez_tiles = new L.TileLayer(eez_tiles_url, {maxZoom: 18, opacity: 0.25, scheme: 'tms'});
-    	leafmap.addLayer(eez_tiles);
-
-
-    	var markerLocation = new L.LatLng(51.5, -0.09),
-    	    markerLocation2 = new L.LatLng(markerLocation.lat, markerLocation.lng + 360, true),
-    	    markerLocation3 = new L.LatLng(markerLocation.lat, markerLocation.lng - 360, true),
-    		marker = new L.Marker(markerLocation),
-    		marker2 = new L.Marker(markerLocation2),
-    		marker3 = new L.Marker(markerLocation3);;
-
-    	leafmap.addLayer(marker);
-    	leafmap.addLayer(marker2);
-    	leafmap.addLayer(marker3);
-    	marker.bindPopup("<b>Hello world!</b><br />I am a popup.");
-    	marker2.bindPopup("<b>Hello world!</b><br />I am a second popup +360.");
-    	marker3.bindPopup("<b>Hello world!</b><br />I am a third popup -360.");
-
-    	var circleLocation = new L.LatLng(51.508, -0.11),
-    		circleOptions = {color: '#f03', opacity: 0.7},
-    		circle = new L.Circle(circleLocation, 500, circleOptions);
-
-    	circle.bindPopup("I am a circle.");
-    	leafmap.addLayer(circle);
-
-    	var p1 = new L.LatLng(51.509, -0.08),
-    		p2 = new L.LatLng(51.503, -0.06),
-    		p3 = new L.LatLng(51.51, -0.047),
-    		polygonPoints = [p1, p2, p3],
-    		polygon = new L.Polygon(polygonPoints);
-
-    	polygon.bindPopup("I am a polygon.");
-    	leafmap.addLayer(polygon);
-
-    	leafmap.on('click', onMapClick);
-
-    	var popup = new L.Popup();
-
-    	function onMapClick(e) {
-    		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
-    		popup.setLatLng(e.latlng);
-    		popup.setContent("You clicked the map at " + latlngStr);
-    		leafmap.openPopup(popup);
-    	}
-
-    	//var popuppane = leafmap.getPanes().popupPane;
-    	//$('#maptip').appendTo(popuppane);
-    	$('#maptip').appendTo('#leafletmap');
-    	var maptiptimer;
-    	var maptipdisable = false;
-    	var maptipoffset = {left: 0, top: 0};
-        //var offsetX = event.pageX - offset.left;
-        //var offsetY = event.pageY - offset.top;
-    	var showMaptip = function(event) {
-    	    if (!maptipdisable) {
-    	        $('#maptip').removeClass('nodisplay').removeClass('hidden').removeClass('transparent');
-    	        clearTimeout(maptiptimer);
-    	        maptipoffset = $('#leafletmap').offset();
-            }
-    	};
-    	var hideMaptip = function(event, immediate) {
-            if (immediate) {
-                $('#maptip').addClass('nodisplay').addClass('hidden');
-            } else {
-        	    maptiptimer = setTimeout(function () {
-                    $('#maptip').addClass('hidden');
-                }, 500);
-            }
-            $('#maptip').addClass('transparent');
-    	};
-    	var moveMaptip = function(event) {
-            //var offset = $(event.delegateTarget).offset();
-            //var offsetX = event.pageX - offset.left;
-            //var offsetY = event.pageY - offset.top;
-            //$('#maptip').css({'top': offsetY, 'left': offsetX});
-            $('#maptip').css({'top': event.pageY - maptipoffset.top, 'left': event.pageX - maptipoffset.left});
-    	};
-    	// jquery custom events that prevents mouseover bubbling from child nodes
-    	$('#leafletmap').on('mouseenter.maptip', showMaptip);
-    	$('#leafletmap').on('mouseleave.maptip', hideMaptip);
-    	$(window).on('mousemove.maptip', moveMaptip);
-
-        map.events.register("movestart", null, function(event) {
-            maptipdisable = true;
-            hideMaptip(event, true);
-        });
-        map.events.register("moveend", null, function(event) {
-            maptipdisable = false;
-            showMaptip(event);
-        });
-
-        var highlight = new OpenLayers.Layer.Vector("Highlight Layer");
-        map.addLayers([highlight]);
-        var eez_url = "/region/eez/2/features/?webmercator=true";
-        var eez_geojson = 'xxx';
-        //var geojson = new OpenLayers.Format.GeoJSON({
-        //    'internalProjection': map.baseLayer.projection,
-        //    'externalProjection': map.baseLayer.projection
-        //});
-        OpenLayers.loadURL(eez_url, {}, null, function (response) {
-            var gformat = new OpenLayers.Format.GeoJSON({
-                'internalProjection': map.baseLayer.projection,
-                'externalProjection': map.baseLayer.projection
-            });
-            var features = gformat.read(response.responseText);
-            var bounds;
-            if(features) {
-                if(features.constructor != Array) {
-                    features = [features];
-                }
-                for(var i=0; i < features.length; ++i) {
-                    //if (!bounds) {
-                    //    bounds = features[i].geometry.getBounds();
-                    //} else {
-                    //    bounds.extend(features[i].geometry.getBounds());
-                    //}
-                }
-                highlight.addFeatures(features);
-                //map.zoomToExtent(bounds);
-            }
-        });
-        //var eezfeature = geojson.read(eez_geojson);
-        //highlight.addFeatures(eezfeatures);
-
-
-        var getPixelRadius = function(pxradius) {
-            // Convert pixel radius to map units (web mercator, meters) then to km.
-            // pxradius can be a floating point value
-    		return (map.resolution * pxradius) / 1000;
-        };
-
-        OpenLayers.Control.Hover = OpenLayers.Class(OpenLayers.Control, {                
-        	defaultHandlerOptions: {
-        		'delay': 250,
-        		'pixelTolerance': 3,
-        		'stopMove': false
-        	},
-
-        	initialize: function(options) {
-        		this.handlerOptions = OpenLayers.Util.extend(
-        			{}, this.defaultHandlerOptions
-        		);
-        		OpenLayers.Control.prototype.initialize.apply(
-        			this, arguments
-        		); 
-        		this.handler = new OpenLayers.Handler.Hover(
-        			this,
-        			{'pause': this.onPause, 'move': this.onMove},
-        			this.handlerOptions
-        		);
-        	}, 
-
-        	onPause: function(e) {
-        	    /*
-        		var m = MPAtlas;
-        		if (m.request) {
-        			Ext.Ajax.abort(m.request);
-        			m.request = null;
-        		}
-        		if (m.ui.popUp) {
-        			if (m.ui.popUp.closeOnMove) {
-        				m.ui.popUp.hide();
-        			} else {
-        				return;
-        			}
-        		}		
-
-        		var pt = m.map.getLonLatFromViewPortPx(e.xy);
-        		switch (m.activeLayer) {
-        			default:
-        				m.eezs.getDetails({point: pt, isClick: false});
-        				//m.mpas.getDetails({point: pt, isClick: false});
-        		}
-        		*/
-        		console.log('hover');
-        		var radius = getPixelRadius(1.5);
-        		var pt = map.getLonLatFromViewPortPx(e.xy);
-        		var ll = pt.clone();
-                ll.transform(map.projection, map.displayProjection);
-        		$.ajax({
-                    url: '/mpa/lookup/point/?lon=' + ll.lon + '&lat=' + ll.lat,
-                    success: function(data) {
-                        var mpahtml = '';
-                        for (var i=0; i < data.mpas.length; i++) {
-                            mpa = data.mpas[i];
-                            mpahtml += mpa.name + ' (' + mpa.country + ')<br />';
-                        }
-                        if (data.mpas.length == 0) {
-                            mpahtml = 'No MPAs at this location';
-                        }
-                        if (typeof $('#maptip-content').data('orightml') === 'undefined') {
-                            $('#maptip-content').data('orightml', $('#maptip-content').html());
-                        }
-                        $('#maptip-content').data('latlon', {lat: ll.lat, lon: ll.lon});
-                        $('#maptip-content').html(mpahtml);
-                    }
-                });
-        	},
-
-        	onMove: function(e) {
-        	    /*
-        		var m = MPAtlas;
-        		m.vectors.removeAllFeatures();
-        		if (m.request) {
-        			Ext.Ajax.abort(m.request);
-        			m.request = null;
-        		}
-        		if (m.ui.popUp && m.ui.popUp.closeOnMove) {
-        			m.ui.popUp.hide();
-        		}		
-
-        		switch (m.activeLayer) {
-        			default:  // mpas
-        				m.mpas.selected = null;
-        				m.mpas.selectedCount = 0;
-        		}
-        		*/
-        		$('#maptip-content').html($('#maptip-content').data('orightml'));
-        	}
-        });
-
-        OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-        	defaultHandlerOptions: {
-        		'single': true,
-        		'double': false,
-        		'pixelTolerance': 3,
-        		'stopSingle': false,
-        		'stopDouble': false
-        	},
-
-        	initialize: function(options) {
-        		this.handlerOptions = OpenLayers.Util.extend(
-        			{}, this.defaultHandlerOptions
-        		);
-        		OpenLayers.Control.prototype.initialize.apply(
-        			this, arguments
-        		); 
-        		this.handler = new OpenLayers.Handler.Click(
-        			this, {
-        				'click': this.onClick
-        			}, this.handlerOptions
-        		);
-        	}, 
-
-        	onClick: function(e) {
-        		/*
-        		var m = MPAtlas;
-        		if (m.request) {
-        			Ext.Ajax.abort(m.request);
-        			m.request = null;
-        		}
-        		if (m.ui.popUp) {
-        			m.ui.popUp.hide();
-        		}		
-
-        		var lyr = null, url = null;
-        		var pt = m.map.getLonLatFromViewPortPx(e.xy);		
-        		switch (m.activeLayer) {
-        			default:  // mpas
-        				lyr = m.mpas;
-        				var selected = lyr.selected;
-        				if (selected) {
-        					if (selected.id) {
-        						url = lyr.baseUrl + 'sites/' + selected.id;
-        					} else if (selected.url) {
-        						url = m.domain + selected.url;
-        					}
-        					if (url) {
-        						document.location.href = url;
-        					}
-        				} else if (lyr.response) {
-        					lyr.formatResponse({point: pt, isClick: true});
-        				}
-        		}
-        		*/
-        		var pt = map.getLonLatFromViewPortPx(e.xy);
-        		var ll = pt.clone();
-                ll.transform(map.projection, map.displayProjection);
-                lastlatlon = $('#maptip-content').data('latlon');
-        		if (lastlatlon && lastlatlon.lat == ll.lat && lastlatlon.lon == ll.lon) {
-        		    //maptipdisable = true;
-        		}
-        	}	
-        });
-
-        maphover = new OpenLayers.Control.Hover();
-        mapclick = new OpenLayers.Control.Click();
-        map.addControl(maphover);
-        maphover.activate();
-        map.addControl(mapclick);
-        mapclick.activate();
-
-        leafmap.on('locationfound', function(location) {
-            leafmap.panTo(new L.LatLng(0, location.latlng.lng));
-        });
-        leafmap.locate();
+        mpatlas.map.locate();
     });
 </script>
 {% endblock %}
