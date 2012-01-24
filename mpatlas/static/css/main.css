@@ -1,3 +1,13 @@
+body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
+h1, .heading {font: 50px/56px 'Yanone Kaffeesatz', 'TitilliumText22LRegular', Arial, sans-serif; letter-spacing: 0;}
+.heading.bold {font: 50px/56px 'Yanone Kaffeesatz', 'TitilliumText22LBold', Arial, sans-serif; letter-spacing: 0;}
+.thin {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LThin', Arial, sans-serif;}
+.light {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LLight', Arial, sans-serif;}
+.regular {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LRegular', Arial, sans-serif;}
+.medium {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LMedium', Arial, sans-serif;}
+.bold {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LBold', Arial, sans-serif;}
+.xbold {font: 18px/27px 'Yanone Kaffeesatz', 'TitilliumText22LXBold', Arial, sans-serif;}
+
 .clear {
     clear: both;
 }
@@ -111,8 +121,10 @@ body {
     background: url("../images/textboxbg.png") repeat-x scroll 0 100% white;
     border: 1px solid #A0A0A0;
     color: #606060;
-    font: 14px/1.2em 'Abel', verdana,sans-serif;
-    font-weight: normal;
+    font: 14px/1.2em 'Helvetica Neue', 'Helvetica', 'Arial', 'Abel', verdana, sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    
 }
 
 .searchform input.image {
@@ -154,9 +166,12 @@ ul#mainmenu li {
     vertical-align: middle;
     zoom: 1;
     color: white;
-    font-family: 'Josefin Sans', Georgia;
+    font-family: 'Josefin Sans', Georgia, serif;
     font-weight: 300;
     font-size: 20px;
+    font: 14px/1.2em 'Yanone Kaffeesatz', 'Oswald', 'Impact', verdana, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
     text-shadow: #000 1px 1px 1px;
 }
 
@@ -191,6 +206,8 @@ ul#mainmenu ul {
     left: 0;
     z-index: 598;
     background-color: #333;
+    border-radius: 0px 0px 8px 8px;
+    padding: 8px;
 }
 
 ul#mainmenu li:hover > ul {
@@ -199,6 +216,11 @@ ul#mainmenu li:hover > ul {
 
 ul#mainmenu ul li {
     float: none;
+    font: 16px/1.2em 'Yanone Kaffeesatz', 'Oswald', 'Yanone Kaffeesatz', verdana, sans-serif;
+    font-size:20px;
+    font-weight: normal;
+    font-size: 20px;
+    text-shadow: #000 1px 1px 1px;
 }
 
 .modetoggle {
@@ -248,6 +270,8 @@ ul#mainmenu ul li {
     /*text-shadow: #FFF 1px 1px 1px;*/
     font-size: 14px;
     font-weight: normal;
+    font-size: 18px;
+    font-weight: 400;
     padding: 2px;
     margin: 4px;
 }
