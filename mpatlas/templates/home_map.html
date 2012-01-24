@@ -32,35 +32,24 @@
 			    <div class="clear"></div>
 			</div>
 			
-			<div id='explore_overlay' style="position:absolute; top:80px;">
-			    <p class="layerstitle medium">Explore MPAs by:</p>
-			    <select style="float:right;">
-			        <option>MPAs</option>
-			        <option>EEZs (country)</option>
-			        <option>Ecoregions</option>
-			    </select>
-			</div>
-			
-			<div id='layers_overlay' style="position:absolute; left:0px; top:150px;">
+			<div id='layers_overlay' style="position:absolute; left:0px; top:75px;">
 			    <a class="addlayer" style="float:right;" href="#" onclick="showlayerdialog(); return(false);" title="Add new map layer"><em>+</em> Add Layer</a>
 			    <p class="layerstitle medium">Map Layers</p>
 			    <div class="layershider">H I D E</div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor designatedmpa"></div>
-			        <div class="layeractive active"><div class="layeractivearrow"></div>Active &#x2605;</div>
+			        <!-- <div class="layeractive active"><div class="layeractivearrow"></div>Active &#x2605;</div> -->
 			        Designated Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor candidatempa"></div>
-			        <div class="layeractive">&#x2605;</div>
 			        Candidate Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor eezs"></div>
-			        <div class="layeractive ">&#x2605;</div>
 			        Exclusive Economic Zones
 			    </div>
 			</div>
@@ -69,7 +58,7 @@
 			    <p>
 			        <span class="medium" style="text-shadow: #000 1px 1px 1px;">Currently Protected</span>
 			        <br />
-			        <span class="heading bold" style="color:#e03e5d; text-shadow: #000 1px 1px 2px;">1.2%</span>
+			        <span class="heading bold" style="color:#e03e6f; text-shadow: #000 1px 1px 2px;">1.2%</span>
 			    </p>
 			    <p style="margin-bottom:4px;">
 			        <span class="medium" style="text-shadow: #000 1px 1px 1px;">Current Statistics</span>
@@ -115,6 +104,27 @@
         <div id="maptip-content" class="maptip-content">
             Pause cursor over map
             <br />to locate MPAs...
+        </div>
+    </div>
+{% endblock %}
+
+{% block base_footer_content %}
+    <div id="explore_toolbar" class="explore_toolbar">
+        <div style="float:left; padding-top:8px; padding-right: 10px; font-size:16px; font-weight:400; font-family: 'Yanone Kaffeesatz', 'TitilliumText22LMedium'" class="explore_title">
+            Explore <br />MPAS by:
+        </div>
+        <div class="explore_button mpa selected">
+            <div class="explore_arrow_container"><div class="explore_arrow"></div></div>
+            Identify <br /><span class="explore_button_heavytext">Marine Protected Areas</span>
+        </div>
+        <div class="explore_button mpa">
+            Protection Level by <br /><span class="explore_button_heavytext">Nation</span>
+        </div>
+        <div class="explore_button mpa">
+            Protection Level by <br /><span class="explore_button_heavytext">Ecoregion</span>
+        </div>
+        <div class="explore_button mpa">
+            Protection Level by <br /><span class="explore_button_heavytext">Other Region</span>
         </div>
     </div>
 {% endblock %}

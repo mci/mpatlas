@@ -129,9 +129,10 @@ $.extend(MPAtlas.prototype, {
                         url: '/mpa/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius,
                         success: function(data) {
                             var mpahtml = '';
+                            mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>'
                             for (var i=0; i < data.mpas.length; i++) {
                                 mpa = data.mpas[i];
-                                mpahtml += mpa.name + ' (' + mpa.country + ')<br />';
+                                mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
                             }
                             if (data.mpas.length == 0) {
                                 mpahtml = 'No MPAs at this location';

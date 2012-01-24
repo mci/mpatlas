@@ -16,24 +16,24 @@
 		{% render_block "css" %}
 		{% endcomment %}
 		
-		<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400' rel='stylesheet' type='text/css'>
+		<!--
+		<link href='http://fonts.googleapis.com/css?family=Jura' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Marvel' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+		
+		-->
+		
+		<link href='http://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
 		<!--
 		<link href='http://fonts.googleapis.com/css?family=Quicksand:400,300|Josefin+Sans:300,400|Marvel|Yanone+Kaffeesatz:200,300|Jura:400,300' rel='stylesheet' type='text/css'>
 		-->
 		
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8">
-    	<style type="text/css" media="screen">
-    	    body {font: 12px/20px 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
-    	    h1, .heading {font: 50px/56px 'TitilliumText22LRegular', Arial, sans-serif; letter-spacing: 0;}
-    	    .heading.bold {font: 50px/56px 'TitilliumText22LBold', Arial, sans-serif; letter-spacing: 0;}
-    		.thin {font: 18px/27px 'TitilliumText22LThin', Arial, sans-serif;}
-    		.light {font: 18px/27px 'TitilliumText22LLight', Arial, sans-serif;}
-    		.regular {font: 18px/27px 'TitilliumText22LRegular', Arial, sans-serif;}
-    		.medium {font: 18px/27px 'TitilliumText22LMedium', Arial, sans-serif;}
-    		.bold {font: 18px/27px 'TitilliumText22LBold', Arial, sans-serif;}
-    		.xbold {font: 18px/27px 'TitilliumText22LXBold', Arial, sans-serif;}
-    	</style>
 		
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
@@ -84,6 +84,7 @@
 			<div id='footer_center' style="position:relative; width:960px; height:86px; margin:0 auto 0 auto;">
 			    <div id='footer_bluebar' style="height:28px;"></div>
 			    <div id='footer_graybar'>
+			        {% block base_footer_content %}{% endblock %}
 			        <img src="{{ STATIC_URL }}images/footer_logos.png" style="margin-top:6px;" />
 			    </div>
 			</div>

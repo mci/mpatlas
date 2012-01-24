@@ -1,3 +1,8 @@
+/* Fix for Safari changing font rendering for z-indexed elements when map added to page */
+* {
+    -webkit-font-smoothing: subpixel-antialiased !important;
+}
+
 #body_full {
     position:relative;
     width:100%;
@@ -18,22 +23,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
     zoom: 1;
-}
-
-#explore_overlay {
-    /*background-color: rgba(10,10,10,0.3);
-    padding: 5px;*/
-    background-color: transparent;
-    background: rgba(10,10,10,0.8);
-    border-radius: 0px 8px 8px 0px;
-    padding: 0px;
-    color: white;
-    min-width: 150px;
-    /*background-color: transparent;*/
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
-    zoom: 1;
-    padding: 2px;
 }
 
 #layers_overlay {
@@ -270,4 +259,123 @@
     box-shadow: 0 1px 10px #888;
     -moz-box-shadow: 0 1px 10px #888;
     -webkit-box-shadow: 0 1px 14px #999;
+}
+
+.maptip_mpalink {
+    text-decoration: none;
+    color: white !important;
+    border-bottom: 1px solid #666;
+    font-size: 11px;
+    display: block;
+    margin: 6px;
+    padding: 0;
+    max-width: 200px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.maptip_mpalink:hover {
+    color: #d0508c !important;
+}
+
+.explore_toolbar {
+    float: left;
+    height: 57px;
+    margin-right: 40px;
+}
+
+.explore_button {
+    position: relative;
+    float: left;
+    width: 150px;
+    height: 45px;
+    border-right: 1px solid #555;
+    text-align: center;
+    padding-top: 10px;
+    font: 14px/1.2em 'Josefin Sans',verdana,sans-serif;
+    font-weight: 400;
+    font-weight: bold;
+    cursor: pointer;
+    
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    
+    background-color: #324455;
+    /* blue gradient: #324455, #242F3A */
+    background-image: -moz-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: -webkit-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: -o-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    /* background-color: transparent; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A); /* IE6 & 7 */
+    zoom: 1;
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
+}
+
+.explore_button:first-child {
+    border-left: 1px solid #555;
+}
+
+.explore_button:hover {
+    background-color: #de744a;
+    background-image: -moz-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: -webkit-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: -o-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    /* background-color: transparent; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927); /* IE6 & 7 */
+    zoom: 1;
+}
+
+.explore_button.selected {
+    background: #333;
+    /* orange: #de744a, #cf5927 */
+    /* pink: #d0508c, #ba326f */
+    background-image: -moz-linear-gradient(top, #d0508c, #ba326f);
+    background-image: -webkit-linear-gradient(top, #d0508c, #ba326f);
+    background-image: -o-linear-gradient(top, #d0508c, #ba326f);
+    background-image: linear-gradient(top, #d0508c, #ba326f);
+    /* background-color: transparent; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de8a2a,endColorstr=#b26f1c)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#d0508c,endColorstr=#ba326f); /* IE6 & 7 */
+    zoom: 1;
+}
+
+.explore_button_heavytext {
+    font-family: 'Yanone Kaffeesatz','TitilliumText22LMedium', 'Impact', serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.explore_arrow_container {
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    margin-top: -35px;
+    width: 100%;
+    height: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.explore_button.selected .explore_arrow_container {
+    display: block;
+}
+
+.explore_arrow {
+    width: 50px;
+    height: 50px;
+    background-color: #d0508c;
+    margin: 0 auto;
+    margin-top: 12px;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
