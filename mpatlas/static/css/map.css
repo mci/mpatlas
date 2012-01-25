@@ -15,7 +15,7 @@ html, body {
 #body_full {
     position: relative;
     width: 100%;
-    height: 0px;
+    height: 100%;
     margin: none;
     overflow: hidden;
 }
