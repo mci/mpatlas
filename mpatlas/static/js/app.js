@@ -74,6 +74,7 @@ define([
         },
 
           resizeViewport: function() {
+              return false;
               $('#body_full').height($(window).height() - $('#header_full').height() - $('#footer_full').height());
               this.map.invalidateSize();
           },
