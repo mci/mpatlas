@@ -123,10 +123,10 @@
 			    <div class="clear"></div>
 			</div>
 			
-			<div id='layers_overlay' style="position:absolute; left:0px; top:75px;">
+			<div id='layers_overlay'>
+			    <div class="layershider">H I D E</div>
 			    <a class="addlayer" style="float:right;" href="#" onclick="showlayerdialog(); return(false);" title="Add new map layer"><em>+</em> Add Layer</a>
 			    <p class="layerstitle medium">Map Layers</p>
-			    <div class="layershider">H I D E</div>
 			    <div class="maplayer">
 			        <input class="layercheck" type="checkbox" checked />
 			        <div class="layercolor designatedmpa"></div>
@@ -204,17 +204,20 @@
         <div style="float:left; padding-top:8px; padding-right: 10px; font-size:16px; font-weight:400; font-family: 'Yanone Kaffeesatz', 'TitilliumText22LMedium'" class="explore_title">
             Explore <br />MPAS by:
         </div>
-        <div class="explore_button mpa selected">
+        <div id="explore_mpas" class="explore_button mpas selected">
             <div class="explore_arrow_container"><div class="explore_arrow"></div></div>
             Identify <br /><span class="explore_button_heavytext">Marine Protected Areas</span>
         </div>
-        <div class="explore_button mpa">
+        <div id="explore_eezs" class="explore_button eezs">
+            <div class="explore_arrow_container"><div class="explore_arrow"></div></div>
             Protection Level by <br /><span class="explore_button_heavytext">Nation</span>
         </div>
-        <div class="explore_button mpa">
+        <div id="explore_ecoregions" class="explore_button ecoregions">
+            <div class="explore_arrow_container"><div class="explore_arrow"></div></div>
             Protection Level by <br /><span class="explore_button_heavytext">Ecoregion</span>
         </div>
-        <div class="explore_button mpa">
+        <div id="explore_other" class="explore_button other">
+            <div class="explore_arrow_container"><div class="explore_arrow"></div></div>
             Protection Level by <br /><span class="explore_button_heavytext">Other Region</span>
         </div>
     </div>
