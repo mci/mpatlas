@@ -22,81 +22,29 @@
 		<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-		
-		-->
-		
 		<link href='http://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400,500,600,700,800' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
-		<!--
-		<link href='http://fonts.googleapis.com/css?family=Quicksand:400,300|Josefin+Sans:300,400|Marvel|Yanone+Kaffeesatz:200,300|Jura:400,300' rel='stylesheet' type='text/css'>
 		-->
+		
+		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700|Josefin+Sans:300,400,500,600,700,800' rel='stylesheet' type='text/css'>
 		
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8">
 		
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
 		
-		{% block base_head_extra %}{% endblock %}
+		<script src="{{ STATIC_URL }}js/require.js"></script>
 		
-	</head>
-	<body>
-		<div id='header_full'>
-			<div id='header_center'>
-			    <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
-			    <a id="waittlogo" href="/">brought to you by the Waitt Foundation</a>
-			    <ul id="mainmenu">
-			        <li class="selected">
-			            <a href="/">Explore</a>
-			            <ul>
-			                <li>
-			                    <a href="/">Map</a>
-			                </li>
-			                <li>
-			                    <a href="/mpa/sites">List</a>
-			                </li>
-			            </ul>
-			        </li>
-			        <li>
-			            <a href="/">Learn</a>
-			        </li>
-			        <li>
-			            <a href="/">News</a>
-			        </li>
-			    </ul>
-			    
-			    <form id="mainsearchform" name="mainsearchform" class="searchform" method="get" action="/mpa/sites/?">
-                    <fieldset class="search">
-                        <input type="text" class="text defaultValue" name="q" id="mainsearchbox" data-placeholder="Search for an MPA or Country" placeholder="Search for an MPA or Country" value="Search for an MPA or Country">
-                    	<input type="image" alt="Search" src="{{ STATIC_URL }}images/header_searchbutton.png" class="image">
-                    </fieldset>
-                </form>
-			    
-			    <a id="helpbutton" href="/help">Help</a>
-                
-			</div>
-		</div>
-		<div id='body_full'>
-			{% block base_body_content %}{% endblock %}
-		</div>
-		<div id='footer_full'>
-			<div id='footer_center' style="position:relative; width:960px; height:86px; margin:0 auto 0 auto;">
-			    <div id='footer_bluebar' style="height:28px;"></div>
-			    <div id='footer_graybar'>
-			        {% block base_footer_content %}{% endblock %}
-			        <img src="{{ STATIC_URL }}images/footer_logos.png" style="margin-top:6px;" />
-			    </div>
-			</div>
-		</div>
-		{% block base_body_extra %}{% endblock %}
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-		{% comment %}
-		{% render_block "js" %}
-		{% endcomment %}
+		{% block base_head_extra %}
 		<script>
-        	$(function() {
+            require({
+                baseUrl: '{{ STATIC_URL }}js',
+                paths: {
+                    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min'
+                },
+                priority: ['jquery']
+            }, ['jquery', 'jqueryui'],     function() {
     		    $( "#mainsearchbox" ).autocomplete({
         			source: function( request, response ) {
         				$.ajax({
@@ -119,7 +67,7 @@
         			    }
         			}
         		});
-        		
+
         		// Prep all search boxes to hack in default value placeholder
                 $('form input:text.defaultValue, form textarea.defaultValue').each(function(){
     		        $.data(this, 'default', $(this).attr("data-placeholder"));
@@ -135,11 +83,72 @@
     		        }
     				$(this).addClass('defaultValue');
     		    });
-    		    
+
     		    {% block js_onready %}{% endblock %}
-    		    
+
         	});
         </script>
+		{% endblock %}
+		
+	</head>
+	<body>
+		<div id='pagewrapper'>
+    		<div id='header_full'>
+    			<div id='header_center'>
+    			    <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
+    			    <a id="waittlogo" href="/">brought to you by the Waitt Foundation</a>
+    			    <ul id="mainmenu">
+    			        <li class="selected">
+    			            <a href="/">Explore</a>
+    			            <ul>
+    			                <li>
+    			                    <a href="/">Map</a>
+    			                </li>
+    			                <li>
+    			                    <a href="/mpa/sites">List</a>
+    			                </li>
+    			            </ul>
+    			        </li>
+    			        <li>
+    			            <a href="/">Learn</a>
+    			        </li>
+    			        <li>
+    			            <a href="/">News</a>
+    			        </li>
+    			    </ul>
+			    
+    			    <form id="mainsearchform" name="mainsearchform" class="searchform" method="get" action="/mpa/sites/?">
+                        <fieldset class="search">
+                            <input type="text" class="text defaultValue" name="q" id="mainsearchbox" data-placeholder="Search for an MPA or Country" placeholder="Search for an MPA or Country" value="Search for an MPA or Country">
+                        	<input type="image" alt="Search" src="{{ STATIC_URL }}images/header_searchbutton.png" class="image">
+                        </fieldset>
+                    </form>
+			    
+    			    <a id="helpbutton" href="/help">Help</a>
+                
+    			</div>
+    		</div>
+    		<div id='body_full'>
+    			{% block base_body_content %}{% endblock %}
+    		</div>
+    		<div id='footer_full'>
+    			<div id='footer_center' style="position:relative; width:960px; height:86px; margin:0 auto 0 auto;">
+    			    <div id='footer_bluebar' style="height:28px;"></div>
+    			    <div id='footer_graybar'>
+    			        {% block base_footer_content %}{% endblock %}
+    			        <img src="{{ STATIC_URL }}images/footer_logos.png" style="margin-top:6px;" />
+    			    </div>
+    			</div>
+    		</div>
+		</div>
+		{% block base_body_extra %}{% endblock %}
+		<!--
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+		-->
+		{% comment %}
+		{% render_block "js" %}
+		{% endcomment %}
         {% block bodyend_js %}{% endblock %}
 	</body>
 </html>

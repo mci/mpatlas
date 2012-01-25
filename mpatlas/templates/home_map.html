@@ -6,12 +6,103 @@
 {% block title %}Home{% endblock %}
 
 {% block base_head_extra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}openlayers/theme/default/style.css" type="text/css">
-
 <link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href=".http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script>
+
+    require({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+            backbone: 'backbone-min'
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+    }, [
+        'app',
+        'jquery',
+        'underscore',
+        'backbone-module',
+        'depend!jqueryui[jquery]',
+        'leaflet',
+        'json2'
+    ], function(App) {
+        $(function() {
+            window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
+            mpatlas.map.on('locationfound', function(location) {
+                //mpatlas.map.panTo(new L.LatLng(0, location.latlng.lng)); // center on lng at equator
+                mpatlas.map.panTo(location.latlng);
+            });
+            mpatlas.map.locate();
+        
+            $( "#mainsearchbox" ).autocomplete({
+    			source: function( request, response ) {
+    				$.ajax({
+    					url: "/mpa/sites/json/?q="+request.term,
+    					success: function( data ) {
+    						response( $.map( data.mpas, function( item ) {
+    							return {
+    								label: item.name + (item.designation ? ", " + item.designation : "") + ", " + item.country,
+    								value: item.name,
+    								url: item.url
+    							}
+    						}));
+    					}
+    				});
+    			},
+    			minLength: 2,
+    			select: function( event, ui ) {
+    			    if (ui.item) {
+    			        window.location = ui.item.url
+    			    }
+    			}
+    		});
+
+    		// Prep all search boxes to hack in default value placeholder
+            $('form input:text.defaultValue, form textarea.defaultValue').each(function(){
+    	        $.data(this, 'default', $(this).attr("data-placeholder"));
+    	    }).focus(function(){
+    	        if ($.data(this, 'default') == $(this).val()) {
+    	            $(this).val('');
+    	        }
+    			$(this).removeClass('defaultValue');
+
+    	    }).blur(function(){
+    	        if ($(this).val() == '') {
+    	            $(this).val($.data(this, 'default'));
+    	        }
+    			$(this).addClass('defaultValue');
+    	    });
+            
+	        {% block js_onready %}{% endblock %}
+        });
+        
+        window['showfilterdialog'] = function() {
+    		$( "#addfilterdialog" ).dialog({
+                modal: true,
+                width: 610
+    		});
+    		return(false);
+    	};
+    	
+    	 window['showlayerdialog'] = function() {
+    		$( "#addlayerdialog" ).dialog({
+                modal: true,
+                width: 600
+    		});
+    		return(false);
+    	};
+    });
+
+</script>
 {% endblock %}
 
 		    {% block base_body_content %}
@@ -130,36 +221,7 @@
 {% endblock %}
 
 {% block bodyend_js %}
-<script src="http://leaflet.cloudmade.com/dist/leaflet.js"></script>
-<script src="{{ STATIC_URL }}js/app.js"></script>
 
-<script>
-    function showfilterdialog() {
-		$( "#addfilterdialog" ).dialog({
-            modal: true,
-            width: 610
-		});
-		return(false);
-	}
-	function showlayerdialog() {
-		$( "#addlayerdialog" ).dialog({
-            modal: true,
-            width: 600
-		});
-		return(false);
-	}
-</script>
-
-<script>
-    $(function() {
-        var mpatlas = new MPAtlas($('#leafletmap'));
-        mpatlas.map.on('locationfound', function(location) {
-            //mpatlas.map.panTo(new L.LatLng(0, location.latlng.lng)); // center on lng at equator
-            mpatlas.map.panTo(location.latlng);
-        });
-        mpatlas.map.locate();
-    });
-</script>
 {% endblock %}
 
 

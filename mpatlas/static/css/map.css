@@ -3,11 +3,27 @@
     -webkit-font-smoothing: subpixel-antialiased !important;
 }
 
+html, body {
+    height: 100%; // We're running a full window viewport for the map
+}
+
+#pagewrapper {
+    height: 100%;
+    position: relative;
+}
+
 #body_full {
-    position:relative;
-    width:100%;
-    height:100%;
+    position: relative;
+    width: 100%;
+    height: 0px;
     margin: none;
+    overflow: hidden;
+}
+
+#footer_full {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
 }
 
 #stats_overlay {
@@ -348,7 +364,7 @@
 .explore_button_heavytext {
     font-family: 'Yanone Kaffeesatz','TitilliumText22LMedium', 'Impact', serif;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
