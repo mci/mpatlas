@@ -13,11 +13,13 @@ html, body {
 }
 
 #body_full {
-    position: relative;
+    position: absolute;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     margin: none;
     overflow: hidden;
+    top: 79px;
+    bottom: 86px;
 }
 
 #footer_full {
@@ -32,6 +34,7 @@ html, body {
     top: 0px;
     width: 200px;
     height: 100%;
+    overflow: auto;
     background-color: transparent;
     background-color: rgba(10,10,10,0.8);
     color:white;
@@ -87,6 +90,9 @@ html, body {
 }
 .addlayer:hover, .addfilter:hover {
     color: #0F0;
+    background-color: rgb(100,180,100);
+    background-color: rgba(100,180,100,0.8);
+    border: 1px solid #0C0;
 }
 
 .layercolor {
@@ -271,7 +277,7 @@ html, body {
 
 .maptip .maptip-content {
     max-height: 200px;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 .maptip, .maptip-arrow {
@@ -322,7 +328,7 @@ html, body {
     background-image: -moz-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
     background-image: -webkit-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
     background-image: -o-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
-    background-image: linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));*/
     /* background-color: transparent; */
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A)"; /* IE8 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A); /* IE6 & 7 */
@@ -348,20 +354,31 @@ html, body {
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927)"; /* IE8 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927); /* IE6 & 7 */
     zoom: 1;
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
 }
 
 .explore_button.selected {
-    background: #333;
+    background-color: #C94E85;
     /* orange: #de744a, #cf5927 */
+    /* darker pink: #C94E85 #B24574 */
     /* pink: #d0508c, #ba326f */
-    background-image: -moz-linear-gradient(top, #d0508c, #ba326f);
-    background-image: -webkit-linear-gradient(top, #d0508c, #ba326f);
-    background-image: -o-linear-gradient(top, #d0508c, #ba326f);
-    background-image: linear-gradient(top, #d0508c, #ba326f);
+    background-image: -moz-linear-gradient(top, #C94E85, #B24574);
+    background-image: -webkit-linear-gradient(top, #C94E85, #B24574);
+    background-image: -o-linear-gradient(top, #C94E85, #B24574);
+    background-image: linear-gradient(top, #C94E85, #B24574);*/
     /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de8a2a,endColorstr=#b26f1c)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#d0508c,endColorstr=#ba326f); /* IE6 & 7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574); /* IE6 & 7 */
     zoom: 1;
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
 }
 
 .explore_button_heavytext {
@@ -393,9 +410,12 @@ html, body {
 .explore_arrow {
     width: 50px;
     height: 50px;
-    background-color: #d0508c;
+    background-color: #C94E85;
     margin: 0 auto;
     margin-top: 40px;
+    box-shadow: 0 0 4px #000;
+    -moz-box-shadow: 0 0 4px #000;
+    -webkit-box-shadow: 0 0 5px #000;
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);

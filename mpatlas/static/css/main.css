@@ -322,12 +322,12 @@ ul#mainmenu ul li {
     font-weight: bold;
     text-shadow: #000 1px 1px 1px;
     text-decoration: none;
-    background-color: rgb(100,180,100);
-    background-color: rgba(100,180,100,0.8);
+    background-color: rgb(140,180,140);
+    background-color: rgba(140,180,140,0.8);
     font-size: 12px;
     font-weight: normal;
     border-radius: 4px;
-    border: 1px solid #0C0;
+    border: 1px solid #4C4;
     padding: 2px;
 }
 

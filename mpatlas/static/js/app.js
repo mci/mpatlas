@@ -169,8 +169,9 @@ define([
                                   });
                                 break;
                             case 'eezs':
+                                radius = 0.00000001
                                 $.ajax({
-                                      url: '/region/eez/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&method=point&radius=' + radius,
+                                      url: '/region/eez/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius,
                                       success: function(data) {
                                           mpatlas.featuredata = data;
                                           var mpahtml = '';
@@ -179,7 +180,7 @@ define([
                                               region = data.regions[i];
                                               mpahtml += '<a class="maptip_mpalink" href="/region/eez/' + region.id + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
                                           }
-                                          if (data.mpas.length == 0) {
+                                          if (data.regions.length == 0) {
                                               mpahtml = 'No MPAs at this location';
                                           }
                                           $('#maptip-content').data('latlon', {lat: ll.lat, lon: ll.lon});
