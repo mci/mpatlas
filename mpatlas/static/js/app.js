@@ -87,9 +87,13 @@ define([
                   var mode = button.id.replace('explore_', '');
                   (function(button, mode) {
                       $(button).on('click', function(e) {
-                            mpatlas.currentmode = mode;
-                            $('.explore_button.selected').removeClass('selected');
-                            $(button).addClass('selected');
+                            if (mpatlas.currentmode != mode) {
+                                mpatlas.currentmode = mode;
+                                $('.explore_button.selected').removeClass('selected');
+                                $(button).addClass('selected');
+                                mpatlas.maptip.toggleEvents(true);
+                                mpatlas.maptip.hideMapTip();
+                            }
                         });
                   })(button, mode);
               }
@@ -142,13 +146,14 @@ define([
               var handlers = {
                   maphover: function(e, mapevent) {
                       if (!maptip.locked) {
-                    var radius = mpatlas.getPixelRadius(2);
-                  		var ll = mapevent.latlng;
-                  		if (typeof $('#maptip-content').data('orightml') === 'undefined') {
+                          maptip.enableMapTip();
+                          var radius = mpatlas.getPixelRadius(2);
+                  		  var ll = mapevent.latlng;
+                  		  if (typeof $('#maptip-content').data('orightml') === 'undefined') {
                               $('#maptip-content').data('orightml', $('#maptip-content').html());
                           }
                           $('#maptip-content').html('Searching for MPAs...');
-                        switch (mpatlas.currentmode) {
+                          switch (mpatlas.currentmode) {
                             case 'mpas':
                                 $.ajax({
                                       url: '/mpa/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius,
@@ -161,7 +166,9 @@ define([
                                               mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
                                           }
                                           if (data.mpas.length == 0) {
-                                              mpahtml = 'No MPAs at this location';
+                                              //mpahtml = 'No MPAs at this location';
+                                              mpahtml = '';
+                                              maptip.disableMapTip();
                                           }
                                           $('#maptip-content').data('latlon', {lat: ll.lat, lon: ll.lon});
                                           $('#maptip-content').html(mpahtml);
@@ -175,12 +182,39 @@ define([
                                       success: function(data) {
                                           mpatlas.featuredata = data;
                                           var mpahtml = '';
-                                          mpahtml += '<span style="font-weight:bold;">Click to explore this nation:</span>'
-                                          for (var i=0; i < data.regions.length; i++) {
-                                              region = data.regions[i];
+                                          mpahtml += '<span style="font-weight:bold;">Click to explore this nation:</span>';
+                                          if (data.regions.length > 0) {
+                                              var region = data.regions[0]; // Just report one eez at a time
                                               mpahtml += '<a class="maptip_mpalink" href="/region/eez/' + region.id + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
-                                          }
-                                          if (data.regions.length == 0) {
+                                              mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
+                                              mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
+                                              mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
+                                              mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
+                                              
+                                              // Load feature from GeoJSON
+                                              $.ajax({
+                                                  url: '/region/eez/' + region.id + '/features/',
+                                                  success: function(data) {
+                                                      var geojson = new L.GeoJSON(data);
+                                                      geojson.setStyle({
+                                                          weight: 3,
+                                                          color: '#1FF',
+                                                          opacity: 0.5,
+                                                          fillColor: '#1FF',
+                                                          fillOpacity: 0.3
+                                                      });
+                                                      if (mpatlas.highlightlayer) {
+                                                          mpatlas.map.removeLayer(mpatlas.highlightlayer);
+                                                      }
+                                                      delete mpatlas.highlightlayer;
+                                                      geojson.on('click', function(mapevent) {
+                                                          mpatlas.map.fireEvent('click', mapevent); // pass click from layer to map
+                                                      });
+                                                      mpatlas.map.addLayer(geojson);
+                                                      mpatlas.highlightlayer = geojson;
+                                                  }
+                                              });
+                                          } else {
                                               mpahtml = 'No MPAs at this location';
                                           }
                                           $('#maptip-content').data('latlon', {lat: ll.lat, lon: ll.lon});
@@ -195,14 +229,29 @@ define([
                       if (!maptip.locked) {
                           mpatlas.featuredata = {};
                           $('#maptip-content').html($('#maptip-content').data('orightml'));
+                          if (mpatlas.highlightlayer) {
+                                mpatlas.map.removeLayer(mpatlas.highlightlayer);
+                          }
+                          maptip.disableMapTip();
                       }
                   },
                   mapclick: function(mapevent) {
                         if (!maptip.locked) {
-                            if (mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length == 1) {
-                                window.location = mpatlas.featuredata.mpas[0].url;
-                            } else {
-                                maptip.toggleEvents(false);
+                            switch (mpatlas.currentmode) {
+                                case 'mpas':
+                                    if (mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length == 1) {
+                                        window.location = mpatlas.featuredata.mpas[0].url;
+                                    } else {
+                                        maptip.toggleEvents(false);
+                                    }
+                                    break;
+                                case 'eezs':
+                                    if (mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length >= 1) {
+                                        window.location = '/region/eez/' + mpatlas.featuredata.regions[0].id;
+                                    } else {
+                                        maptip.toggleEvents(false);
+                                    }
+                                    break;
                             }
                         } else {
                             maptip.toggleEvents(true);
