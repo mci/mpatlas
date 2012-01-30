@@ -1,9 +1,8 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
-  'backbone-module'
-], function(Backbone){
-    // Above we have passed in jQuery, Underscore and Backbone
-      
+  'backbone-module',
+  'leaflet'
+], function(Backbone){  
     var MPAtlas = Backbone.View.extend({
         initialize: function(map) {
             var mpatlas = this;
@@ -57,16 +56,20 @@ define([
             window['leafmap'] = this.map;
 
             // resize body and contained map element
+            // Depending on how the page/viewport container and the map body div are css styled,
+            // this may or may not be necessary.
             _.bindAll(this, 'resizeViewport'); // make sure this refers to this when fired by event
             this.resizeViewport();
             $(window).resize(this.resizeViewport);
-
-            this.initMapHoverEvents(250, 1); // map now fires hover event after 500ms mouse pause
+            
+            // Make map fire hover event after 500ms mouse pause, used by feature layer lookups
+            this.initMapHoverEvents(250, 1);
 
             this.maptip = new MPAtlas.MapTip({el: $('#maptip')[0], mpatlas: this}); // setup maptip element and behavior
 
-            this.registerMapHover(); // assign actions on mouse hover and click for map layer feature lookup
-            this.maptip.toggleEvents(true); // activate the maptip
+            this.registerMapHover(); // assign actions on mouse hover/pause and click for map layer feature lookup
+            this.maptip.disableMapTip(); // Dont' show it until a mouse event enables it
+            this.maptip.toggleEvents(true); // activate the maptip event registration
 
             this.initLayerSlider();
             
@@ -125,19 +128,13 @@ define([
           	var eez_tiles_url = 'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
           		eez_tiles = new L.TileLayer(eez_tiles_url, {maxZoom: 18, opacity: 0.25, scheme: 'tms'});
           	map.addLayer(eez_tiles);
-
+          	
+          	// In case you need multiple markers on each of the "wrapped" worlds when zoomed out, or when
+          	// working near the dateline, need to make multiple markers with the 'true' 3rd parameter.
+          	// Also need to translate polylines, polygons, and GeoJSON layers
           	//var markerLocation = new L.LatLng(51.5, -0.09),
           	//    markerLocation2 = new L.LatLng(markerLocation.lat, markerLocation.lng + 360, true),
           	//    markerLocation3 = new L.LatLng(markerLocation.lat, markerLocation.lng - 360, true),
-          	//	marker = new L.Marker(markerLocation),
-          	//	marker2 = new L.Marker(markerLocation2),
-          	//	marker3 = new L.Marker(markerLocation3);;
-          	//map.addLayer(marker);
-          	//map.addLayer(marker2);
-          	//map.addLayer(marker3);
-          	//marker.bindPopup("<b>Hello world!</b><br />I am a popup.");
-          	//marker2.bindPopup("<b>Hello world!</b><br />I am a second popup +360.");
-          	//marker3.bindPopup("<b>Hello world!</b><br />I am a third popup -360.");
           },
 
           registerMapHover: function() {
@@ -412,12 +409,6 @@ define([
               console.log('toggleMapTipEvents');
               // enable maptip events
               // jquery custom events that prevents mouseover bubbling from child nodes
-              //$(this.mapelem).on('mouseenter.maptiptrack', function(e) {
-              //    maptip.hidden = false;
-              //});
-              //$(this.mapelem).on('mouseleave.maptiptrack', function(e) {
-              //    maptip.hidden = true;
-              //});
           	$(this.mpatlas.mapelem).on('mouseenter.maptip', this.showMapTip);
           	$(this.mpatlas.mapelem).on('mouseleave.maptip', this.hideMapTip);
           	$(window).on('mousemove.maptip', this.moveMapTip);
