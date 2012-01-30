@@ -11,7 +11,10 @@
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 
-<script>
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js' type="text/javascript"></script>
+<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js' type="text/javascript"></script>
+
+<script type="text/javascript">
 
     require({
         baseUrl: '{{ STATIC_URL }}js',
@@ -30,11 +33,7 @@
     }, [
         'app',
         'jquery',
-        'underscore',
-        'backbone-module',
         'depend!jqueryui[jquery]',
-        'leaflet',
-        'json2'
     ], function(App) {
         $(function() {
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
@@ -128,18 +127,18 @@
 			    <a class="addlayer" href="#" onclick="showlayerdialog(); return(false);" title="Add new map layer"><em>+</em> Add Layer</a>
 			    <p class="layerstitle medium">Map Layers</p>
 			    <div class="maplayer">
-			        <input class="layercheck" type="checkbox" checked />
+			        <input class="layercheck" type="checkbox" checked="checked" />
 			        <div class="layercolor designatedmpa"></div>
 			        <!-- <div class="layeractive active"><div class="layeractivearrow"></div>Active &#x2605;</div> -->
 			        Designated Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
-			        <input class="layercheck" type="checkbox" checked />
+			        <input class="layercheck" type="checkbox" checked="checked" />
 			        <div class="layercolor candidatempa"></div>
 			        Candidate Marine Protected Areas
 			    </div>
 			    <div class="maplayer">
-			        <input class="layercheck" type="checkbox" checked />
+			        <input class="layercheck" type="checkbox" checked="checked" />
 			        <div class="layercolor eezs"></div>
 			        Exclusive Economic Zones
 			    </div>
@@ -182,10 +181,10 @@
 {% block base_body_extra %}
     <div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
         <p>Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.</p>
-        <img src="{{ STATIC_URL }}images/filters/filter_demo.png" />
+        <img src="{{ STATIC_URL }}images/filters/filter_demo.png" alt="" />
     </div>
     <div id="addlayerdialog" title="Add a new map layer" style="display:none;">
-    	<img src="{{ STATIC_URL }}images/layers/layer_demo.png" />
+    	<img src="{{ STATIC_URL }}images/layers/layer_demo.png" alt="" />
     </div>
     
     <div id="maptip" class="maptip hidden transparent">
