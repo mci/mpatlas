@@ -171,6 +171,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'world',
     'wdpa',
+    'usmpa',
     'mpa',
     'spatialdata',
 )
