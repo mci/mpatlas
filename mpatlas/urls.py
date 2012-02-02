@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
      url(r'^admin/', include(admin.site.urls)),
      
+     (r'^users/', include('accounts.urls')),
+     
      url(r'^mpa/', include('wdpa.urls')),
      url(r'^region/', include('spatialdata.urls')),
      

@@ -30,6 +30,7 @@ NO_TAKE_CHOICES = (
     ('Not Reported','Not Reported'),
 )
 
+'''
 class Mpa(models.Model):
     # Regular fields
     mpa_id = models.IntegerField('MPA id', primary_key=True)
@@ -101,6 +102,7 @@ class Mpa(models.Model):
     @property
     def myfieldslist(self):
         return sorted(self.myfields.items())
+'''
 
 class MpaCandidate(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
