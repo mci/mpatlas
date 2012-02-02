@@ -1,3 +1,4 @@
+{% load url from future %}
 {% comment %}
 {% load sekizai_tags %}
 {% endcomment %}
@@ -124,6 +125,35 @@
                     </form>
 			    
     			    <a id="helpbutton" href="/help">Help</a>
+    			    
+    			    <div class='useraccount' style='float:right; color:white; margin-top:8px;'>
+    			    {% if user.is_authenticated %}
+    			        Welcome, {{ user.first_name }} <a id='user_logout' style='font-size:.8em; color:black; text-decoration:none; color: #222;' href='/users/logout?next={{ request.path }}'>[x]</a>
+    			    {% else %}
+    			        <div id='user_logintab' style='display:block; position:relative; color:white; background-color:#eee; border-radius:4px 4px 0 0; padding-left:4px; padding-right:4px;'>
+    			            Sign In
+    			            <div style='position:absolute; right:0; min-width:200px; color:#666; padding:8px; border:1px solid #999; background-color:#eee; border-radius:8px 0 8px 8px; z-index:9999;'>
+    			                {% if form.errors %}
+                                    <p>Your username and password didn't match. Please try again.</p>
+                                {% endif %}
+
+                                <form action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login_form">
+                                    {% csrf_token %}
+                                    <p>
+                                        <label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30" />
+                                    </p>
+                                    <p>
+                                        <label for="id_password">Password:</label> <input type="password" name="password" id="id_password" />
+                                    </p>
+                                    <p class="submit">
+                                        <button type="submit" name="submit" value="login">Log in</button>
+                                    </p>
+                                    <input type="hidden" name="next" value="{{ request.path }}" />
+                                </form>
+    			            </div>
+    			        </div>
+    			    {% endif %}
+    			    </div>
                 
     			</div>
     		</div>
