@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Do not remove, we're using some special characters
+# in string literals below
+
 from django.contrib.gis.db import models
 
 DESIG_TYPE_CHOICES = (
