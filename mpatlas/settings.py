@@ -169,6 +169,11 @@ INSTALLED_APPS = (
     'storages',
     'south',
     'django.contrib.gis',
+    
+    # User accounts and registration
+    'accounts',
+    
+    # Spatial data
     'world',
     'wdpa',
     'usmpa',
