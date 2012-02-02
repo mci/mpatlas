@@ -11,9 +11,6 @@
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 
-<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js' type="text/javascript"></script>
-<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js' type="text/javascript"></script>
-
 <script type="text/javascript">
 
     require({
@@ -31,75 +28,20 @@
         //priority: ['jquery']
         priority: []
     }, [
+        'prep',
         'app',
         'jquery',
         'depend!jqueryui[jquery]',
-    ], function(App) {
+    ], function(Prep, App) {
         $(function() {
+            Prep.preparePage();
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
             mpatlas.map.on('locationfound', function(location) {
                 //mpatlas.map.panTo(new L.LatLng(0, location.latlng.lng)); // center on lng at equator
                 mpatlas.map.panTo(location.latlng);
             });
             mpatlas.map.locate();
-        
-            $( "#mainsearchbox" ).autocomplete({
-    			source: function( request, response ) {
-    				$.ajax({
-    					url: "/mpa/sites/json/?q="+request.term,
-    					success: function( data ) {
-    						response( $.map( data.mpas, function( item ) {
-    							return {
-    								label: item.name + (item.designation ? ", " + item.designation : "") + ", " + item.country,
-    								value: item.name,
-    								url: item.url
-    							}
-    						}));
-    					}
-    				});
-    			},
-    			minLength: 2,
-    			select: function( event, ui ) {
-    			    if (ui.item) {
-    			        window.location = ui.item.url
-    			    }
-    			}
-    		});
-
-    		// Prep all search boxes to hack in default value placeholder
-            $('form input:text.defaultValue, form textarea.defaultValue').each(function(){
-    	        $.data(this, 'default', $(this).attr("data-placeholder"));
-    	    }).focus(function(){
-    	        if ($.data(this, 'default') == $(this).val()) {
-    	            $(this).val('');
-    	        }
-    			$(this).removeClass('defaultValue');
-
-    	    }).blur(function(){
-    	        if ($(this).val() == '') {
-    	            $(this).val($.data(this, 'default'));
-    	        }
-    			$(this).addClass('defaultValue');
-    	    });
-            
-	        {% block js_onready %}{% endblock %}
         });
-        
-        window['showfilterdialog'] = function() {
-    		$( "#addfilterdialog" ).dialog({
-                modal: true,
-                width: 610
-    		});
-    		return(false);
-    	};
-    	
-    	 window['showlayerdialog'] = function() {
-    		$( "#addlayerdialog" ).dialog({
-                modal: true,
-                width: 600
-    		});
-    		return(false);
-    	};
     });
 
 </script>

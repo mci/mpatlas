@@ -40,6 +40,7 @@ class Mpa(models.Model):
     mpa_id = models.IntegerField('MPA id', primary_key=True)
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
     name = models.CharField('Name', max_length=254)
+    slug = models.CharField(max_length=254)
     orig_name = models.CharField('Original Name', max_length=254, null=True, blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
