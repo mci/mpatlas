@@ -1,21 +1,19 @@
 {% extends "base.html" %}
+{% load url from future %}
 
-
-{% block title %}Logged out{% endblock %}
+{% block title %}Logged Out{% endblock %}
 {% block body_class %}{{ block.super }} logout{% endblock %}
 
-
-{% block content_title %}
-  <h2>Logged out</h2>
-  <p>You have been logged out.</p>
-{% endblock %}
-
-
-{% block content %}
-  <form action="{% url django.contrib.auth.views.login %}" method="post" class="login_form">{% csrf_token %}
-    <p><label for="id_username">Username</label> <input type="text" name="username" id="id_username"></p>
-    <p><label for="id_password">Password</label> <input type="password" name="password" id="id_password"></p>
-    <p class="submit"><button type="submit" name="submit" value="Login">Log in</button></p>
-    <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}/{% endif %}">
-  </form>
+{% block base_body_content %}
+    <h2>Logged out</h2>
+    
+    <form action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login_form">
+        {% csrf_token %}
+        <p><label for="id_username">Username</label> <input type="text" name="username" id="id_username"></p>
+        <p><label for="id_password">Password</label> <input type="password" name="password" id="id_password"></p>
+        <p class="submit">
+            <button type="submit" name="submit" value="login">Log in</button>
+        </p>
+        {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+    </form>
 {% endblock %}

@@ -114,6 +114,8 @@ STATICFILES_FINDERS = (
 
 STATICFILES_STORAGE = 'staticfiles.storage.StaticFileStorage'
 
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -129,6 +131,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment to enable caching with memcached
     'django.middleware.cache.FetchFromCacheMiddleware',
 )

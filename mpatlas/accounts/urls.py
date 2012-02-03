@@ -9,6 +9,21 @@ urlpatterns = patterns('',
         'django.contrib.auth.views.logout', 
         {'template_name': 'accounts/logout.html'}),
     
+    (r'^signup/$', 
+        'accounts.views.signup', 
+        {'template_name': 'accounts/signup.html',
+        'email_template_name': 'accounts/signup_email.html'}),
+    
+    (r'^signup/done/$', 
+        'accounts.views.signup_done', 
+        {'template_name': 'accounts/signup_done.html'}),
+    
+    (r'^signup/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+        'accounts.views.signup_confirm'),
+    
+    (r'^signup/complete/$', 
+        'accounts.views.signup_complete', 
+        {'template_name': 'accounts/signup_complete.html'}),
     # (r'^password_change/$', 
     #     'django.contrib.auth.views.password_change', 
     #     {'template_name': 'accounts/password_change_form.html'}),
@@ -34,19 +49,4 @@ urlpatterns = patterns('',
     #     'django.contrib.auth.views.password_reset_complete', 
     #     {'template_name': 'accounts/password_reset_complete.html'}),
     # 
-    # (r'^signup/$', 
-    #     'mysite.accounts.views.signup', 
-    #     {'template_name': 'accounts/signup_form.html',
-    #     'email_template_name': 'accounts/signup_email.html'}),
-    # 
-    # (r'^signup/done/$', 
-    #     'mysite.accounts.views.signup_done', 
-    #     {'template_name': 'accounts/signup_done.html'}),
-    # 
-    # (r'^signup/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 
-    #     'mysite.accounts.views.signup_confirm'),
-    # 
-    # (r'^signup/complete/$', 
-    #     'mysite.accounts.views.signup_complete', 
-    #     {'template_name': 'accounts/signup_complete.html'}),
 )
