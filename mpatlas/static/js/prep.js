@@ -48,7 +48,25 @@ define([
 	        e.preventDefault();
 	        e.stopPropagation();
 	        $('#user_logintab').toggleClass('selected');
+	        $('#id_username').focus();
 	    });
+	    
+	    // Set a default Accept headers for javascript and json
+	    $.ajaxSetup({
+            'beforeSend': function(xhr) {
+                xhr.setRequestHeader("Accept", "text/javascript")
+                xhr.setRequestHeader("Accept", "application/json")
+            }
+        })
+	    
+	    // Run this on a form to automatically change it to submit via ajax
+	    $.fn.submitWithAjax = function() {
+	        this.submit(function() {
+	            $.post(this.action, $(this).serialize(), null, "script");
+	            return false;
+	        });
+            return this;
+        };
     };
 
     return {

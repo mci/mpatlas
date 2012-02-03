@@ -17,6 +17,16 @@ body {
     padding: 0;
 }
 
+a, a:visited {
+    color: #3c6289;
+}
+a:hover {
+    color: #de744a;
+}
+a:active {
+    color: #c94E85;
+}
+
 #body_full {
     position:relative;
     width: 960px;
@@ -146,7 +156,11 @@ body {
     min-width: 200px;
     color: #666;
     padding: 8px;
+    padding: none;
     background-color: #eee;
+    -moz-border-radius: 8px 0 8px 8px;
+    -webkit-border-radius: 8px 0 8px 8px;
+    -o-border-radius: 8px 0 8px 8px;
     border-radius: 8px 0 8px 8px;
     z-index: 9999;
     box-shadow: 0 1px 10px #888;
@@ -156,6 +170,71 @@ body {
 
 #user_logintab.selected #user_loginformcontainer {
     display: block;
+}
+
+#user_logintab input[type=text], #user_logintab input[type=password] {
+    width: 200px;
+    border: 1px solid #AAC;
+    padding: 4px;
+    color: #3c6289;
+    font-size: 1.3em;
+    margin: 0
+    background: white;
+}
+
+#user_logintab .user_button {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    color: white;
+    font-size: 20px;
+    line-height: 1.2em;
+    padding-bottom: 3px;
+    font-family: 'Yanone Kaffeesatz', 'HelveticaNeue', 'Helvetica-Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    text-shadow: black 1px 1px 1px;
+    box-shadow: 1px 1px 1px #888;
+    -moz-box-shadow: 1px 1px 1px #888;
+    -webkit-box-shadow: 1px 1px 1px #999;
+    background-color: #395671;
+    background-image: -moz-linear-gradient(top, #395671, #324455);
+    background-image: -webkit-linear-gradient(top, #395671, #324455);
+    background-image: -o-linear-gradient(top, #395671, #324455);
+    background-image: linear-gradient(top, #395671, #324455);
+    /* background-color: transparent; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#395671,endColorstr=#324455)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#395671,endColorstr=#324455); /* IE6 and 7 */
+    zoom: 1;
+}
+
+#user_logintab .user_button:hover {
+    color: #C94E85;
+    background-color: #324455;
+    background-image: -moz-linear-gradient(top, #324455, #395671);
+    background-image: -webkit-linear-gradient(top, #324455, #395671);
+    background-image: -o-linear-gradient(top, #324455, #395671);
+    background-image: linear-gradient(top, #324455, #395671);
+    /* background-color: transparent; */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#395671)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#395671); /* IE6 and 7 */
+    zoom: 1;
+}
+
+#user_logintab .user_button.user_login {
+    float: right;
+}
+
+#user_logintab .user_signupblock {
+    border-top: 1px dotted #666;
+    margin-top: 0px;
+    padding-top: 8px;
+    margin-bottom: 4px;
+}
+
+#user_signuplink {
+    font-weight: bold;
 }
 
 .searchform {

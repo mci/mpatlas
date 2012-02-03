@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     # Other fields here
     title = models.CharField(max_length=20, default='', choices=TITLE_CHOICES)
     affiliation = models.CharField('organization', max_length=300)
-    #country = models.CharField(max_length=300)
+    country = models.CharField(max_length=300)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

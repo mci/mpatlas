@@ -11,6 +11,7 @@ boto
 distribute
 django-admin-tools
 django-extensions
+django-debug-toolbar
 svn+http://django-filebrowser.googlecode.com/svn/branches/filebrowser3-no-grappelli/#egg:django-filebrowser
 django-haystack
 django-reversion<1.4
