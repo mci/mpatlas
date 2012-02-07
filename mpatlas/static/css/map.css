@@ -85,17 +85,6 @@ html, body {
     margin-right: 8px;
 }
 
-.addlayer, .addfilter {
-    font-size: 11px;
-    color: #9F9;
-}
-.addlayer:hover, .addfilter:hover {
-    color: #0F0;
-    background-color: rgb(100,180,100);
-    background-color: rgba(100,180,100,0.8);
-    border: 1px solid #0C0;
-}
-
 .layercolor {
     width: 10px;
     height: 10px;
