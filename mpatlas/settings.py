@@ -115,6 +115,7 @@ STATICFILES_FINDERS = (
 STATICFILES_STORAGE = 'staticfiles.storage.StaticFileStorage'
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+LOGIN_URL = '/users/login/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

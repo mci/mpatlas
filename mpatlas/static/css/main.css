@@ -17,14 +17,14 @@ body {
     padding: 0;
 }
 
-a, a:visited {
+a {
     color: #3c6289;
 }
 a:hover {
-    color: #de744a;
+    color: #c94E85;
 }
 a:active {
-    color: #c94E85;
+    color: #de744a;
 }
 
 #body_full {
@@ -135,7 +135,7 @@ a:active {
 }
 
 #user_logintab.selected #user_loginlink {
-    color: #666;
+    color: #c94E85;
 }
 
 #user_loginlink:hover {
@@ -227,7 +227,7 @@ a:active {
 }
 
 #user_logintab .user_signupblock {
-    border-top: 1px dotted #666;
+    border-top: 1px dotted #c94E85;
     margin-top: 0px;
     padding-top: 8px;
     margin-bottom: 4px;
@@ -457,20 +457,23 @@ ul#mainmenu ul li {
     margin: 4px;
     margin-left: 2px;
     margin-right: 4px;
+    padding: 2px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    padding: 1px;
-    color: #0F0;
-    font-weight: bold;
+    font-size: 11px;
+    font-weight: normal;
     text-shadow: #000 1px 1px 1px;
     text-decoration: none;
     background-color: rgb(140,180,140);
     background-color: rgba(140,180,140,0.8);
-    font-size: 12px;
-    font-weight: normal;
     border-radius: 4px;
     border: 1px solid #4C4;
-    padding: 2px;
+    color: #9F9;
+}
+.addlayer:hover, .addfilter:hover {
+    color: #0F0;
+    background-color: rgb(100,180,100);
+    background-color: rgba(100,180,100,0.8);
+    border: 1px solid #0C0;
 }
 
 .sidebar {
