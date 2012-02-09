@@ -34,6 +34,53 @@ NO_TAKE_CHOICES = (
     ('Not Reported','Not Reported'),
 )
 
+PROTECTION_LEVEL_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Strongly Protected','Strongly Protected'),
+    ('Moderately Protected','Moderately Protected'),
+    ('Protected','Protected'),
+    ('Managed','Managed'),
+)
+
+FISHING_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Yes', 'Yes'),
+    ('No', 'No'),
+    ('Some Restrictions', 'Some Restrictions'),
+)
+
+ACCESS_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Yes', 'Yes'),
+    ('No', 'No'),
+)
+
+PROTECTION_FOCUS_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Ecosystem', 'Ecosystem'),
+    ('Focal Species', 'Focal Species'),
+)
+
+CONSTANCY_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Year-round', 'Year-round'),
+    ('Seasonal', 'Seasonal'),
+    ('Temporary', 'Temporary'),
+)
+
+PERMANENCE_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Permanent', 'Permanent'),
+    ('Non-Permanent', 'Non-Permanent'),
+)
+
+CONSERVATION_EFFECTIVENESS_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('High', 'High'),
+    ('Medium', 'Medium'),
+    ('Low', 'Low'),
+)
+
 '''
 class Mpa(models.Model):
     # ID / Name
@@ -80,18 +127,28 @@ class Mpa(models.Model):
     contact_agency = models.CharField(max_length=254)
     contact_agency_address = models.TextField()
     
-    # Protection Level / Conservation Effectiveness
-    protection_level = models.CharField(max_length=254)
-    fishing_restriction = models.CharField(max_length=254)
+    Conservation Effectiveness
+    conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
+    
+    # Protection Level
+    protection_level = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_LEVEL_CHOICES, default='Unknown')
+    fishing = models.CharField(max_length=254, null=True, blank=True, choices=FISHING_CHOICES, default='Unknown')
+    fishing_info = models.TextField(null=True, blank=True)
+    fishing_citation = models.TextField(null=True, blank=True)
+    access = models.CharField(max_length=254, null=True, blank=True, choices=ACCESS_CHOICES, default='Unknown')
+    access_citation = models.TextField(null=True, blank=True)
+    
     primary_conservation_focus = models.CharField(max_length=254)
     conservation_focus = models.CharField(max_length=254)
-    protection_focus = models.CharField(max_length=254)
-    permanence = models.CharField(max_length=254)
-    constancy = models.CharField(max_length=254)
-    vessel = models.CharField(max_length=254)
-    anchor = models.CharField(max_length=254)
+    protection_focus = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_FOCUS_CHOICES, default='Unknown')
+    protection_focus_info = models.TextField(null=True, blank=True)
     
+    constancy = models.CharField(max_length=254, null=True, blank=True, choices=CONSTANCY_CHOICES, default='Unknown')
+    permanence = models.CharField(max_length=254, null=True, blank=True, choices=PERMANENCE_CHOICES, default='Unknown')
     
+    misc_notes = models.TextField()
+    
+    ## GEOGRAPHY
     is_point = models.BooleanField(default=False)
     
     # Full-res polygon features
