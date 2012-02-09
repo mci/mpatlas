@@ -40,7 +40,8 @@ DATABASES = {
 #CACHE_BACKEND = 'dummy://'
 # For per-site cache (UpdateCache and FetchFromCache Middleware)
 #CACHE_MIDDLEWARE_SECONDS = 4800
-CACHE_MIDDLEWARE_SECONDS = 5
+#CACHE_MIDDLEWARE_SECONDS = 5
+CACHE_MIDDLEWARE_SECONDS = 240
 CACHE_MIDDLEWARE_KEY_PREFIX = 'mpatlas'
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
@@ -127,6 +128,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     # Uncomment to enable caching with memcached
     'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
