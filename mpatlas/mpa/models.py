@@ -36,36 +36,61 @@ NO_TAKE_CHOICES = (
 
 '''
 class Mpa(models.Model):
-    # Regular fields
+    # ID / Name
     mpa_id = models.IntegerField('MPA id', primary_key=True)
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
+    usmpa_id = models.IntegerField('US MPA id', null=True, blank=True)
     name = models.CharField('Name', max_length=254)
     slug = models.CharField(max_length=254)
-    orig_name = models.CharField('Original Name', max_length=254, null=True, blank=True)
+    #orig_name = models.CharField('Original Name', max_length=254, null=True, blank=True)
+    short_name = models.CharField(max_length=254) # name + designation with abbreviations
     
     # Set up foreign key to ISO Countries and Sub Locations
     country = models.CharField('Country / Territory', max_length=20)
     sub_loc = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
-    desig = models.CharField('Designation', max_length=254, null=True, blank=True)
-    desig_eng = models.CharField('English Designation', max_length=254, null=True, blank=True)
-    desig_type = models.CharField('Designation Type', max_length=20, null=True, blank=True, choices=DESIG_TYPE_CHOICES)
-    iucn_cat = models.CharField('IUCN Category', max_length=20, null=True, blank=True, choices=IUCN_CAT_CHOICES)
-    int_crit = models.CharField('International Criteria', max_length=100, null=True, blank=True)
+    # Designation
+    designation = models.CharField('Designation', max_length=254, null=True, blank=True)
+    designation_eng = models.CharField('English Designation', max_length=254, null=True, blank=True)
+    designation_type = models.CharField('Designation Type', max_length=20, null=True, blank=True, choices=DESIG_TYPE_CHOICES)
+    iucn_category = models.CharField('IUCN Category', max_length=20, null=True, blank=True, choices=IUCN_CAT_CHOICES)
+    int_criteria = models.CharField('International Criteria', max_length=100, null=True, blank=True)
     marine = models.NullBooleanField('Marine', null=True, blank=True, default=True)
+    status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
+    status_year = models.IntegerField('Status Year', null=True, blank=True)
+    
+    area_notes = models.CharField('Area Notes', max_length=250, null=True, blank=True)
+    
+    # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
     no_take_area = models.FloatField(u'No Take Area km²', null=True, blank=True)
     rep_m_area = models.FloatField(u'Reported Marine Area km²', null=True, blank=True)
-    gis_m_area = models.FloatField(u'Calculated Marine Area km²', null=True, blank=True)
+    calc_m_area = models.FloatField(u'Calculated Marine Area km²', null=True, blank=True)
     rep_area = models.FloatField(u'Reported Area km²', null=True, blank=True)
-    gis_area = models.FloatField(u'Calculated Area km²', null=True, blank=True)
-    status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES)
-    status_year = models.IntegerField('Status Year', null=True, blank=True)
-    gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True)
+    calc_area = models.FloatField(u'Calculated Area km²', null=True, blank=True)
+    
+    # Management details
+    gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True) # = US gov_level
     mang_auth = models.CharField('Management Authority', max_length=254, null=True, blank=True)
-    mang_plan = models.CharField('Management Plan', max_length=254, null=True, blank=True)
-    metadataid = models.IntegerField(null=True, blank=True)
-    area_notes = models.CharField('Area Notes', max_length=250, null=True, blank=True)
+    mgmt_plan_type = models.CharField('Management Plan Type', max_length=254)
+    mang_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
+    
+    # Contact
+    contact_url = models.CharField(max_length=254)
+    contact_agency = models.CharField(max_length=254)
+    contact_agency_address = models.TextField()
+    
+    # Protection Level / Conservation Effectiveness
+    protection_level = models.CharField(max_length=254)
+    fishing_restriction = models.CharField(max_length=254)
+    primary_conservation_focus = models.CharField(max_length=254)
+    conservation_focus = models.CharField(max_length=254)
+    protection_focus = models.CharField(max_length=254)
+    permanence = models.CharField(max_length=254)
+    constancy = models.CharField(max_length=254)
+    vessel = models.CharField(max_length=254)
+    anchor = models.CharField(max_length=254)
+    
     
     is_point = models.BooleanField(default=False)
     
