@@ -35,7 +35,7 @@
     	<div class="sidebar_item_content siteinfo">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
             {% for key, value in mpa.myfieldslist %}
-                {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' %}
+                {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' and not key == 'bbox' and not key == 'bbox_geojson' and not key == 'point_within' %}
                 <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
                 {% endif %}
             {% endfor %}
