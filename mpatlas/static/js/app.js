@@ -63,8 +63,7 @@ function (Backbone) {
 
 			// Bing background layer for testing
 			var lyr = new L.TileLayer.Bing(
-				'ApQd0ymqxAh08w4k8U5VnEicyUqlQbcylqZcuI6hi8fV3nsW0MqwepRj-yBF2MeY', // this is my key - need one for Waitt
-				'road',
+				'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
 				{maxZoom: 18, opacity: 1}
 			)
 			this.bgMaps['Bing Maps'] = lyr;
@@ -104,8 +103,9 @@ function (Backbone) {
 			
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
-				'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.7, scheme: 'xyz'}
+				//'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
+				'http://mpatlas.s3.amazonaws.com/tilecache/mpas/{z}/{x}/{y}.png',
+				{maxZoom: 9, opacity: 0.5, scheme: 'xyz'}
 			);
 			this.overlayMaps['Designated Marine Protected Areas'] = lyr;
 			group.addLayer(lyr);
@@ -113,7 +113,7 @@ function (Backbone) {
 			// Candidate Marine Protected Areas
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.7, scheme: 'xyz'}
+				{maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
 			);
 			this.overlayMaps['Candidate Marine Protected Areas'] = lyr;
 			group.addLayer(lyr);
