@@ -105,7 +105,7 @@ function (Backbone) {
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.7, scheme: 'tms'}
+				{maxZoom: 9, opacity: 0.7, scheme: 'xyz'}
 			);
 			this.overlayMaps['Designated Marine Protected Areas'] = lyr;
 			group.addLayer(lyr);
