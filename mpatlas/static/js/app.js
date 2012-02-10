@@ -9,10 +9,9 @@ define([
 function (Backbone) {  
     var MPAtlas = Backbone.View.extend({
 		proxy: '',
-		domain: 'http://' + document.domain,
+		domain: 'http://' + document.domain + '/',
 		//proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
 		//domain: 'http://mpatlas.org/',
-		cdn: '.',
 		
 		exploremodes: ['mpas', 'eez', 'meow', 'fao'],
 		currentmode: 'mpas',			
@@ -75,7 +74,7 @@ function (Backbone) {
 				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
 				{maxZoom: 9, opacity: 1}
 			);
-			this.bgMaps['Oceans Layer'] = lyr;
+			this.bgMaps['Oceans'] = lyr;
 			layers.push(lyr);
 	
 			// EEZs / Nations		
