@@ -55,6 +55,13 @@ ACCESS_CHOICES = (
     ('No', 'No'),
 )
 
+CONSERVATION_FOCUS_CHOICES = (
+    ('Unknown', 'Unknown'),
+    ('Biodiversity Protection'),
+    ('Biomass Enhancement', 'Biomass Enhancement'),
+    ('Cultural Heritage', 'Cultural Heritage'),
+)
+
 PROTECTION_FOCUS_CHOICES = (
     ('Unknown', 'Unknown'),
     ('Ecosystem', 'Ecosystem'),
@@ -88,13 +95,13 @@ class Mpa(models.Model):
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
     usmpa_id = models.IntegerField('US MPA id', null=True, blank=True)
     name = models.CharField('Name', max_length=254)
-    slug = models.CharField(max_length=254)
-    #orig_name = models.CharField('Original Name', max_length=254, null=True, blank=True)
+    long_name = models.CharField(max_length=254) # name + designation
     short_name = models.CharField(max_length=254) # name + designation with abbreviations
+    slug = models.CharField(max_length=254)
     
     # Set up foreign key to ISO Countries and Sub Locations
     country = models.CharField('Country / Territory', max_length=20)
-    sub_loc = models.CharField('Sub Location', max_length=100, null=True, blank=True)
+    sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Designation
     designation = models.CharField('Designation', max_length=254, null=True, blank=True)
@@ -106,8 +113,6 @@ class Mpa(models.Model):
     status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
     status_year = models.IntegerField('Status Year', null=True, blank=True)
     
-    area_notes = models.CharField('Area Notes', max_length=250, null=True, blank=True)
-    
     # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
     no_take_area = models.FloatField(u'No Take Area km²', null=True, blank=True)
@@ -118,16 +123,16 @@ class Mpa(models.Model):
     
     # Management details
     gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True) # = US gov_level
-    mang_auth = models.CharField('Management Authority', max_length=254, null=True, blank=True)
+    mgmt_auth = models.CharField('Management Authority', max_length=254, null=True, blank=True)
     mgmt_plan_type = models.CharField('Management Plan Type', max_length=254)
-    mang_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
+    mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
     contact_url = models.CharField(max_length=254)
     contact_agency = models.CharField(max_length=254)
     contact_agency_address = models.TextField()
     
-    Conservation Effectiveness
+    #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
     
     # Protection Level
@@ -138,15 +143,25 @@ class Mpa(models.Model):
     access = models.CharField(max_length=254, null=True, blank=True, choices=ACCESS_CHOICES, default='Unknown')
     access_citation = models.TextField(null=True, blank=True)
     
-    primary_conservation_focus = models.CharField(max_length=254)
-    conservation_focus = models.CharField(max_length=254)
+    # Conservation Focus
+    primary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
+    secondary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
+    tertiary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
+    conservation_focus_citation = models.TextField(null=True, blank=True)
+    
+    # Protection Focus
     protection_focus = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_FOCUS_CHOICES, default='Unknown')
     protection_focus_info = models.TextField(null=True, blank=True)
+    protection_focus_citation = models.TextField(null=True, blank=True)
     
     constancy = models.CharField(max_length=254, null=True, blank=True, choices=CONSTANCY_CHOICES, default='Unknown')
+    constancy_citation = models.TextField(null=True, blank=True)
     permanence = models.CharField(max_length=254, null=True, blank=True, choices=PERMANENCE_CHOICES, default='Unknown')
+    permanence_citation = models.TextField(null=True, blank=True)
     
-    misc_notes = models.TextField()
+    # Notes
+    wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
+    notes = models.TextField('Area Notes')
     
     ## GEOGRAPHY
     is_point = models.BooleanField(default=False)
