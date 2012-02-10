@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView
+from django.views.generic import RedirectView
+from django.views.generic.simple import redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib.gis import admin
@@ -20,6 +22,9 @@ urlpatterns = patterns('',
      
      url(r'^mpa/', include('wdpa.urls')),
      url(r'^region/', include('spatialdata.urls')),
+     
+     # Only redirect the top level /learn/ to mpapedia
+     url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
      
      url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home_map.html')),
 )

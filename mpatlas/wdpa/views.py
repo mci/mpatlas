@@ -24,13 +24,20 @@ class MpaListView(ListView):
         return self.paginate_by
     
     def get_queryset(self):
+        qs = self.queryset
         try:
             q = self.request.GET.get('q')
             if q:
                 #return self.queryset.filter(name__istartswith=q)
                 # \m is Postgresql regex word boundary, Python used \b
                 # (?i) is a Postgresql regex mode modifier to make regex case insensitive
-                return self.queryset.filter(name__regex=r'(?i)\m' + re.escape(q))
+                qs = qs.filter(name__regex=r'(?i)\m' + re.escape(q))
+            sortby = self.request.GET.get('sort')
+            direction = self.request.GET.get('dir')
+            if sortby:
+                dirflag = '-' if (direction and direction.lower() == 'desc') else ''
+                qs = qs.order_by(dirflag + sortby)
+            return qs
         except:
             pass
         else:
@@ -127,7 +134,8 @@ def lookup_point(request):
         elif (method == 'point'):
             mpa_list = WdpaPolygon.objects.filter(geog__intersects=point).defer(*WdpaPolygon.get_geom_fields())
             search = point
-        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*MpaCandidate.get_geom_fields())
+        candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
+        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
         search.transform(4326)
         return render(request, 'wdpa/mpalookup.json', {
             'search': search.coords,

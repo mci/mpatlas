@@ -38,6 +38,13 @@ class WdpaPolygon(models.Model):
     geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
     geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    
+    # Calculated geometry fields
+    point_within = models.PointField(srid=4326, null=True)
+    point_within_geojson = models.TextField(null=True)
+    bbox = models.PolygonField(srid=4326, null=True)
+    bbox_geojson = models.TextField(null=True)
+    
     objects = models.GeoManager()
     
     # Returns the string representation of the model.
@@ -47,6 +54,34 @@ class WdpaPolygon(models.Model):
     @classmethod
     def get_geom_fields(cls):
         return ('geog', 'geom', 'geom_smerc')
+    
+    @property
+    def get_point_within(self):
+        '''Get a point on the geometry surface.
+            Use a point already in the db if possible, otherwise calculate and save one.
+        '''
+        if self.point_within is None:
+            # Make PostGIS calculate this for us
+            me = self.__class__.objects.centroid(field_name='geom').point_on_surface(field_name='geom').only('geom').get(pk=self.pk)
+            # if the centroid intersects the polygon, use it, otherwise return the point_on_surface
+            centroid_inside = self.__class__.objects.filter(pk=self.pk, geom__intersects=me.centroid).count()
+            self.point_within = me.centroid if centroid_inside else me.point_on_surface
+            self.point_within_geojson = self.point_within.geojson
+            self.save()
+        return self.point_within_geojson
+    
+    @property
+    def get_bbox(self):
+        '''Get the geometry bounding box.
+            Use a shape already in the db if possible, otherwise calculate and save one.
+        '''
+        if self.bbox is None:
+            # Make PostGIS calculate this for us
+            me = self.__class__.objects.envelope(field_name='geom').only('id').get(pk=self.pk)
+            self.bbox = me.envelope
+            self.bbox_geojson = self.bbox.geojson
+            self.save()
+        return self.bbox_geojson
     
     @property
     def myfields(self):
@@ -60,7 +95,7 @@ class WdpaPolygon(models.Model):
         return sorted(self.myfields.items())
     
     @property
-    def getnearbyareas(self, limit=5, radius=500):
+    def get_nearby_areas(self, limit=5, radius=500):
         toosmall = True
         r = 10
         step = 100
