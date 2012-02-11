@@ -57,7 +57,7 @@ ACCESS_CHOICES = (
 
 CONSERVATION_FOCUS_CHOICES = (
     ('Unknown', 'Unknown'),
-    ('Biodiversity Protection'),
+    ('Biodiversity Protection', 'Biodiversity Protection'),
     ('Biomass Enhancement', 'Biomass Enhancement'),
     ('Cultural Heritage', 'Cultural Heritage'),
 )
@@ -128,7 +128,7 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact = models.ForeignKey('Contact', verbose_name='Main Contact')
+    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact')
     other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts')
     
     #Conservation Effectiveness
