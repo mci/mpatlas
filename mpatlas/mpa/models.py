@@ -4,22 +4,6 @@
 
 from django.contrib.gis.db import models
 
-class WikiArticle(models.Model):
-    mpa = models.OneToOneField(Mpa, primary_key=True)
-    url = models.UrlField('Link to Wikipedia Article', null=True, blank=True)
-    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
-
-
-class Contact(models.Model):
-    agency = models.CharField(max_length=500)
-    url = models.UrlField(max_length=500)
-    address = models.TextField()
-
-
-# class MpaCandidateInfo(models.Model):
-#     pass
-
-
 DESIG_TYPE_CHOICES = (
     ('National', 'National'),
     ('International', 'International'),
@@ -144,8 +128,8 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact = models.ForeignKey(Contact, verbose_name='Main Contact')
-    other_contacts = models.ManyToManyField(Contact, verbose_name='Other Contacts')
+    contact = models.ForeignKey('Contact', verbose_name='Main Contact')
+    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts')
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
@@ -224,6 +208,21 @@ class Mpa(models.Model):
     @property
     def myfieldslist(self):
         return sorted(self.myfields.items())
+
+
+class WikiArticle(models.Model):
+    mpa = models.OneToOneField(Mpa, primary_key=True)
+    url = models.UrlField('Link to Wikipedia Article', null=True, blank=True)
+    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+
+
+class Contact(models.Model):
+    agency = models.CharField(max_length=500)
+    url = models.UrlField(max_length=500)
+    address = models.TextField()
+
+# class MpaCandidateInfo(models.Model):
+#     pass
 
 
 class MpaCandidate(models.Model):
