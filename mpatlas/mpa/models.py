@@ -4,6 +4,22 @@
 
 from django.contrib.gis.db import models
 
+class WikiArticle(models.Model):
+    mpa = models.OneToOneField(Mpa, primary_key=True)
+    url = models.UrlField('Link to Wikipedia Article', null=True, blank=True)
+    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+
+
+class Contact(models.Model):
+    agency = models.CharField(max_length=500)
+    url = models.UrlField(max_length=500)
+    address = models.TextField()
+
+
+# class MpaCandidateInfo(models.Model):
+#     pass
+
+
 DESIG_TYPE_CHOICES = (
     ('National', 'National'),
     ('International', 'International'),
@@ -208,21 +224,6 @@ class Mpa(models.Model):
     @property
     def myfieldslist(self):
         return sorted(self.myfields.items())
-
-
-class WikiArticle(models.Model):
-    mpa = models.OneToOneField(Mpa, primary_key=True)
-    url = models.UrlField('Link to Wikipedia Article', null=True, blank=True)
-    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
-
-
-class Contact(models.Model):
-    agency = models.CharField(max_length=500)
-    url = models.UrlField(max_length=500)
-    address = models.TextField()
-
-# class MpaCandidateInfo(models.Model):
-#     pass
 
 
 class MpaCandidate(models.Model):
