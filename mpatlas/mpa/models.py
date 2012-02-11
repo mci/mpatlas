@@ -212,13 +212,13 @@ class Mpa(models.Model):
 
 class WikiArticle(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True)
-    url = models.UrlField('Link to Wikipedia Article', null=True, blank=True)
+    url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
     summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
 
 
 class Contact(models.Model):
     agency = models.CharField(max_length=500)
-    url = models.UrlField(max_length=500)
+    url = models.URLField(max_length=500)
     address = models.TextField()
 
 # class MpaCandidateInfo(models.Model):
