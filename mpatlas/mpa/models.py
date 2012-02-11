@@ -128,7 +128,7 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact = models.ForeignKeyField(Contact, verbose_name='Main Contact')
+    contact = models.ForeignKey(Contact, verbose_name='Main Contact')
     other_contacts = models.ManyToManyField(Contact, verbose_name='Other Contacts')
     
     #Conservation Effectiveness
