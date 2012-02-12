@@ -7,6 +7,12 @@ html, body {
     height: 100%; /* We're running a full window viewport for the map */
     width: 100%;
     margin: 0px;
+    overflow: hidden;
+}
+
+body {
+    background-color: #FFFFFF !important;
+    font-size: 12px !important;
 }
 
 #pagewrapper {
@@ -14,20 +20,22 @@ html, body {
     position: relative;
 }
 
-#body_full {
+#body_full, #body_list_full {
     position: absolute;
     width: 100%;
     /*height: 100%;*/
-    margin: 0px;
+    margin: 0px;;
     overflow: hidden;
     top: 79px;
-    bottom: 86px;
+    bottom: 84px;
 }
 
 #footer_full {
+    color: #000000;
     position: absolute;
     width: 100%;
-    bottom: 0;
+    top:100%;
+    margin-top: -84px;
 }
 
 #stats_overlay {
@@ -37,6 +45,7 @@ html, body {
     width: 200px;
     height: 100%;
     overflow: auto;
+    padding-top:12px;
     background-color: transparent;
     background-color: rgba(10,10,10,0.8);
     color:white;
@@ -44,6 +53,154 @@ html, body {
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
     zoom: 1;
+}
+
+#filters_overlay {
+    position:absolute;
+    left: 6px;
+    top: 79px;
+}
+
+.filterstitle {
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.addfilter {
+    margin-left: 6px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.filtertag {
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+/*
+    we begin here a bunch of ugly hacks to override changes caused by the ExtJS stylesheet
+    the stylesheet should be trimmed to just what's required. then we can remove these hacks
+*/
+#stats_overlay p.stats_box_header {
+    text-shadow: #000 1px 1px 1px;
+    margin-bottom: 4px;
+}
+
+#filters_overlay {
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
+    line-height: 1.25;
+}
+
+#stats_overlay p.stats_box {
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
+    line-height: 1.25;
+    border-radius:4px;
+    border:1px solid #666;
+    padding:8px;
+    margin: 0px 11px 0px 11px;
+    background-color: rgba(10,10,10,0.4);
+}
+
+.user_block {
+    margin-top: 6px !important;
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;    
+}
+
+.searchform {
+    right: 159px;
+}
+
+.searchform input.text {
+    height:22px !important;
+    width: 173px !important;
+}
+
+.x-grid-cell, .x-column-header-text, .x-toolbar-text, .x-form-text, .x-btn-inner {
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif !important;    
+    line-height: 1.25;
+}
+
+.x-grid-with-row-lines .x-grid-cell-inner {
+    padding-bottom: 0px;
+}
+
+.x-form-text {
+    color: #000000;
+    background-color: #FFFFFF!important;
+    background-image: none !important;
+}
+
+.x-grid-row .x-grid-cell {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-bottom: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    border-top: none;
+}
+
+.x-grid-row-alt .x-grid-cell {
+    background-color: #ECECEC;
+}
+
+.x-grid-row a {
+    color: #000000;
+}
+.x-grid-row .x-grid-cell-first, .x-column-header {
+    color: white;
+    background-color: #314453;
+    background-image: none !important;
+}
+
+.x-column-header {
+    font-weight: bold;
+}
+
+.x-column-header-sort-ASC, .x-column-header-sort-DESC {
+    background-color: #C54C81;    
+}
+
+.x-column-header-over {
+    background-color: #DE7347;    
+    background-image: none !important;
+}
+.x-toolbar {
+    /*background-color: #314453;*/
+    background-color: rgba(10,10,10,0.8);
+    background-image: none !important;
+}
+
+/*  end of ugly extjs hacks  */
+
+.hideElem {
+    display: none;
+}
+
+.showElem {
+    display: block;
+}
+
+#list-bg {
+    position:absolute;
+    top:0px;
+    left:0px;
+    right: 200px;
+    height:100%;
+    background-color: rgba(60,60,60,0.7);
+}
+
+#mpa-list-container {
+    position:absolute;
+    top: 44px;
+    left: 0px;
+    right: 215px;
+    height:100%;
+    opacity:0.8;
+}
+
+#modetoggle_overlay {
+    position:absolute;
+    right:208px;
+    top:79px;
 }
 
 .maplayer {
@@ -71,10 +228,10 @@ html, body {
 
 .addlayer, .addfilter {
     font-size: 11px;
-    color: #9F9;
+    color: #9F9 !important;
 }
 .addlayer:hover, .addfilter:hover {
-    color: #0F0;
+    color: #0F0 !important;
     background-color: rgb(100,180,100);
     background-color: rgba(100,180,100,0.8);
     border: 1px solid #0C0;
@@ -97,6 +254,10 @@ html, body {
 }
 .layercolor.eezs {
     background-color: #8F8;
+}
+
+.leaflet-control-container .leaflet-top {
+    margin-top:40px;
 }
 
 .leaflet-control-layers, .leaflet-control-layers-expanded {
@@ -200,7 +361,7 @@ html, body {
 
 .explore_toolbar {
     float: left;
-    height: 57px;
+    min-height: 57px;
     margin-right: 40px;
 }
 
@@ -208,7 +369,7 @@ html, body {
     position: relative;
     float: left;
     width: 150px;
-    height: 45px;
+    height: 57px;
     border-right: 1px solid #555;
     text-align: center;
     padding-top: 10px;
