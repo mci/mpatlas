@@ -96,7 +96,7 @@ function (Backbone) {
 				'http://cdn.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
 				{maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
-			this.overlayMaps['FAO Fishing Zones'] = lyr;
+			this.overlayMaps['FAO Fishery Management Regions'] = lyr;
 			
 			
 			var group = new L.LayerGroup();

@@ -57,7 +57,7 @@ ACCESS_CHOICES = (
 
 CONSERVATION_FOCUS_CHOICES = (
     ('Unknown', 'Unknown'),
-    ('Biodiversity Protection'),
+    ('Biodiversity Protection', 'Biodiversity Protection'),
     ('Biomass Enhancement', 'Biomass Enhancement'),
     ('Cultural Heritage', 'Cultural Heritage'),
 )
@@ -88,10 +88,10 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
     ('Low', 'Low'),
 )
 
-'''
+
 class Mpa(models.Model):
     # ID / Name
-    mpa_id = models.IntegerField('MPA id', primary_key=True)
+    mpa_id = models.AutoField('MPA id', primary_key=True)
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
     usmpa_id = models.IntegerField('US MPA id', null=True, blank=True)
     name = models.CharField('Name', max_length=254)
@@ -128,9 +128,8 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact_url = models.CharField(max_length=254)
-    contact_agency = models.CharField(max_length=254)
-    contact_agency_address = models.TextField()
+    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True)
+    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', null=True)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
@@ -163,10 +162,15 @@ class Mpa(models.Model):
     wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
     notes = models.TextField('Area Notes')
     
+    # Summary Info
+    summary = models.TextField('MPA Summary Site Description', null=True, blank=True)
+    
     ## GEOGRAPHY
     is_point = models.BooleanField(default=False)
     
     # Full-res polygon features
+    # If is_point is true, this will be a box or circle based on the 
+    # area estimate (calculated from local UTM crs or a global equal area crs)
     geom_smerc = models.MultiPointField(srid=900913, null=True)
     geom = models.MultiPointField(srid=4326, null=True)
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
@@ -177,9 +181,9 @@ class Mpa(models.Model):
     simple_geog = models.MultiPointField(srid=4326, geography=True, null=True)
     
     # Point location
-    point_smerc = models.PointField(srid=900913, null=True)
-    point_geom = models.PointField(srid=4326, null=True)
-    point_geog = models.PointField(srid=4326, geography=True, null=True)
+    point_smerc = models.MultiPointField(srid=900913, null=True)
+    point_geom = models.MultiPointField(srid=4326, null=True)
+    point_geog = models.MultiPointField(srid=4326, geography=True, null=True)
     
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()
@@ -204,7 +208,22 @@ class Mpa(models.Model):
     @property
     def myfieldslist(self):
         return sorted(self.myfields.items())
-'''
+
+
+class WikiArticle(models.Model):
+    mpa = models.OneToOneField(Mpa, primary_key=True)
+    url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
+    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+
+
+class Contact(models.Model):
+    agency = models.CharField(max_length=500)
+    url = models.URLField(max_length=500)
+    address = models.TextField()
+
+# class MpaCandidateInfo(models.Model):
+#     pass
+
 
 class MpaCandidate(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
