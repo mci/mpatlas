@@ -231,6 +231,7 @@ class Mpa(models.Model):
         except:
             return None
     
+    @transaction.commit_on_success
     def set_point_within(self):
         '''Get a point on the geometry surface.
             Use a point already in the db if possible, otherwise calculate and save one.
@@ -240,6 +241,9 @@ class Mpa(models.Model):
             if self.is_point:
                 self.point_within = self.point_geom
             else:
+                validity = '%s invalid %s' % (self.mpa_id, self.geom.valid_reason)
+                if not self.geom.valid:
+                    return None
                 me = self.__class__.objects.centroid(field_name='geom').point_on_surface(field_name='geom').only('mpa_id').get(pk=self.pk)
                 # if the centroid intersects the polygon, use it, otherwise return the point_on_surface
                 centroid_inside = self.__class__.objects.filter(pk=self.pk, geom__intersects=me.centroid).count()
@@ -247,8 +251,11 @@ class Mpa(models.Model):
             self.save()
             return self.point_within
         except:
+            #print validity
+            #raise
             return None
-
+    
+    @transaction.commit_on_success
     def set_bbox(self):
         '''Get the geometry bounding box.
             Use a shape already in the db if possible, otherwise calculate and save one.
@@ -283,7 +290,7 @@ class Mpa(models.Model):
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857)")
         transaction.commit_unless_managed()
 
-@receiver(post_save, sender=Mpa)
+#@receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
     # Calculate things once an mpa object is created or updated
     # Disconnect post_save so we don't enter recursive loop

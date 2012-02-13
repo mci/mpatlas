@@ -135,7 +135,7 @@ function () {
 			if (operation.sorters && operation.sorters.length > 0) {
 				var sort = operation.sorters[0];
 				if (sort.property === 'designation') {
-					sort.property = 'desig_eng';
+					sort.property = 'designation_eng';
 				}
 				remoteURL += '&sort=' + sort.property;
 				if (sort.direction) {
