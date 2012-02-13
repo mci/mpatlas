@@ -19,7 +19,7 @@ urlpatterns = patterns('',
             queryset=Mpa.objects.order_by('name').defer(*Mpa.get_geom_fields()),
             context_object_name='mpa_list',
             paginate_by=30,
-            template_name='mpa/MpaPolygon_list.html'),
+            template_name='mpa/Mpa_list.html'),
         name='mpa-siteslist'),
     url(r'^sites/all/$',
         ListView.as_view(
