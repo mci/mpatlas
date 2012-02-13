@@ -75,7 +75,7 @@ function (Backbone) {
 			// EEZs / Nations		
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-				{id: 3, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
 			this.overlayLayers['Exclusive Economic Zones'] = lyr;
 			this.layers.push(lyr);
@@ -83,14 +83,14 @@ function (Backbone) {
 			// Marine Eco-Regions
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
-				{id: 4, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 6, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
 			this.overlayLayers['Marine Eco-Regions'] = lyr;
 			
 			// FAO Fishing Zones
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
-				{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 7, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
 			this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 			
@@ -98,7 +98,7 @@ function (Backbone) {
 			lyr = new L.TileLayer(
 				//'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
 				'http://mpatlas.s3.amazonaws.com/tilecache/mpas/{z}/{x}/{y}.png',
-				{id: 6, maxZoom: 9, opacity: 0.5, scheme: 'tms'}
+				{id: 3, maxZoom: 9, opacity: 0.5, scheme: 'tms'}
 			);
 			this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 			this.layers.push(lyr);
@@ -106,7 +106,7 @@ function (Backbone) {
 			// Candidate Marine Protected Areas
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-				{id: 7, maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
+				{id: 4, maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
 			);
 			this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 			this.layers.push(lyr);

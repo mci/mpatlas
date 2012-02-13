@@ -39,7 +39,7 @@
     {% if mpa_list %}
         <ul>
         {% for mpa in mpa_list %}
-            <li style="padding-bottom:3px;"><a href="{% url mpa-siteinfo mpa.pk %}" style="text-decoration:none;"><span style="font-size:1.2em;">{{ mpa.name }}</span> <em>({{ mpa.desig_eng }})</em> - {{ mpa.country }}</a></li>
+            <li style="padding-bottom:3px;"><a href="{% url mpa-siteinfo mpa.pk %}" style="text-decoration:none;"><span style="font-size:1.2em;">{{ mpa.name }}</span> <em>({{ mpa.designation_eng }})</em> - {{ mpa.country }}</a></li>
         {% endfor %}
         </ul>
     
