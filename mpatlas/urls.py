@@ -20,7 +20,7 @@ urlpatterns = patterns('',
      
      (r'^users/', include('accounts.urls')),
      
-     url(r'^mpa/', include('wdpa.urls')),
+     url(r'^mpa/', include('mpa.urls')),
      url(r'^region/', include('spatialdata.urls')),
      
      # Only redirect the top level /learn/ to mpapedia
