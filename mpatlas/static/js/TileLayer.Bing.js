@@ -26,5 +26,4 @@ L.TileLayer.Bing = L.TileLayer.extend({
 
         return this._url.replace('{subdomain}', subdomains[(xy.x + xy.y) % subdomains.length]).replace('{quadkey}', quadDigits.join(""));
     }
-
 });
