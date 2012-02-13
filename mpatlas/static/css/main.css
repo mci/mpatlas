@@ -261,7 +261,7 @@ a:active {
     height: 12px;
     margin: 0;
     padding: 3px 10px 5px 6px;
-    background: url("../images/textboxbg.png") repeat-x scroll 0 100% white;
+    /*background: url("../images/textboxbg.png") repeat-x scroll 0 100% white;*/
     border: 1px solid #A0A0A0;
     color: #606060;
     font: 14px/1.2em 'Helvetica Neue', 'Helvetica', 'Arial', 'Abel', verdana, sans-serif;
