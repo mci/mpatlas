@@ -1,7 +1,0 @@
-{
-    "mpas": [
-    {% for mpa in mpa_list %}
-        {"name": "{{ mpa.name }}", "country": "{{ mpa.country }}", "url": "{% url wdpa-siteinfo mpa.pk %}" }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-    ]
-}

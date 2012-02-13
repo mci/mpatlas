@@ -4,20 +4,22 @@ define([
   'json2',
   'persist',
   'leaflet',
-  'TileLayer.Bing'
+  'TileLayer.Bing',
+  'MPAtlas.list'
 ],
 function (Backbone) {  
     var MPAtlas = Backbone.View.extend({
 		proxy: '',
-		domain: 'http://' + document.domain + '/',
+		domain: 'http://' + document.domain,
 		//proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
 		//domain: 'http://mpatlas.org/',
 		
-		exploremodes: ['mpas', 'eez', 'meow', 'fao'],
-		currentmode: 'mpas',			
-
+		exploreModes: ['mpas', 'eez', 'meow', 'fao'],
+		defaultMode: 'mpas',
+		currentMode: null,
+        
         initialize: function(map) {
-
+            var mpatlas = this;
             if ($.type(map) === 'object') {
                 this.mapelem = (map.length) ? map[0] : map;
             } else {
@@ -27,6 +29,18 @@ function (Backbone) {
             this.makeMap();
             window['leafmap'] = this.map;
 
+			this.utils = new MPAtlas.Utils({
+				mpatlas: this
+			});
+            this.history = new MPAtlas.History({
+				mpatlas: this
+			});
+            this.initExploreButtons();
+            this.initMapHover();
+			this.getMapState();
+			
+			this.list = Ext.create('MPAtlas.list.Grid', {mpatlas: this});
+
             // resize body and contained map element
             // Depending on how the page/viewport container and the map body div are css styled,
             // this may or may not be necessary.
@@ -34,96 +48,73 @@ function (Backbone) {
             //this.resizeViewport();
             //$(window).resize(this.resizeViewport);
 
-            this.history = new MPAtlas.History();
-
-            this.initExploreButtons();
-			
-			var location = this.history.get('location', true);
-			if (location) {
-				this.map.panTo(location);
-			} else {
-				this.map.locate();
-			}
-			
-			var currMode = this.history.get('currentMode', true);
-			if (currMode) {
-				this.currentmode = currMode;
-			}
-			
-			this.initMapHover(); // do the hover initialization last
-			
         },
 
         // create Leaflet map
         makeMap: function() {
 
-			var layers = [];
-			this.bgMaps = {};
-			this.overlayMaps = {};
+			this.layers = [];
+			this.bgLayers = {};
+			this.overlayLayers = {};
 
+			// ESRI Oceans Layer
+			lyr = new L.TileLayer(
+				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
+				{id: 0, maxZoom: 9, opacity: 1}
+			);
+			this.bgLayers['Oceans'] = lyr;
+			this.layers.push(lyr);
+	
 			// Bing background layer for testing
 			var lyr = new L.TileLayer.Bing(
 				'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
-				{maxZoom: 18, opacity: 1}
-			)
-			this.bgMaps['Bing Maps'] = lyr;
-
-			// ESRI Oceans Layer
-			var lyr = new L.TileLayer(
-				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
-				{maxZoom: 9, opacity: 1}
+				{id: 2, maxZoom: 18, opacity: 0.6}
 			);
-			this.bgMaps['Oceans'] = lyr;
-			layers.push(lyr);
-	
+			this.bgLayers['Bing Maps'] = lyr;
+
 			// EEZs / Nations		
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 3, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
-			this.overlayMaps['Exclusive Economic Zones'] = lyr;
-			layers.push(lyr);
+			this.overlayLayers['Exclusive Economic Zones'] = lyr;
+			this.layers.push(lyr);
 			
 			// Marine Eco-Regions
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 4, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
-			this.overlayMaps['Marine Eco-Regions'] = lyr;
+			this.overlayLayers['Marine Eco-Regions'] = lyr;
 			
 			// FAO Fishing Zones
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+				{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
-			this.overlayMaps['FAO Fishery Management Regions'] = lyr;
-			
-			
-			var group = new L.LayerGroup();
+			this.overlayLayers['FAO Fishing Zones'] = lyr;
 			
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
 				//'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
 				'http://mpatlas.s3.amazonaws.com/tilecache/mpas/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.5, scheme: 'xyz'}
+				{id: 6, maxZoom: 9, opacity: 0.5, scheme: 'tms'}
 			);
-			this.overlayMaps['Designated Marine Protected Areas'] = lyr;
-			group.addLayer(lyr);
+			this.overlayLayers['Designated Marine Protected Areas'] = lyr;
+			this.layers.push(lyr);
 			
 			// Candidate Marine Protected Areas
 			lyr = new L.TileLayer(
 				'http://cdn.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-				{maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
+				{id: 7, maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
 			);
-			this.overlayMaps['Candidate Marine Protected Areas'] = lyr;
-			group.addLayer(lyr);
-
-			layers.push(group);
+			this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
+			this.layers.push(lyr);
 
             this.map = new L.Map(this.mapelem, {
 				center: new L.LatLng(0, 0),
 				zoom: 2,
-				layers: layers,
+				layers: this.layers,
 				minZoom: 0,
 				maxZoom: 12,
 				attributionControl:false
@@ -134,23 +125,39 @@ function (Backbone) {
 			// override the position of layer control			
 			L.Control.Layers.prototype.getPosition = function () {
 				return L.Control.Position.BOTTOM_LEFT;
-			}
+			};
 			
 			this.layersControl = new L.Control.Layers(
-				this.bgMaps,
-				this.overlayMaps,
+				this.bgLayers,
+				this.overlayLayers,
 				{
 					collapsed: !L.Browser.touch
 				}
 			);
 			this.map.addControl(this.layersControl);
 			
-			this.map.on('locationfound', function(location) {
-				mpatlas.map.panTo(location.latlng);
+			this.map.on('viewreset', function (e) {
+				try {
+					mpatlas.saveMapLocation();
+				} catch (ex) {}
 			});
 
-			this.map.on('viewreset', function(location) {
-				mpatlas.saveLocation(location);
+			this.map.on('moveend', function (e) {
+				try {
+					mpatlas.saveMapLocation();
+				} catch (ex) {}
+			});
+
+			this.map.on('layeradd', function (e) {
+				try {
+					mpatlas.layerAdded(e);
+				} catch (ex) {}
+			});
+
+			this.map.on('layerremove', function (e) {
+				try {
+					mpatlas.layerRemoved(e);
+				} catch (ex) {}
 			});
 
             // In case you need multiple markers on each of the "wrapped" worlds when zoomed out, or when
@@ -169,6 +176,92 @@ function (Backbone) {
         },
 		*/
 
+		switchToMapView: function () {
+			$('#btnListMode').removeClass('selected');
+			$('#btnMapMode').addClass('selected');
+			$('.leaflet-control-container').show();
+			var sel = $('#body_list_full');
+			sel.fadeOut(600);
+			// The code below is really hacky, clean up maptip api when we can
+			//mpatlas.maptip.enableMapTip(); // Not needed, maphover events will bring it back automatically
+			if (mpatlas.maptip.locked) {
+			    mpatlas.maptip.disable = false;
+			    mpatlas.maptip.showMapTip();
+			}
+		},
+		
+		switchToListView: function () {
+			mpatlas.maptip.disableMapTip();
+			$('#btnMapMode').removeClass('selected');
+			$('#btnListMode').addClass('selected');
+
+			var sel = $('#body_list_full');
+			sel.fadeIn(600);
+
+			$('.leaflet-control-container').hide();
+			
+			if (mpatlas.list) {
+				var sz = {
+					height: sel.height() - 44,
+					width:  sel.width() - 200
+				};
+				mpatlas.list.setSize(sz);
+				mpatlas.list.doLayout();
+			}
+			//$('#mpa-list-container').css('opacity', 0.8);
+		},
+		
+		getMapState: function () {
+			var qs = new this.utils.queryString();
+			var y = qs.get('lat');
+			var x = qs.get('lng');
+			if (y && !x) {
+				x = qs.get('lon');
+			} else if (!y) {
+				x = qs.get('x');
+				y = qs.get('y');
+			}
+			var z = qs.get('zoom');
+			if (!z) {
+				z = qs.get('z');
+			}
+			
+			if (x && y && z) {
+				if (z === this.map.getZoom()) {
+					this.map.panTo(new L.LatLng(y, x));					
+				} else {
+					this.map.setView(new L.LatLng(y, x), z);
+				}
+			} else {
+				var location = this.history.get('location', true);
+				if (location && location.center) {
+					if (location.zoom === this.map.getZoom()) {
+						this.map.panTo(location.center);					
+					} else {
+						this.map.setView(location.center, location.zoom);
+					}
+				} else {
+					
+					// get the users location
+					this.map.on('locationfound', function (location) {
+						mpatlas.map.panTo(location.latlng);
+					});
+					this.map.locate();
+				}				
+			}
+
+			var explMode = this.history.get('exploreMode');
+			this.setExploreMode((explMode) ? explMode : this.defaultMode);
+		},
+		
+		layerAdded: function (e) {
+			var lyr = e.layer;
+		},
+		
+		layerRemoved: function (e) {
+			var lyr = e.layer;
+		},
+
         initExploreButtons: function() {
             var mpatlas = this;
             buttons = $('.explore_button');
@@ -177,15 +270,21 @@ function (Backbone) {
                 var mode = button.id.replace('explore_', '');
                 (function(button, mode) {
                     $(button).on('click', function(e) {
-                        if (mpatlas.currentmode != mode) {
-                            mpatlas.currentmode = mode;
-                            $('.explore_button.selected').removeClass('selected');
-                            $(button).addClass('selected');
-                            mpatlas.maptip.toggleEvents(true);
-                            mpatlas.maptip.hideMapTip();
-                        }
+                        mpatlas.setExploreMode(mode);
                     });
                 })(button, mode);
+            }
+        },
+        
+        setExploreMode: function(mode) {
+            var mpatlas = this;
+            if (mpatlas.currentMode !== mode) {
+                mpatlas.currentMode = mode;
+				mpatlas.history.set('exploreMode', mode);
+                $('.explore_button.selected').removeClass('selected');
+                $('#explore_' + mode).addClass('selected');
+                mpatlas.maptip.disableMapTip();
+                mpatlas.maptip.toggleEvents(true);
             }
         },
 
@@ -199,11 +298,25 @@ function (Backbone) {
             }); // setup maptip element and behavior
 
             this.registerMapHover(); // assign actions on mouse hover/pause and click for map layer feature lookup
-            this.maptip.toggleEvents(true); // activate the maptip event registration
+            //this.maptip.toggleEvents(true); // activate the maptip event registration
+            //this.maptip.hideMapTip();
+            //this.maptip.disableMapTip();
 
             // give them an initial map tip with a hint
-			$('#maptip-content').html('Pause your mouse over the map<br/>to discover MPAs in that area.');
+			//$('#maptip-content').html('Pause your mouse over the map<br/>to discover nearby MPAs');
 
+		},
+		
+		saveMapLocation: function () {
+			var loc = {
+				center: mpatlas.map.getCenter(),
+				zoom: mpatlas.map.getZoom()
+			};
+			mpatlas.history.set('location', loc, true);			
+		},
+		
+		zoomToMPA: function (id) {
+			
 		},
 
         registerMapHover: function() {
@@ -226,14 +339,15 @@ function (Backbone) {
                         if (typeof $('#maptip-content').data('orightml') === 'undefined') {
                             $('#maptip-content').data('orightml', $('#maptip-content').html());
                         }
-						maptip.enableMapTip();
+						//maptip.enableMapTip();
+						$('html').addClass('busy'); // Add progress cursor when searching
 
-                        switch (mpatlas.currentmode) {
+                        switch (mpatlas.currentMode) {
 
                         case 'mpas':
-	                        $('#maptip-content').html('Searching for MPAs...');
+	                        //$('#maptip-content').html('Searching for MPAs...');
 							
-							url = mpatlas.domain + 'mpa/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
+							url = mpatlas.domain + '/mpa/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
 							if (mpatlas.proxy && mpatlas.proxy !== '') {
 								url = mpatlas.proxy + escape(url);
 							}
@@ -242,23 +356,29 @@ function (Backbone) {
                                 success: function(data) {
                                     mpatlas.featuredata = data;
                                     var mpahtml = '';
-                                    mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>'
+                                    mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>';
                                     for (var i = 0; i < data.mpas.length; i++) {
                                         mpa = data.mpas[i];
                                         mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
                                     }
-                                    if (data.mpas.length == 0) {
-                                        mpahtml = 'No MPAs at this location';
-                                        //mpahtml = '';
-                                        //maptip.disableMapTip();
-										//return;
+                                    if (data.mpas.length === 0) {
+                                        //mpahtml = 'No MPAs at this location';
+                                        mpahtml = '';
+                                        $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                        maptip.disableMapTip();
+										return;
                                     }
                                     $('#maptip-content').data('latlon', {
                                         lat: ll.lat,
                                         lon: ll.lon
                                     });
+                                    $('html').removeClass('busy'); // Remove progress cursor when done searching
                                     $('#maptip-content').html(mpahtml);
+                                    maptip.enableMapTip();
 									maptip.offset = $('#leafletmap').offset();
+                                },
+                                error: function() {
+                                    $('html').removeClass('busy'); // Add progress cursor when searching
                                 }
                             });
                             break;
@@ -266,11 +386,11 @@ function (Backbone) {
                         case 'eez':
                         case 'meow':
 						case 'fao':
-	                        $('#maptip-content').html('Searching for Region...');
+	                        //$('#maptip-content').html('Searching for Region...');
 
                             radius = 0.00000001;
 
-							url = mpatlas.domain + 'region/' + mpatlas.currentmode + '/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
+							url = mpatlas.domain + '/region/' + mpatlas.currentMode + '/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
 							if (mpatlas.proxy && mpatlas.proxy !== '') {
 								url = mpatlas.proxy + escape(url);
 							}
@@ -283,14 +403,15 @@ function (Backbone) {
                                     mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
                                     if (data.regions.length > 0) {
                                         var region = data.regions[0]; // Just report one region at a time
-                                        mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentmode + '/' + region.id + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
+                                        mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
+										mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
                                         mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
                                         mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
                                         mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
                                         mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
 
                                         // Load feature from GeoJSON
-										url = mpatlas.domain + 'region/' + mpatlas.currentmode + '/' + region.id + '/features/';
+										url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + region.id + '/features/';
 										if (mpatlas.proxy && mpatlas.proxy !== '') {
 											url = mpatlas.proxy + escape(url);
 										}
@@ -318,16 +439,19 @@ function (Backbone) {
                                             }
                                         });
                                     } else {
-                                        mpahtml = 'No Region at this location';
-                                        //mpahtml = '';
-                                        //maptip.disableMapTip();
-										//return;
+                                        //mpahtml = 'No Region at this location';
+                                        mpahtml = '';
+                                        $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                        maptip.disableMapTip();
+										return;
                                     }
                                     $('#maptip-content').data('latlon', {
                                         lat: ll.lat,
                                         lon: ll.lon
                                     });
                                     $('#maptip-content').html(mpahtml);
+                                    $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                    maptip.enableMapTip();
                                 }
                             });
                             break;
@@ -346,9 +470,9 @@ function (Backbone) {
                 },
                 mapclick: function(mapevent) {
                     if (!maptip.locked) {
-                        switch (mpatlas.currentmode) {
+                        switch (mpatlas.currentMode) {
                         case 'mpas':
-                            if (mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length == 1) {
+                            if (mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
                                 window.location = mpatlas.featuredata.mpas[0].url;
                             } else {
                                 maptip.toggleEvents(false);
@@ -358,13 +482,19 @@ function (Backbone) {
                         case 'meow':
 						case 'fao':
                             if (mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length >= 1) {
-                                window.location = '/region/' + mpatlas.currentmode + '/' + mpatlas.featuredata.regions[0].id;
+                                window.location = '/region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id;
                             } else {
                                 maptip.toggleEvents(false);
                             }
                             break;
                         }
                     } else {
+                        mpatlas.featuredata = {};
+                        $('#maptip-content').html($('#maptip-content').data('orightml'));
+                        if (mpatlas.highlightlayer) {
+                            mpatlas.map.removeLayer(mpatlas.highlightlayer);
+                        }
+                        maptip.disableMapTip(null, true); // immediate hide
                         maptip.toggleEvents(true);
                     }
                 }
@@ -413,24 +543,63 @@ function (Backbone) {
                 crs = this.map.options.crs; // undocumented access to map projection functions
             var resolution = (crs.project(bounds.getNorthEast()).y - crs.project(bounds.getSouthWest()).y) / this.map.getSize().y;
             return (resolution * pxradius) / 1000;
-		},
-		
-		saveLocation: function (location) {
-			this.history.set('location', location, true)
 		}
     });
+	
+	MPAtlas.Utils = Backbone.View.extend({
+		initialize: function (options) {
+            this.mpatlas = options.mpatlas;
+		},
+		
+		queryString: function (qs) {
+			this.get = function (key, def) {
+				if (!def) {
+					def = null;
+				}
+				var val = this.params[key];
+				if (!val || val === null) {
+					val = def;
+				}
+				return val;
+			};
+			this.params = {};
+	
+			if (!qs) {
+				qs = location.search.substring(1, location.search.length);
+			}
+			if (qs.length === 0) {
+				return;
+			}
+			qs = qs.replace(/\+/g, ' ');
+			var args = qs.split('&');
+			var len = args.length;
+			for (var i = 0; i < len; i++) {
+				var value, name;
+				var q = args[i].split('=');
+				name = unescape(q[0]).toLowerCase();
+				if (name !== '') {
+					if (q.length === 2) {
+						value = unescape(q[1]);
+					} else {
+						value = '';
+					}
+					this.params[name] = value;
+				}
+			}
+		}
+	});
 
 	MPAtlas.History = Backbone.View.extend({
 		initialize: function (options) {
+            this.mpatlas = options.mpatlas;
 			this.localStorage = new Persist.Store('MPAtlas', {
 				about: 'Local Store for MPAtlas',
-				expires: 30
+				expires: 0.5 // 1/2 day or 12 hours
 			});
 			
 		},
 		
 		set: function (key, value, encode) {
-			return;
 			if (encode) {
 				value = JSON.stringify(value);
 			}
@@ -438,16 +607,15 @@ function (Backbone) {
 		},
 		
 		get: function (key, decode) {
-			return '';
 			var value = this.localStorage.get(key);
 			if (decode) {
 				value = JSON.parse(value);
 			}
 			return value;
 		}
-	})
+	});
 
-    //MPAtlas.prototype.MapTip2 = Backbone.View.extend({
+    //MPAtlas.prototype.MapTip = Backbone.View.extend({
     MPAtlas.MapTip = Backbone.View.extend({
         // define maptip behaviors and initialize
         initialize: function(options) {
@@ -462,10 +630,10 @@ function (Backbone) {
             this.timer = null;
             this.disable = true;
             this.offset = {
-                left: 0,
+                left: 9000,
                 top: 0
             };
-            maptip.locked = false;
+            maptip.locked = true; // initial value needs to be true
 
             //var offsetX = event.pageX - offset.left;
             //var offsetY = event.pageY - offset.top;
@@ -478,7 +646,7 @@ function (Backbone) {
                 }
             };
 
-            this.hideMapTip = function(event, fake, immediate) {
+            this.hideMapTip = function(event, immediate) {
                 if (immediate) {
                     $('#maptip').addClass('nodisplay').addClass('hidden');
                 } else {
@@ -500,9 +668,9 @@ function (Backbone) {
                 });
             };
 
-            this.disableMapTip = function(e) {
+            this.disableMapTip = function(e, immediatehide) {
                 maptip.disable = true;
-                maptip.hideMapTip(e, false); // true = hide immediate, false = fade out
+                maptip.hideMapTip(e, immediatehide); // true = hide immediate, false = fade out
             };
 
             this.enableMapTip = function(e) {
@@ -511,14 +679,15 @@ function (Backbone) {
                     maptip.toggleEvents(true); //  break locked maptip by renabling mouse events
                 }
                 //if (!maptip.hidden) {
-                    maptip.showMapTip(e);
                 //}
+                maptip.showMapTip(e);
             };
 
             mpatlas.map.on('movestart', maptip.disableMapTip);
-            mpatlas.map.on('moveend', maptip.enableMapTip);
-
-            //mpatlas.toggleEvents(true);
+            //mpatlas.map.on('moveend', maptip.enableMapTip);
+            mpatlas.map.on('moveend', function() {
+                maptip.toggleEvents(true);
+            });
         },
 
         // make maptip responsive (or not responsive) to mouse and map events
@@ -526,15 +695,17 @@ function (Backbone) {
         toggleEvents: function(respond_to_events) {
             var maptip = this;
             if ($.type(respond_to_events) === 'undefined' || respond_to_events) {
-                //console.log('toggleMapTipEvents');
+                if (this.locked) {
+                    console.log('toggleMapTipEvents');
 				
-                // enable maptip events
-                // jquery custom events that prevents mouseover bubbling from child nodes
-                $(this.mpatlas.mapelem).on('mouseenter.maptip', this.showMapTip);
-                $(this.mpatlas.mapelem).on('mouseleave.maptip', this.hideMapTip);
-                $(window).on('mousemove.maptip', this.moveMapTip);
+                    // enable maptip events
+                    // jquery custom events that prevents mouseover bubbling from child nodes
+                    $(this.mpatlas.mapelem).on('mouseenter.maptip', this.showMapTip);
+                    $(this.mpatlas.mapelem).on('mouseleave.maptip', this.hideMapTip);
+                    $(window).on('mousemove.maptip', this.moveMapTip);
 
-                this.locked = false;
+                    this.locked = false;
+                }
             } else {
                 //console.log('toggleMapTipEvents false');
 				
