@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 
 class Eez(models.Model):
-    # Regular fields corresponding to attributes in wdpa shpfile  
+    # Regular fields corresponding to attributes in shpfile  
     eez = models.CharField(max_length=200)
     country = models.CharField(max_length=100)
     objectid = models.IntegerField()
@@ -14,7 +14,7 @@ class Eez(models.Model):
     area = models.FloatField()
     
     # Spatial analyses and stats for MPAs
-    mpas = models.ManyToManyField('wdpa.WdpaPolygon', through='EezMembership', verbose_name="MPAs within this EEZ")
+    mpas = models.ManyToManyField('mpa.Mpa', through='EezMembership', verbose_name="MPAs within this EEZ")
     
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
@@ -46,11 +46,11 @@ class Eez(models.Model):
 
 class EezMembership(models.Model):
     eez = models.ForeignKey(Eez)
-    mpa = models.ForeignKey('wdpa.WdpaPolygon')
+    mpa = models.ForeignKey('mpa.Mpa')
     area_in_eez = models.FloatField('mpa area in eez (m2)', null=True)
 
 class EezSimplified(models.Model):
-    # Regular fields corresponding to attributes in wdpa shpfile  
+    # Regular fields corresponding to attributes in shpfile  
     eez = models.CharField(max_length=200)
     country = models.CharField(max_length=100)
     objectid = models.IntegerField()
