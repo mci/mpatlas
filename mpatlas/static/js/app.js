@@ -92,7 +92,7 @@ function (Backbone) {
 				'http://cdn.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
 				{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
 			);
-			this.overlayLayers['FAO Fishing Zones'] = lyr;
+			this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 			
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
