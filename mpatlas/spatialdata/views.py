@@ -6,7 +6,7 @@ from django.db.models import Q
 import re
 
 from django.views.generic import ListView
-from wdpa.views import MpaListView, MpaJsonListView
+from mpa.views import MpaListView, MpaJsonListView
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
@@ -120,7 +120,7 @@ def region_lookup_point(request, region):
             point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference('WGS84').srid)
             point.transform(900913) # Google Spherical Mercator srid
             point360.transform(900913)
-            #mpa_list = WdpaPolygon.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
+            #mpa_list = Mpa.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
             region_list = region.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*region.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
