@@ -240,7 +240,7 @@ class Mpa(models.Model):
             if self.is_point:
                 self.point_within = self.point_geom
             else:
-                me = self.__class__.objects.centroid(field_name='geom').point_on_surface(field_name='geom').only('geom').get(pk=self.pk)
+                me = self.__class__.objects.centroid(field_name='geom').point_on_surface(field_name='geom').only('mpa_id').get(pk=self.pk)
                 # if the centroid intersects the polygon, use it, otherwise return the point_on_surface
                 centroid_inside = self.__class__.objects.filter(pk=self.pk, geom__intersects=me.centroid).count()
                 self.point_within = me.centroid if centroid_inside else me.point_on_surface
@@ -260,10 +260,9 @@ class Mpa(models.Model):
                 self.bbox_lowerleft = self.point_geom
                 self.bbox_upperright = self.point_geom
             else:
-                me = self.__class__.objects.extent(field_name='geom').only('id').get(pk=self.pk)
-                me.extent
-                self.bbox_lowerleft = geos.Point(me.extent[0], me.extent[1], srid=gdal.SpatialReference('WGS84').srid)
-                self.bbox_upperright = geos.Point(me.extent[2], me.extent[3], srid=gdal.SpatialReference('WGS84').srid)
+                extent = self.__class__.objects.only('mpa_id').filter(pk=self.pk).extent(field_name='geom')
+                self.bbox_lowerleft = geos.Point(extent[0], extent[1], srid=gdal.SpatialReference('WGS84').srid)
+                self.bbox_upperright = geos.Point(extent[2], extent[3], srid=gdal.SpatialReference('WGS84').srid)
             self.save()
             return (self.bbox_lowerleft, self.bbox_upperright)
         except:

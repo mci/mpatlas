@@ -516,7 +516,6 @@ function (Backbone) {
 			pixeltolerance = (pixeltolerance) ? pixeltolerance : 1;
 			
             this.map.on('mousemove', function(e) {
-                console.log('leaflet mousemove event');
                 // this is a leaflet map MouseEvent, not a jquery event
                 if (hovered && (Math.abs(e.layerPoint.x - lastpoint.x) > pixeltolerance || Math.abs(e.layerPoint.y - lastpoint.y) > pixeltolerance)) {
                     hovered = false;
@@ -531,7 +530,6 @@ function (Backbone) {
                         };
                         hovered = true;
                         $(map).trigger('maphover', [e]);
-                        console.log('fire hover');
                     }, delay);
                 }
             });
@@ -703,8 +701,6 @@ function (Backbone) {
             var maptip = this;
             if ($.type(respond_to_events) === 'undefined' || respond_to_events) {
                 if (this.locked) {
-                    console.log('toggleMapTipEvents');
-				
                     // enable maptip events
                     // jquery custom events that prevents mouseover bubbling from child nodes
                     $(this.mpatlas.mapelem).on('mouseenter.maptip', this.showMapTip);
@@ -714,8 +710,6 @@ function (Backbone) {
                     this.locked = false;
                 }
             } else {
-                //console.log('toggleMapTipEvents false');
-				
                 // disable maptip event tracking
                 // jquery custom events that prevents mouseover bubbling from child nodes
                 $(this.mpatlas.mapelem).off('mouseenter.maptip', this.showMapTip);
