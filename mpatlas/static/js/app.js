@@ -340,7 +340,7 @@ function (Backbone) {
                             $('#maptip-content').data('orightml', $('#maptip-content').html());
                         }
 						//maptip.enableMapTip();
-						$('html').addClass('busy'); // Add progress cursor when searching
+						$(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
 
                         switch (mpatlas.currentMode) {
 
@@ -364,7 +364,7 @@ function (Backbone) {
                                     if (data.mpas.length === 0) {
                                         //mpahtml = 'No MPAs at this location';
                                         mpahtml = '';
-                                        $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                        $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
                                         maptip.disableMapTip();
 										return;
                                     }
@@ -372,13 +372,13 @@ function (Backbone) {
                                         lat: ll.lat,
                                         lon: ll.lon
                                     });
-                                    $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                    $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
                                     $('#maptip-content').html(mpahtml);
                                     maptip.enableMapTip();
 									maptip.offset = $('#leafletmap').offset();
                                 },
                                 error: function() {
-                                    $('html').removeClass('busy'); // Add progress cursor when searching
+                                    $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
                                 }
                             });
                             break;
@@ -411,7 +411,7 @@ function (Backbone) {
                                         mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
 
                                         // Load feature from GeoJSON
-										url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + region.id + '/features/';
+										url = mpatlas.domain + '/region/' + mpatlas.currentMode + '/' + region.id + '/features/';
 										if (mpatlas.proxy && mpatlas.proxy !== '') {
 											url = mpatlas.proxy + escape(url);
 										}
@@ -441,7 +441,7 @@ function (Backbone) {
                                     } else {
                                         //mpahtml = 'No Region at this location';
                                         mpahtml = '';
-                                        $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                        $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
                                         maptip.disableMapTip();
 										return;
                                     }
@@ -450,8 +450,11 @@ function (Backbone) {
                                         lon: ll.lon
                                     });
                                     $('#maptip-content').html(mpahtml);
-                                    $('html').removeClass('busy'); // Remove progress cursor when done searching
+                                    $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
                                     maptip.enableMapTip();
+                                },
+                                error: function() {
+                                    $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
                                 }
                             });
                             break;
@@ -513,20 +516,24 @@ function (Backbone) {
 			pixeltolerance = (pixeltolerance) ? pixeltolerance : 1;
 			
             this.map.on('mousemove', function(e) {
+                console.log('leaflet mousemove event');
                 // this is a leaflet map MouseEvent, not a jquery event
                 if (hovered && (Math.abs(e.layerPoint.x - lastpoint.x) > pixeltolerance || Math.abs(e.layerPoint.y - lastpoint.y) > pixeltolerance)) {
                     hovered = false;
+                    clearTimeout(hovertimer);
                     $(map).trigger('maphoverclear', [e]);
+                } else if (!hovered) {
+                    clearTimeout(hovertimer);
+                    hovertimer = setTimeout(function() {
+                        lastpoint = {
+                            x: e.layerPoint.x,
+                            y: e.layerPoint.y
+                        };
+                        hovered = true;
+                        $(map).trigger('maphover', [e]);
+                        console.log('fire hover');
+                    }, delay);
                 }
-                clearTimeout(hovertimer);
-                hovertimer = setTimeout(function() {
-                    lastpoint = {
-                        x: e.layerPoint.x,
-                        y: e.layerPoint.y
-                    };
-                    hovered = true;
-                    $(map).trigger('maphover', [e]);
-                }, delay);
             });
             this.map.on('mouseout', function(e) {
                 clearTimeout(hovertimer);

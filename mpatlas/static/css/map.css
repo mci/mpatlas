@@ -3,7 +3,7 @@
     -webkit-font-smoothing: subpixel-antialiased !important;
 }
 
-html.busy, html.busy * {  
+.busy, .busy * {  
   cursor: progress !important;  
 }
 
@@ -151,7 +151,7 @@ body {
 }
 
 .x-grid-row a {
-    color: #000000;
+    /*color: #000000;*/
 }
 .x-grid-row .x-grid-cell-first, .x-column-header {
     color: white;

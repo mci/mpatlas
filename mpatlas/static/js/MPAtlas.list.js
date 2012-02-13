@@ -12,7 +12,7 @@ function () {
 		
 		//proxy: '/terraweave/features.ashx?url=', // needed for testing cross-domain
 		domain: 'http://' + document.domain,
-		url: domain + '/mpa/sites/json/',
+		url: 'http://' + document.domain + '/mpa/sites/json/',
 		filterMinChars: 2,
 	
 		filterStore: function () {
