@@ -210,18 +210,19 @@ class Mpa(models.Model):
     def get_geom_fields(cls):
         return ('geog', 'geom', 'geom_smerc', 
             'simple_geog', 'simple_geom', 'simple_geom_smerc', 
-            'point_geog', 'point_geom', 'point_geom_smerc')
-
+            'point_geog', 'point_geom', 'point_geom_smerc',
+            'point_within', 'bbox_lowerleft', 'bbox_upperright')
+    
     @property
-    def myfields(self):
+    def my_fields(self):
         d = {}
-        for field in MpaCandidate._meta.fields:
+        for field in self._meta.fields:
             d[field.name] = { "verbose": field.verbose_name, "value": field.value_to_string(self) }
         return d
 
     @property
-    def myfieldslist(self):
-        return sorted(self.myfields.items())
+    def my_fields_list(self):
+        return sorted(self.my_fields.items())
     
     # Keep ourselves from having to always test if onetoone exists for wikiarticle
     @property
@@ -239,20 +240,15 @@ class Mpa(models.Model):
         # Make PostGIS calculate this for us
         try:
             if self.is_point:
-                self.point_within = self.point_geom
+                self.point_within = self.point_geom[0] # setting point with first feature in multipoint
             else:
-                validity = '%s invalid %s' % (self.mpa_id, self.geom.valid_reason)
                 if not self.geom.valid:
                     return None
-                me = self.__class__.objects.centroid(field_name='geom').point_on_surface(field_name='geom').only('mpa_id').get(pk=self.pk)
-                # if the centroid intersects the polygon, use it, otherwise return the point_on_surface
-                centroid_inside = self.__class__.objects.filter(pk=self.pk, geom__intersects=me.centroid).count()
-                self.point_within = me.centroid if centroid_inside else me.point_on_surface
+                me = self.__class__.objects.point_on_surface(field_name='geom').only('mpa_id').get(pk=self.pk)
+                self.point_within = me.point_on_surface
             self.save()
             return self.point_within
         except:
-            #print validity
-            #raise
             return None
     
     @transaction.commit_on_success
@@ -264,9 +260,11 @@ class Mpa(models.Model):
         # Make PostGIS calculate this for us
         try:
             if self.is_point:
-                self.bbox_lowerleft = self.point_geom
-                self.bbox_upperright = self.point_geom
+                self.bbox_lowerleft = self.point_geom[0] # setting point with first feature in multipoint
+                self.bbox_upperright = self.point_geom[0]
             else:
+                if not self.geom.valid:
+                    return None
                 extent = self.__class__.objects.only('mpa_id').filter(pk=self.pk).extent(field_name='geom')
                 self.bbox_lowerleft = geos.Point(extent[0], extent[1], srid=gdal.SpatialReference('WGS84').srid)
                 self.bbox_upperright = geos.Point(extent[2], extent[3], srid=gdal.SpatialReference('WGS84').srid)

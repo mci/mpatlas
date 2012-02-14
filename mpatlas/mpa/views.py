@@ -46,6 +46,34 @@ class MpaJsonListView(MpaListView):
     def render_to_response(self, context, **kwargs):
         return super(MpaJsonListView, self).render_to_response(context, content_type='application/json; charset=utf-8', **kwargs)
 
+def get_mpa_geom_wkt(request, pk, simplified=True, webmercator=False):
+    geomfield = 'geom'
+    if (webmercator):
+        geomfield = 'geom_smerc'
+    if simplified:
+        geomfield = 'simple_' + geomfield
+    mpa = Mpa.objects.only(geomfield).get(pk=pk)
+    return HttpResponse(getattr(mpa,geomfield).wkt, content_type='text/plain; charset=utf-8')
+
+def get_mpa_geom_json(request, pk, simplified=True, webmercator=False):
+    try:
+        simplified = (not request.GET['simplified'].upper() == 'FALSE')
+    except:
+        pass
+    try:
+        webmercator = (request.GET['webmercator'].upper() == 'TRUE')
+    except:
+        pass
+    geomfield = 'geom'
+    if (webmercator):
+        geomfield = 'geom_smerc'
+    if simplified:
+        geomfield = 'simple_' + geomfield
+    mpa = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields()).get(pk=pk)
+    geojson = mpa.geojson if not mpa.is_point else mpa.geojson_point
+    return HttpResponse(geojson, content_type='application/json; charset=utf-8')
+
+
 def normalize_lon(lon):
     if (not -180 <= lon <= 180):
         lon = lon % 360

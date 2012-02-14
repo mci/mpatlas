@@ -488,6 +488,7 @@ ul#mainmenu ul li {
 }
 
 .sidebar_item_title {
+    position: relative;
     min-width: 200px;
     float:left;
     padding: 2px;
@@ -499,9 +500,11 @@ ul#mainmenu ul li {
     font-size:14px;
     background-color: #3C6289;
     border-radius: 8px;
+    z-index: 3;
 }
 
 .sidebar_item_content {
+    position: relative;
     clear: both;
     width: 90%;
     background-color: white;
@@ -512,6 +515,10 @@ ul#mainmenu ul li {
     margin-bottom: 10px;
     border: 1px solid #3C6289;
     border-radius: 8px;
+    z-index: 1;
+    box-shadow: 1px 1px 3px #888;
+    -moz-box-shadow: 1px 1px 3px #888;
+    -webkit-box-shadow: 1px 1px 4px #999;
 }
 
 .sidebar_item_content a {
@@ -541,7 +548,7 @@ ul#mainmenu ul li {
 }
 
 .siteinfo .infolist {
-    height: 12em;
+    height: 8em;
     overflow: hidden;
     
 }
