@@ -71,10 +71,8 @@
         <div id="siteinfotitle" class="sidebar_item_title">Site Information</div>
     	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
-            {% for key, value in mpa.my_fields_list %}
-                {% if not key in mpa.get_geom_fields %}
+            {% for key, value in mpa.display_fields_list %}
                 <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
-                {% endif %}
             {% endfor %}
             </ul>
             <a id="infoexpander" class="infoexpander" style="display:block;" href="#" onclick="return false;"><span class="expander"><span style="font-style:normal;">&dArr;</span> See all data records for this site</span><span class="collapser"><span style="font-style:normal;">&uArr;</span> Show less</span></a>
@@ -87,7 +85,7 @@
                 {{ mpa.name }}
                 <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
             </p>
-            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}</h4>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
             
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">
