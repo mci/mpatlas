@@ -37,7 +37,7 @@ urlpatterns = patterns('',
             model=Eez,
             queryset=Eez.objects.defer(*Eez.get_geom_fields()),
             context_object_name='mpa',
-            template_name='mpa/Mpa_detail.html'),
+            template_name='mpa/Mpa_detail.json'),
         name='eez-infojson'),
     url(r'^eez/(?P<pk>\d+)/features/$', 'spatialdata.views.get_eez_geom_json', name='eez-geojson'),
 

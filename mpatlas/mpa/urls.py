@@ -42,6 +42,14 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.html'),
         name='mpa-siteinfo'),
+    url(r'^sites/(?P<pk>\d+)/json/$',
+        DetailView.as_view(
+            model=Mpa,
+            queryset=Mpa.objects.defer(*Mpa.get_geom_fields()),
+            context_object_name='mpa',
+            template_name='mpa/Mpa_detail.json'),
+        name='mpa-infojson'),
+    url(r'^sites/(?P<pk>\d+)/features/$', 'mpa.views.get_mpa_geom_json', name='mpa-geojson'),
     
     url(r'^lookup/point/$', 'mpa.views.lookup_point'),
     

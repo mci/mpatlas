@@ -14,16 +14,24 @@ function (Backbone) {
 		//proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
 		//domain: 'http://mpatlas.org/',
         
-        initialize: function(map) {
+        initialize: function(map, siteid, feature_url, is_point, point, bbox) {
             var that = this;
             if ($.type(map) === 'object') {
                 this.mapelem = (map.length) ? map[0] : map;
             } else {
                 this.mapelem = $('#' + map)[0]; // Assume it's an element id string
             }
+            this.siteid = siteid;
+            this.feature_url = feature_url;
+            this.is_point = is_point;
+            this.point = point;
+            this.bbox = bbox;
 
             this.makeMap();
             window['leafmap'] = this.map;
+            
+            this.loadFeature();
+            this.zoomToFeature();
         },
 
         // create Leaflet map
@@ -39,12 +47,12 @@ function (Backbone) {
 				{id: 0, maxZoom: 9, opacity: 1}
 			);
 			this.bgLayers['Oceans'] = lyr;
-			this.layers.push(lyr);
+			//this.layers.push(lyr);
 	
 			// Bing background layer for testing
 			var lyr = new L.TileLayer.Bing(
 				'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
-				{id: 2, maxZoom: 18, opacity: 0.6}
+				{id: 2, maxZoom: 18, opacity: 1}
 			);
 			this.bgLayers['Bing Maps'] = lyr;
 			this.layers.push(lyr);
@@ -153,8 +161,58 @@ function (Backbone) {
         },
 		*/
 
-		zoomToMPA: function(id) {
-			
+		zoomToFeature: function() {
+		    that = this;
+		    var sw = new L.LatLng(this.bbox[0][1], this.bbox[0][0], true);
+		    var ne = new L.LatLng(this.bbox[1][1], this.bbox[1][0]);
+		    var bounds = new L.LatLngBounds(sw, ne);
+		    var startzoom = this.map.getZoom();
+		    if (this.is_point) {
+		        this.map.setView(sw, 6);
+		    } else {
+		        this.map.fitBounds(bounds);
+    		    var zoomtimer;
+    		    (function forceZoom() {
+    		        if (startzoom == that.map.getZoom()) {
+    		            zoomtimer = setTimeout(function() {
+                            forceZoom();
+            		    }, 100);
+    		        } else {
+    		            clearTimeout(zoomtimer);
+    		            if (that.is_point) {
+    		                that.map.setZoom(6);
+    		            } else {
+    		                that.map.zoomOut();
+    	                }
+    		        }
+    		    })();
+	        }
+		},
+		
+		loadFeature: function() {
+		    that = this;
+		    $.ajax({
+                url: this.feature_url,
+                success: function(data) {
+                    var geojson = new L.GeoJSON(data);
+                    geojson.setStyle({
+                        weight: 3,
+                        color: '#d0508c',
+                        opacity: 0.8,
+                        fillColor: '#d0508c',
+                        fillOpacity: 0.2
+                    });
+                    if (that.highlightlayer) {
+                        that.map.removeLayer(that.highlightlayer);
+                    }
+                    delete that.highlightlayer;
+                    geojson.on('click', function(mapevent) {
+                        that.map.fireEvent('click', mapevent); // pass click from layer to map
+                    });
+                    that.map.addLayer(geojson);
+                    that.highlightlayer = geojson;
+                }
+            });
 		},
 
         getPixelRadius: function(pxradius) {

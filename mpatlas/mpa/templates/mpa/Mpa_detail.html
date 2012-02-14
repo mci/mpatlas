@@ -3,8 +3,8 @@
 {% block title %}{{ mpa.name }}{% endblock %}
 
 {% block base_head_extra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+<link rel="stylesheet" href="{{ STATIC_URL }}/Leaflet/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}/Leaflet/dist/leaflet.ie.css" /><![endif]-->
 
 <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -16,7 +16,7 @@
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
             //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
-            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            leaflet: '{{ STATIC_URL }}/Leaflet/dist/leaflet',
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
             underscore: 'underscore-min',
 			backbone: 'backbone-min',
@@ -35,7 +35,12 @@
     ], function(Prep, SiteDetail) {
         $(function() {
             Prep.preparePage();
-            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'));
+            var site_id = {{ mpa.pk }},
+                feature_url = '{% url mpa-geojson mpa.pk %}?simplified=false',
+                is_point = {% if mpa.is_point %}true{% else %}false{% endif %},
+                point_within = [{{ mpa.point_within.coords.0 }},{{ mpa.point_within.coords.1 }}],
+                bbox = [[{{ mpa.bbox_lowerleft.coords.0 }},{{ mpa.bbox_lowerleft.coords.1 }}], [{{ mpa.bbox_upperright.coords.0 }},{{ mpa.bbox_upperright.coords.1 }}]];
+            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ mpa.pk }}, feature_url, is_point, point_within, bbox);
         });
     });
 
@@ -50,7 +55,7 @@
     
     <div id="leftcol" style="float:left; width:34%;">
         <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
-            Protection Level: 
+            Protection Level:
             {% if mpa.name == 'Cabo Pulmo' %}
                 <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #6F6; width:80%;">High</div>
             {% else %}{% if mpa.name == 'Galapagos Marine Reserve' %}
@@ -59,18 +64,14 @@
                 <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>
             {% endif %}{% endif %}
             <br />
-            Conservation Effectiveness: 
-            {% if mpa.name == 'Galapagos Marine Reserve' or mpa.name == 'Stellwagen Bank National Marine Sanctuary' %}
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>
-            {% else %}    
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #6F6; width:80%;">High</div>
-            {% endif %}
+            Conservation Effectiveness:
+                <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
         </div>
         <div class="sidebar_item_title">Site Information</div>
     	<div class="sidebar_item_content siteinfo">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
-            {% for key, value in mpa.myfieldslist %}
-                {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' and not key == 'bbox' and not key == 'bbox_geojson' and not key == 'point_within' %}
+            {% for key, value in mpa.my_fields_list %}
+                {% if not key in mpa.get_geom_fields %}
                 <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
                 {% endif %}
             {% endfor %}
@@ -81,11 +82,11 @@
     </div>
     <div id="rightcol" style="float:right; width: 66%;">
         <div style="padding: 8px;">
-            <h3 style="float:left; margin-bottom:4px; padding-top:0; margin-top:0;">{{ mpa.country }}</h3>
-            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:10px;">
+            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
                 {{ mpa.name }}
-                <span style="font-size:20px;">{{ mpa.designation_eng }} {% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
+                <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
             </p>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}</h4>
             
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">
