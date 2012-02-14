@@ -222,7 +222,30 @@ class Mpa(models.Model):
 
     @property
     def my_fields_list(self):
-        return sorted(self.my_fields.items())
+        return self.my_fields.items()
+    
+    display_field_names = ('designation', 'designation_type', 'status', 'gov_type',
+        'no_take', 'no_take_area', 'rep_m_area', 'fishing', 'fishing_info',
+        'access', 'constancy', 'permanence', 'protection_focus',
+        'primary_conservation_focus', 'secondary_conservation_focus', 'tertiary_conservation_focus',
+        'mgmt_auth', 'mgmt_plan_type', 'mgmt_plan_ref', 'iucn_category', 'int_criteria',
+        'mpa_id', 'wdpa_notes', 'notes')
+    
+    @property
+    def display_fields(self):
+        d = {}
+        for name in self.display_field_names:
+            field = self._meta.get_field(name)
+            d[field.name] = { "verbose": field.verbose_name, "value": field.value_to_string(self) }
+        return d
+    
+    @property
+    def display_fields_list(self):
+        l = []
+        for name in self.display_field_names:
+            field = self._meta.get_field(name)
+            l.append( (name, {"verbose": field.verbose_name, "value": field.value_to_string(self)}) )
+        return l
     
     # Keep ourselves from having to always test if onetoone exists for wikiarticle
     @property
