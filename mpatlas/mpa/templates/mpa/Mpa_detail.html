@@ -61,14 +61,15 @@
             {% else %}{% if mpa.name == 'Galapagos Marine Reserve' %}
                 <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #F55; width:40%;">Low</div>
             {% else %}
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>
+                <!--<div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>-->
+                <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Calculating</div>
             {% endif %}{% endif %}
             <br />
             Conservation Effectiveness:
                 <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
         </div>
-        <div class="sidebar_item_title">Site Information</div>
-    	<div class="sidebar_item_content siteinfo">
+        <div id="siteinfotitle" class="sidebar_item_title">Site Information</div>
+    	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
             {% for key, value in mpa.my_fields_list %}
                 {% if not key in mpa.get_geom_fields %}
@@ -76,7 +77,7 @@
                 {% endif %}
             {% endfor %}
             </ul>
-            <div class="infoexpander"><span style="font-style:normal;">⤋</span> See all data records for this site</div>
+            <a id="infoexpander" class="infoexpander" style="display:block;" href="#" onclick="return false;"><span class="expander"><span style="font-style:normal;">&dArr;</span> See all data records for this site</span><span class="collapser"><span style="font-style:normal;">&uArr;</span> Show less</span></a>
     	</div>
     	<div id='leafletmap'></div>
     </div>
