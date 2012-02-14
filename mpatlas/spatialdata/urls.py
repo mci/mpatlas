@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView, DetailView, ListView
 
-from spatialdata.models import Eez
+from spatialdata.models import Nation, Eez
 from spatialdata.views import EezListView, EezJsonListView
 
 urlpatterns = patterns('',
@@ -10,6 +10,39 @@ urlpatterns = patterns('',
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
     # url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='index_demo.html')),
+    
+    url(r'^nation/$',
+        EezListView.as_view(
+            queryset=Nation.objects.all().order_by('name'),
+            context_object_name='mpa_list',
+            paginate_by=30,
+            template_name='mpa/Mpa_list.html'),
+        name='nation-list'),
+    url(r'^nation/json/$',
+        EezJsonListView.as_view(
+            queryset=Nation.objects.all().order_by('name'),
+            context_object_name='mpa_list',
+            paginate_by=None,
+            template_name='mpa/Mpa_list.json'),
+        name='nation-listjson'),
+    url(r'^nation/(?P<pk>\d+)/$',
+        DetailView.as_view(
+            model=Nation,
+            queryset=Nation.objects.all(),
+            context_object_name='mpa',
+            template_name='mpa/Mpa_detail.html'),
+        name='nation-info'),
+    url(r'^nation/(?P<pk>\d+)/json/$',
+        DetailView.as_view(
+            model=Nation,
+            queryset=Nation.objects.all(),
+            context_object_name='mpa',
+            template_name='mpa/Mpa_detail.json'),
+        name='nation-infojson'),
+    url(r'^nation/(?P<pk>\d+)/features/$', 'spatialdata.views.get_nation_geom_json', name='nation-geojson'),
+
+    url(r'^nation/lookup/point/$', 'spatialdata.views.nation_lookup_point', {'region': Eez}),
+    
     
     url(r'^eez/$',
         EezListView.as_view(

@@ -18,7 +18,7 @@ define(
 			domain: 'http://mpatlas.org/',
 			*/
 			
-			exploreModes: ['mpas', 'eez', 'meow', 'fao'],
+			exploreModes: ['mpas', 'nation', 'meow', 'fao'],
 			currentMode: 'mpas',			
 	
 			initialize: function (map) {
@@ -385,7 +385,7 @@ define(
 								});
 								break;
 	
-							case 'eez':
+							case 'nation':
 							case 'meow':
 							case 'fao':
 								//$('#maptip-content').html('Searching for Region...');
@@ -396,7 +396,6 @@ define(
 								if (mpatlas.proxy && mpatlas.proxy !== '') {
 									url = mpatlas.proxy + escape(url);
 								}
-									
 								$.ajax({
 									url: url,
 									success: function (data) {
@@ -456,9 +455,9 @@ define(
 										$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
 										maptip.enableMapTip();
 									},
-									error: function () {
-										$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
-									}
+									error: function (xhr, ajaxOptions, thrownError) {
+                                        $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+                                    }
 								});
 								break;
 							}
@@ -486,7 +485,7 @@ define(
 									maptip.toggleEvents(false);
 								}
 								break;
-							case 'eez':
+							case 'nation':
 							case 'meow':
 							case 'fao':
 								if (mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length >= 1) {
