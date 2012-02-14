@@ -2,16 +2,50 @@
 
 {% block title %}{{ mpa.name }}{% endblock %}
 
+{% block base_head_extra %}
+<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+
+<link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    require({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+			backbone: 'backbone-min',
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+		priority: [
+			'leaflet'
+		]
+    }, [
+        'prep',
+        'sitedetail',
+        'jquery',
+        'depend!jqueryui[jquery]',
+    ], function(Prep, SiteDetail) {
+        $(function() {
+            Prep.preparePage();
+            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'));
+        });
+    });
+
+</script>
+{% endblock %}
+
 {% block base_body_content %}
     <div class='modetoggle medium' style="float:right;">
         <a class="modebutton" href="/">Map View</a><a class="modebutton" href="{% url mpa-siteslist %}">List View</a>
     </div>
-
-    <h3 style="float:left; margin-bottom:4px;">{{ mpa.country }}</h3>
-    <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:10px;">
-        {{ mpa.name }}
-        <span style="font-size:20px;">{{ mpa.designation_eng }} {% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
-    </p>
+    <div class="clear" style="clear:both;"></div>
     
     <div id="leftcol" style="float:left; width:34%;">
         <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
@@ -42,9 +76,16 @@
             </ul>
             <div class="infoexpander"><span style="font-style:normal;">⤋</span> See all data records for this site</div>
     	</div>
+    	<div id='leafletmap'></div>
     </div>
     <div id="rightcol" style="float:right; width: 66%;">
         <div style="padding: 8px;">
+            <h3 style="float:left; margin-bottom:4px; padding-top:0; margin-top:0;">{{ mpa.country }}</h3>
+            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:10px;">
+                {{ mpa.name }}
+                <span style="font-size:20px;">{{ mpa.designation_eng }} {% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
+            </p>
+            
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">
         	    {% if mpa.name == 'Cabo Pulmo' %}
@@ -52,7 +93,7 @@
                     Cabo Pulmo National Marine Park, encompassing approximately 20.7 nautical miles, is a marine protected area located about 40 miles north of San Jose del Cabo on the eastern cape of Baja.  This National Marine Park was established in 1995 by the Mexican government to safeguard the largest coral community in the Gulf of California.  The seven fingers of coral off Cabo Pulmo comprise the most northerly living reef in the eastern Pacific and is home to the only living hard coral reef in the Gulf of California. The 25,000-year-old reef is comprised of 25 different species of coral and 226 species of fish frequent its waters.
                 </p>
                 <p>
-                    Additional species found in the Marine Park include humpback whales, grey whales, orcas, dolphins, sharks, marlins, and manta rays.  In addition, it is a safe haven for five endangered species of sea turtles, leatherback and olive ridleys nest on its beaches.  Cabo Plumo National Marine Park is a no-take marine reserve – fishing is banned.
+                    Additional species found in the Marine Park include humpback whales, grey whales, orcas, dolphins, sharks, marlins, and manta rays.  In addition, it is a safe haven for five endangered species of sea turtles, leatherback and olive ridleys nest on its beaches.  Cabo Pulmo National Marine Park is a no-take marine reserve – fishing is banned.
                 </p>
                 {% else %}{% if mpa.name == 'Galapagos Marine Reserve' %}
                 <p>
