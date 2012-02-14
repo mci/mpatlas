@@ -1,11 +1,17 @@
 from django.contrib.gis.db import models
 
+class Nation(models.Model):
+    name = models.CharField(max_length=240)
+    #iso3code = models.ForeignKey(country_iso)
+    summary = models.TextField()
+
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  
     eez = models.CharField(max_length=200)
     country = models.CharField(max_length=100)
     objectid = models.IntegerField()
     sovereign = models.CharField(max_length=100)
+    nation = models.ForeignKey(Nation, null=True, default=None)
     remarks = models.CharField(max_length=150)
     sov_id = models.IntegerField()
     iso_3digit = models.CharField(max_length=50)
@@ -76,6 +82,7 @@ class EezSimplified(models.Model):
     @classmethod
     def get_geom_fields(cls):
         return ('geog', 'geom', 'geom_smerc')
+        
 
 # Auto-generated `LayerMapping` dictionary for Eez model
 eez_mapping = {
