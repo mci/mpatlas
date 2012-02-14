@@ -1,0 +1,19 @@
+/* Fix for Safari changing font rendering for z-indexed elements when map added to page */
+* {
+    -webkit-font-smoothing: subpixel-antialiased !important;
+}
+
+.busy, .busy * {  
+  cursor: progress !important;  
+}
+
+.leaflet-control-layers, .leaflet-control-layers-expanded {
+    color: #FFF;
+    background: rgba(10,10,10,0.7);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
+}
+
+#leafletmap {
+    height: 300px;
+}
