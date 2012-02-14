@@ -63,6 +63,21 @@ body {
     zoom: 1;
 }
 
+#stats_overlay div.stats_header {
+    font-size:21px;
+    text-shadow: #000 1px 1px 1px;
+}
+
+#stats_overlay div.heading {
+    color:#e03e6f;
+    text-shadow: #000 1px 1px 2px;
+}
+
+#stats_overlay div.stats_box_header {
+    text-shadow: #000 1px 1px 1px;
+    margin-bottom: 4px;
+}
+
 #filters_overlay {
     position:absolute;
     left: 6px;
@@ -84,100 +99,6 @@ body {
     margin-top: 8px;
     margin-bottom: 0px;
 }
-
-/*
-    we begin here a bunch of ugly hacks to override changes caused by the ExtJS stylesheet
-    the stylesheet should be trimmed to just what's required. then we can remove these hacks
-*/
-#stats_overlay p.stats_box_header {
-    text-shadow: #000 1px 1px 1px;
-    margin-bottom: 4px;
-}
-
-#filters_overlay {
-    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
-    line-height: 1.25;
-}
-
-#stats_overlay p.stats_box {
-    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
-    line-height: 1.25;
-    border-radius:4px;
-    border:1px solid #666;
-    padding:8px;
-    margin: 0px 11px 0px 11px;
-    background-color: rgba(10,10,10,0.4);
-}
-
-.user_block {
-    margin-top: 6px !important;
-    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;    
-}
-
-.searchform {
-    right: 159px;
-}
-
-.searchform input.text {
-    height:22px !important;
-    width: 173px !important;
-}
-
-.x-grid-cell, .x-column-header-text, .x-toolbar-text, .x-form-text, .x-btn-inner {
-    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif !important;    
-    line-height: 1.25;
-}
-
-.x-grid-with-row-lines .x-grid-cell-inner {
-    padding-bottom: 0px;
-}
-
-.x-form-text {
-    color: #000000;
-    background-color: #FFFFFF!important;
-    background-image: none !important;
-}
-
-.x-grid-row .x-grid-cell {
-    background-color: #FFFFFF;
-    color: #000000;
-    border-bottom: 1px solid #AAAAAA;
-    border-right: 1px solid #AAAAAA;
-    border-top: none;
-}
-
-.x-grid-row-alt .x-grid-cell {
-    background-color: #ECECEC;
-}
-
-.x-grid-row a {
-    /*color: #000000;*/
-}
-.x-grid-row .x-grid-cell-first, .x-column-header {
-    color: white;
-    background-color: #314453;
-    background-image: none !important;
-}
-
-.x-column-header {
-    font-weight: bold;
-}
-
-.x-column-header-sort-ASC, .x-column-header-sort-DESC {
-    background-color: #C54C81;    
-}
-
-.x-column-header-over {
-    background-color: #DE7347;    
-    background-image: none !important;
-}
-.x-toolbar {
-    /*background-color: #314453;*/
-    background-color: rgba(10,10,10,0.8);
-    background-image: none !important;
-}
-
-/*  end of ugly extjs hacks  */
 
 #list-bg {
     position:absolute;
@@ -487,3 +408,102 @@ body {
     -o-transition:all .2s linear;
     transition:all .2s linear;
 }
+
+
+/*
+    we begin here a bunch of ugly hacks to override changes caused by the ExtJS stylesheet
+    the stylesheet should be trimmed to just what's required. then we can remove these hacks
+*/
+#filters_overlay {
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
+    line-height: 1.25;
+}
+
+#stats_overlay div.stats_box {
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;
+    line-height: 1.25;
+    border-radius:4px;
+    border:1px solid #666;
+    padding:8px;
+    margin: 0px 11px 0px 11px;
+    background-color: rgba(10,10,10,0.4);
+}
+
+.user_block {
+    margin-top: 6px !important;
+    font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif;    
+}
+
+.searchform {
+    right: 159px;
+}
+
+.searchform input.text {
+    height:22px !important;
+    width: 173px !important;
+}
+
+.x-grid-cell, .x-column-header-text, .x-toolbar-text, .x-form-text, .x-btn-inner {
+    font: 12px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif !important;    
+    line-height: 15px;
+}
+
+.x-grid .x-grid-cell-inner {
+    padding-bottom: 0px;
+}
+
+.x-form-text {
+    color: #000000;
+    background-color: #FFFFFF!important;
+    background-image: none !important;
+}
+
+.x-grid-row .x-grid-cell {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-bottom: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    border-top: none;
+}
+
+.x-grid-row-alt .x-grid-cell {
+    background-color: #ECECEC;
+}
+
+.x-grid-row a {
+    color: #000000;
+}
+.x-grid-row .x-grid-cell-first, .x-column-header {
+    color: white;
+    background-color: #314453;
+    background-image: none !important;
+}
+
+.x-column-header {
+    font-weight: bold;
+}
+
+.x-column-header-sort-ASC, .x-column-header-sort-DESC {
+    background-color: #C54C81;    
+}
+
+.x-column-header-over {
+    background-color: #DE7347;    
+    background-image: none !important;
+}
+.x-toolbar {
+    /*background-color: #314453;*/
+    background-color: rgba(10,10,10,0.8);
+    background-image: none !important;
+}
+
+.x-btn-default-toolbar-small-over {
+    background-color: #FF5A50;
+    border-color: #FFFFFF;
+}
+
+.x-form-focus {
+    border: 2px solid #de744a;
+}
+
+/*  end of ugly extjs hacks  */
