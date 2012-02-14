@@ -2,10 +2,10 @@ define([
   // These are path aliases configured in the requireJS bootstrap
   'backbone-module',
   'json2',
-  'persist',
   'leaflet',
-  //'MPAlist',
   'TileLayer.Bing'
+  //'persist',
+  //'MPAList'
 ],
 function (Backbone) {  
     var SiteDetail = Backbone.View.extend({
@@ -26,12 +26,21 @@ function (Backbone) {
             this.is_point = is_point;
             this.point = point;
             this.bbox = bbox;
-
+            
+            this.initInfoExpander();
+            
             this.makeMap();
             window['leafmap'] = this.map;
             
             this.loadFeature();
             this.zoomToFeature();
+        },
+        
+        initInfoExpander: function() {
+            var that = this;
+            $('#infoexpander, #siteinfotitle').on('click', function(e) {
+                $('#siteinfo').toggleClass('collapsed');
+            });
         },
 
         // create Leaflet map
