@@ -101,9 +101,9 @@ class Mpa(models.Model):
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
     usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True)
     name = models.CharField('Name', max_length=254)
-    long_name = models.CharField(max_length=254) # name + designation
-    short_name = models.CharField(max_length=254) # name + designation with abbreviations
-    slug = models.CharField(max_length=254)
+    long_name = models.CharField(max_length=254, blank=True) # name + designation
+    short_name = models.CharField(max_length=254, blank=True) # name + designation with abbreviations
+    slug = models.CharField(max_length=254, blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
     country = models.CharField('Country / Territory', max_length=20)
@@ -134,8 +134,8 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True)
-    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', null=True)
+    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True)
+    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', null=True, blank=True)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
@@ -166,7 +166,7 @@ class Mpa(models.Model):
     
     # Notes
     wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
-    notes = models.TextField('Area Notes')
+    notes = models.TextField('Area Notes', null=True, blank=True)
     
     # Summary Info
     summary = models.TextField('MPA Summary Site Description', null=True, blank=True)
@@ -177,27 +177,27 @@ class Mpa(models.Model):
     # Full-res polygon features
     # If is_point is true, this will be a box or circle based on the 
     # area estimate (calculated from local UTM crs or a global equal area crs)
-    geom_smerc = models.MultiPolygonField(srid=3857, null=True)
-    geom = models.MultiPolygonField(srid=4326, null=True)
-    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True)
+    geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True)
     
     # Simplified polygon features
-    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
-    simple_geom = models.MultiPolygonField(srid=4326, null=True)
-    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True)
+    simple_geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
+    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True)
     
     # Point location, used when we don't have polygon boundaries
-    point_geom_smerc = models.MultiPointField(srid=3857, null=True)
-    point_geom = models.MultiPointField(srid=4326, null=True)
-    point_geog = models.MultiPointField(srid=4326, geography=True, null=True)
+    point_geom_smerc = models.MultiPointField(srid=3857, null=True, blank=True)
+    point_geom = models.MultiPointField(srid=4326, null=True, blank=True)
+    point_geog = models.MultiPointField(srid=4326, geography=True, null=True, blank=True)
     
     # Point somewhere within the site
-    point_within = models.PointField(srid=4326, null=True)
+    point_within = models.PointField(srid=4326, null=True, blank=True)
     
     # bounding box of polygon
     # assume longitude range is < 180 degrees, bbox can cross dateline
-    bbox_lowerleft = models.PointField(srid=4326, null=True)
-    bbox_upperright = models.PointField(srid=4326, null=True)
+    bbox_lowerleft = models.PointField(srid=4326, null=True, blank=True)
+    bbox_upperright = models.PointField(srid=4326, null=True, blank=True)
     
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()
