@@ -1,4 +1,8 @@
 from django.contrib.gis import admin
-from models import EezSimplified
+from models import Nation, Eez
 
-admin.site.register(EezSimplified, admin.GeoModelAdmin)
+class NationAdmin(admin.GeoModelAdmin):
+    list_display = ('name',)
+
+admin.site.register(Eez, admin.GeoModelAdmin)
+admin.site.register(Nation, NationAdmin)

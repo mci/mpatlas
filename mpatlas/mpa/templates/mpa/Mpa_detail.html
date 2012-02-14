@@ -104,6 +104,10 @@
                 <p>
                     The Gerry E. Studds Stellwagen Bank National Marine Sanctuary, an 842-square-mile (638-square-nautical-mile) marine protected area at the mouth of Massachusetts Bay, was established on November 4, 1992.  The Sanctuary was created to conserve and enhance biodiversity as well as protect the cultural heritage of the area.   The Sanctuary lies entirely within federal waters and is an ecologically important area for groundfish species like cod, haddock and flounder.  Atlantic bluefin tuna, large sharks, and large schools of herring are also found within the Sanctuary’s boundaries. The area is also an important foraging ground for many whale species.  The sanctuary is open to both commercial and recreational fishing but prohibits certain activities like sand and gravel mining, transferring petroleum products, and taking or harming marine mammals, birds and turtles.
                 </p>
+                {% else %}{% if mpa.summary %}
+                    <p>
+                        {{ mpa.summary }}
+                    </p>
                 {% else %}
         		<p>
         		    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac malesuada velit. Pellentesque fermentum quam eget lorem rutrum sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis pulvinar ligula id porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc elementum turpis eget mi ornare varius. Maecenas at sapien et sapien consectetur rhoncus. Vivamus dignissim eros at risus ultricies vehicula. Etiam tortor augue, eleifend sed porta quis, sollicitudin eu neque. Nullam mollis condimentum est id adipiscing. Fusce id ante non nisi faucibus convallis et ut lacus. Proin volutpat pretium lectus, ac hendrerit ligula pharetra sit amet. Vestibulum laoreet, turpis sed pulvinar sollicitudin, mi dolor mattis orci, eu sagittis massa risus aliquet diam. Sed ut sem sapien, nec convallis odio. Vivamus feugiat, purus at vulputate lacinia, augue libero pulvinar mi, id semper arcu purus ut neque. Ut quis tincidunt neque.
@@ -112,7 +116,7 @@
         		<p>
                     Suspendisse auctor, lectus sit amet gravida scelerisque, elit metus egestas ligula, blandit accumsan tortor est a enim. Sed rutrum lacinia nisi, sed hendrerit tortor adipiscing nec. Cras tristique sem vel felis vulputate sit amet sollicitudin tortor vehicula. Duis lectus nunc, commodo eu porta vel, cursus eu massa. Vestibulum quis egestas lacus. In pretium lorem nec nunc vestibulum in tristique leo scelerisque. In risus tortor, suscipit porta commodo vel, molestie sed urna. Sed fringilla magna non urna lacinia faucibus. Maecenas vel sollicitudin nisl. Praesent nulla nisi, aliquam id viverra vel, venenatis et lacus.
                 </p>
-                {% endif %}{% endif %}{% endif %}
+                {% endif %}{% endif %}{% endif %}{% endif %}
         	</div>
 
         	<div class="sidebar_item_title">Nearby Sites</div>
