@@ -6,8 +6,8 @@
 {% block title %}Home{% endblock %}
 
 {% block base_head_extra %}
-<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
 
 <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.0.7-gpl/resources/css/ext-all-access.css"/>
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
@@ -20,7 +20,8 @@
         paths: {
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
-            leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
             underscore: 'underscore-min',
 			backbone: 'backbone-min'
