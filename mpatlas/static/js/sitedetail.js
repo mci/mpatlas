@@ -4,8 +4,8 @@ define([
   'json2',
   'persist',
   'leaflet',
-  'TileLayer.Bing',
-  'MPAtlas.list'
+  //'MPAlist',
+  'TileLayer.Bing'
 ],
 function (Backbone) {  
     var SiteDetail = Backbone.View.extend({
