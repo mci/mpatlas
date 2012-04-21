@@ -55,6 +55,8 @@
         	});
         </script>
         
+        {% block base_head_extra_extra %}{% endblock %}
+        
 		{% endblock %}
 		
 	</head>
@@ -106,7 +108,7 @@
     			        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href='/users/logout?next={{ request.path }}'>[x]</a>
     			    {% else %}
     			        <div id='user_logintab'>
-    			            <a id='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
+    			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
     			            <div id='user_loginformcontainer'>
     			                {% if form.errors %}
                                     <p>Your username and password didn't match. Please try again.</p>

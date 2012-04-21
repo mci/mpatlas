@@ -159,6 +159,41 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates')
 )
 
+# TinyMCE Settings
+#TINYMCE_JS_URL = os.path.join(STATIC_URL, "tiny_mce", "tiny_mce.js")
+TINYMCE_FILEBROWSER = False
+TINYMCE_SPELLCHECKER = False
+TINYMCE_DEFAULT_CONFIG = {
+    #'width' : "1000",
+    #'height' : "800",
+    'plugins': "table,paste,advimage,advlink",
+    'extended_valid_elements' : "a[name|href|target|title|onclick|rel]",
+    'theme':'advanced',
+    'theme_advanced_toolbar_location' : "top",
+    'theme_advanced_toolbar_align' : "left",
+    #'plugins' : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,fullscreen",
+    'plugins' : "table,save,advhr,advimage,advlink,preview,searchreplace,contextmenu,fullscreen",
+    #'file_browser_callback' : "CustomFileBrowser",
+    #'theme_advanced_buttons1' : "code,separator,forecolor,backcolor,separator,bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,separator,undo,redo,separator,link,unlink,advimage,image,hr",
+    #'theme_advanced_buttons2' : "bullist,numlist,separator,outdent,indent,separator,undo,redo,separator",
+    #'theme_advanced_buttons3' : "table,row_props,cell_props,delete_col,delete_row,col_after,col_before,row_after,row_before,row_after,row_before,split_cells,merge_cells",
+    'theme_advanced_buttons1' : "separator,fullscreen,preview,separator,bold,italic,underline,strikethrough,separator,bullist,numlist,outdent,indent,separator,undo,redo,separator,link,unlink,anchor,separator,image,cleanup,help,separator,code",
+    'theme_advanced_buttons2' : "table,row_props,cell_props,delete_col,delete_row,col_after,col_before,row_after,row_before,row_after,row_before,split_cells,merge_cells",
+    'theme_advanced_buttons3' : "",
+    'auto_cleanup_word' : True,
+    'theme_advanced_statusbar_location' : "bottom",
+    'theme_advanced_path' : False,
+    'theme_advanced_resizing' : True,
+    'theme_advanced_resize_horizontal' : False,
+    'theme_advanced_resizing_use_cookie' : True,
+    'fullscreen_settings' : {
+        'theme_advanced_path_location' : "top",
+        'theme_advanced_buttons1' : "fullscreen,separator,preview,separator,cut,copy,paste,separator,undo,redo,separator,search,replace,separator,code,separator,cleanup,separator,bold,italic,underline,strikethrough,separator,forecolor,backcolor,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,help",
+        'theme_advanced_buttons2' : "removeformat,styleselect,formatselect,fontselect,fontsizeselect,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor",
+        'theme_advanced_buttons3' : "sub,sup,separator,image,insertdate,inserttime,separator,tablecontrols,separator,hr,advhr,visualaid,separator,charmap,emotions,iespell,flash,separator,print"
+  }   
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -176,6 +211,10 @@ INSTALLED_APPS = (
     'storages',
     'south',
     'django.contrib.gis',
+    
+    'reversion',
+    
+    'tinymce',
     
     # User accounts and registration
     'accounts',

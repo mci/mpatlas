@@ -4,6 +4,17 @@
 {% block title %}Sign Up{% endblock %}
 {% block body_class %}{{ block.super }} login_form{% endblock %}
 
+{% block base_head_extra_extra %}
+<style>
+    label {
+        display: block;
+        float: left;
+        width: 12em;
+    }
+</style>
+{{ form.media }}
+{% endblock %}
+
 {% block base_body_content %}
     <h2>We need your help to improve information about global MPAs and conservation efforts</h2>
     

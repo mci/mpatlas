@@ -11,6 +11,75 @@ from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
 from mpa.models import Mpa, MpaCandidate
+from mpa.forms import MpaForm
+
+import reversion
+from django.db import connection, transaction
+from reversion.models import Revision
+from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata
+
+from django.views.decorators.cache import never_cache
+
+def do_revision(request):
+    mpa = Mpa.objects.get(pk=4)
+    mpa.summary = 'Test123'
+    mpa.save()
+    reversion.set_comment('Test comment')
+
+@never_cache
+@transaction.commit_on_success
+@reversion.create_revision()
+def revision_view(request):
+    do_revision(request)
+    mpa = Mpa.objects.get(pk=4)
+    versions = len(reversion.get_for_object(mpa))
+    return HttpResponse('Attempted to save a revision - %s' % (versions))
+
+@never_cache
+@transaction.commit_on_success
+@reversion.create_revision()
+def revision_view2(request):
+    rcm = reversion.revision_context_manager
+    rc = rcm.create_revision()
+    rcm.start(manage_manually=False)
+    #rcm.start(manage_manually=True)
+    print rcm.is_active(), rcm.is_invalid(), rcm.is_managing_manually()
+    mpa = Mpa.objects.get(pk=4)
+    mpa.summary = 'Test2'
+    mpa.save()
+    rcm.set_comment('Test comment')
+    rcm.end()
+    return HttpResponse('Attempted to save a revision - 2')
+
+@transaction.commit_on_success
+@reversion.create_revision()
+def edit_mpa(request, pk):
+    mpa = get_object_or_404(Mpa, pk=pk)
+    if (request.POST):
+        # Got a form submission
+        editform = MpaForm(request.POST, instance=mpa)
+        if editform.is_valid():
+            mpasaved = editform.save()
+            try:
+                reversion.set_comment(editform.cleaned_data.get("edit_comment"))
+            except:
+                pass
+            try:
+                reversion.set_user(request.user)
+            except:
+                pass
+            try:
+                reversion.add_meta(VersionMetadata, comment=editform.cleaned_data.get("edit_comment"), reference=editform.cleaned_data.get("edit_reference"))
+            except:
+                pass
+            return HttpResponseRedirect(reverse('mpa-siteinfo', kwargs={'pk': pk}))
+    else:
+        editform = MpaForm(instance=mpa)
+    return render_to_response('mpa/Mpa_editform.html', {
+        'form': editform,
+        'mpa': mpa,
+        'respond_url': reverse('mpa-editsite', kwargs={'pk': pk}),
+    }, context_instance=RequestContext(request))
 
 class MpaListView(ListView):
     def get_paginate_by(self, queryset):

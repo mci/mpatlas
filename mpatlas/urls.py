@@ -8,23 +8,28 @@ from django.views.generic.simple import redirect_to
 from django.contrib.gis import admin
 admin.autodiscover()
 
+def i18n_javascript(request):
+    return admin.site.i18n_javascript(request)
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
-
+    
     # Uncomment the admin/doc line below to enable admin documentation:
-     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
-     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/jsi18n/', i18n_javascript),
+    url(r'^admin/', include(admin.site.urls)),
      
-     (r'^users/', include('accounts.urls')),
-     
-     url(r'^mpa/', include('mpa.urls')),
-     url(r'^region/', include('spatialdata.urls')),
-     
-     # Only redirect the top level /learn/ to mpapedia
-     url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
-     
-     url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home_map.html')),
+    (r'^users/', include('accounts.urls')),
+    
+    url(r'^mpa/', include('mpa.urls')),
+    url(r'^region/', include('spatialdata.urls')),
+    
+    # Only redirect the top level /learn/ to mpapedia
+    url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
+    
+    url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home_map.html')),
 )
+

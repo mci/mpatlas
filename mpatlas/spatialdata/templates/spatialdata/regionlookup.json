@@ -1,5 +1,5 @@
 {
     "regions": [{% for region in region_list %}
-        {"name": "{{ region.name }}", "country": "{% if region.sovereign %}{{ region.sovereign }}{% else %}{{ region.country }}{% endif %}", "id": "{{ region.pk }}", "area_km2": "{{ region.area_km2 }}",  "mpas": "42", "percent_in_mpas": "4", "percent_no_take": "0.5" }{% if not forloop.last %},{% endif %}{% endfor %}
+        {"name": "{{ region.name }}", "country": "{% if region.sovereign %}{{ region.sovereign }}{% else %}{{ region.country }}{% endif %}", "id": "{{ region.pk }}", "area_km2": "{{ region.area_km2 }}",  "mpas": "?", "percent_in_mpas": "?", "percent_no_take": "?" }{% if not forloop.last %},{% endif %}{% endfor %}
     ]
 }
