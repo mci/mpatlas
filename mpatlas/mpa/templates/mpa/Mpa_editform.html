@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load adminmedia %}
+
+{% block title %}{{ mpa.name }}{% endblock %}
+
+{% block base_head_extra_extra %}
+    <script type="text/javascript">
+        window.__admin_media_prefix__ = "{% filter escapejs %}{% admin_media_prefix %}{% endfilter %}";
+    </script>
+    
+    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/forms.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/global.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/widgets.css"/>
+
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}admin/js/core.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}admin/js/admin/RelatedObjectLookups.js"></script>
+    
+    {{ form.media }}
+{% endblock %}
+
+{% block base_body_content %}
+    <div style="padding: 8px;">
+        <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
+            {{ mpa.name }}
+            <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
+        </p>
+        <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
+        
+        <div class="sidebar_item_title">EDIT Site Information</div>
+    	<div class="sidebar_item_content">
+    	    <form id="mpaform" class="mpaform" action="{{ respond_url }}" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} method="post">{% csrf_token %}
+    		    {% if error_message %}
+        		    <p class="errorlist">{{ error_message }}</p>
+        		{% endif %}
+    		    {{ form.non_field_errors }}
+    		    {{ form.as_p }}
+                <div class="submit-row" >
+                    <input id="savebutton" type="submit" value="Save Changes" class="submit default" name="_save" />
+                    <div class="clear" />
+                </div>
+            </div>
+
+            </form>
+    	</div>
+
+    </div>
+		
+{% endblock %}

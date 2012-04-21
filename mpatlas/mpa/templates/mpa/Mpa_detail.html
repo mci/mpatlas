@@ -68,7 +68,13 @@
             Conservation Effectiveness:
                 <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
         </div>
-        <div id="siteinfotitle" class="sidebar_item_title">Site Information</div>
+        <div id="siteinfotitle" class="sidebar_item_title">Site Information
+            {% if user.is_authenticated %}
+	            <a href="edit" style="float:right; color:white; margin-right:8px;">EDIT</a>
+	        {% else %}
+	            <a class='user_loginlink' href="#login" style="float:right; color:white; margin-right:8px;">EDIT</a>
+	        {% endif %}
+	    </div>
     	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
             {% for key, value in mpa.display_fields_list %}
@@ -108,15 +114,18 @@
                     <p>
                         {{ mpa.summary }}
                     </p>
+                {% else %}{% if mpa.wikiarticle %}
+                    <p>
+                        {{ mpa.wikiarticle.title }}
+                        <br />
+                        from wikipedia: <a href="{{ mpa.wikiarticle.url|safe }}">{{ mpa.wikiarticle.url|safe }}</a>
+                    </p>
+                        {{ mpa.wikiarticle.summary|safe }}
                 {% else %}
         		<p>
-        		    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac malesuada velit. Pellentesque fermentum quam eget lorem rutrum sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis pulvinar ligula id porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc elementum turpis eget mi ornare varius. Maecenas at sapien et sapien consectetur rhoncus. Vivamus dignissim eros at risus ultricies vehicula. Etiam tortor augue, eleifend sed porta quis, sollicitudin eu neque. Nullam mollis condimentum est id adipiscing. Fusce id ante non nisi faucibus convallis et ut lacus. Proin volutpat pretium lectus, ac hendrerit ligula pharetra sit amet. Vestibulum laoreet, turpis sed pulvinar sollicitudin, mi dolor mattis orci, eu sagittis massa risus aliquet diam. Sed ut sem sapien, nec convallis odio. Vivamus feugiat, purus at vulputate lacinia, augue libero pulvinar mi, id semper arcu purus ut neque. Ut quis tincidunt neque.
+        		    ...
         		</p>
-        		
-        		<p>
-                    Suspendisse auctor, lectus sit amet gravida scelerisque, elit metus egestas ligula, blandit accumsan tortor est a enim. Sed rutrum lacinia nisi, sed hendrerit tortor adipiscing nec. Cras tristique sem vel felis vulputate sit amet sollicitudin tortor vehicula. Duis lectus nunc, commodo eu porta vel, cursus eu massa. Vestibulum quis egestas lacus. In pretium lorem nec nunc vestibulum in tristique leo scelerisque. In risus tortor, suscipit porta commodo vel, molestie sed urna. Sed fringilla magna non urna lacinia faucibus. Maecenas vel sollicitudin nisl. Praesent nulla nisi, aliquam id viverra vel, venenatis et lacus.
-                </p>
-                {% endif %}{% endif %}{% endif %}{% endif %}
+                {% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
         	</div>
 
         	<div class="sidebar_item_title">Nearby Sites</div>

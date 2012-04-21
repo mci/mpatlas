@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # Other fields here
-    title = models.CharField(max_length=20, default='', choices=TITLE_CHOICES)
+    title = models.CharField(max_length=200, default='', choices=TITLE_CHOICES)
     affiliation = models.CharField('organization', max_length=300)
     country = models.CharField(max_length=300)
 

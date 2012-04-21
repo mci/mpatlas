@@ -44,7 +44,7 @@ define([
 	    });
 	    
 	    // Activate user login form display
-	    $('#user_loginlink').on('click', function(e) {
+	    $('.user_loginlink').on('click', function(e) {
 	        e.preventDefault();
 	        e.stopPropagation();
 	        $('#user_logintab').toggleClass('selected');

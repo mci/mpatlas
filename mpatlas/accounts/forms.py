@@ -7,6 +7,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.utils.http import int_to_base36
 
+from accounts.models import TITLE_CHOICES
+
 class UserCreationForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and password.
@@ -20,11 +22,11 @@ class UserCreationForm(forms.ModelForm):
     email1 = forms.EmailField(label="Email", max_length=75)
     email2 = forms.EmailField(label="Email confirmation", max_length=75,
         help_text = "Enter your email address again. A confirmation email will be sent to this address.")
-    title = forms.CharField(label=_("Title"))
-    first_name = forms.CharField(label=_("First Name"))
-    last_name = forms.CharField(label=_("Last Name"))
-    affiliation = forms.CharField(label=_("Affiliation/Organization"))
-    country = forms.CharField(label=_("Country"))
+    title = forms.ChoiceField(label=_("Title"), choices=TITLE_CHOICES)
+    first_name = forms.CharField(label=_("First Name"), max_length=30)
+    last_name = forms.CharField(label=_("Last Name"), max_length=30)
+    affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300)
+    country = forms.CharField(label=_("Country"), max_length=300)
 
     class Meta:
         model = User

@@ -8,6 +8,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import connection, transaction
 
+import reversion
+from reversion.models import Revision
+
+VERIFY_CHOICES = (
+    ('Unverified', 'Unverified'),
+    ('Cannot Verify', 'Cannot Verify'),
+    ('Rejected as MPA', 'Rejected as MPA'),
+    ('Internally Verified', 'Internally Verified'),
+    ('Externally Verified', 'Externally Verified'),
+)
+
 DESIG_TYPE_CHOICES = (
     ('National', 'National'),
     ('International', 'International'),
@@ -28,6 +39,7 @@ STATUS_CHOICES = (
     ('Adopted', 'Adopted'),
     ('Inscribed', 'Inscribed'),
     ('Designated', 'Designated'),
+    ('Defunct/Degazetted', 'Defunct/Degazetted'),
 )
 
 NO_TAKE_CHOICES = (
@@ -100,6 +112,7 @@ class Mpa(models.Model):
     mpa_id = models.AutoField('MPA id', primary_key=True)
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
     usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True)
+    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True)
     name = models.CharField('Name', max_length=254)
     long_name = models.CharField(max_length=254, blank=True) # name + designation
     short_name = models.CharField(max_length=254, blank=True) # name + designation with abbreviations
@@ -109,13 +122,19 @@ class Mpa(models.Model):
     country = models.CharField('Country / Territory', max_length=20)
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
+    # Verification State
+    verification_state = models.CharField('Verification State', max_length=100, default='Unverified', choices=VERIFY_CHOICES)
+    verification_reason = models.CharField('Verification Reason', max_length=1000, null=True, blank=True)
+    verified_by = models.CharField('Verified By', max_length=100, null=True, blank=True)
+    verified_date = models.DateField('Date Verified', null=True, blank=True)
+    
     # Designation
     designation = models.CharField('Designation', max_length=254, null=True, blank=True)
     designation_eng = models.CharField('English Designation', max_length=254, null=True, blank=True)
     designation_type = models.CharField('Designation Type', max_length=20, null=True, blank=True, choices=DESIG_TYPE_CHOICES)
     iucn_category = models.CharField('IUCN Category', max_length=20, null=True, blank=True, choices=IUCN_CAT_CHOICES)
     int_criteria = models.CharField('International Criteria', max_length=100, null=True, blank=True)
-    marine = models.NullBooleanField('Marine', null=True, blank=True, default=True)
+    marine = models.NullBooleanField('Marine (field from WDPA)', null=True, blank=True, default=True, editable=False)
     status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
     status_year = models.IntegerField('Status Year', null=True, blank=True)
     
@@ -141,7 +160,7 @@ class Mpa(models.Model):
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
     
     # Protection Level
-    protection_level = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_LEVEL_CHOICES, default='Unknown')
+    protection_level = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_LEVEL_CHOICES, default='Unknown', editable=False)
     fishing = models.CharField(max_length=254, null=True, blank=True, choices=FISHING_CHOICES, default='Unknown')
     fishing_info = models.TextField(null=True, blank=True)
     fishing_citation = models.TextField(null=True, blank=True)
@@ -177,27 +196,27 @@ class Mpa(models.Model):
     # Full-res polygon features
     # If is_point is true, this will be a box or circle based on the 
     # area estimate (calculated from local UTM crs or a global equal area crs)
-    geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True)
-    geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
-    geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True)
+    geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True, editable=False)
+    geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=False)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Simplified polygon features
-    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True)
-    simple_geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
-    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True)
+    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True, editable=False)
+    simple_geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=False)
+    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Point location, used when we don't have polygon boundaries
-    point_geom_smerc = models.MultiPointField(srid=3857, null=True, blank=True)
-    point_geom = models.MultiPointField(srid=4326, null=True, blank=True)
-    point_geog = models.MultiPointField(srid=4326, geography=True, null=True, blank=True)
+    point_geom_smerc = models.MultiPointField(srid=3857, null=True, blank=True, editable=False)
+    point_geom = models.MultiPointField(srid=4326, null=True, blank=True, editable=False)
+    point_geog = models.MultiPointField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Point somewhere within the site
-    point_within = models.PointField(srid=4326, null=True, blank=True)
+    point_within = models.PointField(srid=4326, null=True, blank=True, editable=False)
     
     # bounding box of polygon
     # assume longitude range is < 180 degrees, bbox can cross dateline
-    bbox_lowerleft = models.PointField(srid=4326, null=True, blank=True)
-    bbox_upperright = models.PointField(srid=4326, null=True, blank=True)
+    bbox_lowerleft = models.PointField(srid=4326, null=True, blank=True, editable=False)
+    bbox_upperright = models.PointField(srid=4326, null=True, blank=True, editable=False)
     
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()
@@ -321,16 +340,39 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     post_save.connect(mpa_post_save, sender=Mpa)
 
 
+
 class WikiArticle(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True)
     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
+    title = models.CharField(max_length=500, null=True, blank=True)
     summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+    
+    # Returns the string representation of the model.
+    def __unicode__(self):
+        return self.summary[0:20] + '...'
 
 
 class Contact(models.Model):
     agency = models.CharField(max_length=500)
     url = models.URLField(max_length=500)
     address = models.TextField()
+    
+    # Returns the string representation of the model.
+    def __unicode__(self):
+        return self.agency
+
+        from reversion.models import Revision
+
+
+class VersionMetadata(models.Model):
+    revision = models.OneToOneField(Revision)  # This is required
+    comment = models.TextField(blank=True)
+    reference = models.TextField(blank=True)
+
+#reversion.register(Mpa)
+#reversion.register(WikiArticle)
+#reversion.register(Contact)
+
 
 # class MpaCandidateInfo(models.Model):
 #     pass

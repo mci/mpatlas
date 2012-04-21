@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     #url(r'^sites/', 'wdpa.views.sitelist'),
     #url(r'^sites/(?P<siteid>\d)/$', 'wdpa.views.siteinfo'),
     
+    url(r'^revision/$', 'mpa.views.revision_view'),
+    url(r'^revision2/$', 'mpa.views.revision_view2'),
     url(r'^sites/$',
         MpaListView.as_view(
             queryset=Mpa.objects.order_by('name').defer(*Mpa.get_geom_fields()),
@@ -50,6 +52,7 @@ urlpatterns = patterns('',
             template_name='mpa/Mpa_detail.json'),
         name='mpa-infojson'),
     url(r'^sites/(?P<pk>\d+)/features/$', 'mpa.views.get_mpa_geom_json', name='mpa-geojson'),
+    url(r'^sites/(?P<pk>\d+)/edit/$', 'mpa.views.edit_mpa', name='mpa-editsite'),
     
     url(r'^lookup/point/$', 'mpa.views.lookup_point'),
     
