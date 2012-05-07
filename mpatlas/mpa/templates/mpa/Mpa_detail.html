@@ -99,18 +99,15 @@
                     <p>
                         {{ mpa.summary|safe }}
                     </p>
-                {% else %}{% if mpa.wikiarticle %}
+                {% endif %}
+                {% if mpa.wikiarticle %}
                     <p>
                         {{ mpa.wikiarticle.title }}
                         <br />
                         from wikipedia: <a href="{{ mpa.wikiarticle.url|safe }}">{{ mpa.wikiarticle.url|safe }}</a>
                     </p>
                         {{ mpa.wikiarticle.summary|safe }}
-                {% else %}
-        		<p>
-        		    ...
-        		</p>
-                {% endif %}{% endif %}
+                {% endif %}
         	</div>
 
         	<div class="sidebar_item_title">Nearby Sites</div>
@@ -125,7 +122,15 @@
         	
         	<div class="sidebar_item_title">Contacts &amp; Resources</div>
         	<div class="sidebar_item_content">
-        	    
+        	    {% if mpa.contact %}
+                    <p>
+                        {{ mpa.contact.agency }}
+                        <br />
+                        <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
+                        <br />
+                        {{ mpa.contact.address }}
+                    </p>
+                {% endif %}
         	</div>
     	</div>
     </div>

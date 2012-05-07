@@ -7,8 +7,8 @@ from django.contrib.admin.widgets import AdminDateWidget
 
 # Create the form class.
 class MpaForm(ModelForm):
-    edit_reference = forms.CharField(widget=forms.Textarea, label="Data Reference for your edits", help_text="Please list a source reference for any changes you have made to this MPA record.  This can be a published report, online database, government office, or personal communication.")
-    edit_comment = forms.CharField(widget=forms.Textarea, max_length=1000, label="Additional comment for this edit", help_text="Please describe your reasoning for this edit so we can keep track of how our database is improving.")
+    edit_reference = forms.CharField(widget=forms.Textarea, required=False, label="Data Reference for your edits", help_text="Please list a source reference for any changes you have made to this MPA record.  This can be a published report, online database, government office, or personal communication.")
+    edit_comment = forms.CharField(widget=forms.Textarea, max_length=1000, required=False, label="Additional comment for this edit", help_text="Please describe your reasoning for this edit so we can keep track of how our database is improving.")
     class Meta:
 		model = Mpa
 		# exclude = ('response_date',)
