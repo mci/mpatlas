@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% comment %}
+{% load sekizai_tags %}
+{% endcomment %}
+
+{% block title %}Home{% endblock %}
+
+{% block base_head_extra %}
+{% endblock %}
+
+{% block base_prebody_content %}
+    <div style="position:absolute; left:0; width:50%; height:504px; background-color:#345A6F;"></div>
+    <div style="position:absolute; right:0; width:50%; height:504px; background-color:#7FBFDB;"></div>
+{% endblock %}
+{% block base_body_content %}
+    <div style="line-height:0;">
+        <a style="outline:none;" href="/explore/"><img src="{{ STATIC_URL }}images/splash.png" /></a>
+    </div>
+{% endblock %}
+
+{% block base_body_extra %}
+
+{% endblock %}
+
+{% block base_footer_content %}
+
+{% endblock %}
+
+{% block bodyend_js %}
+
+{% endblock %}

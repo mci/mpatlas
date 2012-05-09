@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% comment %}
+{% load sekizai_tags %}
+{% endcomment %}
+
+{% block title %}Explore{% endblock %}
+
+{% block base_head_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+
+<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.0.7-gpl/resources/css/ext-all-access.css"/>
+<link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    require({
+        baseUrl: '{{ STATIC_URL }}js',
+		waitSeconds: 20,
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+			backbone: 'backbone-min'
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+		priority: [
+			'leaflet'
+		]
+    }, [
+        'prep',
+        'app',
+        'jquery',
+		'depend!jqueryui[jquery]',
+		'MPAList'
+    ], function(Prep, App) {
+        $(function() {
+            Prep.preparePage();
+            window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
+        });
+    });
+
+</script>
+{% endblock %}
+
+{% block base_body_content %}
+<div id="leafletmap" style="position:relative; width:100%; height:100%; z-index:0;"></div>
+<div id='stats_overlay'>
+	<div class="stats_header medium">Currently Protected</div>
+	<div class="heading bold">1.2<span style="font-size:0.75em;">%</span></div>
+
+	<div class="stats_box_header" style="margin-top:12px;">
+		<span class="medium">Protection Statistics</span>
+	</div>
+	<div class="stats_box" style="font-size:14px;">
+	    <p style="font-style:italic; font-size:.8em;">Currently Calculating...</p>
+		<div id="stats_total_mpas"><b>MPAs:</b> ???</div>
+		<div id="stats_mpas_within_eezs"><b>Within EEZs:</b> ???</div>
+		<div id="stats_mpas_within_highseas"><b>High Seas:</b> ???</div>
+		<div id="stats_mpas_no_take"><b>No Take:</b> ???</div>
+		<br/>
+		<div id="stats_mpas_current_filter" style="font-style:italic;">&nbsp;</div>
+	</div>
+
+	<div class="stats_box_header" style="margin-top:27px;">
+		<span class="medium">Latest MPA News</span>
+	</div>
+	<div class="stats_box" style="font-size:12px;">
+		...
+		<br /><br />
+		...
+		<br /><br />
+		...
+	</div>
+</div>
+{% endblock %}
+
+{% block base_body_extra %}
+<div id='body_list_full'>
+	<div id="list-bg"></div>
+	<div id="mpa-list-container"></div>
+</div>
+
+<div id='filters_overlay'>
+	<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
+	<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+	<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+	<div class="clear"></div>
+</div>
+
+<div id='modetoggle_overlay'>
+	<div class='modetoggle medium'>
+		<a id="btnMapMode" class="modebutton selected" href="#" onclick="mpatlas.switchToMapView()">Map View</a><a id="btnListMode" class="modebutton" href="#" onclick="mpatlas.switchToListView()">List View</a>
+	</div>
+</div>
+
+<div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
+	<p>Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.</p>
+	<img src="//static.mpatlas.org/images/filters/filter_demo.png" alt="" />
+</div>
+<div id="maptip" class="maptip hidden transparent">
+	<div class="maptip-arrow-container">
+		<div class="maptip-arrow"></div>
+	</div>
+	<div id="maptip-content" class="maptip-content"></div>
+</div>
+{% endblock %}
+
+{% block base_footer_content %}
+<div id="explore_toolbar" class="explore_toolbar">
+	<div style="float:left; padding-top:8px; padding-right: 10px; font-size:16px; font-weight:400; font-family: 'Yanone Kaffeesatz', 'TitilliumText22LMedium'" class="explore_title">
+		Explore <br />MPAS by:
+	</div>
+	<div id="explore_mpas" class="explore_button" onclick="mpatlas.setExploreMode('mpas')">
+		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
+		Identify <br /><span class="explore_button_heavytext">Marine Protected Areas</span>
+	</div>
+	<div id="explore_nation" class="explore_button" onclick="mpatlas.setExploreMode('nation')">
+		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
+		Protection Level by <br /><span class="explore_button_heavytext">Nation</span>
+	</div>
+	<div id="explore_meow" class="explore_button" onclick="mpatlas.setExploreMode('meow')">
+		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
+		Protection Level by <br /><span class="explore_button_heavytext">Ecoregion</span>
+	</div>
+	<div id="explore_fao" class="explore_button" onclick="mpatlas.setExploreMode('fao')">
+		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
+		Protection Level by <br /><span class="explore_button_heavytext">Other Region</span>
+	</div>
+</div>
+{% endblock %}
+
+{% block bodyend_js %}
+
+{% endblock %}
