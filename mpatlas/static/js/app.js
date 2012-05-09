@@ -66,7 +66,7 @@ define(
 				// EEZs / Nations		
 				lyr = new L.TileLayer(
 					'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-					{id: 3, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+					{id: 3, maxZoom: 9, opacity: 0.15, scheme: 'tms'}
 				);
 				this.overlayLayers['Exclusive Economic Zones'] = lyr;
 				this.layers.push(lyr);
@@ -311,7 +311,10 @@ define(
 					el: $('#maptip')[0],
 					mpatlas: this
 				}); // setup maptip element and behavior
-	
+				
+				this.maptip.enableMapTip();
+				this.maptip.disableMapTip();
+				
 				this.registerMapHover(); // assign actions on mouse hover/pause and click for map layer feature lookup
 				//this.maptip.toggleEvents(true); // activate the maptip event registration
 	
@@ -322,6 +325,73 @@ define(
 			registerMapHover: function () {
 				var mpatlas = this;
 				var maptip = this.maptip;
+				var check_point_distance = function(mapevent) {
+				    maptip.pointstillgood = true;
+				    var pixeltolerance = 4;
+				    if (maptip.lastPoint) {
+				        if (Math.abs(mapevent.layerPoint.x - maptip.lastPoint.x) > pixeltolerance || Math.abs(mapevent.layerPoint.y - maptip.lastPoint.y) > pixeltolerance) {
+				            maptip.pointstillgood = false;
+				        }
+				    }
+				    maptip.lastPoint = mapevent.layerPoint;
+				    return maptip.pointstillgood;
+				};
+				var load_mpa_maptip = function(mapevent) {
+				    var radius = mpatlas.getPixelRadius(2);
+				    var latlng = mapevent.latlng;
+				    url = mpatlas.domain + 'mpa/lookup/point/?lon=' + latlng.lng + '&lat=' + latlng.lat + '&radius=' + radius;
+					if (mpatlas.proxy && mpatlas.proxy !== '') {
+						url = mpatlas.proxy + escape(url);
+					}
+					$.ajax({
+						url: url,
+						success: function (data) {
+							mpatlas.featuredata = data;
+							var mpahtml = '';
+							mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>';
+							var len = data.mpas.length;
+							var i = 0;
+							for (i = 0; i < len; i++) {
+								mpa = data.mpas[i];
+								mpahtml += '<a class="maptip_mpalink" href="' + mpatlas.domain + 'mpa/sites/' + mpa.id + '/' + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
+							}
+							if (data.mpas.length === 0) {
+								//mpahtml = 'No MPAs at this location';
+                                mpahtml = '';
+                                $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
+                                maptip.disableMapTip();
+								return;											
+							}
+							$('#maptip-content').data('latlon', {
+								lat: latlng.lat,
+								lon: latlng.lon
+							});
+							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
+							$('#maptip-content').html(mpahtml);
+							//maptip.enableMapTip();
+							maptip.enableMapTip();
+						    maptip.toggleEvents(false);
+							//maptip.showMapTip();
+							maptip.offset = $('#leafletmap').offset();
+						},
+						error: function () {
+							$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+						}
+					});
+				};
+				var clearMapTip = function(nothing, hideimmediately) {
+				    mpatlas.featuredata = {};
+					$('#maptip-content').html($('#maptip-content').data('orightml'));
+					if (mpatlas.highlightlayer) {
+						mpatlas.map.removeLayer(mpatlas.highlightlayer);
+					}
+					//maptip.disableMapTip();
+					//maptip.toggleEvents(true);
+					maptip.locked = false;
+					console.log('hidenow?', hideimmediately);
+					maptip.hideMapTip(null, hideimmediately);
+				};
+				maptip.clearMapTip = clearMapTip;
 				var handlers = {
 					
 					maphover: function (e, mapevent) {
@@ -333,8 +403,7 @@ define(
 						
 						var url = null;
 						if (!maptip.locked) {
-	
-							var radius = mpatlas.getPixelRadius(2);
+						    check_point_distance(mapevent);
 							var ll = mapevent.latlng;
 							if (typeof $('#maptip-content').data('orightml') === 'undefined') {
 								$('#maptip-content').data('orightml', $('#maptip-content').html());
@@ -345,44 +414,17 @@ define(
 							switch (mpatlas.currentMode) {
 	
 							case 'mpas':
+							    if (!maptip.pointstillgood) {
+							        hideimmediately = true;
+							        maptip.hideMapTip(null, hideimmediately);
+							    }
+							    clearTimeout(maptip.hovercleartimer);
 								//$('#maptip-content').html('Searching for MPAs...');
-								
-								url = mpatlas.domain + 'mpa/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
-								if (mpatlas.proxy && mpatlas.proxy !== '') {
-									url = mpatlas.proxy + escape(url);
-								}
-								$.ajax({
-									url: url,
-									success: function (data) {
-										mpatlas.featuredata = data;
-										var mpahtml = '';
-										mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>';
-										var len = data.mpas.length;
-										var i = 0;
-										for (i = 0; i < len; i++) {
-											mpa = data.mpas[i];
-											mpahtml += '<a class="maptip_mpalink" href="' + mpatlas.domain + 'mpa/sites/' + mpa.id + '/' + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
-										}
-										if (data.mpas.length === 0) {
-											//mpahtml = 'No MPAs at this location';
-	                                        mpahtml = '';
-	                                        $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-	                                        maptip.disableMapTip();
-											return;											
-										}
-										$('#maptip-content').data('latlon', {
-											lat: ll.lat,
-											lon: ll.lon
-										});
-										$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-										$('#maptip-content').html(mpahtml);
-										maptip.enableMapTip();
-										maptip.offset = $('#leafletmap').offset();
-									},
-									error: function () {
-										$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
-									}
-								});
+								//maptip.enableMapTip();
+								//maptip.hideMapTip();
+							    //maptip.toggleEvents(false);
+								maptip.moveMapTip();
+								load_mpa_maptip(mapevent);
 								break;
 	
 							case 'nation':
@@ -466,23 +508,38 @@ define(
 					
 					maphoverclear: function (e, mapevent) {
 						if (!maptip.locked) {
-							mpatlas.featuredata = {};
-							$('#maptip-content').html($('#maptip-content').data('orightml'));
-							if (mpatlas.highlightlayer) {
-								mpatlas.map.removeLayer(mpatlas.highlightlayer);
-							}
-							maptip.disableMapTip();
+							clearMapTip(null, false);
+						} else {
+						    if (!maptip.mouseover) {
+						        maptip.hovercleartimer = setTimeout(maptip.clearMapTip, 3000);
+					        }
 						}
 					},
 					
 					mapclick: function (mapevent) {
-						if (!maptip.locked) {
+						//if (!maptip.locked) {
+						if (true) {
+						    check_point_distance(mapevent);
+						    $(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
 							switch (mpatlas.currentMode) {
 							case 'mpas':
-								if (mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
+							    clearTimeout(maptip.hovercleartimer);
+								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
 									window.location = mpatlas.domain + 'mpa/sites/' + mpatlas.featuredata.mpas[0].id + '/';
+								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas) {
+								    maptip.enableMapTip();
+								    maptip.toggleEvents(false);
+								    //maptip.hideMapTip();
+								    maptip.moveMapTip();
+									load_mpa_maptip(mapevent);
 								} else {
-									maptip.toggleEvents(false);
+								    maptip.enableMapTip();
+								    maptip.toggleEvents(false);
+    							    hideimmediately = true;
+    							    maptip.hideMapTip(null, hideimmediately);
+								    maptip.hideMapTip();
+								    maptip.moveMapTip();
+									load_mpa_maptip(mapevent);
 								}
 								break;
 							case 'nation':
@@ -638,6 +695,7 @@ define(
 				var mpatlas = options.mpatlas;
 				var maptip = this;
 				this.elem = elem;
+				this.elem.maptip = this;
 				this.mpatlas = mpatlas;
 				//var popuppane = mpatlas.map.getPanes().popupPane;
 				//$('#maptip').appendTo(popuppane);
@@ -649,6 +707,12 @@ define(
 					top: -9999
 				};
 	            maptip.locked = true; // initial value needs to be true
+	            
+	            maptip.mouse = {x:-9999, y:-9999};
+	            $(window).on('mousemove.maptipnow', function(e) {
+	                maptip.mouse.y = e.pageY - maptip.offset.top;
+					maptip.mouse.x = e.pageX - maptip.offset.left;
+	            });
 	
 				//var offsetX = event.pageX - offset.left;
 				//var offsetY = event.pageY - offset.top;
@@ -677,9 +741,15 @@ define(
 					//var offsetX = event.pageX - offset.left;
 					//var offsetY = event.pageY - offset.top;
 					//$('#maptip').css({'top': offsetY, 'left': offsetX});
+					var x = maptip.mouse.x;
+					var y = maptip.mouse.y;
+					if (event) {
+					    x = event.pageX - maptip.offset.left;
+					    y = event.pageY - maptip.offset.top;
+					}
 					$('#maptip').css({
-						'top': event.pageY - maptip.offset.top,
-						'left': event.pageX - maptip.offset.left
+						'top': y,
+						'left': x
 					});
 				};
 	
@@ -702,7 +772,23 @@ define(
 					maptip.toggleEvents(true);
 				});
 			},
-	
+	        
+	        clearMapTip: function (nothing, hideimmediately) {
+	            // stub function, gets filled out by mpatlas
+	        },
+	        
+	        cancelHoverClear: function () {
+	            this.maptip.mouseover = true;
+	            if (this.maptip.hovercleartimer) {
+				    clearTimeout(this.maptip.hovercleartimer);
+				}
+	        },
+	        
+	        setHoverClear: function () {
+	            this.maptip.mouseover = false;
+	            this.maptip.hovercleartimer = setTimeout(this.maptip.clearMapTip, 3000);
+	        },
+	        
 			// make maptip responsive (or not responsive) to mouse and map events
 			// effectively locks maptip on page
 			toggleEvents: function (respond_to_events) {
@@ -711,8 +797,8 @@ define(
 	                if (this.locked) {
 						// enable maptip events
 						// jquery custom events that prevents mouseover bubbling from child nodes
-						$(this.mpatlas.mapelem).on('mouseenter.maptip', this.showMapTip);
-						$(this.mpatlas.mapelem).on('mouseleave.maptip', this.hideMapTip);
+						//$(this.mpatlas.mapelem).on('mouseenter.maptipwindow', this.showMapTip);
+						$(this.mpatlas.mapelem).on('mouseleave.maptipwindow', this.hideMapTip);
 						$(window).on('mousemove.maptip', this.moveMapTip);
 
 						this.locked = false;
@@ -720,8 +806,8 @@ define(
 				} else {
 					// disable maptip event tracking
 					// jquery custom events that prevents mouseover bubbling from child nodes
-					$(this.mpatlas.mapelem).off('mouseenter.maptip', this.showMapTip);
-					$(this.mpatlas.mapelem).off('mouseleave.maptip', this.hideMapTip);
+					//$(this.mpatlas.mapelem).off('mouseenter.maptipwindow', this.showMapTip);
+					$(this.mpatlas.mapelem).off('mouseleave.maptipwindow', this.hideMapTip);
 					$(window).off('mousemove.maptip', this.moveMapTip);
 	
 					//this.map.off('movestart', maptip.disableMapTip);
@@ -729,6 +815,10 @@ define(
 	
 					this.locked = true;
 				}
+				$(maptip.elem).off('mouseenter.maptip', this.cancelHoverClear);
+				$(maptip.elem).off('mouseleave.maptip', this.setHoverClear);
+				$(maptip.elem).on('mouseenter.maptip', this.cancelHoverClear);
+				$(maptip.elem).on('mouseleave.maptip', this.setHoverClear);
 			}
 		});
 	

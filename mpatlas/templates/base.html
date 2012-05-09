@@ -62,19 +62,20 @@
 	</head>
 	<body>
 		<div id='pagewrapper'>
+		    {% block base_preheader_content %}{% endblock %}
     		<div id='header_full'>
     			<div id='header_center'>
     			    <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
     			    <a id="waittlogo" href="/">brought to you by the Waitt Foundation</a>
     			    <ul id="mainmenu">
     			        <li class="selected">
-    			            <a href="/">Explore</a>
+    			            <a href="/explore/">Explore</a>
     			            <ul>
     			                <li>
-    			                    <a href="/">Map</a>
+    			                    <a href="/explore/">Map of Marine Protected Areas</a>
     			                </li>
     			                <li>
-    			                    <a href="/?list=1">List</a>
+    			                    <a href="/explore/?list=1">List of Marine Protected Areas</a>
     			                </li>
     			            </ul>
     			        </li>
@@ -90,7 +91,15 @@
     			            </ul>
     			        </li>
     			        <li>
-    			            <a target="_blank" href="http://depts.washington.edu/mpanews/">News</a>
+    			            <a href="/news/">News</a>
+    			            <ul>
+    			                <li>
+    			                    <a href="/news/">Recent News Feed</a>
+    			                </li>
+    			                <li>
+    			                    <a target="_blank" href="http://depts.washington.edu/mpanews/">MPA News Website<br /><span style="font-size:.7em;">(external: Marine Affairs Research and Education)</span></a>
+    			                </li>
+    			            </ul>
     			        </li>
     			    </ul>
 			    
@@ -107,7 +116,8 @@
     			    {% if user.is_authenticated %}
     			        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href='/users/logout?next={{ request.path }}'>[x]</a>
     			    {% else %}
-    			        <div id='user_logintab'>
+    			        <input style="float:right;" class="facebook" type="image" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
+    			        <div id='user_logintab' style="float:right;">
     			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
     			            <div id='user_loginformcontainer'>
     			                {% if form.errors %}
@@ -139,6 +149,7 @@
                 
     			</div>
     		</div>
+    		{% block base_prebody_content %}{% endblock %}
     		<div id='body_full'>
     			{% block base_body_content %}{% endblock %}
     		</div>

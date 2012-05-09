@@ -67,8 +67,8 @@ a:active {
     float: left;
     display: block;
     position: relative;
-    width: 197px;
-    height: 57px;
+    width: 244px;
+    height: 75px;
     top: 5px;
     background: url('../images/header_logo.png') no-repeat;
     overflow: hidden;
@@ -525,6 +525,62 @@ ul#mainmenu ul li {
     color: #DF753B;
     font-style: italic;
     text-decoration: none;
+}
+
+
+div.rssincl-content {
+	width: 800px;
+	padding: 10px 15px 0 0px;
+	overflow-y: auto;
+	overflow-x: hidden;				
+}
+div.rssincl-entry {
+	padding: 0px 10px 0px 10px;
+	margin-bottom: 35px;
+	border: 1px solid #3C6289;
+	border-radius: 8px;
+	z-index: 1;
+	box-shadow: 1px 1px 3px #888;
+	-moz-box-shadow: 1px 1px 3px #888;
+	-webkit-box-shadow: 1px 1px 4px #999;				
+}
+div.rssincl-entry div.rssincl-itemimage {
+	float: right;
+	margin: 20px 20px 10px 20px;
+}
+
+div.rssincl-entry div.rssincl-itemimage img {
+	border: 1px solid #3C6289;
+	/*border-radius: 8px;*/
+	box-shadow: 1px 1px 3px #888;
+	-moz-box-shadow: 1px 1px 3px #888;
+	-webkit-box-shadow: 1px 1px 4px #999;				
+}
+
+div.rssincl-entry p.rssincl-itemdesc a.p {
+	display: none !important;
+}
+div.rssincl-entry p.rssincl-itemdate {
+	font-size: 11px;
+	font-style: italic;
+	text-align: right;
+	margin-right: 18px;
+}
+
+div.rssincl-entry p.rssincl-itemtitle {
+	min-width: 200px;
+    padding: 2px;
+	padding-left: 10px;
+	margin: -10px 10px -5px 10px;
+	background-color: #3C6289;
+	border-radius: 8px;
+	height: 17px;
+	overflow:hidden;
+}
+div.rssincl-entry p.rssincl-itemtitle a {
+	color: white !important;
+	font-weight:bold;
+	font-size:14px;
 }
 
 

@@ -361,7 +361,7 @@ define(
 					if (cnt === 9042) { //** TODO I know this should not be hard coded
 						el.update('Showing all MPAs');
 					} else {
-						el.update(Ext.String.format("Showing {0} MPAs<br />base on current filter", Ext.util.Format.number(cnt, ',')));				
+						el.update(Ext.String.format("Showing {0} MPAs<br />based on current filter", Ext.util.Format.number(cnt, ',')));				
 					}
 				}
 			},

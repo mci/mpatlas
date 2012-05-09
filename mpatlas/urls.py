@@ -27,9 +27,13 @@ urlpatterns = patterns('',
     url(r'^mpa/', include('mpa.urls')),
     url(r'^region/', include('spatialdata.urls')),
     
+    url(r'^news/', TemplateView.as_view(template_name='news.html')),
+    
     # Only redirect the top level /learn/ to mpapedia
     url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
     
-    url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home_map.html')),
+    url(r'^explore/$', TemplateView.as_view(template_name='map.html')),
+    
+    url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
 )
 
