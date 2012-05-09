@@ -25,11 +25,12 @@ class Eez(models.Model):
     
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
-    geom_smerc = models.MultiPolygonField(srid=3857, null=True)
+    geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
     geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
     
-    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
+    #simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
+    simple_geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     simple_geom = models.MultiPolygonField(srid=4326, null=True)
     simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
     
