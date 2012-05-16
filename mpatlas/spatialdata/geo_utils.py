@@ -31,7 +31,9 @@ def geom2geog(geom):
         # otherwise transform original geometry in geography
         if (ST_XMax(geom_shift) - ST_XMin(geom_shift) < 360):
             geom_out = geom_shift
-    geom = GEOSGeometry(geom_out)
+    # Transform to Plate Carree in meters (32662) then back to lat/lon (4326)
+    # This will modify all points to -180 to 180 range
+    geom = select g from ST_Transform(ST_Transform(geom_out, 32662), 4326)::geography as g
 
 def geog2geom(geog):
     # Transform to geometry
