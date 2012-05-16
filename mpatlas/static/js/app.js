@@ -9,7 +9,7 @@ define(
 	],
 	
 	function (Backbone) {  
-		var ret = Backbone.View.extend({
+		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
 			domain: 'http://' + document.domain + '/',
@@ -47,6 +47,7 @@ define(
 				this.layers = [];
 				this.bgLayers = {};
 				this.overlayLayers = {};
+				var subdomains = '12345678'; // tile1.mpatlas.org, tile2...
 	
 				// ESRI Oceans Layer
 				var lyr = new L.TileLayer(
@@ -65,38 +66,38 @@ define(
 	
 				// EEZs / Nations		
 				lyr = new L.TileLayer(
-					'http://cdn.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-					{id: 3, maxZoom: 9, opacity: 0.15, scheme: 'tms'}
+					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
+					{id: 3, maxZoom: 9, opacity: 0.2, scheme: 'tms', subdomains: subdomains}
 				);
 				this.overlayLayers['Exclusive Economic Zones'] = lyr;
 				this.layers.push(lyr);
 				
 				// Marine Eco-Regions
 				lyr = new L.TileLayer(
-					'http://cdn.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
-					{id: 4, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+					'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
+					{id: 4, maxZoom: 9, opacity: 0.4, scheme: 'tms', subdomains: subdomains}
 				);
 				this.overlayLayers['Marine Eco-Regions'] = lyr;
 				
 				// FAO Fishing Zones
 				lyr = new L.TileLayer(
-					'http://cdn.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
-					{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms'}
+					'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
+					{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms', subdomains: subdomains}
 				);
 				this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 				
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
-					'http://cdn.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-					{id: 6, maxZoom: 9, opacity: 0.5, scheme: 'tms'}
+					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
+					{id: 6, maxZoom: 9, opacity: 0.5, scheme: 'tms', subdomains: subdomains}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
 				
 				// Candidate Marine Protected Areas
 				lyr = new L.TileLayer(
-					'http://mpatlas.s3.amazonaws.com/tilecache/candidates/{z}/{x}/{y}.png',
-					{id: 7, maxZoom: 9, opacity: 0.6, scheme: 'xyz'}
+					'http://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
+					{id: 7, maxZoom: 9, opacity: 0.6, scheme: 'xyz', subdomains: subdomains}
 				);
 				this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
@@ -713,7 +714,14 @@ define(
 	                maptip.mouse.y = e.pageY - maptip.offset.top;
 					maptip.mouse.x = e.pageX - maptip.offset.left;
 	            });
-	
+	            
+	            // Prevent mouse events from hitting map when we're over maptip
+	            // $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
+	            $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
+	                e.stopPropagation();
+	                // return false; // This will prevent links from working, so don't do it.
+	            });
+	            
 				//var offsetX = event.pageX - offset.left;
 				//var offsetY = event.pageY - offset.top;
 				this.showMapTip = function (event) {
@@ -778,15 +786,31 @@ define(
 	        },
 	        
 	        cancelHoverClear: function () {
-	            this.maptip.mouseover = true;
-	            if (this.maptip.hovercleartimer) {
-				    clearTimeout(this.maptip.hovercleartimer);
+	            var maptip = this.maptip;
+	            maptip.mouseover = true;
+	            if (maptip.hovercleartimer) {
+				    clearTimeout(maptip.hovercleartimer);
 				}
+				// Disable map zooming while over maptip
+				var map = maptip.mpatlas.map;
+				map.doubleClickZoom.disable();
+	            map.scrollWheelZoom.disable();
+	            map.touchZoom.disable();
+	            map.boxZoom.disable();
+	            map.dragging.disable();
 	        },
 	        
 	        setHoverClear: function () {
-	            this.maptip.mouseover = false;
-	            this.maptip.hovercleartimer = setTimeout(this.maptip.clearMapTip, 3000);
+	            var maptip = this.maptip;
+	            maptip.mouseover = false;
+	            maptip.hovercleartimer = setTimeout(maptip.clearMapTip, 3000);
+	            // Reenable map zooming when leaving maptip
+	            var map = maptip.mpatlas.map;
+	            map.doubleClickZoom.enable();
+	            map.scrollWheelZoom.enable();
+	            map.touchZoom.enable();
+	            map.boxZoom.enable();
+	            map.dragging.enable();
 	        },
 	        
 			// make maptip responsive (or not responsive) to mouse and map events
@@ -824,7 +848,7 @@ define(
 	
 	
 		return {
-			MPAtlas: ret
+			MPAtlas: _MPAtlas
 		};
 		// What we return here will be used by other modules
 	}
