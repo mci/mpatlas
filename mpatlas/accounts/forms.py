@@ -28,7 +28,7 @@ class UserCreationForm(forms.ModelForm):
     first_name = forms.CharField(label=_("First Name"), max_length=30)
     last_name = forms.CharField(label=_("Last Name"), max_length=30)
     affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300, required=False)
-    country = forms.ChoiceField(label=_("Country_new"), choices=COUNTRIES)
+    country = forms.ChoiceField(label=_("Country"), choices=COUNTRIES)
 
     class Meta:
         model = User
@@ -88,7 +88,7 @@ class UserCreationForm(forms.ModelForm):
         profile = user.get_profile()
         profile.title = self.cleaned_data["title"]
         profile.affiliation = self.cleaned_data["affiliation"]
-        profile.country_new = self.cleaned_data["country"]
+        profile.country = self.cleaned_data["country"]
         profile.save()
         # Send mail confirmation here
         # t = loader.get_template(email_template_name)
