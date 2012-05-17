@@ -3,7 +3,7 @@
 {% load sekizai_tags %}
 {% endcomment %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:fb="http://ogp.me/ns/fb#">
 
 	<head>
 		<title>MPAtlas » {% block title %}{% endblock %}</title>
@@ -61,6 +61,29 @@
 		
 	</head>
 	<body>
+	    <div id="fb-root"></div>
+	    <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '314437775301695', // App ID
+              //channelUrl : '//www.mpatlas.org/channel.html', // Channel File
+              status     : true, // check login status
+              cookie     : true, // enable cookies to allow the server to access the session
+              xfbml      : true  // parse XFBML
+            });
+
+            // Additional initialization code here
+          };
+
+          // Load the SDK Asynchronously
+          (function(d){
+             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement('script'); js.id = id; js.async = true;
+             js.src = "//connect.facebook.net/en_US/all.js";
+             ref.parentNode.insertBefore(js, ref);
+           }(document));
+        </script>
 		<div id='pagewrapper'>
 		    {% block base_preheader_content %}{% endblock %}
     		<div id='header_full'>
@@ -85,9 +108,11 @@
     			                <li>
     			                    <a href="/learn/mpapedia/">MPApedia: all about marine protected areas</a>
     			                </li>
+    			                <!--
     			                <li>
     			                    <a href="/learn/education/">Student/Teacher Resources</a>
     			                </li>
+    			                -->
     			            </ul>
     			        </li>
     			        <li>
@@ -116,7 +141,9 @@
     			    {% if user.is_authenticated %}
     			        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href='/users/logout?next={{ request.path }}'>[x]</a>
     			    {% else %}
+    			        <!--
     			        <input style="float:right;" class="facebook" type="image" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
+    			        -->
     			        <div id='user_logintab' style="float:right;">
     			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
     			            <div id='user_loginformcontainer'>
@@ -146,11 +173,19 @@
     			        </div>
     			    {% endif %}
     			    </div>
+    			    
+    			    {% block header_post_user %}
+    			    {% endblock %}
                 
     			</div>
     		</div>
     		{% block base_prebody_content %}{% endblock %}
     		<div id='body_full'>
+    		    {% block base_fblike %}
+    		        <div style="position: absolute; right:40px; top:8px;">
+		                <fb:like send="false" layout="button_count" width="150" show_faces="false"></fb:like>
+		            </div>
+		        {% endblock %}
     			{% block base_body_content %}{% endblock %}
     		</div>
     		<div id='footer_full'>
@@ -158,7 +193,7 @@
     			    <div id='footer_bluebar' style="height:28px;"></div>
     			    <div id='footer_graybar'>
     			        {% block base_footer_content %}{% endblock %}
-    			        <img src="{{ STATIC_URL }}images/footer_logos.png" style="margin-top:6px;" alt="" />
+    			        <a style="float:right;" target="_blank" href="http://www.marine-conservation.org"><img src="{{ STATIC_URL }}images/footer_mci_logo.png" style="margin-top:4px;" alt="" /><a/>
     			    </div>
     			</div>
     		</div>

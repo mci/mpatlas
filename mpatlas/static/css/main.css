@@ -528,6 +528,58 @@ ul#mainmenu ul li {
 }
 
 
+.splashtabs ul, .tabbednav ul li {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.splashtabs li {
+    color: #CCCCCC;
+    display: block;
+    float: left;
+}
+.splashtabs li a, .splashtabs li a:hover, .splashtabs li a:active, .splashtabs li a:visited {
+    width: 320px;
+    height: 56px;
+    background-color: #464C54;
+    color: #CCCCCC;
+    display: block;
+    font-size: 12px;
+    outline: medium none;
+    text-decoration: none;
+    background-image: url('../images/splash/button_gray.png');
+}
+.splashtabs li a.selected {
+    background-image: url('../images/splash/button_pink.png');
+}
+.splashtabs li a .tabtext {
+    padding: 4px;
+    text-align: center;
+    color: #C85088;
+    font-size: 38px;
+    font-family: 'Yanone Kaffeesatz', 'HelveticaNeue', 'Helvetica-Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    text-shadow: #222 1px 2px 2px;
+}
+.splashtabs li a.selected .tabtext, .splashtabs li a:hover .tabtext {
+    color: white;
+}
+.splashcontent .splashpanel {
+    outline:none;
+    display:block;
+    width:960px;
+    height:394px;
+}
+.splashcontent #explore_panel .splashpanel {
+    background-image: url('../images/splash/splash_explore.png');
+}
+.splashcontent #learn_panel .splashpanel {
+    background-image: url('../images/splash/splash_learn.png');
+}
+.splashcontent #share_panel .splashpanel {
+    background-image: url('../images/splash/splash_share.png');
+}
+
 div.rssincl-content {
 	width: 800px;
 	padding: 10px 15px 0 0px;
