@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django_countries import CountryField
+from django_countries.countries import COUNTRIES
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
@@ -25,8 +27,8 @@ class UserCreationForm(forms.ModelForm):
     title = forms.ChoiceField(label=_("Title"), choices=TITLE_CHOICES)
     first_name = forms.CharField(label=_("First Name"), max_length=30)
     last_name = forms.CharField(label=_("Last Name"), max_length=30)
-    affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300)
-    country = forms.CharField(label=_("Country"), max_length=300)
+    affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300, required=False)
+    country = forms.ChoiceField(label=_("Country_new"), choices=COUNTRIES)
 
     class Meta:
         model = User
@@ -86,7 +88,7 @@ class UserCreationForm(forms.ModelForm):
         profile = user.get_profile()
         profile.title = self.cleaned_data["title"]
         profile.affiliation = self.cleaned_data["affiliation"]
-        profile.country = self.cleaned_data["country"]
+        profile.country_new = self.cleaned_data["country"]
         profile.save()
         # Send mail confirmation here
         # t = loader.get_template(email_template_name)

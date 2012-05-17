@@ -213,8 +213,8 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     
     'reversion',
-    
     'tinymce',
+    'django_countries',
     
     # User accounts and registration
     'accounts',
