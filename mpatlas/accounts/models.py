@@ -19,8 +19,7 @@ class UserProfile(models.Model):
     # Other fields here
     title = models.CharField(max_length=200, default='', choices=TITLE_CHOICES)
     affiliation = models.CharField('organization', max_length=300, blank=True)
-    country_new = CountryField()
-    country = models.CharField(max_length=300)
+    country = CountryField()
     
     def __unicode__(self):
         return '%s - %s %s' % (self.user.username, self.user.first_name, self.user.last_name)
