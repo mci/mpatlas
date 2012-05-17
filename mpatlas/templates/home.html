@@ -5,13 +5,80 @@
 
 {% block title %}Home{% endblock %}
 
+{% block base_head_extra %}
+<script type="text/javascript">
+    require({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            idtabs: 'jquery.idTabs.min'
+        },
+        priority: ['jquery']
+    }, [
+        'prep',
+        'jquery',
+        'depend!jqueryui[jquery]',
+        'depend!idtabs[jquery]'
+    ], function(Prep) {
+	    $(function() {
+            Prep.preparePage();
+            $(".splashtabs ul").idTabs(function(id,list,set){ 
+    		    $("a",set).removeClass("selected") 
+    		    .filter("[href='"+id+"']",set).addClass("selected"); 
+    		    for(i in list) 
+    		      $(list[i]).hide(); 
+    		    $(id).fadeIn(); 
+    		    return false; 
+    		  });
+        });
+	});
+</script>
+
+{% block base_head_extra_extra %}{% endblock %}
+
+{% endblock %}
+
 {% block base_prebody_content %}
-    <div style="position:absolute; left:0; width:50%; height:504px; background-color:#345A6F;"></div>
-    <div style="position:absolute; right:0; width:50%; height:504px; background-color:#7FBFDB;"></div>
+    <div style="position:absolute; left:0; width:50%; height:394px; background-color:#345A6F;"></div>
+    <div style="position:absolute; right:0; width:50%; height:394px; background-color:#7FBFDB;"></div>
 {% endblock %}
 {% block base_body_content %}
-    <div style="line-height:0;">
-        <a style="outline:none;" href="/explore/"><img src="{{ STATIC_URL }}images/splash.png" /></a>
+    <div style="">
+    	<div class="splashcontent">
+    		<div style="display: block;" class="tabpanel" id="explore_panel"> 	
+                <a class="splashpanel" href="/explore/"></a>
+    		</div>
+    		<div style="display: block;" class="tabpanel" id="learn_panel"> 	
+                <a class="splashpanel" href="/explore/"></a>
+    		</div>
+    		<div style="display: block;" class="tabpanel" id="share_panel"> 	
+                <a class="splashpanel" href="/explore/"></a>
+    		</div>
+    		<div class="clear"></div>
+    	</div>
+    	<div class="splashtabs">
+    		<ul>
+    			<li class="selected" id="explore_tab">
+    			    <a href="#explore_panel" class="selected">
+    			        <div class="tabtext">Explore</div>
+    			    </a>
+    			</li>
+    			<li id="learn_tab">
+    			    <a href="#learn_panel">
+    			        <div class="tabtext">Learn</div>
+    			    </a>
+    			</li>
+    			<li id="share_tab">
+    			    <a href="#share_panel">
+    			        <div class="tabtext">Share</div>
+    			    </a>
+    			</li>
+    		</ul>
+    	</div>
+    	<div class="clear"></div>
+    	
+    	
     </div>
 {% endblock %}
 
