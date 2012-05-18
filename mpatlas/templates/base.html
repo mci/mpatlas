@@ -62,7 +62,7 @@
 	</head>
 	<body>
 	    <div id="fb-root"></div>
-	    <script>
+	    <script type="text/javascript">
           window.fbAsyncInit = function() {
             FB.init({
               appId      : '314437775301695', // App ID
@@ -153,6 +153,9 @@
 
                                 <form id="user_loginform" action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login_form">
                                     {% csrf_token %}
+                                    <div class="hide">
+                                        <input type="hidden" name="next" value="{{ request.path }}" />
+                                    </div>
                                     <p>
                                         <label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30" />
                                     </p>
@@ -162,9 +165,8 @@
                                     <p class="submit">
                                         <button class="user_button user_login" type="submit" name="submit" value="login">Log in</button>
                                         <a href='/users/password_reset?next={{ request.path }}'>Forgot password?</a>
-                                        <div class="clear"></div>
+                                        <span class="clear"></span>
                                     </p>
-                                    <input type="hidden" name="next" value="{{ request.path }}" />
                                 </form>
                                 <p class="user_signupblock">
                                     Not a member? <a id='user_signuplink' href='/users/signup?next={{ request.path }}'>Join Now!</a>
@@ -193,7 +195,7 @@
     			    <div id='footer_bluebar' style="height:28px;"></div>
     			    <div id='footer_graybar'>
     			        {% block base_footer_content %}{% endblock %}
-    			        <a style="float:right;" target="_blank" href="http://www.marine-conservation.org"><img src="{{ STATIC_URL }}images/footer_mci_logo.png" style="margin-top:4px;" alt="" /><a/>
+    			        <a style="float:right;" target="_blank" href="http://www.marine-conservation.org"><img src="{{ STATIC_URL }}images/footer_mci_logo.png" style="margin-top:4px;" alt="" /></a>
     			    </div>
     			</div>
     		</div>
