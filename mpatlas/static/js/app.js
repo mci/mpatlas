@@ -369,7 +369,6 @@ define(
 							});
 							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
 							$('#maptip-content').html(mpahtml);
-							//maptip.enableMapTip();
 							maptip.enableMapTip();
 						    maptip.toggleEvents(false);
 							//maptip.showMapTip();
@@ -378,6 +377,81 @@ define(
 						error: function () {
 							$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
 						}
+					});
+				};
+				var load_region_maptip = function(mapevent) {
+				    var radius = mpatlas.getPixelRadius(2);
+				    //var radius = 0.00000001;
+				    var latlng = mapevent.latlng;
+					url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/lookup/point/?lon=' + latlng.lng + '&lat=' + latlng.lat + '&radius=' + radius;
+					if (mpatlas.proxy && mpatlas.proxy !== '') {
+						url = mpatlas.proxy + escape(url);
+					}
+					$.ajax({
+						url: url,
+						success: function (data) {
+							mpatlas.featuredata = data;
+							var mpahtml = '';
+							mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
+							if (data.regions.length > 0) {
+								var region = data.regions[0]; // Just report one region at a time
+								mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
+								mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
+								mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
+								mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
+								mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
+								mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
+
+								// Load feature from GeoJSON
+								url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + region.id + '/features/';
+								if (mpatlas.proxy && mpatlas.proxy !== '') {
+									url = mpatlas.proxy + escape(url);
+								}
+
+								$.ajax({
+									url: url,
+									success: function (data) {
+										var geojson = new L.GeoJSON(data);
+										geojson.setStyle({
+											weight: 3,
+											color: '#1FF',
+											opacity: 0.5,
+											fillColor: '#1FF',
+											fillOpacity: 0.3
+										});
+										if (mpatlas.highlightlayer) {
+											mpatlas.map.removeLayer(mpatlas.highlightlayer);
+										}
+										delete mpatlas.highlightlayer;
+										geojson.on('click', function (mapevent) {
+											mpatlas.map.fireEvent('click', mapevent); // pass click from layer to map
+										});
+										mpatlas.map.addLayer(geojson);
+										mpatlas.highlightlayer = geojson;
+									}
+								});
+								
+							} else {
+								//mpahtml = 'No Region at this location';
+								mpahtml = '';
+								$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
+								maptip.disableMapTip();
+								return;
+							}
+							$('#maptip-content').data('latlon', {
+								lat: latlng.lat,
+								lon: latlng.lon
+							});
+							$('#maptip-content').html(mpahtml);
+							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
+							maptip.enableMapTip();
+						    maptip.toggleEvents(false);
+							//maptip.showMapTip();
+							maptip.offset = $('#leafletmap').offset();
+						},
+						error: function (xhr, ajaxOptions, thrownError) {
+                            $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+                        }
 					});
 				};
 				var clearMapTip = function(nothing, hideimmediately) {
@@ -389,7 +463,6 @@ define(
 					//maptip.disableMapTip();
 					//maptip.toggleEvents(true);
 					maptip.locked = false;
-					console.log('hidenow?', hideimmediately);
 					maptip.hideMapTip(null, hideimmediately);
 				};
 				maptip.clearMapTip = clearMapTip;
@@ -420,10 +493,6 @@ define(
 							        maptip.hideMapTip(null, hideimmediately);
 							    }
 							    clearTimeout(maptip.hovercleartimer);
-								//$('#maptip-content').html('Searching for MPAs...');
-								//maptip.enableMapTip();
-								//maptip.hideMapTip();
-							    //maptip.toggleEvents(false);
 								maptip.moveMapTip();
 								load_mpa_maptip(mapevent);
 								break;
@@ -432,76 +501,13 @@ define(
 							case 'meow':
 							case 'fao':
 								//$('#maptip-content').html('Searching for Region...');
-	
-								radius = 0.00000001;
-	
-								url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/lookup/point/?lon=' + ll.lng + '&lat=' + ll.lat + '&radius=' + radius;
-								if (mpatlas.proxy && mpatlas.proxy !== '') {
-									url = mpatlas.proxy + escape(url);
-								}
-								$.ajax({
-									url: url,
-									success: function (data) {
-										mpatlas.featuredata = data;
-										var mpahtml = '';
-										mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
-										if (data.regions.length > 0) {
-											var region = data.regions[0]; // Just report one region at a time
-											mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
-											mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
-											mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
-											mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
-											mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
-											mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
-	
-											// Load feature from GeoJSON
-											url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + region.id + '/features/';
-											if (mpatlas.proxy && mpatlas.proxy !== '') {
-												url = mpatlas.proxy + escape(url);
-											}
-	
-											$.ajax({
-												url: url,
-												success: function (data) {
-													var geojson = new L.GeoJSON(data);
-													geojson.setStyle({
-														weight: 3,
-														color: '#1FF',
-														opacity: 0.5,
-														fillColor: '#1FF',
-														fillOpacity: 0.3
-													});
-													if (mpatlas.highlightlayer) {
-														mpatlas.map.removeLayer(mpatlas.highlightlayer);
-													}
-													delete mpatlas.highlightlayer;
-													geojson.on('click', function (mapevent) {
-														mpatlas.map.fireEvent('click', mapevent); // pass click from layer to map
-													});
-													mpatlas.map.addLayer(geojson);
-													mpatlas.highlightlayer = geojson;
-												}
-											});
-											
-										} else {
-											//mpahtml = 'No Region at this location';
-											mpahtml = '';
-											$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-											maptip.disableMapTip();
-											return;
-										}
-										$('#maptip-content').data('latlon', {
-											lat: ll.lat,
-											lon: ll.lon
-										});
-										$('#maptip-content').html(mpahtml);
-										$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-										maptip.enableMapTip();
-									},
-									error: function (xhr, ajaxOptions, thrownError) {
-                                        $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
-                                    }
-								});
+								if (!maptip.pointstillgood) {
+							        hideimmediately = true;
+							        maptip.hideMapTip(null, hideimmediately);
+							    }
+							    clearTimeout(maptip.hovercleartimer);
+								maptip.moveMapTip();
+								load_region_maptip(mapevent);
 								break;
 							}
 						}
@@ -546,10 +552,23 @@ define(
 							case 'nation':
 							case 'meow':
 							case 'fao':
-								if (mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length >= 1) {
-									window.location = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id;
+							    clearTimeout(maptip.hovercleartimer);
+								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length === 1) {
+									window.location = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id + '/';
+								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions) {
+								    maptip.enableMapTip();
+								    maptip.toggleEvents(false);
+								    //maptip.hideMapTip();
+								    maptip.moveMapTip();
+									load_region_maptip(mapevent);
 								} else {
-									maptip.toggleEvents(false);
+								    maptip.enableMapTip();
+								    maptip.toggleEvents(false);
+    							    hideimmediately = true;
+    							    maptip.hideMapTip(null, hideimmediately);
+								    maptip.hideMapTip();
+								    maptip.moveMapTip();
+									load_region_maptip(mapevent);
 								}
 								break;
 							}
@@ -774,7 +793,11 @@ define(
 					maptip.showMapTip(e);
 				};
 	
-				mpatlas.map.on('movestart', maptip.disableMapTip);
+				//mpatlas.map.on('movestart', maptip.disableMapTip);
+				mpatlas.map.on('movestart', function() {
+				    maptip.clearMapTip();
+				    maptip.disableMapTip();
+				});
 				//mpatlas.map.on('moveend', maptip.enableMapTip);
 				mpatlas.map.on('moveend', function () {
 					maptip.toggleEvents(true);

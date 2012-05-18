@@ -42,6 +42,12 @@
         $(function() {
             Prep.preparePage();
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
+            window['showfilterdialog'] = function() {
+                $("#addfilterdialog").dialog({
+        			width: 600,
+        			modal: true
+        		});
+            }
         });
     });
 
@@ -99,14 +105,12 @@
 	<div id="mpa-list-container"></div>
 </div>
 
-<!--
 <div id='filters_overlay'>
 	<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
 	<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
 	<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
 	<div class="clear"></div>
 </div>
--->
 
 <div id='modetoggle_overlay'>
 	<div class='modetoggle medium'>
@@ -115,7 +119,12 @@
 </div>
 
 <div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
-	<p>Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.</p>
+	<p>
+	    FEATURE TO BE RELEASED DURING BETA TEST PERIOD
+	</p>
+	<p>
+	    Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.
+	</p>
 	<img src="//static.mpatlas.org/images/filters/filter_demo.png" alt="" />
 </div>
 <div id="maptip" class="maptip hidden transparent">
