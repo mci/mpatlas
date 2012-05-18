@@ -12,6 +12,10 @@ h1, .heading {font: 50px/56px 'Yanone Kaffeesatz', 'TitilliumText22LRegular', Ar
     clear: both;
 }
 
+.hide {
+    display: none;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -548,13 +552,12 @@ ul#mainmenu ul li {
     outline: medium none;
     text-decoration: none;
     background-image: url('../images/splash/button_gray.png');
+    text-align:center;
 }
 .splashtabs li a.selected {
     background-image: url('../images/splash/button_pink.png');
 }
 .splashtabs li a .tabtext {
-    padding: 4px;
-    text-align: center;
     color: #C85088;
     font-size: 38px;
     font-family: 'Yanone Kaffeesatz', 'HelveticaNeue', 'Helvetica-Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
