@@ -31,16 +31,16 @@ class EezJsonListView(EezListView):
     def render_to_response(self, context, **kwargs):
         return super(EezJsonListView, self).render_to_response(context, content_type='application/json; charset=utf-8', **kwargs)
 
-def get_eez_geom_wkt(request, pk, simplified=True, webmercator=False):
+def get_geom_wkt(request, model, pk, simplified=True, webmercator=False):
     geomfield = 'geom'
     if (webmercator):
         geomfield = 'geom_smerc'
     if simplified:
         geomfield = 'simple_' + geomfield
-    eez = Eez.objects.only(geomfield).get(pk=pk)
-    return HttpResponse(getattr(eez,geomfield).wkt, content_type='text/plain; charset=utf-8')
+    obj = model.objects.only(geomfield).get(pk=pk)
+    return HttpResponse(getattr(obj,geomfield).wkt, content_type='text/plain; charset=utf-8')
 
-def get_eez_geom_json(request, pk, simplified=True, webmercator=False):
+def get_geom_json(request, model, pk, simplified=True, webmercator=False):
     try:
         simplified = (not request.GET['simplified'].upper() == 'FALSE')
     except:
@@ -54,8 +54,8 @@ def get_eez_geom_json(request, pk, simplified=True, webmercator=False):
         geomfield = 'geom_smerc'
     if simplified:
         geomfield = 'simple_' + geomfield
-    eez = Eez.objects.geojson(field_name=geomfield).defer(*Eez.get_geom_fields()).get(pk=pk)
-    return HttpResponse(eez.geojson, content_type='application/json; charset=utf-8')
+    obj = model.objects.geojson(field_name=geomfield).defer(*model.get_geom_fields()).get(pk=pk)
+    return HttpResponse(obj.geojson, content_type='application/json; charset=utf-8')
 
 def get_nation_geom_json(request, pk, simplified=True, webmercator=False):
     try:
@@ -136,23 +136,23 @@ def region_lookup_point(request, region):
             else:
                 lon360 = normalize_lon(lon) - 360
             point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference('WGS84').srid)
-            point.transform(900913) # Google Spherical Mercator srid
-            point360.transform(900913)
+            point.transform(3857) # Proper Spherical Mercator srid
+            point360.transform(3857)
             #mpa_list = Mpa.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
             region_list = region.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*region.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Proper Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
             region_list = region.objects.filter(geog__intersects=searchbuffer).defer(*region.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Proper Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
             region_list = region.objects.filter(geog__intersects=searchbuffer.envelope).defer(*region.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Proper Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
             region_list = region.objects.filter(geog__intersects=searchbuffer).defer(*region.get_geom_fields())
             search = searchbuffer
@@ -172,7 +172,7 @@ def nation_lookup_point(request, region):
     """Find nearby polygons with a point and search radius.
     Three lookup methods are supported:
         webmercator: radius (in km) is applied to search buffer in
-            900913 (aka Google Spherical Mercator) projection.  This method
+            3857 (Spherical Mercator) projection.  This method
             is appropriate when used in conjuction with web maps.
         greatcircle: uses PostGIS ST_DWithin spatial query on a geography
             column, using great circle distances.
@@ -213,23 +213,23 @@ def nation_lookup_point(request, region):
             else:
                 lon360 = normalize_lon(lon) - 360
             point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference('WGS84').srid)
-            point.transform(900913) # Google Spherical Mercator srid
-            point360.transform(900913)
+            point.transform(3857) # Spherical Mercator srid
+            point360.transform(3857)
             #mpa_list = Mpa.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
             region_list = region.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*region.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
             region_list = region.objects.filter(geog__intersects=searchbuffer).defer(*region.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
             region_list = region.objects.filter(geog__intersects=searchbuffer.envelope).defer(*region.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
             region_list = region.objects.filter(geog__intersects=searchbuffer).defer(*region.get_geom_fields())
             search = searchbuffer

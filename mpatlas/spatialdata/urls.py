@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView, DetailView, ListView
 
-from spatialdata.models import Nation, Eez
+from spatialdata.models import Nation, Eez, Meow
 from spatialdata.views import EezListView, EezJsonListView
 
 urlpatterns = patterns('',
@@ -72,40 +72,40 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='eez-infojson'),
-    url(r'^eez/(?P<pk>\d+)/features/$', 'spatialdata.views.get_eez_geom_json', name='eez-geojson'),
+    url(r'^eez/(?P<pk>\d+)/features/$', 'spatialdata.views.get_geom_json', {'model': Eez}, name='eez-geojson'),
 
     url(r'^eez/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Eez}),
     
     
-    # url(r'^meow/$',
-    #     EezListView.as_view(
-    #         queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
-    #         context_object_name='mpa_list',
-    #         paginate_by=30,
-    #         template_name='mpa/Mpa_list.html'),
-    #     name='meow-list'),
-    # url(r'^meow/json/$',
-    #     EezJsonListView.as_view(
-    #         queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
-    #         context_object_name='mpa_list',
-    #         paginate_by=None,
-    #         template_name='mpa/Mpa_list.json'),
-    #     name='meow-listjson'),
-    # url(r'^meow/(?P<pk>\d+)/$',
-    #     DetailView.as_view(
-    #         model=Meow,
-    #         queryset=Meow.objects.defer(*Meow.get_geom_fields()),
-    #         context_object_name='mpa',
-    #         template_name='mpa/Mpa_detail.html'),
-    #     name='meow-info'),
-    # url(r'^meow/(?P<pk>\d+)/json/$',
-    #     DetailView.as_view(
-    #         model=Meow,
-    #         queryset=Eez.objects.defer(*Meow.get_geom_fields()),
-    #         context_object_name='mpa',
-    #         template_name='mpa/Mpa_detail.json'),
-    #     name='eez-infojson'),
-    # url(r'^meow/(?P<pk>\d+)/features/$', 'spatialdata.views.get_meow_geom_json', name='meow-geojson'),
-    # 
-    # url(r'^meow/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Meow}),
+    url(r'^meow/$',
+        EezListView.as_view(
+            queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
+            context_object_name='mpa_list',
+            paginate_by=30,
+            template_name='mpa/Mpa_list.html'),
+        name='meow-list'),
+    url(r'^meow/json/$',
+        EezJsonListView.as_view(
+            queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
+            context_object_name='mpa_list',
+            paginate_by=None,
+            template_name='mpa/Mpa_list.json'),
+        name='meow-listjson'),
+    url(r'^meow/(?P<pk>\d+)/$',
+        DetailView.as_view(
+            model=Meow,
+            queryset=Meow.objects.defer(*Meow.get_geom_fields()),
+            context_object_name='mpa',
+            template_name='mpa/Mpa_detail.html'),
+        name='meow-info'),
+    url(r'^meow/(?P<pk>\d+)/json/$',
+        DetailView.as_view(
+            model=Meow,
+            queryset=Eez.objects.defer(*Meow.get_geom_fields()),
+            context_object_name='mpa',
+            template_name='mpa/Mpa_detail.json'),
+        name='eez-infojson'),
+    url(r'^meow/(?P<pk>\d+)/features/$', 'spatialdata.views.get_geom_json', {'model': Meow}, name='meow-geojson'),
+    
+    url(r'^meow/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Meow}),
 )

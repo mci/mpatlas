@@ -7,6 +7,7 @@ from django.contrib.gis import geos, gdal
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import connection, transaction
+from tinymce.models import HTMLField
 
 import reversion
 from reversion.models import Revision
@@ -188,7 +189,7 @@ class Mpa(models.Model):
     notes = models.TextField('Area Notes', null=True, blank=True)
     
     # Summary Info
-    summary = models.TextField('MPA Summary Site Description', null=True, blank=True)
+    summary = HTMLField('MPA Summary Site Description', null=True, blank=True)
     
     ## GEOGRAPHY
     is_point = models.BooleanField(default=False)
@@ -345,7 +346,7 @@ class WikiArticle(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True)
     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
     title = models.CharField(max_length=500, null=True, blank=True)
-    summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+    summary =  HTMLField('MPA Site Description from Wikipedia', null=True, blank=True)
     
     # Returns the string representation of the model.
     def __unicode__(self):
@@ -354,8 +355,10 @@ class WikiArticle(models.Model):
 
 class Contact(models.Model):
     agency = models.CharField(max_length=500)
-    url = models.URLField(max_length=500)
-    address = models.TextField()
+    url = models.URLField(max_length=500, null=True, blank=True)
+    email = models.EmailField(max_length=500, null=True, blank=True)
+    address = HTMLField(null=True, blank=True)
+    phone = models.CharField(max_length=500, null=True, blank=True)
     
     # Returns the string representation of the model.
     def __unicode__(self):
@@ -378,13 +381,46 @@ class VersionMetadata(models.Model):
 #     pass
 
 
+CANDIDATE_SCOPE_CHOICES = (
+    ('Site', 'Site'),
+    ('Seascape', 'Seascape'),
+)
+
+
+# class CandidateInfo(models.Model):
+#     mpa = models.OneToOneField(Mpa, primary_key=True, null=True)
+#     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
+#     title = models.CharField(max_length=500, null=True, blank=True)
+#     summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
+#     
+#     source = models.CharField(max_length=500, null=True, blank=True)
+#     scope = models.CharField(max_length=200, null=True, blank=True, choices=CANDIDATE_SCOPE_CHOICES, default='Site')
+#     basin
+#     region
+#     location
+#     eez_or_highseas
+#     lead_organization
+#     partner_organizations
+#     key_agency_or_leader
+#     timeframe
+#     current_protection
+#     desired_protection
+#     importance
+#     opportunity
+#     references
+#     
+#     # Returns the string representation of the model.
+#     def __unicode__(self):
+#         return 'Candidate Info: %s' % (self.mpa.name)
+
+
 class MpaCandidate(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
     name = models.CharField(max_length=56)
     
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
-    geom_smerc = models.MultiPointField(srid=900913, null=True)
+    geom_smerc = models.MultiPointField(srid=3857, null=True)
     geom = models.MultiPointField(srid=4326, null=True)
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
     objects = models.GeoManager()
