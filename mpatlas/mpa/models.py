@@ -186,7 +186,7 @@ class Mpa(models.Model):
     
     # Notes
     wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
-    notes = models.TextField('Area Notes', null=True, blank=True)
+    notes = models.TextField('Area Notes', null=True, blank=True, default='')
     
     # Summary Info
     summary = HTMLField('MPA Summary Site Description', null=True, blank=True)
@@ -387,31 +387,29 @@ CANDIDATE_SCOPE_CHOICES = (
 )
 
 
-# class CandidateInfo(models.Model):
-#     mpa = models.OneToOneField(Mpa, primary_key=True, null=True)
-#     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
-#     title = models.CharField(max_length=500, null=True, blank=True)
-#     summary = models.TextField('MPA Site Description from Wikipedia', null=True, blank=True)
-#     
-#     source = models.CharField(max_length=500, null=True, blank=True)
-#     scope = models.CharField(max_length=200, null=True, blank=True, choices=CANDIDATE_SCOPE_CHOICES, default='Site')
-#     basin
-#     region
-#     location
-#     eez_or_highseas
-#     lead_organization
-#     partner_organizations
-#     key_agency_or_leader
-#     timeframe
-#     current_protection
-#     desired_protection
-#     importance
-#     opportunity
-#     references
-#     
-#     # Returns the string representation of the model.
-#     def __unicode__(self):
-#         return 'Candidate Info: %s' % (self.mpa.name)
+class CandidateInfo(models.Model):
+    mpa = models.OneToOneField(Mpa, primary_key=True)
+    summary = HTMLField('Candidate MPA Summary Description', null=True, blank=True)
+    
+    source = models.CharField(max_length=1000, null=True, blank=True)
+    scope = models.CharField(max_length=250, null=True, blank=True, choices=CANDIDATE_SCOPE_CHOICES, default='Site')
+    basin = models.CharField(max_length=250, null=True, blank=True)
+    region = models.CharField(max_length=250, null=True, blank=True)
+    location = models.CharField(max_length=1000, null=True, blank=True)
+    eez_or_highseas = models.CharField(max_length=1000, null=True, blank=True)
+    lead_organization = models.CharField(max_length=500, null=True, blank=True)
+    partner_organizations = models.CharField(max_length=1000, null=True, blank=True)
+    key_agency_or_leader = models.CharField(max_length=500, null=True, blank=True)
+    timeframe = models.CharField(max_length=500, null=True, blank=True)
+    current_protection = models.CharField(max_length=1000, null=True, blank=True)
+    desired_protection = models.CharField(max_length=1000, null=True, blank=True)
+    importance = models.CharField(max_length=1000, null=True, blank=True)
+    opportunity = models.CharField(max_length=1000, null=True, blank=True)
+    references = models.CharField(max_length=1000, null=True, blank=True)
+    
+    # Returns the string representation of the model.
+    def __unicode__(self):
+        return 'Candidate Info: %s' % (self.mpa.name)
 
 
 class MpaCandidate(models.Model):

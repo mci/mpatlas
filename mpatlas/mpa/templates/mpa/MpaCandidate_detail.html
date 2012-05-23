@@ -4,7 +4,7 @@
 
 {% block base_body_content %}
     <div class='modetoggle medium' style="float:right;">
-        <a class="modebutton" href="/explore/">Map View</a><a class="modebutton" href="{% url wdpa-siteslist %}">List View</a>
+        <a class="modebutton" href="/explore/">Map View</a><a class="modebutton" href="">List View</a>
     </div>
 
     <h3 style="float:left;">{{ mpa.country }} PROPOSED MPA</h3>
@@ -23,11 +23,7 @@
         <div class="sidebar_item_title">Site Information</div>
     	<div class="sidebar_item_content">
     		<ul>
-            {% for key, value in mpa.myfieldslist %}
-                {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' and not key == 'bbox' and not key == 'bbox_geojson' and not key == 'point_within' %}
-                <li style="border-bottom:1px solid #DDD;"> <strong>{{ value.verbose }}</strong>: <span style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
-                {% endif %}
-            {% endfor %}
+            
             </ul>
     	</div>
     </div>

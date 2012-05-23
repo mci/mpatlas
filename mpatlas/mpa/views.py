@@ -195,6 +195,7 @@ def lookup_point(request):
             'mpa_list': mpa_list,
         }, content_type='application/json; charset=utf-8')
     else:
+        mpa_valid = Mpa.objects.exclude(verification_state='Rejected as MPA')
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
@@ -207,28 +208,28 @@ def lookup_point(request):
             point.transform(3857) # Google Spherical Mercator srid
             point360.transform(3857)
             #mpa_list = Mpa.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
-            mpa_list = Mpa.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*Mpa.get_geom_fields())
+            mpa_list = mpa_valid.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*Mpa.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
-            mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
+            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
-            mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer.envelope).defer(*Mpa.get_geom_fields()) # use simple bounding box instead
+            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer.envelope).defer(*Mpa.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
-            mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
+            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
         elif (method == 'greatcircle'):
-            mpa_list = Mpa.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
+            mpa_list = mpa_valid.filter(geog__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
             search = point
         elif (method == 'point'):
-            mpa_list = Mpa.objects.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
+            mpa_list = mpa_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
         mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
