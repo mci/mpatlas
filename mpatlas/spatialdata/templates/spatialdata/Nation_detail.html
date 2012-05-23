@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mpa.name }}{% endblock %}
+
+{% block base_head_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+
+<link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    require({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+			backbone: 'backbone-min',
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+		priority: [
+			'leaflet'
+		]
+    }, [
+        'prep',
+        'sitedetail',
+        'jquery',
+        'depend!jqueryui[jquery]',
+    ], function(Prep, SiteDetail) {
+        $(function() {
+            Prep.preparePage();
+            var site_id = {{ mpa.pk }},
+                feature_url = '{% url nation-geojson mpa.pk %}?simplified=true',
+                is_point = {% if mpa.is_point %}true{% else %}false{% endif %},
+                point_within = [{{ mpa.point_within.coords.0 }},{{ mpa.point_within.coords.1 }}],
+                bbox = [[{{ mpa.bbox_lowerleft.coords.0 }},{{ mpa.bbox_lowerleft.coords.1 }}], [{{ mpa.bbox_upperright.coords.0 }},{{ mpa.bbox_upperright.coords.1 }}]];
+            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ mpa.pk }}, feature_url, is_point, point_within, bbox);
+        });
+    });
+
+</script>
+{% endblock %}
+
+{% block base_body_content %}
+    <div class='modetoggle medium' style="float:right;">
+        <a class="modebutton" href="/explore/">Map View</a><a class="modebutton" href="/explore/?list=1">List View</a>
+    </div>
+    <div class="clear" style="clear:both;"></div>
+    
+    <div id="leftcol" style="float:left; width:34%;">
+        <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
+            Average Protection Level:
+                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">PROPOSED</div>
+        </div>
+        <div id="siteinfotitle" class="sidebar_item_title">Nation Information
+            {% if user.is_authenticated %}
+	            <a href="edit" style="float:right; color:white; margin-right:8px;">EDIT</a>
+	        {% else %}
+	            <a class='user_loginlink' href="#login" style="float:right; color:white; margin-right:8px;">EDIT</a>
+	        {% endif %}
+	    </div>
+    	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
+    		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
+            {% for key, value in mpa.display_fields_list %}
+                <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
+            {% endfor %}
+            </ul>
+            <a id="infoexpander" class="infoexpander" style="display:block;" href="#" onclick="return false;"><span class="expander"><span style="font-style:normal;">&dArr;</span> See all data records for this site</span><span class="collapser"><span style="font-style:normal;">&uArr;</span> Show less</span></a>
+    	</div>
+    	<div id='leafletmap'></div>
+    </div>
+    <div id="rightcol" style="float:right; width: 66%;">
+        <div style="padding: 8px;">
+            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
+                {{ mpa.name }}
+                <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
+            </p>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
+            
+            <div class="sidebar_item_title">Site Description</div>
+        	<div class="sidebar_item_content">
+        	    {% if mpa.summary %}
+                    <p>
+                        {{ mpa.summary|safe }}
+                    </p>
+                {% endif %}
+                {% if mpa.wikiarticle %}
+                    <p>
+                        {{ mpa.wikiarticle.title }}
+                        <br />
+                        from wikipedia: <a href="{{ mpa.wikiarticle.url|safe }}">{{ mpa.wikiarticle.url|safe }}</a>
+                    </p>
+                        {{ mpa.wikiarticle.summary|safe }}
+                {% endif %}
+        	</div>
+        	
+            <div class="sidebar_item_title">Stats and Coverage</div>
+        	<div class="sidebar_item_content">
+        	    Figures and summary stats go here
+        	</div>
+        	
+        	<div class="sidebar_item_title">National Level Contacts &amp; Resources</div>
+        	<div class="sidebar_item_content">
+        	    {% if mpa.contact and mpa.contact.url %}
+                    <p>
+                        {{ mpa.contact.agency }}
+                        <br />
+                        <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
+                        <br />
+                        {{ mpa.contact.address }}
+                    </p>
+                {% endif %}
+        	</div>
+    	</div>
+    </div>
+    <div class="clear"></div>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% endblock %}

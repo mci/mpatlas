@@ -354,7 +354,8 @@ define(
 							var i = 0;
 							for (i = 0; i < len; i++) {
 								mpa = data.mpas[i];
-								mpahtml += '<a class="maptip_mpalink" href="' + mpatlas.domain + 'mpa/sites/' + mpa.id + '/' + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
+								//mpahtml += '<a class="maptip_mpalink" href="' + mpatlas.domain + 'mpa/sites/' + mpa.id + '/' + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
+								mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
 							}
 							if (data.mpas.length === 0) {
 								//mpahtml = 'No MPAs at this location';
@@ -532,7 +533,8 @@ define(
 							case 'mpas':
 							    clearTimeout(maptip.hovercleartimer);
 								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
-									window.location = mpatlas.domain + 'mpa/sites/' + mpatlas.featuredata.mpas[0].id + '/';
+									//window.location = mpatlas.domain + 'mpa/sites/' + mpatlas.featuredata.mpas[0].id + '/';
+									window.location = mpatlas.featuredata.mpas[0].url;
 								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas) {
 								    maptip.enableMapTip();
 								    maptip.toggleEvents(false);

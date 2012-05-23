@@ -1,13 +1,71 @@
-import os, re
+import os, re, csv
 from django.contrib.gis.utils import LayerMapping
 from models import MpaCandidate, mpacandidate_mapping
-from models import Mpa, Contact
+from models import Mpa, Contact, CandidateInfo
 from wdpa.models import WdpaPolygon, WdpaPoint
 from usmpa.models import USMpaPolygon
+
+from django.contrib.gis import geos, gdal
 
 from django.db import connection, transaction
 
 mpacandidate_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/Potential_MPAs/Potential_MPAs.shp'))
+
+def import_candidates():
+    cfilename = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/Potential_MPAs/Candidate_MPAs_MPAtlas_20120523.csv'))
+    cfile = open(cfilename, "rU")
+    creader = csv.reader(cfile, csv.excel)
+    line = -1
+    for row in creader:
+        line += 1
+        if line == 0:
+            continue
+        name = row[1]
+        lon = row[2]
+        lat = row[3]
+        
+        print name
+        
+        mpa = Mpa(name=name)
+        mpa.status = 'Proposed'
+        mpa.country = 'Unknown'
+        mpa.is_point = True
+        try:
+            lon = float(lon)
+            lat = float(lat)
+            point = geos.Point(lon, lat, srid=gdal.SpatialReference('WGS84').srid)
+            mpa.point_geom = point
+            mpa.point_geog = point
+            mpa.point_geom_smerc = point.transform(3857)
+            mpa.point_within = point
+        except:
+            pass
+        
+        print 'saving mpa'
+        mpa.save()
+        print 'saved mpa'
+        
+        candidate = CandidateInfo.objects.get_or_create(mpa=mpa)[0]
+        
+        candidate.source = row[4]
+        candidate.scope = row[5]
+        candidate.basin = row[6]
+        candidate.region = row[7]
+        candidate.location = row[8]
+        candidate.eez_or_highseas = row[9]
+        candidate.lead_organization = row[10]
+        candidate.partner_organizations = row[11]
+        candidate.key_agency_or_leader = row[12]
+        candidate.timeframe = row[13]
+        candidate.current_protection = row[14]
+        candidate.desired_protection = row[15]
+        candidate.importance = row[16]
+        candidate.opportunity = row[17]
+        candidate.reference1 = row[18]
+        candidate.reference1 = row[19]
+        
+        candidate.save()
+        print '...saved'
 
 def run_mpacandidate(strict=True, verbose=True, **kwargs):
     lm_mpacandidate = LayerMapping(MpaCandidate, mpacandidate_shp, mpacandidate_mapping,
