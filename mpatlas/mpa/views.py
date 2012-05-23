@@ -210,17 +210,17 @@ def lookup_point(request):
             mpa_list = Mpa.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*Mpa.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
             mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
             mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer.envelope).defer(*Mpa.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
-            point.transform(900913) # Google Spherical Mercator srid
+            point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
             mpa_list = Mpa.objects.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
