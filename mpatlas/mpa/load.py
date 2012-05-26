@@ -26,9 +26,9 @@ def import_candidates():
         
         print name
         
-        mpa = Mpa(name=name)
+        mpa = Mpa.objects.get_or_create(name=name, status='Proposed')[0]
         mpa.status = 'Proposed'
-        mpa.country = 'Unknown'
+        mpa.country = ''
         mpa.is_point = True
         try:
             lon = float(lon)
@@ -40,10 +40,7 @@ def import_candidates():
             mpa.point_within = point
         except:
             pass
-        
-        print 'saving mpa'
         mpa.save()
-        print 'saved mpa'
         
         candidate = CandidateInfo.objects.get_or_create(mpa=mpa)[0]
         
@@ -65,7 +62,6 @@ def import_candidates():
         candidate.reference1 = row[19]
         
         candidate.save()
-        print '...saved'
 
 def run_mpacandidate(strict=True, verbose=True, **kwargs):
     lm_mpacandidate = LayerMapping(MpaCandidate, mpacandidate_shp, mpacandidate_mapping,
