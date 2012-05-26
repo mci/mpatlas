@@ -1,8 +1,9 @@
 define(
 	[
 		//** TODO had to drop back to 4.0.7 because of IE compatability issues. Still not perfect. Revisit later
-		'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all.js'
+		//'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all.js'
 		//'//cdn.terraweave.com/v/6.0/extjs/ext-all.js'
+		'extjs'
 	],
 	function () {
 
@@ -93,7 +94,7 @@ define(
 			
 			remoteSort: true,
 			remoteFilter: true,
-			pageSize: 250,
+			pageSize: 75,
 			
 			proxy: {
 				type: 'ajax',
@@ -105,6 +106,7 @@ define(
 				pageParam: null,
 				sortParam: null,
 				filterParam: null,
+				noCache: false, // we want these requests to be cached in browser and server memcached
 				
 				reader: {
 					type: 'json',

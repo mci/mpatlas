@@ -1,13 +1,14 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
-  'backbone-module',
-  'json2',
+  'jquery',
+  'use!underscore',
+  'use!backbone',
   'leaflet',
   'TileLayer.Bing'
   //'persist',
   //'MPAList'
 ],
-function (Backbone) {  
+function ($, _, Backbone) {  
     var SiteDetail = Backbone.View.extend({
 		proxy: '',
 		domain: 'http://' + document.domain,
@@ -56,7 +57,7 @@ function (Backbone) {
 				{id: 0, maxZoom: 9, opacity: 1}
 			);
 			this.bgLayers['Oceans'] = lyr;
-			//this.layers.push(lyr);
+			this.layers.push(lyr);
 	
 			// Bing background layer for testing
 			var lyr = new L.TileLayer.Bing(
@@ -64,7 +65,7 @@ function (Backbone) {
 				{id: 2, maxZoom: 18, opacity: 1}
 			);
 			this.bgLayers['Bing Maps'] = lyr;
-			this.layers.push(lyr);
+			//this.layers.push(lyr);
 
 			// EEZs / Nations		
 			lyr = new L.TileLayer(
@@ -103,7 +104,7 @@ function (Backbone) {
 				{id: 4, maxZoom: 18, opacity: 0.6, scheme: 'xyz'}
 			);
 			this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
-			this.layers.push(lyr);
+			//this.layers.push(lyr);
 
             this.map = new L.Map(this.mapelem, {
 				center: new L.LatLng(0, 0),
@@ -118,7 +119,7 @@ function (Backbone) {
 
 			// override the position of layer control			
 			L.Control.Layers.prototype.getPosition = function () {
-				return L.Control.Position.BOTTOM_LEFT;
+				return 'bottomleft';
 			};
 			
 			this.layersControl = new L.Control.Layers(
@@ -220,6 +221,9 @@ function (Backbone) {
                     });
                     that.map.addLayer(geojson);
                     that.highlightlayer = geojson;
+                    if (!that.bbox[0][0]) {
+                        that.map.fitBounds(that.highlightlayer.getBounds());
+                    }
                 }
             });
 		},

@@ -1,14 +1,15 @@
 define(
 	[
 		// These are path aliases configured in the requireJS bootstrap
-		'backbone-module',
-		'json2',
+		//'backbone-module',
+		'jquery',
+		'use!backbone',
 		'leaflet',
 		'TileLayer.Bing',
 		'persist'
 	],
 	
-	function (Backbone) {  
+	function ($, Backbone) {  
 		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
@@ -115,7 +116,7 @@ define(
 	
 				// override the position of layer control			
 				L.Control.Layers.prototype.getPosition = function () {
-					return L.Control.Position.BOTTOM_LEFT;
+					return 'bottomleft';
 				};
 				
 				this.layersControl = new L.Control.Layers(
