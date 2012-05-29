@@ -6,6 +6,7 @@ define(
 		'use!backbone',
 		'leaflet',
 		'TileLayer.Bing',
+		'leaflet_maptip',
 		'persist'
 	],
 	
@@ -371,10 +372,11 @@ define(
 							});
 							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
 							$('#maptip-content').html(mpahtml);
+							maptip.test.setContent(mpahtml);
 							maptip.enableMapTip();
 						    maptip.toggleEvents(false);
 							//maptip.showMapTip();
-							maptip.offset = $('#leafletmap').offset();
+							//maptip.offset = $('#leafletmap').offset();
 						},
 						error: function () {
 							$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
@@ -449,7 +451,7 @@ define(
 							maptip.enableMapTip();
 						    maptip.toggleEvents(false);
 							//maptip.showMapTip();
-							maptip.offset = $('#leafletmap').offset();
+							//maptip.offset = $('#leafletmap').offset();
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
                             $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
@@ -492,11 +494,12 @@ define(
 							case 'mpas':
 							    if (!maptip.pointstillgood) {
 							        hideimmediately = true;
-							        maptip.hideMapTip(null, hideimmediately);
+							        //maptip.hideMapTip(null, hideimmediately);
+							        maptip.clearMapTip(null, hideimmediately);
+							        maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+    								load_mpa_maptip(mapevent);
 							    }
 							    clearTimeout(maptip.hovercleartimer);
-								maptip.moveMapTip();
-								load_mpa_maptip(mapevent);
 								break;
 	
 							case 'nation':
@@ -505,11 +508,12 @@ define(
 								//$('#maptip-content').html('Searching for Region...');
 								if (!maptip.pointstillgood) {
 							        hideimmediately = true;
-							        maptip.hideMapTip(null, hideimmediately);
+							        //maptip.hideMapTip(null, hideimmediately);
+							        maptip.clearMapTip(null, hideimmediately);
+							        maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+    								load_region_maptip(mapevent);
 							    }
 							    clearTimeout(maptip.hovercleartimer);
-								maptip.moveMapTip();
-								load_region_maptip(mapevent);
 								break;
 							}
 						}
@@ -540,15 +544,17 @@ define(
 								    maptip.enableMapTip();
 								    maptip.toggleEvents(false);
 								    //maptip.hideMapTip();
-								    maptip.moveMapTip();
+								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 									load_mpa_maptip(mapevent);
 								} else {
+								    console.log('click');
 								    maptip.enableMapTip();
 								    maptip.toggleEvents(false);
     							    hideimmediately = true;
-    							    maptip.hideMapTip(null, hideimmediately);
-								    maptip.hideMapTip();
-								    maptip.moveMapTip();
+    							    //maptip.hideMapTip(null, hideimmediately);
+								    //maptip.hideMapTip();
+								    maptip.clearMapTip(null, hideimmediately);
+								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 									load_mpa_maptip(mapevent);
 								}
 								break;
@@ -562,7 +568,7 @@ define(
 								    maptip.enableMapTip();
 								    maptip.toggleEvents(false);
 								    //maptip.hideMapTip();
-								    maptip.moveMapTip();
+								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 									load_region_maptip(mapevent);
 								} else {
 								    maptip.enableMapTip();
@@ -570,7 +576,7 @@ define(
     							    hideimmediately = true;
     							    maptip.hideMapTip(null, hideimmediately);
 								    maptip.hideMapTip();
-								    maptip.moveMapTip();
+								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 									load_region_maptip(mapevent);
 								}
 								break;
@@ -605,6 +611,7 @@ define(
 					if (hovered && (Math.abs(e.layerPoint.x - lastpoint.x) > pixeltolerance || Math.abs(e.layerPoint.y - lastpoint.y) > pixeltolerance)) {
 						hovered = false;
 						$(map).trigger('maphoverclear', [e]);
+						console.log('mpahoverclear event');
 					} else if (!hovered) {
 						hovertimer = setTimeout(function () {
 							lastpoint = {
@@ -613,6 +620,7 @@ define(
 							};
 							hovered = true;
 							$(map).trigger('maphover', [e]);
+							console.log('maphover event');
 						}, delay);
 					}
 				});
@@ -720,9 +728,9 @@ define(
 				this.elem = elem;
 				this.elem.maptip = this;
 				this.mpatlas = mpatlas;
-				//var popuppane = mpatlas.map.getPanes().popupPane;
-				//$('#maptip').appendTo(popuppane);
-				$(elem).appendTo(mpatlas.mapelem);
+				var popuppane = mpatlas.map.getPanes().popupPane;
+				$('#maptip').appendTo(popuppane);
+				//$(elem).appendTo(mpatlas.mapelem);
 				this.timer = null;
 				this.disable = true;
 				this.offset = {
@@ -738,11 +746,62 @@ define(
 	            });
 	            
 	            // Prevent mouse events from hitting map when we're over maptip
-	            // $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
-	            $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
-	                e.stopPropagation();
-	                // return false; // This will prevent links from working, so don't do it.
+	            L.DomEvent.disableClickPropagation(this.elem);
+                // $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
+                //     e.stopPropagation();
+                //     // return false; // This will prevent links from working, so don't do it.
+                // });
+	            
+	            var lat = 30;
+	            var lng = -150;
+	            var ll0 = new L.LatLng(lat, lng, true);
+	            var lle = new L.LatLng(ll0.lat, ll0.lng+360, true);
+	            var llw = new L.LatLng(ll0.lat, ll0.lng-360, true);
+	            var test = new L.Maptip();
+	            test.setLatLng(ll0);
+	            test.setContent('test tip');
+	            mpatlas.map.addLayer(test);
+	            //mpatlas.map.openPopup(test);
+	            
+	            var teste = new L.Maptip();
+	            teste.setLatLng(lle);
+	            teste.setContent('test tip east');
+	            mpatlas.map.addLayer(teste);
+	            var testw = new L.Maptip();
+	            testw.setLatLng(llw);
+	            testw.setContent('test tip west');
+	            mpatlas.map.addLayer(testw);
+	            
+	            this.test = test;
+	            
+	            var prefix = 'leaflet-popup';
+                var container = L.DomUtil.create('div', prefix + ' test');
+                var wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
+                //L.DomEvent.disableClickPropagation(wrapper);
+                var contentNode = L.DomUtil.create('div', prefix + '-content', wrapper);
+                L.DomEvent.addListener(contentNode, 'mousewheel', L.DomEvent.stopPropagation);
+                var tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
+                tip = L.DomUtil.create('div', prefix + '-tip', tipContainer);
+	            
+	            $(this.elem).on('click', function(e){
+	                console.log('clicked on maptip');
+	                console.log(e);
 	            });
+	            
+	            mpatlas.map.on('click', function(e){
+	                console.log('clicked on map');
+	                console.log(e);
+	            });
+	            
+	            mpatlas.map.on('click', function(e){
+	                var popup = new L.Popup();
+	                var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
+                    popup.setLatLng(e.latlng);
+                    popup.setContent("You clicked the map at " + latlngStr);
+                    mpatlas.map.openPopup(popup);
+	            });
+	            
+	            L.DomEvent.disableClickPropagation(this.elem);
 	            
 				//var offsetX = event.pageX - offset.left;
 				//var offsetY = event.pageY - offset.top;
@@ -751,7 +810,10 @@ define(
 					if (!maptip.disable) {
 						$('#maptip').removeClass('nodisplay').removeClass('hidden').removeClass('transparent');
 						clearTimeout(maptip.timer);
-						maptip.offset = $('#leafletmap').offset();
+						//maptip.offset = $('#leafletmap').offset();
+						//maptip.offset = $('body').offset();
+						maptip.offset = { top: 0, left: 0};
+						L.DomEvent.disableClickPropagation(this.elem);
 					}
 				};
 	
@@ -766,16 +828,16 @@ define(
 					$('#maptip').addClass('transparent');
 				};
 	
-				this.moveMapTip = function (event) {
+				this.moveMapTip = function (layerX, layerY) {
 					//var offset = $(event.delegateTarget).offset();
 					//var offsetX = event.pageX - offset.left;
 					//var offsetY = event.pageY - offset.top;
 					//$('#maptip').css({'top': offsetY, 'left': offsetX});
 					var x = maptip.mouse.x;
 					var y = maptip.mouse.y;
-					if (event) {
-					    x = event.pageX - maptip.offset.left;
-					    y = event.pageY - maptip.offset.top;
+					if (!($.type(layerX) === 'undefined' || $.type(layerX) === 'undefined')) {
+					    x = layerX - maptip.offset.left;
+					    y = layerY - maptip.offset.top;
 					}
 					$('#maptip').css({
 						'top': y,
@@ -812,6 +874,7 @@ define(
 	        },
 	        
 	        cancelHoverClear: function () {
+	            console.log('cancelHoverClear');
 	            var maptip = this.maptip;
 	            maptip.mouseover = true;
 	            if (maptip.hovercleartimer) {
@@ -849,7 +912,7 @@ define(
 						// jquery custom events that prevents mouseover bubbling from child nodes
 						//$(this.mpatlas.mapelem).on('mouseenter.maptipwindow', this.showMapTip);
 						$(this.mpatlas.mapelem).on('mouseleave.maptipwindow', this.hideMapTip);
-						$(window).on('mousemove.maptip', this.moveMapTip);
+						//$(window).on('mousemove.maptip', this.moveMapTip);
 
 						this.locked = false;
 					}
@@ -858,7 +921,7 @@ define(
 					// jquery custom events that prevents mouseover bubbling from child nodes
 					//$(this.mpatlas.mapelem).off('mouseenter.maptipwindow', this.showMapTip);
 					$(this.mpatlas.mapelem).off('mouseleave.maptipwindow', this.hideMapTip);
-					$(window).off('mousemove.maptip', this.moveMapTip);
+					//$(window).off('mousemove.maptip', this.moveMapTip);
 	
 					//this.map.off('movestart', maptip.disableMapTip);
 					//this.map.off('moveend', maptip.enableMapTip);

@@ -6,10 +6,11 @@
 {% block title %}Explore{% endblock %}
 
 {% block base_head_extra %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no" />
+
 <link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
 
-<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.0.7-gpl/resources/css/ext-all-access.css"/>
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
@@ -49,12 +50,12 @@
     require([
         'prep',
         'app',
-        'MPAList',
+        // 'MPAList',
         'jquery',
 		'use!jqueryui'
     ], function(Prep, App, MPAList) {
         $(function() {
-            Prep.preparePage();
+            //Prep.preparePage();
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
             window['showfilterdialog'] = function() {
                 $("#addfilterdialog").dialog({
@@ -68,57 +69,16 @@
 </script>
 {% endblock %}
 
-{% block base_fblike %}
-{% endblock %}
-
-{% block header_post_user %}
-<div style="float:right; margin-top:8px;">
-    <fb:like send="false" layout="button_count" width="100" show_faces="false"></fb:like>
-</div>
-{% endblock %}
-
 {% block base_body_content %}
-<div id="leafletmap" style="position:relative; width:100%; height:100%; z-index:0;"></div>
+<div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
 <div id='stats_overlay'>
 	<div class="stats_header medium">Currently Protected</div>
 	<div class="heading bold">1.2<span style="font-size:0.75em;">%</span></div>
-
-	<div class="stats_box_header" style="margin-top:12px;">
-		<span class="medium">Protection Statistics</span>
-	</div>
-	<div class="stats_box" style="font-size:14px;">
-	    <p style="font-style:italic; font-size:.8em;">Live MPA statistics coming soon during our beta test period...</p>
-		<!--
-		<p style="font-style:italic; font-size:.8em;">Currently Calculating...</p>
-		<div id="stats_total_mpas"><b>MPAs:</b> ???</div>
-		<div id="stats_mpas_within_eezs"><b>Within EEZs:</b> ???</div>
-		<div id="stats_mpas_within_highseas"><b>High Seas:</b> ???</div>
-		<div id="stats_mpas_no_take"><b>No Take:</b> ???</div>
-	    -->
-		<br/>
-		<div id="stats_mpas_current_filter" style="font-style:italic;">&nbsp;</div>
-	</div>
-    
-	<div class="stats_box_header" style="margin-top:27px;">
-		<span class="medium">Website Under Development</span>
-	</div>
-	<div class="stats_box" style="font-size:12px;">
-		We are actively developing the website at this time.  Many features are not complete.
-		Please use the feedback button on the left side of the page to make suggestions,
-		comments, or to point out bugs and other problems.  You can help make this tool
-		better for everyone.
-	</div>
-
 </div>
 
 {% endblock %}
 
 {% block base_body_extra %}
-<div id='body_list_full'>
-	<div id="list-bg"></div>
-	<div id="mpa-list-container"></div>
-</div>
-
 <div id='filters_overlay'>
 	<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
 	<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
@@ -126,21 +86,6 @@
 	<div class="clear"></div>
 </div>
 
-<div id='modetoggle_overlay'>
-	<div class='modetoggle medium'>
-		<a id="btnMapMode" class="modebutton selected" href="#" onclick="mpatlas.switchToMapView()">Map View</a><a id="btnListMode" class="modebutton" href="#" onclick="mpatlas.switchToListView()">List View</a>
-	</div>
-</div>
-
-<div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
-	<p>
-	    FEATURE TO BE RELEASED DURING BETA TEST PERIOD
-	</p>
-	<p>
-	    Configure a custom filter to parse the global MPAs by relevant spatial, political, biogeographic criteria.  Your custom filters display as a tag along the top of the map.
-	</p>
-	<img src="//static.mpatlas.org/images/filters/filter_demo.png" alt="" />
-</div>
 <div id="maptip" class="maptip hidden transparent">
 	<div class="maptip-arrow-container">
 		<div class="maptip-arrow"></div>

@@ -101,109 +101,14 @@
            }(document));
         </script>
 		<div id='pagewrapper'>
-		    {% block base_preheader_content %}{% endblock %}
     		<div id='header_full'>
     			<div id='header_center'>
     			    <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
     			    <a id="waittlogo" href="http://waittfoundation.org">brought to you by the Waitt Foundation</a>
-    			    <ul id="mainmenu">
-    			        <li class="selected">
-    			            <a href="/explore/">Explore</a>
-    			            <ul>
-    			                <li>
-    			                    <a href="/explore/">Map of Marine Protected Areas</a>
-    			                </li>
-    			                <li>
-    			                    <a href="/explore/?list=1">List of Marine Protected Areas</a>
-    			                </li>
-    			            </ul>
-    			        </li>
-    			        <li>
-    			            <a href="/learn/">Learn</a>
-    			            <ul>
-    			                <li>
-    			                    <a href="/learn/mpapedia/">MPApedia: all about marine protected areas</a>
-    			                </li>
-    			                <!--
-    			                <li>
-    			                    <a href="/learn/education/">Student/Teacher Resources</a>
-    			                </li>
-    			                -->
-    			            </ul>
-    			        </li>
-    			        <li>
-    			            <a href="/news/">News</a>
-    			            <ul>
-    			                <li>
-    			                    <a href="/news/">Recent News Feed</a>
-    			                </li>
-    			                <li>
-    			                    <a target="_blank" href="http://depts.washington.edu/mpanews/">MPA News Website<br /><span style="font-size:.7em;">(external: Marine Affairs Research and Education)</span></a>
-    			                </li>
-    			            </ul>
-    			        </li>
-    			    </ul>
-			    
-    			    <form id="mainsearchform" name="mainsearchform" class="searchform" method="get" action="/mpa/sites/?">
-                        <fieldset class="search">
-                            <input type="text" class="text defaultValue" name="q" id="mainsearchbox" data-placeholder="Search for an MPA or Country" placeholder="Search for an MPA or Country" value="Search for an MPA or Country" />
-                        	<input type="image" alt="Search" src="{{ STATIC_URL }}images/header_searchbutton.png" class="image" />
-                        </fieldset>
-                    </form>
-			    
-    			    <a id="helpbutton" href="/help">Help</a>
-    			    
-    			    <div class='user_block'>
-    			    {% if user.is_authenticated %}
-    			        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href='/users/logout?next={{ request.path }}'>[x]</a>
-    			    {% else %}
-    			        <!--
-    			        <input style="float:right;" class="facebook" type="image" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
-    			        -->
-    			        <div id='user_logintab' style="float:right;">
-    			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
-    			            <div id='user_loginformcontainer'>
-    			                {% if form.errors %}
-                                    <p>Your username and password didn't match. Please try again.</p>
-                                {% endif %}
-
-                                <form id="user_loginform" action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login_form">
-                                    {% csrf_token %}
-                                    <div class="hide">
-                                        <input type="hidden" name="next" value="{{ request.path }}" />
-                                    </div>
-                                    <p>
-                                        <label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30" />
-                                    </p>
-                                    <p>
-                                        <label for="id_password">Password:</label> <input type="password" name="password" id="id_password" />
-                                    </p>
-                                    <p class="submit">
-                                        <button class="user_button user_login" type="submit" name="submit" value="login">Log in</button>
-                                        <a href='/users/password_reset?next={{ request.path }}'>Forgot password?</a>
-                                        <span class="clear"></span>
-                                    </p>
-                                </form>
-                                <p class="user_signupblock">
-                                    Not a member? <a id='user_signuplink' href='/users/signup?next={{ request.path }}'>Join Now!</a>
-                                </p>
-    			            </div>
-    			        </div>
-    			    {% endif %}
-    			    </div>
-    			    
-    			    {% block header_post_user %}
-    			    {% endblock %}
-                
     			</div>
     		</div>
     		{% block base_prebody_content %}{% endblock %}
     		<div id='body_full'>
-    		    {% block base_fblike %}
-    		        <div style="position: absolute; right:110px; top:8px;">
-		                <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
-		            </div>
-		        {% endblock %}
     			{% block base_body_content %}{% endblock %}
     		</div>
     		<div id='footer_full'>
@@ -221,14 +126,6 @@
 		{% render_block "js" %}
 		{% endcomment %}
         {% block bodyend_js %}{% endblock %}
-        <script type="text/javascript">
-          var uvOptions = {};
-          (function() {
-            var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-            uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/So5wN1x390zOxll4baeaOQ.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-          })();
-        </script>
 	</body>
 </html>
 
