@@ -405,8 +405,8 @@ ul#mainmenu ul li {
     background-image: -o-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
     background-image: linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
     /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 and 7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 and 7 */
     zoom: 1;
 }
 

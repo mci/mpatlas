@@ -199,6 +199,7 @@ def lookup_point(request):
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
+        origpoint = point.clone()
         if (method == 'webmercator'):
             if (normalize_lon(lon) < 0):
                 lon360 = normalize_lon(lon) + 360
@@ -232,7 +233,7 @@ def lookup_point(request):
             mpa_list = mpa_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
-        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
+        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(origpoint, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,

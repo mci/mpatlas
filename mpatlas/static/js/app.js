@@ -6,11 +6,31 @@ define(
 		'use!backbone',
 		'leaflet',
 		'TileLayer.Bing',
+		'leaflet_utils',
 		'leaflet_maptip',
+		'spin.min',
 		'persist'
 	],
 	
-	function ($, Backbone) {  
+	function ($, Backbone) {
+	    var spinner_opts = {
+            lines: 8, // The number of lines to draw
+            length: 2, // The length of each line
+            width: 2, // The line thickness
+            radius: 2, // The radius of the inner circle
+            rotate: 0, // The rotation offset
+            color: '#FFF', // #rgb or #rrggbb
+            //color: '#E03E6F', // #rgb or #rrggbb
+            speed: 2, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: true, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: 'auto', // Top position relative to parent in px
+            left: 'auto' // Left position relative to parent in px
+        };
+	    
 		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
@@ -176,11 +196,9 @@ define(
 				
 				$('#body_list_full').fadeOut(600);
 				
-				// TODO The code below is really hacky, clean up maptip api when we can
-				//mpatlas.maptip.enableMapTip(); // Not needed, maphover events will bring it back automatically
-				if (mpatlas.maptip.locked) {
-					mpatlas.maptip.disable = false;
-					mpatlas.maptip.showMapTip();
+				if (mpatlas.currenttip) {
+					mpatlas.currenttip._close();
+					delete mpatlas.currenttip;
 				}
 			},
 			
@@ -190,7 +208,10 @@ define(
 					return;
 				}
 
-				mpatlas.maptip.disableMapTip();
+				if (mpatlas.currenttip) {
+					mpatlas.currenttip._close();
+					delete mpatlas.currenttip;
+				}
 				$('#btnMapMode').removeClass('selected');
 				$('#btnListMode').addClass('selected');
 				$('.leaflet-control-container').hide();
@@ -270,10 +291,11 @@ define(
 				} catch (e) {}
 				$('.explore_button.selected').removeClass('selected');
 				$('#explore_' + mode).addClass('selected');
-				if (this.maptip) {
-					this.maptip.disableMapTip();
-					this.maptip.toggleEvents(true);
-				}
+				if (this.currenttip) { this.currenttip._close(); }
+                // if (this.maptip) {
+                //  this.maptip.disableMapTip();
+                //  this.maptip.toggleEvents(true);
+                // }
 			},
 			
 			saveMapLocation: function () {
@@ -310,13 +332,13 @@ define(
 				// Make map fire hover event after 500ms mouse pause, used by feature layer lookups
 				this.initMapHoverEvents(500, 1);
 	
-				this.maptip = new MPAtlas.MapTip({
-					el: $('#maptip')[0],
-					mpatlas: this
-				}); // setup maptip element and behavior
+                // this.maptip = new MPAtlas.MapTip({
+                //  el: $('#maptip')[0],
+                //  mpatlas: this
+                // }); // setup maptip element and behavior
 				
-				this.maptip.enableMapTip();
-				this.maptip.disableMapTip();
+				// this.maptip.enableMapTip();
+				// this.maptip.disableMapTip();
 				
 				this.registerMapHover(); // assign actions on mouse hover/pause and click for map layer feature lookup
 				//this.maptip.toggleEvents(true); // activate the maptip event registration
@@ -328,18 +350,34 @@ define(
 			registerMapHover: function () {
 				var mpatlas = this;
 				var maptip = this.maptip;
+				mpatlas.pointstillgood = false;
 				var check_point_distance = function(mapevent) {
-				    maptip.pointstillgood = true;
+				    mpatlas.pointstillgood = false;
 				    var pixeltolerance = 4;
-				    if (maptip.lastPoint) {
-				        if (Math.abs(mapevent.layerPoint.x - maptip.lastPoint.x) > pixeltolerance || Math.abs(mapevent.layerPoint.y - maptip.lastPoint.y) > pixeltolerance) {
-				            maptip.pointstillgood = false;
+				    if (mpatlas.lastPoint) {
+				        if (Math.abs(mapevent.layerPoint.x - mpatlas.lastPoint.x) <= pixeltolerance && Math.abs(mapevent.layerPoint.y - mpatlas.lastPoint.y) <= pixeltolerance) {
+				            mpatlas.pointstillgood = true;
 				        }
 				    }
-				    maptip.lastPoint = mapevent.layerPoint;
-				    return maptip.pointstillgood;
+				    mpatlas.lastPoint = mapevent.layerPoint;
+				    return mpatlas.pointstillgood;
+				};
+				var set_spinner = function(mapevent) {
+				    $(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
+				    var popupPane = mpatlas.map.getPanes().popupPane;
+				    var myspinopts = $.extend({}, spinner_opts, {left: mapevent.layerPoint.x - 7, top: mapevent.layerPoint.y - 7});
+                    mpatlas.spinner = new Spinner(myspinopts).spin(popupPane);
+				};
+				var clear_spinner = function() {
+				    $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+					if (mpatlas.spinner) {
+					    mpatlas.spinner.stop();
+					    delete mpatlas.spinner;
+					}
 				};
 				var load_mpa_maptip = function(mapevent) {
+				    set_spinner(mapevent);
+                    
 				    var radius = mpatlas.getPixelRadius(2);
 				    var latlng = mapevent.latlng;
 				    url = mpatlas.domain + 'mpa/lookup/point/?lon=' + latlng.lng + '&lat=' + latlng.lat + '&radius=' + radius;
@@ -362,28 +400,30 @@ define(
 							if (data.mpas.length === 0) {
 								//mpahtml = 'No MPAs at this location';
                                 mpahtml = '';
-                                $(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-                                maptip.disableMapTip();
+                                clear_spinner();
+                                if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 								return;											
 							}
 							$('#maptip-content').data('latlon', {
 								lat: latlng.lat,
 								lon: latlng.lon
 							});
-							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-							$('#maptip-content').html(mpahtml);
-							maptip.test.setContent(mpahtml);
-							maptip.enableMapTip();
-						    maptip.toggleEvents(false);
-							//maptip.showMapTip();
-							//maptip.offset = $('#leafletmap').offset();
+							clear_spinner(); // Remove progress cursor when done searching
+							
+                            mpatlas.currenttip = new L.Maptip({maxHeight: 199});
+                            mpatlas.currenttip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
+                            mpatlas.currenttip.setContent(mpahtml);
+                            mpatlas.map.openPopup(mpatlas.currenttip);
+                            //mpatlas.map.addLayer(mpatlas.currenttip); // this lets you add multiple popups without auto-closing them
 						},
 						error: function () {
-							$(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+							
 						}
 					});
 				};
 				var load_region_maptip = function(mapevent) {
+				    set_spinner(mapevent);
+				    
 				    var radius = mpatlas.getPixelRadius(2);
 				    //var radius = 0.00000001;
 				    var latlng = mapevent.latlng;
@@ -432,13 +472,14 @@ define(
 										});
 										mpatlas.map.addLayer(geojson);
 										mpatlas.highlightlayer = geojson;
+										clear_spinner();
 									}
 								});
 								
 							} else {
 								//mpahtml = 'No Region at this location';
 								mpahtml = '';
-								$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
+								clear_spinner();
 								maptip.disableMapTip();
 								return;
 							}
@@ -446,19 +487,21 @@ define(
 								lat: latlng.lat,
 								lon: latlng.lon
 							});
-							$('#maptip-content').html(mpahtml);
-							$(mpatlas.mapelem).removeClass('busy'); // Remove progress cursor when done searching
-							maptip.enableMapTip();
-						    maptip.toggleEvents(false);
-							//maptip.showMapTip();
-							//maptip.offset = $('#leafletmap').offset();
+							//clear_spinner();
+							
+							var tip = mpatlas.currenttip = new L.Maptip({maxHeight: 199});
+                            tip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
+                            tip.setContent(mpahtml);
+                            mpatlas.map.openPopup(tip);
+                            //mpatlas.map.addLayer(tip); // this lets you add multiple popups without auto-closing them
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
-                            $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
+                            clear_spinner();
                         }
 					});
 				};
 				var clearMapTip = function(nothing, hideimmediately) {
+				    clear_spinner();
 				    mpatlas.featuredata = {};
 					$('#maptip-content').html($('#maptip-content').data('orightml'));
 					if (mpatlas.highlightlayer) {
@@ -469,126 +512,110 @@ define(
 					maptip.locked = false;
 					maptip.hideMapTip(null, hideimmediately);
 				};
-				maptip.clearMapTip = clearMapTip;
+				//maptip.clearMapTip = clearMapTip;
 				var handlers = {
 					
 					maphover: function (e, mapevent) {
 						// stop if layer list is expanded because that means we are over the top of it
 						var lyrContainer = $('.leaflet-control-layers-expanded');
 						if (lyrContainer.length > 0) {
-							return;
+							//return;
 						}
 						
 						var url = null;
-						if (!maptip.locked) {
+						// if (!maptip.locked) {
+						if (true) {
 						    check_point_distance(mapevent);
 							var ll = mapevent.latlng;
-							if (typeof $('#maptip-content').data('orightml') === 'undefined') {
-								$('#maptip-content').data('orightml', $('#maptip-content').html());
-							}
-							//maptip.enableMapTip();
-							$(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
-
+							
 							switch (mpatlas.currentMode) {
+    							case 'mpas':
+    							    if (!mpatlas.pointstillgood) {
+                                        // hideimmediately = true;
+                                        // maptip.clearMapTip(null, hideimmediately);
+                                        // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+                                        if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
+                                        load_mpa_maptip(mapevent);
+    							    }
+    							    //clearTimeout(maptip.hovercleartimer);
+    								break;
 	
-							case 'mpas':
-							    if (!maptip.pointstillgood) {
-							        hideimmediately = true;
-							        //maptip.hideMapTip(null, hideimmediately);
-							        maptip.clearMapTip(null, hideimmediately);
-							        maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
-    								load_mpa_maptip(mapevent);
-							    }
-							    clearTimeout(maptip.hovercleartimer);
-								break;
-	
-							case 'nation':
-							case 'meow':
-							case 'fao':
-								//$('#maptip-content').html('Searching for Region...');
-								if (!maptip.pointstillgood) {
-							        hideimmediately = true;
-							        //maptip.hideMapTip(null, hideimmediately);
-							        maptip.clearMapTip(null, hideimmediately);
-							        maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
-    								load_region_maptip(mapevent);
-							    }
-							    clearTimeout(maptip.hovercleartimer);
-								break;
+    							case 'nation':
+    							case 'meow':
+    							case 'fao':
+    								//$('#maptip-content').html('Searching for Region...');
+    								if (!mpatlas.pointstillgood) {
+    							        if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
+        								load_region_maptip(mapevent);
+    							    }
+    							   // clearTimeout(maptip.hovercleartimer);
+    								break;
 							}
 						}
 					},
 					
 					maphoverclear: function (e, mapevent) {
-						if (!maptip.locked) {
-							clearMapTip(null, false);
-						} else {
-						    if (!maptip.mouseover) {
-						        maptip.hovercleartimer = setTimeout(maptip.clearMapTip, 3000);
-					        }
-						}
+                        // if (!maptip.locked) {
+                        //  clearMapTip(null, false);
+                        // } else {
+                        //     if (!maptip.mouseover) {
+                        //         maptip.hovercleartimer = setTimeout(maptip.clearMapTip, 3000);
+                        //                          }
+                        // }
 					},
 					
 					mapclick: function (mapevent) {
-						//if (!maptip.locked) {
-						if (true) {
-						    check_point_distance(mapevent);
-						    $(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
-							switch (mpatlas.currentMode) {
-							case 'mpas':
-							    clearTimeout(maptip.hovercleartimer);
-								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
+					    check_point_distance(mapevent);
+						switch (mpatlas.currentMode) {
+						    case 'mpas':
+							    //clearTimeout(maptip.hovercleartimer);
+								if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas && mpatlas.featuredata.mpas.length === 1) {
 									//window.location = mpatlas.domain + 'mpa/sites/' + mpatlas.featuredata.mpas[0].id + '/';
 									window.location = mpatlas.featuredata.mpas[0].url;
-								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas) {
-								    maptip.enableMapTip();
-								    maptip.toggleEvents(false);
-								    //maptip.hideMapTip();
-								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
-									load_mpa_maptip(mapevent);
+								} else if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.mpas) {
+								    // maptip.enableMapTip();
+								    // maptip.toggleEvents(false);
+								    // maptip.hideMapTip();
+								    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+									// load_mpa_maptip(mapevent);
 								} else {
-								    console.log('click');
-								    maptip.enableMapTip();
-								    maptip.toggleEvents(false);
-    							    hideimmediately = true;
+								    console.log('new click');
+								    // maptip.enableMapTip();
+								    // maptip.toggleEvents(false);
+    							    // hideimmediately = true;
     							    //maptip.hideMapTip(null, hideimmediately);
 								    //maptip.hideMapTip();
-								    maptip.clearMapTip(null, hideimmediately);
-								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+								    // maptip.clearMapTip(null, hideimmediately);
+								    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+								    clear_spinner();
+								    if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 									load_mpa_maptip(mapevent);
 								}
 								break;
 							case 'nation':
 							case 'meow':
 							case 'fao':
-							    clearTimeout(maptip.hovercleartimer);
+							    //clearTimeout(maptip.hovercleartimer);
 								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length === 1) {
 									window.location = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id + '/';
 								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions) {
-								    maptip.enableMapTip();
-								    maptip.toggleEvents(false);
-								    //maptip.hideMapTip();
-								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
-									load_region_maptip(mapevent);
+                                    // maptip.enableMapTip();
+                                    // maptip.toggleEvents(false);
+                                    // maptip.hideMapTip();
+                                    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+									// load_region_maptip(mapevent);
 								} else {
-								    maptip.enableMapTip();
-								    maptip.toggleEvents(false);
-    							    hideimmediately = true;
-    							    maptip.hideMapTip(null, hideimmediately);
-								    maptip.hideMapTip();
-								    maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+                                    // maptip.enableMapTip();
+                                    // maptip.toggleEvents(false);
+                                    // hideimmediately = true;
+                                    // maptip.hideMapTip(null, hideimmediately);
+                                    // maptip.hideMapTip();
+                                    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
+                                    clear_spinner();
+									if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 									load_region_maptip(mapevent);
 								}
 								break;
-							}
-						} else {
-							mpatlas.featuredata = {};
-							$('#maptip-content').html($('#maptip-content').data('orightml'));
-							if (mpatlas.highlightlayer) {
-								mpatlas.map.removeLayer(mpatlas.highlightlayer);
-							}
-							maptip.disableMapTip(null, true); // immediate hide
-							maptip.toggleEvents(true);
 						}
 					}
 				};
@@ -729,15 +756,12 @@ define(
 				this.elem.maptip = this;
 				this.mpatlas = mpatlas;
 				var popuppane = mpatlas.map.getPanes().popupPane;
-				$('#maptip').appendTo(popuppane);
-				//$(elem).appendTo(mpatlas.mapelem);
 				this.timer = null;
 				this.disable = true;
 				this.offset = {
 					left: -9999,
 					top: -9999
 				};
-	            maptip.locked = true; // initial value needs to be true
 	            
 	            maptip.mouse = {x:-9999, y:-9999};
 	            $(window).on('mousemove.maptipnow', function(e) {
@@ -745,66 +769,11 @@ define(
 					maptip.mouse.x = e.pageX - maptip.offset.left;
 	            });
 	            
-	            // Prevent mouse events from hitting map when we're over maptip
-	            L.DomEvent.disableClickPropagation(this.elem);
-                // $(this.elem).on('mousedown mouseup mousemove click dblclick scroll', function(e) {
-                //     e.stopPropagation();
-                //     // return false; // This will prevent links from working, so don't do it.
-                // });
-	            
-	            var lat = 30;
-	            var lng = -150;
-	            var ll0 = new L.LatLng(lat, lng, true);
-	            var lle = new L.LatLng(ll0.lat, ll0.lng+360, true);
-	            var llw = new L.LatLng(ll0.lat, ll0.lng-360, true);
-	            var test = new L.Maptip();
-	            test.setLatLng(ll0);
-	            test.setContent('test tip');
-	            mpatlas.map.addLayer(test);
-	            //mpatlas.map.openPopup(test);
-	            
-	            var teste = new L.Maptip();
-	            teste.setLatLng(lle);
-	            teste.setContent('test tip east');
-	            mpatlas.map.addLayer(teste);
-	            var testw = new L.Maptip();
-	            testw.setLatLng(llw);
-	            testw.setContent('test tip west');
-	            mpatlas.map.addLayer(testw);
-	            
-	            this.test = test;
-	            
-	            var prefix = 'leaflet-popup';
-                var container = L.DomUtil.create('div', prefix + ' test');
-                var wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
-                //L.DomEvent.disableClickPropagation(wrapper);
-                var contentNode = L.DomUtil.create('div', prefix + '-content', wrapper);
-                L.DomEvent.addListener(contentNode, 'mousewheel', L.DomEvent.stopPropagation);
-                var tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
-                tip = L.DomUtil.create('div', prefix + '-tip', tipContainer);
-	            
-	            $(this.elem).on('click', function(e){
-	                console.log('clicked on maptip');
-	                console.log(e);
-	            });
-	            
 	            mpatlas.map.on('click', function(e){
 	                console.log('clicked on map');
 	                console.log(e);
 	            });
 	            
-	            mpatlas.map.on('click', function(e){
-	                var popup = new L.Popup();
-	                var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
-                    popup.setLatLng(e.latlng);
-                    popup.setContent("You clicked the map at " + latlngStr);
-                    mpatlas.map.openPopup(popup);
-	            });
-	            
-	            L.DomEvent.disableClickPropagation(this.elem);
-	            
-				//var offsetX = event.pageX - offset.left;
-				//var offsetY = event.pageY - offset.top;
 				this.showMapTip = function (event) {
 					maptip.hidden = false;
 					if (!maptip.disable) {
@@ -910,22 +879,14 @@ define(
 	                if (this.locked) {
 						// enable maptip events
 						// jquery custom events that prevents mouseover bubbling from child nodes
-						//$(this.mpatlas.mapelem).on('mouseenter.maptipwindow', this.showMapTip);
 						$(this.mpatlas.mapelem).on('mouseleave.maptipwindow', this.hideMapTip);
-						//$(window).on('mousemove.maptip', this.moveMapTip);
 
 						this.locked = false;
 					}
 				} else {
 					// disable maptip event tracking
 					// jquery custom events that prevents mouseover bubbling from child nodes
-					//$(this.mpatlas.mapelem).off('mouseenter.maptipwindow', this.showMapTip);
 					$(this.mpatlas.mapelem).off('mouseleave.maptipwindow', this.hideMapTip);
-					//$(window).off('mousemove.maptip', this.moveMapTip);
-	
-					//this.map.off('movestart', maptip.disableMapTip);
-					//this.map.off('moveend', maptip.enableMapTip);
-	
 					this.locked = true;
 				}
 				$(maptip.elem).off('mouseenter.maptip', this.cancelHoverClear);

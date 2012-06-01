@@ -14,6 +14,8 @@ html, body {
     overflow: hidden;
 }
 
+body, body.x-body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
+
 body {
     background-color: #FFFFFF !important;
     font-size: 12px !important;
@@ -59,8 +61,8 @@ body {
     background-color: rgba(10,10,10,0.8);
     color:white;
     text-align:center;
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
     zoom: 1;
 }
 
@@ -184,26 +186,39 @@ body {
 .maptip {
     position: absolute;
     /*z-index: 9000;*/
-    margin-left: 20px;
-    margin-top: -28px;
+    margin-left: 14px;
+    margin-top: -29px;
     left: -9000px;
     top: 0;
-    border-radius: 8px 8px 8px 8px;
-    background-color: transparent;
-    background: rgba(10,10,10,0.8);
-    padding: 6px;
-    color: white;
-    min-width: 150px;
     min-height: 40px;
-    /*background-color: transparent;*/
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 & 7 */
     zoom: 1;
     font-family: Helvetica, Arial, sans-serif;
     -webkit-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
     -moz-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
     -o-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
     transition:opacity .2s linear, visibility .2s linear, height .2s linear;
+    
+    opacity: 1;
+	text-align: center;
+	/*-webkit-transform: translate3d(0,0,0);*/
+}
+
+.maptip .maptip-content-wrapper {
+    border-radius: 8px 8px 8px 8px;
+    background-color: transparent;
+    background: rgba(10,10,10,0.8);
+    padding: 6px;
+    color: white;
+    min-width: 150px;
+    max-width: 250px;
+    min-height: 40px;
+    /*background-color: transparent;*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
+    zoom: 1;
+    
+    padding: 1px;
+	text-align: left;
 }
 
 .maptip.heightanim {
@@ -211,6 +226,8 @@ body {
 }
 .maptip.transparent {
     opacity: 0;
+    filter: alpha(opacity=0); /* IE6 & 7 */
+    -ms-filter: "alpha(opacity=0)"; /* IE8 */
     /*visibility: hidden;*/
 }
 .maptip.hidden {
@@ -238,8 +255,10 @@ body {
     margin-left: 7px;
     padding: 1px;
     /*background-image: url("../images/ui/maptip_left_solid.png");*/
-    background-color: rgb(10,10,10);
-    opacity: 0.8;
+    /*opacity: 0.8;*/
+    background-color: transparent;
+    background-color: #0A0A0A;
+    background: rgba(10,10,10,0.8);
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -248,14 +267,46 @@ body {
 }
 
 .maptip .maptip-content {
+    max-width: 100%;
     max-height: 200px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 6px 6px;
+}
+.maptip-content::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.maptip-content::-webkit-scrollbar:vertical {
+	width: 4px;
+}
+.maptip-content::-webkit-scrollbar-thumb:vertical {
+    border-radius: 4px;
+	background-color: rgba(0,0,0,.5);
+	-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
-.maptip, .maptip-arrow {
+.maptip .maptip-content-wrapper, .maptip .maptip-arrow {
     box-shadow: 0 1px 10px #888;
     -moz-box-shadow: 0 1px 10px #888;
     -webkit-box-shadow: 0 1px 14px #999;
+}
+
+.maptip .maptip-close-button {
+    background-color: rgb(10,10,10);
+    background-color: rgba(10,10,10,0.9);
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 18px;
+    width: 18px;
+    border-radius: 9px;
+    overflow: hidden;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+}
+
+.maptip .maptip-close-button:hover {
+    background-color: rgb(90,90,90);
 }
 
 .maptip_mpalink {
@@ -266,7 +317,7 @@ body {
     display: block;
     margin: 6px;
     padding: 0;
-    max-width: 200px;
+    /*max-width: 200px;*/
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .maptip_mpalink:hover {
@@ -402,3 +453,74 @@ body {
     -o-transition:all .2s linear;
     transition:all .2s linear;
 }
+
+/*
+    we begin here a bunch of ugly hacks to override changes caused by the ExtJS stylesheet
+    the stylesheet should be trimmed to just what's required. then we can remove these hacks
+*/
+
+.x-grid-cell, .x-column-header-text, .x-toolbar-text, .x-form-text, .x-btn-inner {
+    font: 12px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif !important;    
+    line-height: 15px;
+}
+
+.x-grid .x-grid-cell-inner {
+    padding-bottom: 0px;
+}
+
+.x-form-text {
+    color: #000000;
+    background-color: #FFFFFF!important;
+    background-image: none !important;
+}
+
+.x-grid-row .x-grid-cell {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-bottom: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    border-top: none;
+}
+
+.x-grid-row-alt .x-grid-cell {
+    background-color: #ECECEC;
+}
+
+.x-grid-row a {
+    color: #000000;
+}
+.x-grid-row .x-grid-cell-first, .x-column-header {
+    color: white;
+    background-color: #314453;
+    background-image: none !important;
+}
+
+.x-column-header {
+    font-weight: bold;
+}
+
+.x-column-header-sort-ASC, .x-column-header-sort-DESC {
+    background-color: #C54C81;    
+}
+
+.x-column-header-over {
+    background-color: #DE7347;    
+    background-image: none !important;
+}
+.x-toolbar {
+    /*background-color: #314453;*/
+    background-color: rgba(10,10,10,0.8);
+    background-image: none !important;
+}
+
+.x-btn-default-toolbar-small-over {
+    background-color: #FF5A50;
+    border-color: #FFFFFF;
+}
+
+.x-form-focus {
+    border: 2px solid #de744a;
+}
+
+/*  end of ugly extjs hacks  */
+
