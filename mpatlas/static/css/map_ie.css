@@ -1,0 +1,13 @@
+.maptip {
+    margin-top: -30px;
+}
+
+.maptip .maptip-arrow-container {
+    margin-right: 1px;
+}
+
+.maptip .maptip-arrow {
+    margin-left:5px;
+    filter: progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678) alpha(opacity=80); /* IE6 & 7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678) alpha(opacity=80)"; /* IE8 */
+}
