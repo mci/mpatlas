@@ -35,6 +35,7 @@ function ($, _, Backbone) {
             
             this.loadFeature();
             this.zoomToFeature();
+            console.log('postzoom');
         },
         
         initInfoExpander: function() {
@@ -173,13 +174,14 @@ function ($, _, Backbone) {
 
 		zoomToFeature: function() {
 		    that = this;
-		    var sw = new L.LatLng(this.bbox[0][1], this.bbox[0][0], true);
-		    var ne = new L.LatLng(this.bbox[1][1], this.bbox[1][0]);
-		    var bounds = new L.LatLngBounds(sw, ne);
-		    var startzoom = this.map.getZoom();
 		    if (this.is_point) {
-		        this.map.setView(sw, 6);
+		        var point = new L.LatLng(this.point[1], this.point[0])
+		        this.map.setView(point, 6);
 		    } else {
+    		    var sw = new L.LatLng(this.bbox[0][1], this.bbox[0][0], true);
+    		    var ne = new L.LatLng(this.bbox[1][1], this.bbox[1][0]);
+    		    var bounds = new L.LatLngBounds(sw, ne);
+    		    var startzoom = this.map.getZoom();
 		        this.map.fitBounds(bounds);
     		    var zoomtimer;
     		    (function forceZoom() {

@@ -10,7 +10,7 @@ define(
 		'leaflet_maptip',
 		'spin.min',
 		'persist'
-	],
+	].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
 	
 	function ($, Backbone) {
 	    var spinner_opts = {
@@ -115,6 +115,7 @@ define(
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
+				this.mpalayer = lyr;
 				
 				// Candidate Marine Protected Areas
 				lyr = new L.TileLayer(
@@ -375,6 +376,12 @@ define(
 					    delete mpatlas.spinner;
 					}
 				};
+				var reset_hover_delay = function(mapevent) {
+                    if (mapevent.popup && mapevent.popup === mpatlas.currenttip) {
+                        mpatlas.hoverdelay = mpatlas.originalhoverdelay;
+                        console.log('popupclose maptip');
+                    }
+                };
 				var load_mpa_maptip = function(mapevent) {
 				    set_spinner(mapevent);
                     
@@ -410,14 +417,16 @@ define(
 							});
 							clear_spinner(); // Remove progress cursor when done searching
 							
+							mpatlas.hoverdelay = 4000;
                             mpatlas.currenttip = new L.Maptip({maxHeight: 199});
                             mpatlas.currenttip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
                             mpatlas.currenttip.setContent(mpahtml);
                             mpatlas.map.openPopup(mpatlas.currenttip);
+                            mpatlas.map.on('popupclose', reset_hover_delay);
                             //mpatlas.map.addLayer(mpatlas.currenttip); // this lets you add multiple popups without auto-closing them
 						},
-						error: function () {
-							
+						error: function (xhr, ajaxOptions, thrownError) {
+							clear_spinner(); // Remove progress cursor when done searching
 						}
 					});
 				};
@@ -473,7 +482,10 @@ define(
 										mpatlas.map.addLayer(geojson);
 										mpatlas.highlightlayer = geojson;
 										clear_spinner();
-									}
+									},
+            						error: function (xhr, ajaxOptions, thrownError) {
+            							clear_spinner(); // Remove progress cursor when done searching
+            						}
 								});
 								
 							} else {
@@ -489,10 +501,12 @@ define(
 							});
 							//clear_spinner();
 							
+							mpatlas.hoverdelay = 4000;
 							var tip = mpatlas.currenttip = new L.Maptip({maxHeight: 199});
                             tip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
                             tip.setContent(mpahtml);
                             mpatlas.map.openPopup(tip);
+                            mpatlas.map.on('popupclose', reset_hover_delay);
                             //mpatlas.map.addLayer(tip); // this lets you add multiple popups without auto-closing them
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
@@ -503,16 +517,10 @@ define(
 				var clearMapTip = function(nothing, hideimmediately) {
 				    clear_spinner();
 				    mpatlas.featuredata = {};
-					$('#maptip-content').html($('#maptip-content').data('orightml'));
 					if (mpatlas.highlightlayer) {
 						mpatlas.map.removeLayer(mpatlas.highlightlayer);
 					}
-					//maptip.disableMapTip();
-					//maptip.toggleEvents(true);
-					maptip.locked = false;
-					maptip.hideMapTip(null, hideimmediately);
 				};
-				//maptip.clearMapTip = clearMapTip;
 				var handlers = {
 					
 					maphover: function (e, mapevent) {
@@ -579,7 +587,6 @@ define(
 								    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 									// load_mpa_maptip(mapevent);
 								} else {
-								    console.log('new click');
 								    // maptip.enableMapTip();
 								    // maptip.toggleEvents(false);
     							    // hideimmediately = true;
@@ -596,9 +603,9 @@ define(
 							case 'meow':
 							case 'fao':
 							    //clearTimeout(maptip.hovercleartimer);
-								if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length === 1) {
+								if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length === 1) {
 									window.location = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id + '/';
-								} else if (maptip.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions) {
+								} else if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions) {
                                     // maptip.enableMapTip();
                                     // maptip.toggleEvents(false);
                                     // maptip.hideMapTip();
@@ -625,11 +632,12 @@ define(
 			},
 	
 			initMapHoverEvents: function (delay, pixeltolerance) {
+			    var mpatlas = this;
 				var map = this.map, hovertimer, hovered = false, lastpoint = {
 					x: -9999,
 					y: -9999
 				};
-				delay = (delay) ? delay : 250;
+				this.hoverdelay = this.originalhoverdelay = (delay) ? delay : 250;
 				pixeltolerance = (pixeltolerance) ? pixeltolerance : 1;
 				
 				this.map.on('mousemove', function (e) {
@@ -640,6 +648,13 @@ define(
 						$(map).trigger('maphoverclear', [e]);
 						console.log('mpahoverclear event');
 					} else if (!hovered) {
+					    // check if we're over a popup or map control first
+					    var target = $.event.fix(e.originalEvent).target; // convert Leaflet mapevent originalevent to jQuery event
+					    if ($('.leaflet-popup').has(target).length || $(map._controlContainer).has(target).length) {
+				            return;
+					    }
+					    // if we're just over map tiles or non-popup layers
+					    // then trigger hover after delay
 						hovertimer = setTimeout(function () {
 							lastpoint = {
 								x: e.layerPoint.x,
@@ -648,7 +663,7 @@ define(
 							hovered = true;
 							$(map).trigger('maphover', [e]);
 							console.log('maphover event');
-						}, delay);
+						}, mpatlas.hoverdelay);
 					}
 				});
 				this.map.on('mouseout', function (e) {

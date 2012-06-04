@@ -34,11 +34,13 @@ def import_candidates():
             lon = float(lon)
             lat = float(lat)
             point = geos.Point(lon, lat, srid=gdal.SpatialReference('WGS84').srid)
-            mpa.point_geom = point
-            mpa.point_geog = point
-            mpa.point_geom_smerc = point.transform(3857)
+            multipoint = geos.MultiPoint(point, srid=gdal.SpatialReference('WGS84').srid)
+            mpa.point_geom = multipoint
+            mpa.point_geog = multipoint
+            mpa.point_geom_smerc = multipoint.transform(3857)
             mpa.point_within = point
         except:
+            print '  ERROR: could not create point'
             pass
         mpa.save()
         
