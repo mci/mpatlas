@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no" />
 
 <!--<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all-access.css"/>-->
-<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all-scoped.css"/>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ext-all-access-scoped.css"/>
 
 <link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
@@ -50,7 +50,7 @@
 		        attach: '_'
 		    },
 		    'backbone': {
-		        deps: ['use!underscore', 'json2', 'jquery'],
+		        deps: ['use!underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
 		        attach: 'Backbone'
 		    },
 		    'jqueryui': {

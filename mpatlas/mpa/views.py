@@ -10,8 +10,10 @@ from itertools import chain
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
-from mpa.models import Mpa, MpaCandidate
+from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 from mpa.forms import MpaForm
+
+from mpa.filters import apply_filters
 
 import reversion
 from django.db import connection, transaction
@@ -105,6 +107,10 @@ class MpaListView(ListView):
             if sortby:
                 dirflag = '-' if (direction and direction.lower() == 'desc') else ''
                 qs = qs.order_by(dirflag + sortby)
+            # Apply specified filters
+            filters = self.request.GET.get('filter')
+            if filters:
+                qs = apply_filters(qs, filters)
             return qs
         except:
             pass
@@ -195,7 +201,7 @@ def lookup_point(request):
             'mpa_list': mpa_list,
         }, content_type='application/json; charset=utf-8')
     else:
-        mpa_valid = Mpa.objects.exclude(verification_state='Rejected as MPA')
+        mpas_valid = mpas_noproposed_nogeom.exclude(verification_state='Rejected as MPA')
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
@@ -209,31 +215,32 @@ def lookup_point(request):
             point.transform(3857) # Google Spherical Mercator srid
             point360.transform(3857)
             #mpa_list = Mpa.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
-            mpa_list = mpa_valid.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*Mpa.get_geom_fields())
+            mpa_list = mpas_valid.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*Mpa.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
-            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
+            mpa_list = mpas_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
-            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer.envelope).defer(*Mpa.get_geom_fields()) # use simple bounding box instead
+            mpa_list = mpas_valid.filter(geog__intersects=searchbuffer.envelope).defer(*Mpa.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
             point.transform(3857) # Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
-            mpa_list = mpa_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
+            mpa_list = mpas_valid.filter(geog__intersects=searchbuffer).defer(*Mpa.get_geom_fields())
             search = searchbuffer
         elif (method == 'greatcircle'):
-            mpa_list = mpa_valid.filter(geog__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
+            mpa_list = mpas_valid.filter(geog__dwithin=(point, Distance(km=radius))).defer(*Mpa.get_geom_fields())
             search = point
         elif (method == 'point'):
-            mpa_list = mpa_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
+            mpa_list = mpas_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
-        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(origpoint, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
+        mpa_candidate_list = mpas_proposed_nogeom.filter(point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
+        #mpa_candidate_list = mpas_proposed_nogeom
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,

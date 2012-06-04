@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView, DetailView, ListView
 
-from mpa.models import Mpa, MpaCandidate
+from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 from mpa.views import MpaListView, MpaJsonListView
 
 urlpatterns = patterns('',
@@ -18,21 +18,21 @@ urlpatterns = patterns('',
     url(r'^revision2/$', 'mpa.views.revision_view2'),
     url(r'^sites/$',
         MpaListView.as_view(
-            queryset=Mpa.objects.order_by('name').defer(*Mpa.get_geom_fields()).only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_noproposed_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=30,
             template_name='mpa/Mpa_list.html'),
         name='mpa-siteslist'),
     url(r'^sites/all/$',
         ListView.as_view(
-            queryset=Mpa.objects.order_by('name').defer(*Mpa.get_geom_fields()),
+            queryset=mpas_noproposed_nogeom.order_by('name'),
             context_object_name='mpa_list',
             #paginate_by=30,
             template_name='mpa/Mpa_list.html'),
         name='mpa-siteslistall'),
     url(r'^sites/json/$',
         MpaJsonListView.as_view(
-            queryset=Mpa.objects.order_by('name').defer(*Mpa.get_geom_fields()).only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_noproposed_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=None,
             template_name='mpa/Mpa_list.json'),
@@ -40,14 +40,14 @@ urlpatterns = patterns('',
     url(r'^sites/(?P<pk>\d+)/$',
         DetailView.as_view(
             model=Mpa,
-            queryset=Mpa.objects.defer(*Mpa.get_geom_fields()),
+            queryset=mpas_all_nogeom,
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.html'),
         name='mpa-siteinfo'),
     url(r'^sites/(?P<pk>\d+)/json/$',
         DetailView.as_view(
             model=Mpa,
-            queryset=Mpa.objects.defer(*Mpa.get_geom_fields()),
+            queryset=mpas_all_nogeom,
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='mpa-infojson'),
@@ -58,15 +58,15 @@ urlpatterns = patterns('',
     
     url(r'^proposed/$',
         MpaListView.as_view(
-            queryset=MpaCandidate.objects.order_by('name').defer(*MpaCandidate.get_geom_fields()),
+            queryset=mpas_proposed_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=30,
             template_name='mpa/Mpa_list.html'),
         name='mpa-candidate-siteslist'),
     url(r'^proposed/(?P<pk>\d+)/$',
         DetailView.as_view(
-            model=MpaCandidate,
-            queryset=MpaCandidate.objects.defer(*MpaCandidate.get_geom_fields()),
+            model=Mpa,
+            queryset=mpas_proposed_nogeom.only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa',
             template_name='mpa/MpaCandidate_detail.html'),
         name='mpa-candidate-siteinfo'),

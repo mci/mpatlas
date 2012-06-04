@@ -31,6 +31,10 @@ a:active {
     color: #de744a;
 }
 
+img {
+    border: none;
+}
+
 #body_full {
     position:relative;
     width: 960px;

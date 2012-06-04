@@ -447,3 +447,7 @@ mpacandidate_mapping = {
     'name' : 'NAME',
     'geom' : 'MULTIPOINT',
 }
+
+mpas_all_nogeom = Mpa.objects.defer(*Mpa.get_geom_fields())
+mpas_noproposed_nogeom = Mpa.objects.defer(*Mpa.get_geom_fields()).exclude(status='Proposed')
+mpas_proposed_nogeom = Mpa.objects.defer(*Mpa.get_geom_fields()).filter(status='Proposed')
