@@ -12,6 +12,8 @@ from tinymce.models import HTMLField
 import reversion
 from reversion.models import Revision
 
+from spatialdata.models import Nation
+
 VERIFY_CHOICES = (
     ('Unverified', 'Unverified'),
     ('Cannot Verify', 'Cannot Verify'),
@@ -266,6 +268,13 @@ class Mpa(models.Model):
             field = self._meta.get_field(name)
             l.append( (name, {"verbose": field.verbose_name, "value": field.value_to_string(self)}) )
         return l
+    
+    @property
+    def nation(self):
+        try:
+            return Nation.objects.get(iso3code=self.country)
+        except Nation.DoesNotExist:
+            return None
     
     # Keep ourselves from having to always test if onetoone exists for wikiarticle
     @property
