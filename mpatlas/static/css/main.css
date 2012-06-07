@@ -379,6 +379,7 @@ ul#mainmenu ul li {
     font-size: 16px;
     margin: 0;
     padding: 0;
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 .modetoggle .modebutton {
     padding: 3px;
@@ -533,6 +534,12 @@ ul#mainmenu ul li {
     color: #DF753B;
     font-style: italic;
     text-decoration: none;
+}
+
+
+.leaflet-control-container {
+    /* Leaflet override needed for Android tablets */
+    -webkit-transform: translate3d(0,0,0);
 }
 
 

@@ -113,7 +113,8 @@ function ($, _, Backbone) {
 				layers: this.layers,
 				minZoom: 0,
 				maxZoom: 18,
-				attributionControl:false
+				attributionControl:false,
+				touchZoom: true // needed for Android tablets
 			});
 			
             var map = this.map; // use this var for closures inside event handlers
