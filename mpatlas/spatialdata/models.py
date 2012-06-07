@@ -11,7 +11,7 @@ class Nation(models.Model):
     
     @property
     def mpas(self):
-        return Mpa.objects.filter(country=self.name)
+        return Mpa.objects.filter(country=self.iso3code).only('mpa_id', 'name', 'designation', 'designation_eng')
 
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  
