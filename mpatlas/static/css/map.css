@@ -48,6 +48,11 @@ body {
     margin-top: -84px;
 }
 
+.map-overlay {
+    /* add this class to anything that needs to be positioned over the leaflet map */
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
+}
+
 #stats_overlay {
     position: absolute;
     top: 0;
@@ -64,6 +69,7 @@ body {
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
     zoom: 1;
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 
 #stats_overlay div.stats_header {
@@ -85,6 +91,7 @@ body {
     position:absolute;
     left: 6px;
     top: 79px;
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 
 .filterstitle {

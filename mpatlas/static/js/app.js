@@ -41,7 +41,9 @@ define(
 			*/
 			
 			exploreModes: ['mpas', 'nation', 'meow', 'fao'],
-			currentMode: 'mpas',			
+			currentMode: 'mpas',
+			hoverdelay: 250,
+			hoverdelay_click: 3500,			
 	
 			initialize: function (map) {
 	
@@ -131,7 +133,8 @@ define(
 					layers: this.layers,
 					minZoom: 0,
 					maxZoom: 9,
-					attributionControl: false
+					attributionControl: false,
+					touchZoom: true // needed for Android tablets
 				});
 				
 				var map = this.map; // use this var for closures inside event handlers
@@ -293,10 +296,6 @@ define(
 				$('.explore_button.selected').removeClass('selected');
 				$('#explore_' + mode).addClass('selected');
 				if (this.currenttip) { this.currenttip._close(); }
-                // if (this.maptip) {
-                //  this.maptip.disableMapTip();
-                //  this.maptip.toggleEvents(true);
-                // }
 			},
 			
 			saveMapLocation: function () {
@@ -332,25 +331,11 @@ define(
 			initMapHover: function () {
 				// Make map fire hover event after 500ms mouse pause, used by feature layer lookups
 				this.initMapHoverEvents(500, 1);
-	
-                // this.maptip = new MPAtlas.MapTip({
-                //  el: $('#maptip')[0],
-                //  mpatlas: this
-                // }); // setup maptip element and behavior
-				
-				// this.maptip.enableMapTip();
-				// this.maptip.disableMapTip();
-				
 				this.registerMapHover(); // assign actions on mouse hover/pause and click for map layer feature lookup
-				//this.maptip.toggleEvents(true); // activate the maptip event registration
-	
-				//$('#maptip-content').html('');
-				//this.maptip.disableMapTip();
 			},
 			
 			registerMapHover: function () {
 				var mpatlas = this;
-				var maptip = this.maptip;
 				mpatlas.pointstillgood = false;
 				var check_point_distance = function(mapevent) {
 				    mpatlas.pointstillgood = false;
@@ -367,7 +352,8 @@ define(
 				    $(mpatlas.mapelem).addClass('busy'); // Add progress cursor when searching
 				    var popupPane = mpatlas.map.getPanes().popupPane;
 				    var myspinopts = $.extend({}, spinner_opts, {left: mapevent.layerPoint.x - 7, top: mapevent.layerPoint.y - 7});
-                    mpatlas.spinner = new Spinner(myspinopts).spin(popupPane);
+				    mpatlas.spinner = (mpatlas.spinner) ? mpatlas.spinner : new Spinner(myspinopts);
+					mpatlas.spinner.spin(popupPane);
 				};
 				var clear_spinner = function() {
 				    $(mpatlas.mapelem).removeClass('busy'); // Add progress cursor when searching
@@ -378,8 +364,7 @@ define(
 				};
 				var reset_hover_delay = function(mapevent) {
                     if (mapevent.popup && mapevent.popup === mpatlas.currenttip) {
-                        mpatlas.hoverdelay = mpatlas.originalhoverdelay;
-                        console.log('popupclose maptip');
+                        mpatlas.hoverdelay = mpatlas.hoverdelay_original;
                     }
                 };
 				var load_mpa_maptip = function(mapevent) {
@@ -387,13 +372,23 @@ define(
                     
 				    var radius = mpatlas.getPixelRadius(2);
 				    var latlng = mapevent.latlng;
+				    var latlng_unbounded = mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint);
 				    url = mpatlas.domain + 'mpa/lookup/point/?lon=' + latlng.lng + '&lat=' + latlng.lat + '&radius=' + radius;
 					if (mpatlas.proxy && mpatlas.proxy !== '') {
 						url = mpatlas.proxy + escape(url);
 					}
-					$.ajax({
+					if (mpatlas.lastXHR) {
+					    mpatlas.lastXHR.abort();
+					}
+					mpatlas.countXHR = (mpatlas.countXHR) ? ++mpatlas.countXHR : 0;
+					var idXHR = ++mpatlas.countXHR;
+					mpatlas.lastXHR = $.ajax({
 						url: url,
 						success: function (data) {
+						    if (idXHR != mpatlas.countXHR) {
+						        // Even aborted XHR may cause the callback to be invoked
+						        return;
+						    }
 							mpatlas.featuredata = data;
 							var mpahtml = '';
 							mpahtml += '<span style="font-weight:bold;">Click to explore these MPAs:</span>';
@@ -411,15 +406,11 @@ define(
                                 if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 								return;											
 							}
-							$('#maptip-content').data('latlon', {
-								lat: latlng.lat,
-								lon: latlng.lon
-							});
 							clear_spinner(); // Remove progress cursor when done searching
 							
-							mpatlas.hoverdelay = 4000;
+							mpatlas.hoverdelay = mpatlas.hoverdelay_click;
                             mpatlas.currenttip = new L.Maptip({maxHeight: 199});
-                            mpatlas.currenttip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
+                            mpatlas.currenttip.setLatLng(latlng_unbounded);
                             mpatlas.currenttip.setContent(mpahtml);
                             mpatlas.map.openPopup(mpatlas.currenttip);
                             mpatlas.map.on('popupclose', reset_hover_delay);
@@ -436,13 +427,24 @@ define(
 				    var radius = mpatlas.getPixelRadius(2);
 				    //var radius = 0.00000001;
 				    var latlng = mapevent.latlng;
+				    var latlng_unbounded = mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint);
 					url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/lookup/point/?lon=' + latlng.lng + '&lat=' + latlng.lat + '&radius=' + radius;
 					if (mpatlas.proxy && mpatlas.proxy !== '') {
 						url = mpatlas.proxy + escape(url);
 					}
+					if (mpatlas.lastXHR) {
+					    mpatlas.lastXHR.abort();
+					}
+					mpatlas.countXHR = (mpatlas.countXHR) ? ++mpatlas.countXHR : 0;
+					var idXHR = ++mpatlas.countXHR;
+					mpatlas.lastXHR =
 					$.ajax({
 						url: url,
 						success: function (data) {
+						    if (idXHR != mpatlas.countXHR) {
+						        // Even aborted XHR may cause the callback to be invoked
+						        return;
+						    }
 							mpatlas.featuredata = data;
 							var mpahtml = '';
 							mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
@@ -489,21 +491,14 @@ define(
 								});
 								
 							} else {
-								//mpahtml = 'No Region at this location';
-								mpahtml = '';
 								clear_spinner();
-								maptip.disableMapTip();
 								return;
 							}
-							$('#maptip-content').data('latlon', {
-								lat: latlng.lat,
-								lon: latlng.lon
-							});
 							//clear_spinner();
 							
-							mpatlas.hoverdelay = 4000;
+							mpatlas.hoverdelay = mpatlas.hoverdelay_click;
 							var tip = mpatlas.currenttip = new L.Maptip({maxHeight: 199});
-                            tip.setLatLng(mpatlas.map.layerPointToLatLngUnbounded(mapevent.layerPoint));
+                            tip.setLatLng(latlng_unbounded);
                             tip.setContent(mpahtml);
                             mpatlas.map.openPopup(tip);
                             mpatlas.map.on('popupclose', reset_hover_delay);
@@ -595,6 +590,7 @@ define(
 								    // maptip.clearMapTip(null, hideimmediately);
 								    // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
 								    clear_spinner();
+								    mpatlas.hoverdelay = mpatlas.hoverdelay_click;
 								    if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 									load_mpa_maptip(mapevent);
 								}
@@ -619,6 +615,7 @@ define(
                                     // maptip.hideMapTip();
                                     // maptip.moveMapTip(mapevent.layerPoint.x, mapevent.layerPoint.y);
                                     clear_spinner();
+                                    mpatlas.hoverdelay = mpatlas.hoverdelay_click;
 									if (mpatlas.currenttip) { mpatlas.currenttip._close(); }
 									load_region_maptip(mapevent);
 								}
@@ -637,7 +634,7 @@ define(
 					x: -9999,
 					y: -9999
 				};
-				this.hoverdelay = this.originalhoverdelay = (delay) ? delay : 250;
+				this.hoverdelay = this.hoverdelay_original = (delay) ? delay : 250;
 				pixeltolerance = (pixeltolerance) ? pixeltolerance : 1;
 				
 				this.map.on('mousemove', function (e) {
@@ -646,7 +643,7 @@ define(
 					if (hovered && (Math.abs(e.layerPoint.x - lastpoint.x) > pixeltolerance || Math.abs(e.layerPoint.y - lastpoint.y) > pixeltolerance)) {
 						hovered = false;
 						$(map).trigger('maphoverclear', [e]);
-						console.log('mpahoverclear event');
+						console.log('maphoverclear event');
 					} else if (!hovered) {
 					    // check if we're over a popup or map control first
 					    var target = $.event.fix(e.originalEvent).target; // convert Leaflet mapevent originalevent to jQuery event
@@ -764,150 +761,11 @@ define(
 		MPAtlas.MapTip = Backbone.View.extend({
 			// define maptip behaviors and initialize
 			initialize: function (options) {
-				var elem = options.el;
-				var mpatlas = options.mpatlas;
-				var maptip = this;
-				this.elem = elem;
-				this.elem.maptip = this;
-				this.mpatlas = mpatlas;
-				var popuppane = mpatlas.map.getPanes().popupPane;
-				this.timer = null;
-				this.disable = true;
-				this.offset = {
-					left: -9999,
-					top: -9999
-				};
-	            
 	            maptip.mouse = {x:-9999, y:-9999};
 	            $(window).on('mousemove.maptipnow', function(e) {
 	                maptip.mouse.y = e.pageY - maptip.offset.top;
 					maptip.mouse.x = e.pageX - maptip.offset.left;
 	            });
-	            
-	            mpatlas.map.on('click', function(e){
-	                console.log('clicked on map');
-	                console.log(e);
-	            });
-	            
-				this.showMapTip = function (event) {
-					maptip.hidden = false;
-					if (!maptip.disable) {
-						$('#maptip').removeClass('nodisplay').removeClass('hidden').removeClass('transparent');
-						clearTimeout(maptip.timer);
-						//maptip.offset = $('#leafletmap').offset();
-						//maptip.offset = $('body').offset();
-						maptip.offset = { top: 0, left: 0};
-						L.DomEvent.disableClickPropagation(this.elem);
-					}
-				};
-	
-				this.hideMapTip = function (event, immediate) {
-					if (immediate) {
-						$('#maptip').addClass('nodisplay').addClass('hidden');
-					} else {
-						maptip.timer = setTimeout(function () {
-							$('#maptip').addClass('hidden');
-						}, 500);
-					}
-					$('#maptip').addClass('transparent');
-				};
-	
-				this.moveMapTip = function (layerX, layerY) {
-					//var offset = $(event.delegateTarget).offset();
-					//var offsetX = event.pageX - offset.left;
-					//var offsetY = event.pageY - offset.top;
-					//$('#maptip').css({'top': offsetY, 'left': offsetX});
-					var x = maptip.mouse.x;
-					var y = maptip.mouse.y;
-					if (!($.type(layerX) === 'undefined' || $.type(layerX) === 'undefined')) {
-					    x = layerX - maptip.offset.left;
-					    y = layerY - maptip.offset.top;
-					}
-					$('#maptip').css({
-						'top': y,
-						'left': x
-					});
-				};
-	
-				this.disableMapTip = function (e, immediatehide) {
-					maptip.disable = true;
-					maptip.hideMapTip(e, immediatehide); // true = hide immediate, false = fade out
-				};
-	
-				this.enableMapTip = function (e) {
-					maptip.disable = false;
-					if (maptip.locked) {
-						maptip.toggleEvents(true); //  break locked maptip by renabling mouse events
-					}
-					maptip.showMapTip(e);
-				};
-	
-				//mpatlas.map.on('movestart', maptip.disableMapTip);
-				mpatlas.map.on('movestart', function() {
-				    maptip.clearMapTip();
-				    maptip.disableMapTip();
-				});
-				//mpatlas.map.on('moveend', maptip.enableMapTip);
-				mpatlas.map.on('moveend', function () {
-					maptip.toggleEvents(true);
-				});
-			},
-	        
-	        clearMapTip: function (nothing, hideimmediately) {
-	            // stub function, gets filled out by mpatlas
-	        },
-	        
-	        cancelHoverClear: function () {
-	            console.log('cancelHoverClear');
-	            var maptip = this.maptip;
-	            maptip.mouseover = true;
-	            if (maptip.hovercleartimer) {
-				    clearTimeout(maptip.hovercleartimer);
-				}
-				// Disable map zooming while over maptip
-				var map = maptip.mpatlas.map;
-				map.doubleClickZoom.disable();
-	            map.scrollWheelZoom.disable();
-	            map.touchZoom.disable();
-	            map.boxZoom.disable();
-	            map.dragging.disable();
-	        },
-	        
-	        setHoverClear: function () {
-	            var maptip = this.maptip;
-	            maptip.mouseover = false;
-	            maptip.hovercleartimer = setTimeout(maptip.clearMapTip, 3000);
-	            // Reenable map zooming when leaving maptip
-	            var map = maptip.mpatlas.map;
-	            map.doubleClickZoom.enable();
-	            map.scrollWheelZoom.enable();
-	            map.touchZoom.enable();
-	            map.boxZoom.enable();
-	            map.dragging.enable();
-	        },
-	        
-			// make maptip responsive (or not responsive) to mouse and map events
-			// effectively locks maptip on page
-			toggleEvents: function (respond_to_events) {
-				var maptip = this;
-				if ($.type(respond_to_events) === 'undefined' || respond_to_events) {
-	                if (this.locked) {
-						// enable maptip events
-						// jquery custom events that prevents mouseover bubbling from child nodes
-						$(this.mpatlas.mapelem).on('mouseleave.maptipwindow', this.hideMapTip);
-
-						this.locked = false;
-					}
-				} else {
-					// disable maptip event tracking
-					// jquery custom events that prevents mouseover bubbling from child nodes
-					$(this.mpatlas.mapelem).off('mouseleave.maptipwindow', this.hideMapTip);
-					this.locked = true;
-				}
-				$(maptip.elem).off('mouseenter.maptip', this.cancelHoverClear);
-				$(maptip.elem).off('mouseleave.maptip', this.setHoverClear);
-				$(maptip.elem).on('mouseenter.maptip', this.cancelHoverClear);
-				$(maptip.elem).on('mouseleave.maptip', this.setHoverClear);
 			}
 		});
 	
