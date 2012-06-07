@@ -1,5 +1,2 @@
 User-agent: *
-Disallow: /
-Disallow: /*
-Disallow: /mpa/
-Disallow: /mpa/*
+

@@ -1,10 +1,17 @@
 from django.contrib.gis.db import models
 from django.db import connection, transaction
 
+from mpa.models import Mpa
+
 class Nation(models.Model):
     name = models.CharField(max_length=240)
     #iso3code = models.ForeignKey(country_iso)
+    iso3code = models.CharField(max_length=3, default='')
     summary = models.TextField()
+    
+    @property
+    def mpas(self):
+        return Mpa.objects.filter(country=self.name)
 
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  

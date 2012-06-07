@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ mpa.name }}{% endblock %}
+{% block title %}{{ nation.name }}{% endblock %}
 
 {% block base_head_extra %}
 <link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
@@ -48,12 +48,12 @@
     ], function(Prep, SiteDetail) {
         $(function() {
             Prep.preparePage();
-            var site_id = {{ mpa.pk }},
-                feature_url = '{% url nation-geojson mpa.pk %}?simplified=true',
-                is_point = {% if mpa.is_point %}true{% else %}false{% endif %},
-                point_within = [{{ mpa.point_within.coords.0 }},{{ mpa.point_within.coords.1 }}],
-                bbox = [[{{ mpa.bbox_lowerleft.coords.0 }},{{ mpa.bbox_lowerleft.coords.1 }}], [{{ mpa.bbox_upperright.coords.0 }},{{ mpa.bbox_upperright.coords.1 }}]];
-            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ mpa.pk }}, feature_url, is_point, point_within, bbox);
+            var site_id = {{ nation.pk }},
+                feature_url = '{% url nation-geojson nation.pk %}?simplified=true',
+                is_point = {% if nation.is_point %}true{% else %}false{% endif %},
+                point_within = [{{ nation.point_within.coords.0 }},{{ nation.point_within.coords.1 }}],
+                bbox = [[{{ nation.bbox_lowerleft.coords.0 }},{{ nation.bbox_lowerleft.coords.1 }}], [{{ nation.bbox_upperright.coords.0 }},{{ nation.bbox_upperright.coords.1 }}]];
+            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ nation.pk }}, feature_url, is_point, point_within, bbox);
         });
     });
 
@@ -80,7 +80,7 @@
 	    </div>
     	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
-            {% for key, value in mpa.display_fields_list %}
+            {% for key, value in nation.display_fields_list %}
                 <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
             {% endfor %}
             </ul>
@@ -91,25 +91,25 @@
     <div id="rightcol" style="float:right; width: 66%;">
         <div style="padding: 8px;">
             <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
-                {{ mpa.name }}
-                <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
+                {{ nation.name }}
+                <span style="font-size:20px;">{% if nation.designation_eng %}{{ nation.designation_eng }} {% endif %}{% if nation.designation_eng != nation.designation %}({{ nation.designation }}){% endif %}</span>
             </p>
-            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ nation.country }}{% if nation.sub_location %}: <span style="font-size:.9em;">{{ nation.sub_location }}</span>{% endif %}</h4>
             
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">
-        	    {% if mpa.summary %}
+        	    {% if nation.summary %}
                     <p>
-                        {{ mpa.summary|safe }}
+                        {{ nation.summary|safe }}
                     </p>
                 {% endif %}
-                {% if mpa.wikiarticle %}
+                {% if nation.wikiarticle %}
                     <p>
-                        {{ mpa.wikiarticle.title }}
+                        {{ nation.wikiarticle.title }}
                         <br />
-                        from wikipedia: <a href="{{ mpa.wikiarticle.url|safe }}">{{ mpa.wikiarticle.url|safe }}</a>
+                        from wikipedia: <a href="{{ nation.wikiarticle.url|safe }}">{{ nation.wikiarticle.url|safe }}</a>
                     </p>
-                        {{ mpa.wikiarticle.summary|safe }}
+                        {{ nation.wikiarticle.summary|safe }}
                 {% endif %}
         	</div>
         	
@@ -120,16 +120,24 @@
         	
         	<div class="sidebar_item_title">National Level Contacts &amp; Resources</div>
         	<div class="sidebar_item_content">
-        	    {% if mpa.contact and mpa.contact.url %}
+        	    {% if nation.contact and nation.contact.url %}
                     <p>
-                        {{ mpa.contact.agency }}
+                        {{ nation.contact.agency }}
                         <br />
-                        <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
+                        <a href="{{ nation.contact.url }}">{{ nation.contact.url }}</a>
                         <br />
-                        {{ mpa.contact.address }}
+                        {{ nation.contact.address }}
                     </p>
                 {% endif %}
         	</div>
+        	
+        	<div class="sidebar_item_title">Marine Protected Areas in {{ nation.name }}</div>
+        	<div class="sidebar_item_content">
+        	    {% for mpa in nation.mpas %}
+        	    {{ mpa.name }} {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
+        	    {% endfor %}
+        	</div>
+        	
     	</div>
     </div>
     <div class="clear"></div>

@@ -29,7 +29,7 @@ urlpatterns = patterns('',
         DetailView.as_view(
             model=Nation,
             queryset=Nation.objects.all(),
-            context_object_name='mpa',
+            context_object_name='nation',
             template_name='spatialdata/Nation_detail.html'),
         name='nation-info'),
     url(r'^nation/(?P<pk>\d+)/json/$',
