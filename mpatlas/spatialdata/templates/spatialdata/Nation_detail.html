@@ -137,7 +137,7 @@
         	        <a href="{% url mpa-siteinfo mpa.pk %}">
         	            {{ mpa.name }} {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
         	        </a>
-        	        {% if not forloop.last %}<br />{% endfor %}
+        	        {% if not forloop.last %}<br />{% endif %}
         	    {% endfor %}
         	</div>
         	
