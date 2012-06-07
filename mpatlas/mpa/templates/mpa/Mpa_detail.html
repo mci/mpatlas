@@ -69,14 +69,8 @@
     <div id="leftcol" style="float:left; width:34%;">
         <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
             Protection Level:
-            {% if mpa.name == 'Cabo Pulmo' or mpa.protection_level == 'Strongly Protected' %}
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #6F6; width:80%;">Strong</div>
-            {% else %}{% if mpa.name == 'Galapagos Marine Reserve' %}
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #F55; width:40%;">Low</div>
-            {% else %}
-                <!--<div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>-->
-                <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Calculating</div>
-            {% endif %}{% endif %}
+            <!--<div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>-->
+            <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Calculating</div>
             <br />
             Conservation Effectiveness:
                 <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
@@ -104,7 +98,7 @@
                 {{ mpa.name }}
                 <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
             </p>
-            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ mpa.country }}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;"><a href="{% url nation-info mpa.nation.pk %}">{{ mpa.nation.name }}</a>{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
             
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">

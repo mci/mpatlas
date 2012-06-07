@@ -69,34 +69,33 @@
     <div id="leftcol" style="float:left; width:34%;">
         <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
             Average Protection Level:
-                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">PROPOSED</div>
+                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color:#ddd; width:60%;">Not Calculated</div>
         </div>
-        <div id="siteinfotitle" class="sidebar_item_title">Nation Information
-            {% if user.is_authenticated %}
-	            <a href="edit" style="float:right; color:white; margin-right:8px;">EDIT</a>
-	        {% else %}
-	            <a class='user_loginlink' href="#login" style="float:right; color:white; margin-right:8px;">EDIT</a>
-	        {% endif %}
-	    </div>
-    	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
-    		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
-            {% for key, value in nation.display_fields_list %}
-                <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
-            {% endfor %}
-            </ul>
-            <a id="infoexpander" class="infoexpander" style="display:block;" href="#" onclick="return false;"><span class="expander"><span style="font-style:normal;">&dArr;</span> See all data records for this site</span><span class="collapser"><span style="font-style:normal;">&uArr;</span> Show less</span></a>
+	    
+	    <div class="sidebar_item_title">National MPA Contacts &amp; Resources</div>
+    	<div class="sidebar_item_content">
+    	    {% if nation.contact and nation.contact.url %}
+                <p>
+                    {{ nation.contact.agency }}
+                    <br />
+                    <a href="{{ nation.contact.url }}">{{ nation.contact.url }}</a>
+                    <br />
+                    {{ nation.contact.address }}
+                </p>
+            {% endif %}
     	</div>
+	    
     	<div id='leafletmap'></div>
     </div>
     <div id="rightcol" style="float:right; width: 66%;">
         <div style="padding: 8px;">
             <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
-                {{ nation.name }}
+                {{ nation.name }} <span style="font-size:0.6em;">({{ nation.iso3code }})</span>
                 <span style="font-size:20px;">{% if nation.designation_eng %}{{ nation.designation_eng }} {% endif %}{% if nation.designation_eng != nation.designation %}({{ nation.designation }}){% endif %}</span>
             </p>
             <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ nation.country }}{% if nation.sub_location %}: <span style="font-size:.9em;">{{ nation.sub_location }}</span>{% endif %}</h4>
             
-            <div class="sidebar_item_title">Site Description</div>
+            <div class="sidebar_item_title">Country Summary</div>
         	<div class="sidebar_item_content">
         	    {% if nation.summary %}
                     <p>
@@ -118,24 +117,11 @@
         	    Figures and summary stats go here
         	</div>
         	
-        	<div class="sidebar_item_title">National Level Contacts &amp; Resources</div>
-        	<div class="sidebar_item_content">
-        	    {% if nation.contact and nation.contact.url %}
-                    <p>
-                        {{ nation.contact.agency }}
-                        <br />
-                        <a href="{{ nation.contact.url }}">{{ nation.contact.url }}</a>
-                        <br />
-                        {{ nation.contact.address }}
-                    </p>
-                {% endif %}
-        	</div>
-        	
         	<div class="sidebar_item_title">Marine Protected Areas in {{ nation.name }}</div>
         	<div class="sidebar_item_content">
         	    {% for mpa in nation.mpas %}
-        	        <a href="{% url mpa-siteinfo mpa.pk %}">
-        	            {{ mpa.name }} {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
+        	        <a class="normal" href="{% url mpa-siteinfo mpa.pk %}">
+        	            <span style="font-size:1.1em; font-style:normal;">{{ mpa.name }}</span> {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
         	        </a>
         	        {% if not forloop.last %}<br />{% endif %}
         	    {% endfor %}

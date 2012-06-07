@@ -21,13 +21,13 @@ body {
     padding: 0;
 }
 
-a {
+a, a.normal {
     color: #3c6289;
 }
-a:hover {
+a:hover, a.normal:hover {
     color: #c94E85;
 }
-a:active {
+a:active, a.normal:active {
     color: #de744a;
 }
 
@@ -531,10 +531,10 @@ ul#mainmenu ul li {
 }
 
 .sidebar_item_content a {
-    color: #DF753B;
     font-style: italic;
     text-decoration: none;
 }
+
 
 
 .leaflet-control-container .leaflet-control {
