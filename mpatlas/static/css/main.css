@@ -537,9 +537,9 @@ ul#mainmenu ul li {
 }
 
 
-.leaflet-control-container {
+.leaflet-control-container .leaflet-control {
     /* Leaflet override needed for Android tablets */
-    -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 
 
