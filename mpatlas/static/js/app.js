@@ -450,7 +450,8 @@ define(
 							mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
 							if (data.regions.length > 0) {
 								var region = data.regions[0]; // Just report one region at a time
-								mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
+								//mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
+								mpahtml += '<a class="maptip_mpalink" href="'+ region.url +'">';
 								mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
 								mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
 								mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
@@ -458,7 +459,7 @@ define(
 								mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
 
 								// Load feature from GeoJSON
-								url = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + region.id + '/features/';
+								url = region.url + 'features/';
 								if (mpatlas.proxy && mpatlas.proxy !== '') {
 									url = mpatlas.proxy + escape(url);
 								}
@@ -600,7 +601,7 @@ define(
 							case 'fao':
 							    //clearTimeout(maptip.hovercleartimer);
 								if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions && mpatlas.featuredata.regions.length === 1) {
-									window.location = mpatlas.domain + 'region/' + mpatlas.currentMode + '/' + mpatlas.featuredata.regions[0].id + '/';
+									window.location = mpatlas.featuredata.regions[0].url;
 								} else if (mpatlas.pointstillgood && mpatlas.featuredata && mpatlas.featuredata.regions) {
                                     // maptip.enableMapTip();
                                     // maptip.toggleEvents(false);

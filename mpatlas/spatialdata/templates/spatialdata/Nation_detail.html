@@ -49,7 +49,7 @@
         $(function() {
             Prep.preparePage();
             var site_id = {{ nation.pk }},
-                feature_url = '{% url nation-geojson nation.pk %}?simplified=true',
+                feature_url = '{% url nation-geojson nation.iso3code %}?simplified=true',
                 is_point = {% if nation.is_point %}true{% else %}false{% endif %},
                 point_within = [{{ nation.point_within.coords.0 }},{{ nation.point_within.coords.1 }}],
                 bbox = [[{{ nation.bbox_lowerleft.coords.0 }},{{ nation.bbox_lowerleft.coords.1 }}], [{{ nation.bbox_upperright.coords.0 }},{{ nation.bbox_upperright.coords.1 }}]];

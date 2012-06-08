@@ -14,6 +14,10 @@ class Nation(models.Model):
     def mpas(self):
         from mpa.models import Mpa
         return Mpa.objects.exclude(country=None).exclude(country='').filter(country=self.iso3code).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('nation-info', (), { 'iso3code': self.iso3code })
 
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  
@@ -47,6 +51,10 @@ class Eez(models.Model):
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.eez
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('eez-info', (str(self.pk)))
     
     @property
     def name(self):
@@ -92,6 +100,10 @@ class Meow(models.Model):
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.realm + '_' + self.province + '_' + self.ecoregion
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('meow-info', (str(self.pk)))
     
     @property
     def name(self):
