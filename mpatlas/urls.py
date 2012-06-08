@@ -22,7 +22,8 @@ urlpatterns = patterns('',
     url(r'^admin/jsi18n/', i18n_javascript),
     url(r'^admin/', include(admin.site.urls)),
      
-    (r'^users/', include('accounts.urls')),
+    url(r'^users/', include('accounts.urls')),
+    url(r'socialauth/', include('social_auth.urls')),
     
     url(r'^mpa/', include('mpa.urls')),
     url(r'^region/', include('spatialdata.urls')),
