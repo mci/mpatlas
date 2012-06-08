@@ -117,6 +117,35 @@ STATICFILES_STORAGE = 'staticfiles.storage.StaticFileStorage'
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 LOGIN_URL = '/users/login/'
+#LOGIN_REDIRECT_URL = '/users/profile/'
+LOGIN_REDIRECT_URL = '/explore/'
+
+# BEGIN social_auth settings
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    # 'social_auth.backends.google.GoogleOAuthBackend',
+    # 'social_auth.backends.google.GoogleOAuth2Backend',
+    # 'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+FACEBOOK_APP_ID     = '314437775301695'
+FACEBOOK_API_SECRET = 'd9081d03e65543fd38ada066768a5f9e'
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+#LOGIN_URL          = '/login-form/'
+#LOGIN_REDIRECT_URL = '/logged-in/'
+#LOGIN_ERROR_URL    = '/login-error/'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
+# SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
+# SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
+# SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account-disconnected-redirect-url/'
+#SOCIAL_AUTH_BACKEND_ERROR_URL = '/new-error-url/'
+SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'mpatlas_socialauth_user'
+# END Social_Auth settings
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -150,6 +179,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'social_auth.context_processors.social_auth_by_name_backends',
 )
 
 TEMPLATE_DIRS = (
@@ -217,6 +247,7 @@ INSTALLED_APPS = (
     'django_countries',
     
     # User accounts and registration
+    'social_auth',
     'accounts',
     
     # Spatial data
