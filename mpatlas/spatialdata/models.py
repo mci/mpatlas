@@ -13,7 +13,7 @@ class Nation(models.Model):
     @property
     def mpas(self):
         from mpa.models import Mpa
-        return Mpa.objects.exclude(country=None, verification_state='Rejected as MPA').exclude(country='').filter(country=self.iso3code).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
+        return Mpa.objects.exclude(country=None).exclude(country='').exclude(verification_state='Rejected as MPA').filter(country=self.iso3code).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
     
     @models.permalink
     def get_absolute_url(self):
