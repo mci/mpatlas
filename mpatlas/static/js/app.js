@@ -148,7 +148,7 @@ define(
 					this.bgLayers,
 					this.overlayLayers,
 					{
-						collapsed: !L.Browser.touch
+						//collapsed: !L.Browser.touch
 					}
 				);
 				this.map.addControl(this.layersControl);
