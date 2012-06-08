@@ -80,6 +80,15 @@
 </script>
 {% endblock %}
 
+{% block base_fblike %}
+{% endblock %}
+
+{% block header_post_user %}
+<div style="float:right; margin-top:8px;">
+    <fb:like send="false" layout="button_count" width="100" show_faces="false"></fb:like>
+</div>
+{% endblock %}
+
 {% block base_body_content %}
 <div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
 <div id='stats_overlay'>
@@ -90,7 +99,7 @@
 		<span class="medium">Protection Statistics</span>
 	</div>
 	<div class="stats_box" style="font-size:14px;">
-	    <p style="font-style:italic; font-size:.8em;">Live MPA statistics coming soon during our beta test period...</p>
+	    <p style="font-style:italic; font-size:.8em;">Live MPA statistics coming soon...</p>
 		<!--
 		<p style="font-style:italic; font-size:.8em;">Currently Calculating...</p>
 		<div id="stats_total_mpas"><b>MPAs:</b> ???</div>
@@ -103,13 +112,17 @@
 	</div>
     
 	<div class="stats_box_header" style="margin-top:27px;">
-		<span class="medium">Website Under Development</span>
+		<span class="medium">Big Changes are Coming</span>
 	</div>
 	<div class="stats_box" style="font-size:12px;">
-		We are actively developing the website at this time.  Many features are not complete.
-		Please use the feedback button on the left side of the page to make suggestions,
-		comments, or to point out bugs and other problems.  You can help make this tool
-		better for everyone.
+		<p>
+    		We look forward to rolling out the filtering and statistics features
+    		in mid-June.  Please check back soon to see these exciting tools in action.
+		</p><p>
+    		Please use the feedback button on page-left to make suggestions,
+    		comments, or to point out bugs.  You can help make this tool
+    		better for everyone.
+		</p>
 	</div>
 
 </div>
@@ -168,10 +181,12 @@
 		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
 		Protection Level by <br /><span class="explore_button_heavytext">Nation</span>
 	</div>
+	<!--
 	<div id="explore_meow" class="explore_button" onclick="mpatlas.setExploreMode('meow')">
 		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
 		Protection Level by <br /><span class="explore_button_heavytext">Ecoregion</span>
 	</div>
+	-->
 	<!--
 	<div id="explore_fao" class="explore_button" onclick="mpatlas.setExploreMode('fao')">
 		<div class="explore_arrow_container"><div class="explore_arrow"></div></div>
