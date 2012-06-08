@@ -57,7 +57,7 @@ def get_geom_json(request, model, pk, simplified=True, webmercator=False):
     obj = model.objects.geojson(field_name=geomfield).defer(*model.get_geom_fields()).get(pk=pk)
     return HttpResponse(obj.geojson, content_type='application/json; charset=utf-8')
 
-def get_nation_geom_json(request, pk, simplified=True, webmercator=False):
+def get_nation_geom_json(request, iso3code, simplified=True, webmercator=False):
     try:
         simplified = (not request.GET['simplified'].upper() == 'FALSE')
     except:
@@ -71,7 +71,10 @@ def get_nation_geom_json(request, pk, simplified=True, webmercator=False):
         geomfield = 'geom_smerc'
     if simplified:
         geomfield = 'simple_' + geomfield
-    n = Nation.objects.get(pk=pk)
+    try:
+        n = Nation.objects.get(iso3code=iso3code)
+    except Nation.DoesNotExist:
+        n = None
     geojson = n.eez_set.all().collect(field_name=geomfield).geojson
     return HttpResponse(geojson, content_type='application/json; charset=utf-8')
 
