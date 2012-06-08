@@ -273,7 +273,7 @@ class Mpa(models.Model):
     def nation(self):
         try:
             return Nation.objects.get(iso3code=self.country)
-        except Nation.DoesNotExist:
+        except Nation.DoesNotExist, Nation.MultipleObjectsReturned:
             return None
     
     # Keep ourselves from having to always test if onetoone exists for wikiarticle
