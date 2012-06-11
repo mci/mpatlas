@@ -40,6 +40,7 @@
     ], function(Prep) {
 	    $(function() {
             Prep.preparePage();
+            window['showsplashdialog'] = Prep.showsplashdialog;
             $(".splashtabs ul").idTabs(function(id,list,set){ 
     		    $("a",set).removeClass("selected") 
     		    .filter("[href='"+id+"']",set).addClass("selected"); 

@@ -30,7 +30,9 @@
         <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700|Josefin+Sans:300,400,500,600,700,800' rel='stylesheet' type='text/css' />
 
         <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8" />
-
+        
+        <link href="{{ STATIC_URL }}css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css" media="screen" rel="stylesheet" type="text/css" />
+        
         <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
         <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/main_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
         
@@ -44,7 +46,7 @@
                 baseUrl: '{{ STATIC_URL }}js',
                 paths: {
                     jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
-                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min'
+                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min'
                 },
                 priority: ['jquery'],
                 waitSeconds: 30,
@@ -68,6 +70,7 @@
             ], function(Prep) {
     		    $(function() {
                     Prep.preparePage();
+                    window['showsplashdialog'] = Prep.showsplashdialog;
                 });
         	});
         </script>
@@ -164,7 +167,7 @@
                         </fieldset>
                     </form>
 			    
-    			    <a id="helpbutton" href="/help">Help</a>
+                            <a id="helpbutton" href="#" onclick="showsplashdialog(); return(false);" title="About MPAtlas">Help</a>
     			    
     			    <div class='user_block'>
     			    {% if user.is_authenticated %}
@@ -176,7 +179,7 @@
     			        <div id='user_logintab' style="float:right;">
     			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
     			            <div id='user_loginformcontainer'>
-    			                <a href="/socialauth/login/facebook/">LOGIN with FACEBOOK</a>
+    			                <!--<a href="/socialauth/login/facebook/">LOGIN with FACEBOOK</a>-->
     			                {% if form.errors %}
                                     <p>Your username and password didn't match. Please try again.</p>
                                 {% endif %}
@@ -231,6 +234,35 @@
     		</div>
 		</div>
 		{% block base_body_extra %}{% endblock %}
+		{% block splash_dialog %}
+		<div id="splashdialog" title="Welcome to MPAtlas" style="display:none;">
+            <p>
+        	    Marine Conservation Institute in partnership with the Waitt Foundation developed this 
+        	    interactive, online tool, to help users visualize the locations and coverage of global 
+        	    marine protected area (MPA) boundaries and provide information in an interactive 
+        	    web-based mapping environment.
+        	</p><p>
+        	    This mapping tool provides information on over 8000 MPAs globally, drawing on datasets 
+        	    from the <a class="normal" href="http://www.mpa.gov">US MPA Center</a>, <a class="normal" href="http://www.protectedplanet.net">World 
+        	    Database on Protected Areas</a>, and other country- and regional-level data authorities, 
+        	    and research conducted by the Marine Conservation Institute.
+        	</p><p>
+                In addition to showing MPA boundaries and site management information, this dataset 
+                contains information on conservation measures with a focus on those restricting the 
+                exploitation of marine life.
+            </p><p>
+                Features on this site are designed to allow users to understand (1) where current 
+                protection exists and at what level, and (2), where important areas for future protection 
+                are and any processes underway to establish MPAs.  A detailed, up-to-date picture of the 
+                type and distribution of global MPAs, as well as important areas to protect in the future 
+                provides important, and necessary, information to countries and their citizens interested 
+                in ocean conservation, management and stewardship.
+            </p><p>
+                The dataset is constantly being updated and we welcome visitors to the site to provide 
+                feedback and content to this site by becoming an editor.
+        	</p>
+        </div>
+        {% endblock %}
 		{% comment %}
 		{% render_block "js" %}
 		{% endcomment %}

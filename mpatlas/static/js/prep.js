@@ -68,9 +68,21 @@ define([
             return this;
         };
     };
+    
+    var showsplashdialog = function() {
+        $("#splashdialog").dialog({
+			width: '60%',
+			min_width: 400,
+			max_width: 800,
+			min_width: 200,
+			max_height: '80%',
+			modal: true
+		});
+    };
 
     return {
-      preparePage: preparePage
+      preparePage: preparePage,
+      showsplashdialog: showsplashdialog
     };
     // What we return here will be used by other modules
 });
