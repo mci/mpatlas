@@ -75,7 +75,12 @@
         		});
             };
             window['showsplashdialog'] = Prep.showsplashdialog;
-            showsplashdialog();
+            console.log(mpatlas.history.get('seensplash'));
+            if (mpatlas.history.get('seensplash') != 'true') {
+                showsplashdialog();
+                mpatlas.history.set('seensplash', 'true');
+            }
+            console.log(mpatlas.history.get('seensplash'));
         });
     });
 
