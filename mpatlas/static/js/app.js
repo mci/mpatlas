@@ -750,9 +750,9 @@ define(
 			get: function (key, decode) {
 				var val = null;
 				try {
-					var value = this.localStorage.get(key);
+					val = this.localStorage.get(key);
 					if (decode) {
-						val = JSON.parse(value);
+						val = JSON.parse(val);
 					}
 				} catch (e) {}
 				return val;

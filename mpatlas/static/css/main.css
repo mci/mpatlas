@@ -19,6 +19,7 @@ h1, .heading {font: 50px/56px 'Yanone Kaffeesatz', 'TitilliumText22LRegular', Ar
 body {
     margin: 0;
     padding: 0;
+    background-color: #E5E7EA;
 }
 
 a, a.normal {
@@ -33,6 +34,10 @@ a:active, a.normal:active {
 
 img {
     border: none;
+}
+
+#pagewrapper {
+    background-color: #FFFEF9;
 }
 
 #body_full {
