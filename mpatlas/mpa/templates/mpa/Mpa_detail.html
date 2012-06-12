@@ -98,7 +98,7 @@
                 {{ mpa.name }}
                 <span style="font-size:20px;">{% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}</span>
             </p>
-            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{% if mpa.country %}<a href="{% url nation-info mpa.nation.iso3code %}">{{ mpa.nation.name }}</a>{% endif %}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{% if mpa.country %}{% url nation-info mpa.nation.iso3code as nationurl %}{% if nationurl %}<a href="{{ nationurl }}">{% endif %}{% if mpa.nation.name %}{{ mpa.nation.name }}{% else %}{{ mpa.country }}{% endif %}{% if nationurl %}</a>{% endif %}{% endif %}{% if mpa.sub_location %}: <span style="font-size:.9em;">{{ mpa.sub_location }}</span>{% endif %}</h4>
             
             <div class="sidebar_item_title">Site Description</div>
         	<div class="sidebar_item_content">
