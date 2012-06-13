@@ -179,7 +179,7 @@
     			        <div id='user_logintab' style="float:right;">
     			            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
     			            <div id='user_loginformcontainer'>
-    			                <!--<a href="/socialauth/login/facebook/">LOGIN with FACEBOOK</a>-->
+    			                <a href="/socialauth/login/facebook/">LOGIN with FACEBOOK</a>
     			                {% if form.errors %}
                                     <p>Your username and password didn't match. Please try again.</p>
                                 {% endif %}
@@ -237,9 +237,9 @@
 		{% block splash_dialog %}
 		<div id="splashdialog" title="Welcome to MPAtlas" style="display:none;">
             <p>
-        	      Marine Conservation Institute and the Waitt Foundation provide this 
-        	      interactive tool to help users visualize the locations and coverage of global 
-        	      marine protected areas (MPA).  This atlas provides information on over 8000 MPAs 
+                Marine Conservation Institute and the Waitt Foundation provide this 
+                interactive tool to help users visualize the locations and coverage of global 
+                marine protected areas (MPA).  This atlas provides information on over 8000 MPAs 
                 globally, drawing on datasets from the 
                 <a class="normal" href="http://www.protectedplanet.net">World Database on Protected Areas</a><sup>1</sup>,
                 <a class="normal" href="http://www.mpa.gov">US MPA Center</a><sup>2</sup>,  
@@ -270,9 +270,9 @@
             </p>
         </div>
         {% endblock %}
-		{% comment %}
-		{% render_block "js" %}
-		{% endcomment %}
+        {% comment %}
+        {% render_block "js" %}
+        {% endcomment %}
         {% block bodyend_js %}{% endblock %}
         <script type="text/javascript">
             var uvOptions = {};

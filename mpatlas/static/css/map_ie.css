@@ -6,12 +6,45 @@
     margin-right: 1px;
 }
 
+.maptip .maptip-content-wrapper {
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
+    zoom: 1;
+}
+
 .maptip .maptip-arrow {
     margin-left:5px;
+    background-color: transparent;
     filter: progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678) alpha(opacity=80); /* IE6 & 7 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678) alpha(opacity=80)"; /* IE8 */
 }
 
 .explore_button {
     width: 160px;
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A); /* IE6 & 7 */
+    zoom: 1;
+}
+
+.explore_button:hover {
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927); /* IE6 & 7 */
+    zoom: 1;
+}
+
+.explore_button.selected {
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574); /* IE6 & 7 */
+    zoom: 1;
+}
+
+#stats_overlay {
+    background-color: transparent;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
+    zoom: 1;
 }
