@@ -66,9 +66,6 @@ body {
     background-color: rgba(10,10,10,0.8);
     color:white;
     text-align:center;
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
-    zoom: 1;
     -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 
@@ -116,6 +113,7 @@ body {
     left:0px;
     right: 200px;
     height:100%;
+    background-color: rgb(60,60,60);
     background-color: rgba(60,60,60,0.7);
 }
 
@@ -136,6 +134,7 @@ body {
 .maplayer {
     clear: both;
     border-radius: 4px 4px 4px 4px;
+    background-color: rgb(255,255,255);
     background-color: rgba(255,255,255,0.1);
     border: 1px solid silver;
     padding: 4px;
@@ -212,18 +211,13 @@ body {
 
 .maptip .maptip-content-wrapper {
     border-radius: 8px 8px 8px 8px;
-    background-color: transparent;
-    background: rgba(10,10,10,0.8);
+    background-color: rgb(10,10,10);
+    background-color: rgba(10,10,10,0.8);
     padding: 6px;
     color: white;
     min-width: 150px;
     max-width: 250px;
     min-height: 40px;
-    /*background-color: transparent;*/
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 & 7 */
-    zoom: 1;
-    
     padding: 1px;
 	text-align: left;
 }
@@ -263,7 +257,6 @@ body {
     padding: 1px;
     /*background-image: url("../images/ui/maptip_left_solid.png");*/
     /*opacity: 0.8;*/
-    background-color: transparent;
     background-color: #0A0A0A;
     background: rgba(10,10,10,0.8);
     -moz-transform: rotate(45deg);
@@ -359,10 +352,6 @@ body {
     background-image: -webkit-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
     background-image: -o-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
     background-image: linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));*/
-    /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#324455,endColorstr=#242F3A); /* IE6 & 7 */
-    zoom: 1;
     
     -webkit-transition:background-color .2s linear;
     -moz-transition:background-color .2s linear;
@@ -380,10 +369,6 @@ body {
     background-image: -webkit-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
     background-image: -o-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
     background-image: linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
-    /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#de744a,endColorstr=#cf5927); /* IE6 & 7 */
-    zoom: 1;
     
     -webkit-transition:background-color .2s linear;
     -moz-transition:background-color .2s linear;
@@ -399,11 +384,7 @@ body {
     background-image: -moz-linear-gradient(top, #C94E85, #B24574);
     background-image: -webkit-linear-gradient(top, #C94E85, #B24574);
     background-image: -o-linear-gradient(top, #C94E85, #B24574);
-    background-image: linear-gradient(top, #C94E85, #B24574);*/
-    /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#C94E85,endColorstr=#B24574); /* IE6 & 7 */
-    zoom: 1;
+    background-image: linear-gradient(top, #C94E85, #B24574);
     
     -webkit-transition:background-color .2s linear;
     -moz-transition:background-color .2s linear;

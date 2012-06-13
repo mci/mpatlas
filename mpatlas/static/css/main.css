@@ -16,6 +16,16 @@ h1, .heading {font: 50px/56px 'Yanone Kaffeesatz', 'TitilliumText22LRegular', Ar
     display: none;
 }
 
+/* Fix for IE9, it only needs this property, not the whole leaflet.ie.css */
+.leaflet-tile {
+    filter: inherit;
+}
+/* end IE9 Leaflet fix */
+
+.leaflet-control-layers-expanded {
+    opacity: 0.9;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -407,17 +417,16 @@ ul#mainmenu ul li {
 
 #filters_overlay {
     min-width: 100px;
-    background-color: rgba(10,10,10,0);
+    background-color: transparent;
     padding: 0px;
     border-radius: 8px 0px 0px 8px;
-    background-image: -moz-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
-    background-image: -webkit-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
-    background-image: -o-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
-    background-image: linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
-    /* background-color: transparent; */
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A)"; /* IE8 */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#CC0A0A0A); /* IE6 and 7 */
-    zoom: 1;
+    background: -moz-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
+    background: -webkit-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
+    background: -o-linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
+    background: linear-gradient(top left, rgba(10,10,10,0.8), rgba(10,10,10,0.0));
+    
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#000A0A0A,gradientType=1)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC0A0A0A,endColorstr=#000A0A0A,gradientType=1); /* IE6 & 7 */
 }
 
 .filterstitle {
@@ -648,8 +657,4 @@ div.rssincl-entry p.rssincl-itemtitle {
 	height: 17px;
 	overflow:hidden;
 }
-div.rssincl-entry p.rssincl-itemtitle a {
-	color: white !important;
-	font-weight:bold;
-	font-size:14px;
-}
+div.rssincl-entry p.rssinc
