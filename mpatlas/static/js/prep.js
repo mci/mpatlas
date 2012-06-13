@@ -71,11 +71,7 @@ define([
     
     var showsplashdialog = function() {
         $("#splashdialog").dialog({
-			width: '60%',
-			min_width: 400,
-			max_width: 800,
-			min_width: 200,
-			max_height: '80%',
+			width: "60%",
 			modal: true
 		});
     };
