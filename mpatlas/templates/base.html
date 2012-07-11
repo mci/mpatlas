@@ -217,9 +217,15 @@
     		{% block base_prebody_content %}{% endblock %}
     		<div id='body_full'>
     		    {% block base_fblike %}
-                     <div style="position: absolute; right:110px; top:8px;">
-                <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
-                </div>
+                    <div style="position: absolute; right:90px; top:8px;">
+                        <div style="float:left; margin-right:10px;">
+                            <a href="https://twitter.com/MPAtlas" style="margin-right:10px;" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @MPAtlas</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        </div>
+                        <div style="float:left; width:110px;">
+                            <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
+                        </div>
+                    </div>
                 {% endblock %}
     			{% block base_body_content %}{% endblock %}
     		</div>
