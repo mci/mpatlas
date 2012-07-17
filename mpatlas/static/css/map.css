@@ -84,6 +84,19 @@ body {
     margin-bottom: 4px;
 }
 
+#stats_overlay div.stats_box {
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid #666;
+    margin: 0 4px;
+    background-color: transparent;
+    background-color: rgba(10,10,10,0.3);
+}
+
+#stats_mpas_current_filter {
+    font-style:italic;
+    font-size:.8em;
+}
+
 #filters_overlay {
     position:absolute;
     left: 6px;
