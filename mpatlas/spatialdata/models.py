@@ -1,11 +1,12 @@
 from django.contrib.gis.db import models
+from tinymce.models import HTMLField
 from django.db import connection, transaction
 
 class Nation(models.Model):
     name = models.CharField(max_length=240)
     #iso3code = models.ForeignKey(country_iso)
     iso3code = models.CharField(max_length=3, default='')
-    summary = models.TextField()
+    summary = HTMLField('Nation Protection Summary', null=True, blank=True)
     
     def __unicode__(self):
         return self.name
