@@ -556,7 +556,29 @@ ul#mainmenu ul li {
     -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
 }
 
-
+.splash_contentleft {
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 394px;
+    background-color: #345A6F;
+}
+.splash_contentright{
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 394px;
+    background-color: #7FBFDB;
+}
+.splash_buttonbar {
+    position: absolute;
+    margin-top: 394px;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    background-color: #464C54;
+    background-image: url('../images/splash/button_gray.png');
+}
 .splashtabs ul, .tabbednav ul li {
     list-style: none outside none;
     margin: 0;
@@ -567,16 +589,21 @@ ul#mainmenu ul li {
     display: block;
     float: left;
 }
+.splashtabs li:last-child {
+    background-image: url('../images/splash/button_line.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
 .splashtabs li a, .splashtabs li a:hover, .splashtabs li a:active, .splashtabs li a:visited {
     width: 320px;
     height: 56px;
-    background-color: #464C54;
     color: #CCCCCC;
     display: block;
     font-size: 12px;
     outline: medium none;
     text-decoration: none;
-    background-image: url('../images/splash/button_gray.png');
+    background-image: url('../images/splash/button_line.png');
+    background-repeat: no-repeat;
     text-align:center;
 }
 .splashtabs li a.selected {
