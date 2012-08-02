@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import connection, transaction
 from tinymce.models import HTMLField
+from BeautifulSoup import BeautifulSoup
 
 import reversion
 from reversion.models import Revision
@@ -360,6 +361,11 @@ class WikiArticle(models.Model):
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.summary[0:20] + '...'
+    
+    def save(self, *args, **kwargs):
+        # Clean up broken html code
+        self.summary = BeautifulSoup(self.summary).prettify()
+        super(WikiArticle, self).save(*args, **kwargs)
 
 
 class Contact(models.Model):
