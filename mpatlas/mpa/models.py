@@ -379,8 +379,6 @@ class Contact(models.Model):
     def __unicode__(self):
         return self.agency
 
-        from reversion.models import Revision
-
 
 class VersionMetadata(models.Model):
     revision = models.OneToOneField(Revision)  # This is required
