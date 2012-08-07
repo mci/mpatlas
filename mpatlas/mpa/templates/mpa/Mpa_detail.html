@@ -130,13 +130,14 @@
         	<div class="sidebar_item_title">Contacts &amp; Resources</div>
         	<div class="sidebar_item_content">
         	    {% if mpa.contact and mpa.contact.url %}
-                    <p>
-                        {{ mpa.contact.agency }}
-                        <br />
-                        <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
-                        <br />
-                        {{ mpa.contact.address|safe }}
-                    </p>
+                    <div>
+                        <span style="font-weight:bold;">{{ mpa.contact.agency }}</span>
+                        <div style="margin-left:10px; color:#666;">
+                            <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
+                            <br />
+                            {{ mpa.contact.address|safe|linebreaksbr }}
+                        </div>
+                    </div>
                 {% endif %}
         	</div>
     	</div>
