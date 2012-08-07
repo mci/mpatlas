@@ -372,7 +372,7 @@ class Contact(models.Model):
     agency = models.CharField(max_length=500)
     url = models.URLField(max_length=500, null=True, blank=True)
     email = models.EmailField(max_length=500, null=True, blank=True)
-    address = HTMLField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
     phone = models.CharField(max_length=500, null=True, blank=True)
     
     # Returns the string representation of the model.
