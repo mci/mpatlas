@@ -101,7 +101,7 @@ class MpaListView(ListView):
                 #return self.queryset.filter(name__istartswith=q)
                 # \m is Postgresql regex word boundary, Python used \b
                 # (?i) is a Postgresql regex mode modifier to make regex case insensitive
-                qs = qs.filter(name__regex=r'(?i)\m' + re.escape(q))
+                qs = qs.filter(name__regex=ur'(?i)\m' + re.sub(r'([.*/\|^$:(){}\'"+&?])', r'\\\1', q))
             sortby = self.request.GET.get('sort')
             direction = self.request.GET.get('dir')
             if sortby:
@@ -201,7 +201,7 @@ def lookup_point(request):
             'mpa_list': mpa_list,
         }, content_type='application/json; charset=utf-8')
     else:
-        mpas_valid = mpas_noproposed_nogeom.exclude(verification_state='Rejected as MPA')
+        mpas_valid = mpas_noproposed_nogeom
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic

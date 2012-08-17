@@ -397,7 +397,7 @@ define(
 							for (i = 0; i < len; i++) {
 								mpa = data.mpas[i];
 								//mpahtml += '<a class="maptip_mpalink" href="' + mpatlas.domain + 'mpa/sites/' + mpa.id + '/' + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
-								mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + '</a>';
+								mpahtml += '<a class="maptip_mpalink" href="' + mpa.url + '"><span style="float:right; margin-left:3px; font-style:italic;">(' + mpa.country + ')</span>' + mpa.name + ((mpa.designation == 'None') ? '' : '<span style="font-size:.8em; font-style:italic; color:#D1D1D1;"> ' + mpa.designation + '</span>') + '</a>';
 							}
 							if (data.mpas.length === 0) {
 								//mpahtml = 'No MPAs at this location';
