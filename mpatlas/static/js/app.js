@@ -5,6 +5,7 @@ define(
 		'jquery',
 		'use!backbone',
 		'leaflet',
+		'leafclusterer',
 		'TileLayer.Bing',
 		'leaflet_utils',
 		'leaflet_maptip',
@@ -13,31 +14,31 @@ define(
 	].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
 	
 	function ($, Backbone) {
-	    var spinner_opts = {
-            lines: 8, // The number of lines to draw
-            length: 2, // The length of each line
-            width: 2, // The line thickness
-            radius: 2, // The radius of the inner circle
-            rotate: 0, // The rotation offset
-            color: '#FFF', // #rgb or #rrggbb
-            //color: '#E03E6F', // #rgb or #rrggbb
-            speed: 2, // Rounds per second
-            trail: 60, // Afterglow percentage
-            shadow: true, // Whether to render a shadow
-            hwaccel: false, // Whether to use hardware acceleration
-            className: 'spinner', // The CSS class to assign to the spinner
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: 'auto', // Top position relative to parent in px
-            left: 'auto' // Left position relative to parent in px
-        };
+		var spinner_opts = {
+				lines: 8, // The number of lines to draw
+				length: 2, // The length of each line
+				width: 2, // The line thickness
+				radius: 2, // The radius of the inner circle
+				rotate: 0, // The rotation offset
+				color: '#FFF', // #rgb or #rrggbb
+				//color: '#E03E6F', // #rgb or #rrggbb
+				speed: 2, // Rounds per second
+				trail: 60, // Afterglow percentage
+				shadow: true, // Whether to render a shadow
+				hwaccel: false, // Whether to use hardware acceleration
+				className: 'spinner', // The CSS class to assign to the spinner
+				zIndex: 2e9, // The z-index (defaults to 2000000000)
+				top: 'auto', // Top position relative to parent in px
+				left: 'auto' // Left position relative to parent in px
+		};
 	    
 		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
 			domain: 'http://' + document.domain + '/',
 			/*
-			proxy: '/terraweave/features.ashx?url=',
-			domain: 'http://mpatlas.org/',
+			proxy: '/proxy/?mode=native&url=',
+			domain: 'http://dev.mpatlas.org/',
 			*/
 			
 			exploreModes: ['mpas', 'nation', 'meow', 'fao'],
@@ -76,7 +77,7 @@ define(
 				// ESRI Oceans Layer
 				var lyr = new L.TileLayer(
 					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
-					{id: 0, maxZoom: 9, opacity: 1}
+					{id: 10, maxZoom: 10, opacity: 1}
 				);
 				this.bgLayers['World Oceans'] = lyr;
 				this.layers.push(lyr);
@@ -84,36 +85,14 @@ define(
 				// Bing background layer for testing
 				lyr = new L.TileLayer.Bing(
 					'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
-					{id: 2, maxZoom: 18, opacity: 0.6}
+					{id: 11, minZoom: 11, maxZoom: 14, opacity: 0.6}
 				);
 				this.bgLayers['Bing World Map'] = lyr;
 	
-				// EEZs / Nations		
-				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-					{id: 3, maxZoom: 9, opacity: 0.2, scheme: 'tms', subdomains: subdomains}
-				);
-				this.overlayLayers['Exclusive Economic Zones'] = lyr;
-				this.layers.push(lyr);
-				
-				// Marine Eco-Regions
-				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
-					{id: 4, maxZoom: 9, opacity: 0.4, scheme: 'tms', subdomains: subdomains}
-				);
-				this.overlayLayers['Marine Eco-Regions'] = lyr;
-				
-				// FAO Fishing Zones
-				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
-					{id: 5, maxZoom: 9, opacity: 0.4, scheme: 'tms', subdomains: subdomains}
-				);
-				this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
-				
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-					{id: 6, maxZoom: 9, opacity: 0.5, scheme: 'tms', subdomains: subdomains}
+					{id: 1, maxZoom: 10, opacity: 0.5, scheme: 'tms', subdomains: subdomains, color: '#0000AA'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
@@ -122,24 +101,54 @@ define(
 				// Candidate Marine Protected Areas
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-					{id: 7, maxZoom: 9, opacity: 0.6, scheme: 'xyz', subdomains: subdomains}
+					{id: 2, maxZoom: 10, opacity: 0.6, scheme: 'xyz', subdomains: subdomains, color: '#FF8000'}
 				);
 				this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
 	
+				// EEZs / Nations		
+				lyr = new L.TileLayer(
+					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
+					{id: 3, maxZoom: 10, opacity: 0.2, scheme: 'tms', subdomains: subdomains, color: '#01DF74'}
+				);
+				this.overlayLayers['Exclusive Economic Zones'] = lyr;
+				this.layers.push(lyr);
+				
+				// Marine Eco-Regions
+				lyr = new L.TileLayer(
+					'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
+					{id: 4, maxZoom: 10, opacity: 0.4, scheme: 'tms', subdomains: subdomains, color: '#CC00CC'}
+				);
+				this.overlayLayers['Marine Eco-Regions'] = lyr;
+				
+				// FAO Fishing Zones
+				lyr = new L.TileLayer(
+					'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
+					{id: 5, maxZoom: 10, opacity: 0.4, scheme: 'tms', subdomains: subdomains, color: '#FFFF00'}
+				);
+				this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
+				
 				this.map = new L.Map(this.mapelem, {
 					center: new L.LatLng(0, 0),
 					zoom: 2,
 					layers: this.layers,
 					minZoom: 0,
-					maxZoom: 9,
+					maxZoom: 14,
 					attributionControl: false,
 					touchZoom: true // needed for Android tablets
 				});
 				
 				var map = this.map; // use this var for closures inside event handlers
 	
+        // Add the clusterer to show filtered MPAs
+        var opts = {
+            maxZoom: 10,
+            gridSize: 60
+        };
+        this.clusterer = new LeafClusterer(this.map, null, opts);        
+
 				// override the position of layer control			
+				/*
 				L.Control.Layers.prototype.getPosition = function () {
 					return 'bottomleft';
 				};
@@ -152,6 +161,7 @@ define(
 					}
 				);
 				this.map.addControl(this.layersControl);
+				*/
 				
 				this.map.on('viewreset', function (e) {
 					try {
@@ -196,7 +206,9 @@ define(
 			switchToMapView: function () {
 				$('#btnListMode').removeClass('selected');
 				$('#btnMapMode').addClass('selected');
-				$('.leaflet-control-container').show();
+				if (MPALayersWindow) {
+					MPALayersWindow.window.show();
+				}
 				
 				$('#body_list_full').fadeOut(600);
 				
@@ -218,7 +230,10 @@ define(
 				}
 				$('#btnMapMode').removeClass('selected');
 				$('#btnListMode').addClass('selected');
-				$('.leaflet-control-container').hide();
+
+				if (MPALayersWindow) {
+					MPALayersWindow.window.hide();
+				}
 
 				$('#body_list_full').fadeIn(600);
 				
@@ -644,7 +659,7 @@ define(
 					if (hovered && (Math.abs(e.layerPoint.x - lastpoint.x) > pixeltolerance || Math.abs(e.layerPoint.y - lastpoint.y) > pixeltolerance)) {
 						hovered = false;
 						$(map).trigger('maphoverclear', [e]);
-						console.log('maphoverclear event');
+						//console.log('maphoverclear event');
 					} else if (!hovered) {
 					    // check if we're over a popup or map control first
 					    var target = $.event.fix(e.originalEvent).target; // convert Leaflet mapevent originalevent to jQuery event
@@ -660,7 +675,7 @@ define(
 							};
 							hovered = true;
 							$(map).trigger('maphover', [e]);
-							console.log('maphover event');
+							//console.log('maphover event');
 						}, mpatlas.hoverdelay);
 					}
 				});

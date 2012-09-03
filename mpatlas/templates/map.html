@@ -36,7 +36,7 @@
             underscore: 'underscore-min',
 			backbone: 'backbone-min',
 			//extjs: 'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all'
-    		extjs: '//cdn.sencha.io/ext-4.1.0-gpl/ext-all'
+    		extjs: '//cdn.sencha.io/ext-4.1.1-gpl/ext-all'
             //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
             //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
         },
@@ -62,25 +62,28 @@
         'prep',
         'app',
         'MPAList',
+				'MPALayersWindow',
+				'MPAFiltersWindow',
+				'json/mpa_points',
         'jquery',
 		'use!jqueryui'
     ], function(Prep, App, MPAList) {
         $(function() {
             Prep.preparePage();
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
-            window['showfilterdialog'] = function() {
-                $("#addfilterdialog").dialog({
-        			width: 600,
-        			modal: true
-        		});
-            };
             window['showsplashdialog'] = Prep.showsplashdialog;
-            console.log(mpatlas.history.get('seensplash'));
+            //console.log(mpatlas.history.get('seensplash'));
             if (mpatlas.history.get('seensplash') != 'true') {
                 showsplashdialog();
                 mpatlas.history.set('seensplash', 'true');
             }
-            console.log(mpatlas.history.get('seensplash'));
+            //console.log(mpatlas.history.get('seensplash'));
+
+						Ext.onReady(function() {
+								MPALayersWindow.load(mpatlas);
+								MPAFiltersWindow.load(mpatlas);
+						});
+
         });
     });
 
@@ -145,10 +148,9 @@
 </div>
 
 <div id='filters_overlay'>
-	<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
-	<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
-	<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
-	<div class="clear"></div>
+		<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="MPAFiltersWindow.showWindow();return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p><a class="filtertag" style="text-decoration:none;" href="#" onclick="MPAFiltersWindow.clearFilters();return(false);" title="Remove All Filters"><em class="addicon">-</em> Remove All Filters</a></p>
+		<!--<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+		<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>-->
 </div>
 
 <div id='modetoggle_overlay'>
@@ -157,6 +159,7 @@
 	</div>
 </div>
 
+<!--
 <div id="addfilterdialog" title="Add a new MPA filter" style="display:none;">
 	<p>
 	    FEATURE IN DEVELOPMENT!
@@ -168,7 +171,6 @@
 </div>
 
 
-<!--
 <div id="maptip" class="maptip hidden transparent">
 	<div class="maptip-arrow-container">
 		<div class="maptip-arrow"></div>

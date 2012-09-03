@@ -15,14 +15,6 @@ define(
 				this.callParent();
 			},
 			
-			//** TODO be sure to set the proxy and domain before sending to production!
-			proxy: '',
-			domain: 'http://' + document.domain + '/',
-			/*
-			proxy: '/terraweave/features.ashx?url=', // needed for testing cross-domain
-			domain: 'http://mpatlas.org/',
-			*/
-
 			filterMinChars: 3,
 		
 			filterStore: function () {
@@ -98,7 +90,7 @@ define(
 			
 			proxy: {
 				type: 'ajax',
-				url: this.proxy,
+				url: 'na', //mpatlas.proxy,
 				
 				// we override the url. this. cleans up the additional params
 				limitParam: null,
@@ -131,7 +123,7 @@ define(
 				}
 		
 				var pr = store.getProxy();
-				var m = MPAList;
+				var m = mpatlas;
 				var remoteURL =  m.domain + 'mpa/sites/json/';
 				
 				// add the filter(s)
@@ -228,7 +220,7 @@ define(
 		
 				function renderName(value, p, record) {
 					return Ext.String.format(
-						'<a href="' + MPAList.domain + 'mpa/sites/{1}/">{0}</a>',
+						'<a href="' + this.domain + 'mpa/sites/{1}/">{0}</a>',
 						value,
 						record.get('id')
 					);

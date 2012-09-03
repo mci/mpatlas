@@ -72,6 +72,7 @@ define([
     var showsplashdialog = function() {
         $("#splashdialog").dialog({
 			width: "60%",
+      zIndex: 99999,
 			modal: true
 		});
     };
