@@ -107,7 +107,7 @@ define(
 				});
 				
 				this.window.show();
-				this.window.alignTo('leafletmap', 'bl-bl', [5, -25]);
+				this.window.alignTo('leafletmap', 'bl-bl', [35, -30]);
 			},
 			
 			loadLayers: function () {
