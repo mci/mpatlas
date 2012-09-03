@@ -1,8 +1,5 @@
 define(
 	[
-		//** TODO had to drop back to 4.0.7 because of IE compatability issues. Still not perfect. Revisit later
-		//'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all.js'
-		//'//cdn.terraweave.com/v/6.0/extjs/ext-all.js'
 		'extjs'
 	],
 	function () {
@@ -220,7 +217,7 @@ define(
 		
 				function renderName(value, p, record) {
 					return Ext.String.format(
-						'<a href="' + this.domain + 'mpa/sites/{1}/">{0}</a>',
+						'<a href="' + mpatlas.domain + 'mpa/sites/{1}/">{0}</a>',
 						value,
 						record.get('id')
 					);
