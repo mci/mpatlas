@@ -57,3 +57,17 @@ def geog2geom(geog):
     # _ST_BestSRID(geog)
     # _ST_BestSRID(geog1, geog2)
     pass
+
+@transaction.commit_on_success
+def simplify_geom_raw(table, geomfield, simplegeomfield, tolerance, pkfield, pk):
+    # First do a validity check, then fix topology using PostGIS 2.0 tools
+    cursor = connection.cursor()
+    cursor.execute("UPDATE %s SET %s = ST_Multi(ST_SimplifyPreserveTopology(%s, %f)) WHERE %s = %s" % (table, simplegeomfield, geomfield, tolerance, pkfield, pk) )
+    transaction.set_dirty()
+    #transaction.commit_unless_managed()    
+
+def simplify_geom(obj, geomfield='geom_smerc', simplegeomfield='simple_geom_smerc', tolerance=500):
+    table = obj._meta.db_table
+    pkfield = obj._meta.pk.name
+    pk = obj.pk
+    simplify_geom_raw(table=table, geomfield=geomfield, simplegeomfield=simplegeomfield, tolerance=tolerance, pkfield=pkfield, pk=pk)
