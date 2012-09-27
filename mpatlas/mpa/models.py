@@ -462,6 +462,7 @@ mpacandidate_mapping = {
 }
 
 mpas_norejects = Mpa.objects.exclude(verification_state='Rejected as MPA')
-mpas_all_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
+mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
+mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
 mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
 mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())

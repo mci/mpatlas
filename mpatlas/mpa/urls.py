@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView, DetailView, ListView
 
-from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 from mpa.views import MpaListView, MpaJsonListView
 
 urlpatterns = patterns('',
@@ -18,14 +18,14 @@ urlpatterns = patterns('',
     url(r'^revision2/$', 'mpa.views.revision_view2'),
     url(r'^sites/$',
         MpaListView.as_view(
-            queryset=mpas_all_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=30,
             template_name='mpa/Mpa_list.html'),
         name='mpa-siteslist'),
     url(r'^sites/all/$',
         ListView.as_view(
-            queryset=mpas_all_nogeom.order_by('name'),
+            queryset=mpas_norejects_nogeom.order_by('name'),
             context_object_name='mpa_list',
             #paginate_by=30,
             template_name='mpa/Mpa_list.html'),
@@ -39,7 +39,7 @@ urlpatterns = patterns('',
         name='mpa-siteslistall'),
     url(r'^sites/json/$',
         MpaJsonListView.as_view(
-            queryset=mpas_all_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'status', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'status', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=None,
             template_name='mpa/Mpa_list.json'),
@@ -47,7 +47,7 @@ urlpatterns = patterns('',
     url(r'^sites/ids/$',
         MpaJsonListView.as_view(
             # queryset=mpas_noproposed_nogeom.order_by('mpa_id').only('mpa_id'),
-            queryset=mpas_all_nogeom.only('mpa_id'),
+            queryset=mpas_norejects_nogeom.only('mpa_id'),
             context_object_name='mpa_list',
             paginate_by=None,
             template_name='mpa/Mpa_id_list.json'),
