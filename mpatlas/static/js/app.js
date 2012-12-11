@@ -91,8 +91,8 @@ define(
 	
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-					{id: 1, maxZoom: 10, opacity: 0.5, scheme: 'tms', subdomains: subdomains, color: '#0000AA'}
+					'http://mpatlas.s3.amazonaws.com/tilecache/mpas/{z}/{x}/{y}.png',
+					{id: 1, maxZoom: 10, opacity: 0.9, scheme: 'xyz', subdomains: subdomains, color: '#0000AA'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
