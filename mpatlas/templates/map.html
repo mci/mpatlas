@@ -11,8 +11,12 @@
 <!--<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all-access.css"/>-->
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ext-all-access-scoped.css"/>
 
+{% comment %}
 <link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+{% endcomment %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" /><![endif]-->
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -30,8 +34,8 @@
         paths: {
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
-            //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
-            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            leaflet: '//cdn.leafletjs.com/leaflet-0.5/leaflet',
+            //leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
             underscore: 'underscore-min',
 			backbone: 'backbone-min',
@@ -147,7 +151,9 @@
 </div>
 
 <div id='filters_overlay'>
-		<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="MPAFiltersWindow.showWindow();return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p><a class="filtertag" style="text-decoration:none;" href="#" onclick="MPAFiltersWindow.clearFilters();return(false);" title="Remove All Filters"><em class="addicon">-</em> Remove All Filters</a></p>
+		<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="MPAFiltersWindow.showWindow();return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
+		<a class="filtertag" style="text-decoration:none;" href="#" onclick="MPAFiltersWindow.clearFilters();return(false);" title="Remove All Filters"><em class="addicon">-</em> Remove All Filters</a>
+		
 		<!--<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
 		<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>-->
 </div>

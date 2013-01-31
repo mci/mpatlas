@@ -91,8 +91,8 @@ define(
 	
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
-					'http://mpatlas.s3.amazonaws.com/tilecache/mpas/{z}/{x}/{y}.png',
-					{id: 1, maxZoom: 10, opacity: 0.9, scheme: 'xyz', subdomains: subdomains, color: '#0000AA'}
+					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
+					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
@@ -101,7 +101,7 @@ define(
 				// Candidate Marine Protected Areas
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
-					{id: 2, maxZoom: 10, opacity: 0.6, scheme: 'xyz', subdomains: subdomains, color: '#FF8000'}
+					{id: 2, maxZoom: 10, opacity: 0.6, tms: false, subdomains: subdomains, color: '#FF8000'}
 				);
 				this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
@@ -109,7 +109,7 @@ define(
 				// EEZs / Nations		
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-					{id: 3, maxZoom: 10, opacity: 0.2, scheme: 'tms', subdomains: subdomains, color: '#01DF74'}
+					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74'}
 				);
 				this.overlayLayers['Exclusive Economic Zones'] = lyr;
 				this.layers.push(lyr);
@@ -117,14 +117,14 @@ define(
 				// Marine Eco-Regions
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
-					{id: 4, maxZoom: 10, opacity: 0.4, scheme: 'tms', subdomains: subdomains, color: '#CC00CC'}
+					{id: 4, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#CC00CC'}
 				);
 				this.overlayLayers['Marine Eco-Regions'] = lyr;
 				
 				// FAO Fishing Zones
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
-					{id: 5, maxZoom: 10, opacity: 0.4, scheme: 'tms', subdomains: subdomains, color: '#FFFF00'}
+					{id: 5, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#FFFF00'}
 				);
 				this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 				
