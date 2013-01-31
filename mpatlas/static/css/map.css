@@ -305,21 +305,25 @@ body {
 }
 
 .maptip .maptip-close-button {
-    background-color: rgb(10,10,10);
-    background-color: rgba(10,10,10,0.9);
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 18px;
-    width: 18px;
-    border-radius: 9px;
-    overflow: hidden;
-    position: absolute;
-    right: -5px;
-    top: -5px;
+    background-color: rgb(10,10,10) !important;
+    background-color: rgba(10,10,10,0.9) !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    height: 18px !important;
+    width: 18px !important;
+    border-radius: 9px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    right: -5px !important;
+    top: -5px !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important;
+    font-size: 13px !important;
 }
 
 .maptip .maptip-close-button:hover {
-    background-color: rgb(90,90,90);
+    background-color: rgb(90,90,90) !important;
 }
 
 .maptip_mpalink {
