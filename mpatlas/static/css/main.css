@@ -683,5 +683,15 @@ div.rssincl-entry p.rssincl-itemtitle {
 	border-radius: 8px;
 	height: 17px;
 	overflow:hidden;
+    color: #fff;
+    font-weight: bold;
 }
-div.rssincl-entry p.rssinc
+div.rssincl-entry p.rssincl-itemtitle a {
+    color: #fff;
+}
+div.rssincl-entry p.rssincl-itemtitle a:hover {
+    color: #c94E85;
+}
+div.rssincl-entry p.rssincl-itemtitle a:active {
+    color: #de744a;
+}
