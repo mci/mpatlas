@@ -113,9 +113,9 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
 
 class Mpa(models.Model):
     # ID / Name
-    mpa_id = models.AutoField('MPA id', primary_key=True)
-    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True)
-    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True)
+    mpa_id = models.AutoField('MPA id', primary_key=True, editable=False)
+    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, editable=False)
+    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, editable=False)
     other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True)
     name = models.CharField('Name', max_length=254)
     long_name = models.CharField(max_length=254, blank=True) # name + designation
