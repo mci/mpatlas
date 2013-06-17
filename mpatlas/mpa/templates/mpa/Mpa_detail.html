@@ -140,6 +140,20 @@
                     </div>
                 {% endif %}
         	</div>
+
+            <div class="sidebar_item_title">Data Sources</div>
+            <div class="sidebar_item_content">
+                {% if mpa.wdpa_id %}
+                    <p>
+                        Original data record from World Database on Protected Areas (WDPA) via ProtectedPlanet.net <a href="http://www.protectedplanet.net/sites/{{ mpa.wdpa_id }}" target="_blank">[view record on site]</a>.
+                    </p>
+                {% endif %}
+                {% if mpa.usmpa_id %}
+                    <p>
+                        Original data record from <a href="http://www.mpa.gov">US MPA Center</a>.
+                    </p>
+                {% endif %}
+            </div>
     	</div>
     </div>
     <div class="clear"></div>

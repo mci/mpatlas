@@ -202,6 +202,10 @@ body {
     margin-top:40px;
 }
 
+.leaflet-right .leaflet-control {
+    margin-right: 200px;
+}
+
 .maptip {
     position: absolute;
     /*z-index: 9000;*/

@@ -77,7 +77,7 @@ define(
 				// ESRI Oceans Layer
 				var lyr = new L.TileLayer(
 					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
-					{id: 10, maxZoom: 10, opacity: 1}
+					{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
 				);
 				this.bgLayers['World Oceans'] = lyr;
 				this.layers.push(lyr);
@@ -92,7 +92,7 @@ define(
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
-					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA'}
+					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA', attribution: 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
@@ -134,11 +134,14 @@ define(
 					layers: this.layers,
 					minZoom: 0,
 					maxZoom: 14,
-					attributionControl: false,
+					attributionControl: true,
 					touchZoom: true // needed for Android tablets
 				});
+
+				this.map.attributionControl.setPrefix('');
 				
 				var map = this.map; // use this var for closures inside event handlers
+
 	
         // Add the clusterer to show filtered MPAs
         var opts = {
