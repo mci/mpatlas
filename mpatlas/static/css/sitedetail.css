@@ -72,3 +72,19 @@
     font-style: italic;
     font-size: 11px;
 }
+
+.ppwidget_wrapper {
+    background-color: #eee;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica , Arial, sans-serif;
+    font-weight: 400;
+}
+
+.protection_levels .level_title {
+    font-family: 'Roboto Condensed', 'Helvetica Neue', Helvetica , Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1.1em;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}

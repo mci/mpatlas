@@ -62,9 +62,9 @@ function ($, _, Backbone) {
 			this.layers.push(lyr);
 	
 			// Bing background layer for testing
-			var lyr = new L.TileLayer.Bing(
-				'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
-				{id: 2, maxZoom: 18, opacity: 1}
+			lyr = new L.TileLayer.Bing(
+				'AnrVx0YzYa6emmkAQPBI9Ka1uY1ZFKPDC7fGYntZX2PJkJFTNgmEKfUTFC_3EI_e',
+				{type: 'Road', id: 2, maxZoom: 18, opacity: 1}
 			);
 			this.bgLayers['Bing Maps'] = lyr;
 			//this.layers.push(lyr);

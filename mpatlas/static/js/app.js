@@ -84,8 +84,8 @@ define(
 		
 				// Bing background layer for testing
 				lyr = new L.TileLayer.Bing(
-					'http://ecn.t{subdomain}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g=850&mkt=en-us&n=z&shading=hill',
-					{id: 11, minZoom: 11, maxZoom: 14, opacity: 0.6}
+					'AnrVx0YzYa6emmkAQPBI9Ka1uY1ZFKPDC7fGYntZX2PJkJFTNgmEKfUTFC_3EI_e',
+					{type: 'Road', id: 2, maxZoom: 18, opacity: 1}
 				);
 				this.bgLayers['Bing World Map'] = lyr;
 	

@@ -67,17 +67,21 @@
     <div class="clear" style="clear:both;"></div>
     
     <div id="leftcol" style="float:left; width:34%;">
-        <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
-            Protection Level:
+        <div class="protection_levels" style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
+            <span class="level_title">Protection Level:</span>
             <!--<div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>-->
-            <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Calculating</div>
+                <div class="protection_bar" style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Not yet calculated</div>
             <br />
-            Conservation Effectiveness:
-                <div style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
+            <span class="level_title">Conservation Effectiveness:</span>
+                <div class="effectiveness_bar" style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
         </div>
         <div id="siteinfotitle" class="sidebar_item_title">Site Information
             {% if user.is_authenticated %}
-	            <a href="edit" style="float:right; color:white; margin-right:8px;">EDIT</a>
+                {% if mpa.wdpa_id %}
+	               <a class="button ppeditbutton" href="#ppwidget" style="float:right; color:white; margin-right:8px;">Edit <span class="subtext">via ProtectedPlanet.net</span></a>
+                {% else %}
+                    <a class="button editbutton" href="edit" style="float:right; color:white; margin-right:8px;">Edit</a>
+                {% endif %}
 	        {% else %}
 	            <a class='user_loginlink' href="#login" style="float:right; color:white; margin-right:8px;">EDIT</a>
 	        {% endif %}
@@ -117,16 +121,15 @@
                 {% endif %}
         	</div>
 
+            {% comment %}
         	<div class="sidebar_item_title">Nearby Sites</div>
         	<div class="sidebar_item_content">
         	    Showing nearest 5 MPAs (&lt; 500km away)<br />
-        	    {% comment %}
-                        {% for nearmpa in mpa.getnearbyareas %}
+        	    {% for nearmpa in mpa.getnearbyareas %}
         		    {{ nearmpa.name }}: {{ nearmpa.distance.km }} km<br />
         		{% endfor %}
-                    {% endcomment %}
         	</div>
-        	
+        	{% endcomment %}
         	<div class="sidebar_item_title">Contacts &amp; Resources</div>
         	<div class="sidebar_item_content">
         	    {% if mpa.contact and mpa.contact.url %}
@@ -154,6 +157,16 @@
                     </p>
                 {% endif %}
             </div>
+            {% if mpa.wdpa_id %}
+                <div class="sidebar_item_title">Data from ProtectedPlanet.net</div>
+                <div class="sidebar_item_content ppwidget_wrapper">
+                    <p>
+                        <iframe id="ppwidget" class="ppwidget" src="http://www.protectedplanet.net/sites/{{ mpa.wdpa_id }}/widget?size=550,700" style="width:557px; height:702px; border:none;"></iframe>
+                        <!--
+                        <iframe id="ppwidget" class="ppwidget" src="http://protectedplanet.net/sites/555543712/widget?size=600,700}&fields=wdpaid,name,country"></iframe> -->
+                    </p>
+                </div>
+            {% endif %}
     	</div>
     </div>
     <div class="clear"></div>

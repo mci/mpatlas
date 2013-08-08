@@ -28,7 +28,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <p class="submit">
-            <button type="submit" name="submit" value="Sign Up">Sign Up</button>
+            <button class="button" type="submit" name="submit" value="Sign Up">Sign Up</button>
         </p>
         {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
     </form>

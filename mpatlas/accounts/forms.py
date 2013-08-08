@@ -29,7 +29,7 @@ class UserCreationForm(forms.ModelForm):
     first_name = forms.CharField(label=_("First Name"), max_length=30)
     last_name = forms.CharField(label=_("Last Name"), max_length=30)
     affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300, required=False)
-    country = forms.ChoiceField(label=_("Country"), choices=COUNTRIES)
+    country = forms.ChoiceField(label=_("Country"), choices=COUNTRIES, initial='US')
 
     class Meta:
         model = User
