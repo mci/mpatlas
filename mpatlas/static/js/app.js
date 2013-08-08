@@ -132,6 +132,7 @@ define(
 					center: new L.LatLng(0, 0),
 					zoom: 2,
 					layers: this.layers,
+					worldCopyJump: true,
 					minZoom: 0,
 					maxZoom: 14,
 					attributionControl: true,
@@ -314,6 +315,9 @@ define(
 				$('.explore_button.selected').removeClass('selected');
 				$('#explore_' + mode).addClass('selected');
 				if (this.currenttip) { this.currenttip._close(); }
+				if (this.highlightlayer) {
+					this.map.removeLayer(this.highlightlayer);
+				}
 			},
 			
 			saveMapLocation: function () {
@@ -439,6 +443,20 @@ define(
 						}
 					});
 				};
+				var shiftLatLngs = function(latlngs, shift) {
+                    var _latlngs = [];
+                    for (var i=0; i < latlngs.length; i++) {
+                        _latlngs[i] = new L.LatLng(latlngs[i].lat, latlngs[i].lng + shift);
+                    }
+                    return _latlngs;
+                };
+                var wrapCoords = function(coords, west, east) {
+                    var a = !isNaN(parseFloat(west)) && isFinite(west) ? west : -180;
+                    var b = !isNaN(parseFloat(east)) && isFinite(east) ? east : a + 360;
+                    var lng = (coords[0]) % (b - a) + (coords[0] < 0 ? (b - a) : 0); // shift to value between 0 and (b-a) (typically 0-360)
+                    lng = lng + (Math.floor((a - lng)/(b-a)) + 1)*(b-a); // translate to value between a and b
+                    return new L.LatLng(coords[1], lng);
+                };
 				var load_region_maptip = function(mapevent) {
 				    set_spinner(mapevent);
 				    
@@ -493,15 +511,15 @@ define(
 											fillColor: '#1FF',
 											fillOpacity: 0.3
 										});
+										geojson.on('click', function (mapevent) {
+											mpatlas.map.fireEvent('click', mapevent); // pass click from layer to map
+										});
 										if (mpatlas.highlightlayer) {
 											mpatlas.map.removeLayer(mpatlas.highlightlayer);
 										}
 										delete mpatlas.highlightlayer;
-										geojson.on('click', function (mapevent) {
-											mpatlas.map.fireEvent('click', mapevent); // pass click from layer to map
-										});
-										mpatlas.map.addLayer(geojson);
-										mpatlas.highlightlayer = geojson;
+										mpatlas.highlightlayer = L.layerGroup([geojson]);
+										mpatlas.map.addLayer(mpatlas.highlightlayer)
 										clear_spinner();
 									},
             						error: function (xhr, ajaxOptions, thrownError) {
@@ -511,6 +529,9 @@ define(
 								
 							} else {
 								clear_spinner();
+								if (mpatlas.highlightlayer) {
+									mpatlas.map.removeLayer(mpatlas.highlightlayer);
+								}
 								return;
 							}
 							//clear_spinner();

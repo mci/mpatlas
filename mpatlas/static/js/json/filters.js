@@ -17,7 +17,7 @@
 		"url": "/static/js/json/protection_level.js"
 	},
 */
-	{
+/*	{
 		"id": "no_take",
 		"text": "No Take",
 		"leaf": true,
@@ -25,6 +25,7 @@
 		'selectionType': 'multigrid',
 		"url": "/static/js/json/no_take.js"
 	},
+*/
 	{
 		"id": "status",
 		"text": "Status",

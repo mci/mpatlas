@@ -83,13 +83,13 @@
                     <a class="button editbutton" href="edit" style="float:right; color:white; margin-right:8px;">Edit</a>
                 {% endif %}
 	        {% else %}
-	            <a class='user_loginlink' href="#login" style="float:right; color:white; margin-right:8px;">EDIT</a>
+	            <a class='user_loginlink button editbutton' href="#login" style="float:right; color:white; margin-right:8px;">Edit</a>
 	        {% endif %}
 	    </div>
     	<div id="siteinfo" class="sidebar_item_content siteinfo collapsed">
     		<ul class="infolist" style="list-style:none; margin:0; padding:0;">
             {% for key, value in mpa.display_fields_list %}
-                <li style="border-bottom:1px solid #555;"> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
+                <li> <strong class="name">{{ value.verbose }}</strong>: <span class="value" style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
             {% endfor %}
             </ul>
             <a id="infoexpander" class="infoexpander" style="display:block;" href="#" onclick="return false;"><span class="expander"><span style="font-style:normal;">&dArr;</span> See all data records for this site</span><span class="collapser"><span style="font-style:normal;">&uArr;</span> Show less</span></a>
