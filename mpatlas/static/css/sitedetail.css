@@ -31,6 +31,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#DD333333,endColorstr=#DD333333); /* IE6 and 7 */
     zoom: 1;
     border-color: black;
+    background-color: #3C6289;
 }
 
 #siteinfotitle {
@@ -43,6 +44,10 @@
 .siteinfo .value {
     color: #ddd;
     padding-left: 2px;
+}
+
+.siteinfo li {
+    border-bottom: 1px solid #617487;
 }
 
 .siteinfo.collapsed .infolist {

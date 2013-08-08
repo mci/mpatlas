@@ -88,12 +88,12 @@ register('protection', protection)
 
 def no_take(qs, no_take_levels):
     # protection levels by list
-    # 'all' means don't filter
+    ## 'all' means don't filter
     no_take_list = []
     for no_take in no_take_levels:
-        if (no_take.lower() == 'all'):
-            return qs
-        not_take_list.append(no_take.lower().capitalize())
+        # if (no_take.lower() == 'all'):
+        #     return qs
+        no_take_list.append(no_take.lower().capitalize())
     if no_take_list:
         qs = qs.filter(no_take__in=no_take_list)
     return qs

@@ -112,6 +112,7 @@ function ($, _, Backbone) {
 				center: new L.LatLng(0, 0),
 				zoom: 2,
 				layers: this.layers,
+				worldCopyJump: true,
 				minZoom: 0,
 				maxZoom: 18,
 				attributionControl:false,
