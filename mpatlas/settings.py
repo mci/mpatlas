@@ -129,6 +129,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+#CKEditor
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 500,
+        'width': '100%',
+    },
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
+
 FACEBOOK_APP_ID     = '314437775301695'
 FACEBOOK_API_SECRET = 'd9081d03e65543fd38ada066768a5f9e'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
@@ -244,6 +257,7 @@ INSTALLED_APPS = (
     
     'reversion',
     'tinymce',
+    'ckeditor',
     'django_countries',
     
     # User accounts and registration
@@ -256,6 +270,7 @@ INSTALLED_APPS = (
     'usmpa',
     'mpa',
     'spatialdata',
+    'campaign',
 )
 
 # A sample logging configuration. The only tangible logging
