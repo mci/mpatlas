@@ -58,46 +58,14 @@
 {% endblock %}
 
 {% block base_prebody_content %}
-    <div class="splash_contentleft"></div>
-    <div class="splash_contentright"></div>
-    <div class="splash_buttonbar"></div>
 {% endblock %}
 {% block base_body_content %}
     <div style="">
-    	<div class="splashcontent">
-    		<div style="display: block;" class="tabpanel" id="explore_panel"> 	
-                <a class="splashpanel" href="/explore/"></a>
-    		</div>
-    		<div style="display: none;" class="tabpanel" id="learn_panel"> 	
-                <a class="splashpanel" href="/learn/"></a>
-    		</div>
-    		<div style="display: none;" class="tabpanel" id="share_panel"> 	
-                <a class="splashpanel" href="/explore/"></a>
-    		</div>
+    	<div style="background: url('/static/images/hero_color_sharks.jpg');width:960px;height:800px;">
+        TEST
     		<div class="clear"></div>
     	</div>
-    	<div class="splashtabs">
-    		<ul>
-    			<li class="selected" id="explore_tab">
-    			    <a href="#explore_panel" class="selected">
-    			        <span class="tabtext">Explore</span>
-    			    </a>
-    			</li>
-    			<li id="learn_tab">
-    			    <a href="#learn_panel">
-    			        <span class="tabtext">Learn</span>
-    			    </a>
-    			</li>
-    			<li id="share_tab">
-    			    <a href="#share_panel">
-    			        <span class="tabtext">Share</span>
-    			    </a>
-    			</li>
-    		</ul>
-    	</div>
     	<div class="clear"></div>
-    	
-    	
     </div>
 {% endblock %}
 

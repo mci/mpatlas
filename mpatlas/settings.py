@@ -62,7 +62,8 @@ TIME_ZONE = 'America/Los_Angeles'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+# Site 2 is dev.mpatlas.org, 1 is mpatlas.org
+SITE_ID = 2 if DEBUG else 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -129,19 +130,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-#CKEditor
-CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Full',
-        'height': 500,
-        'width': '100%',
-    },
-    'awesome_ckeditor': {
-        'toolbar': 'Basic',
-    },
-}
-
 FACEBOOK_APP_ID     = '314437775301695'
 FACEBOOK_API_SECRET = 'd9081d03e65543fd38ada066768a5f9e'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
@@ -201,6 +189,22 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_PATH, 'templates')
 )
+
+#CKEditor
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+        # 'toolbar': 'Full',
+        'height': 500,
+        'width': '100%',
+        # 'extraPlugins': 'dialog,lineutils,widget,image2',
+        # 'removePlugins': 'image',
+    },
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
 
 # TinyMCE Settings
 #TINYMCE_JS_URL = os.path.join(STATIC_URL, "tiny_mce", "tiny_mce.js")
