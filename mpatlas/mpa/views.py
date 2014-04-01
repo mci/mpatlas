@@ -11,7 +11,7 @@ from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
 from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
-from mpa.forms import MpaForm
+from mpa.forms import MpaForm, MpaGeomForm
 
 from mpa.filters import apply_filters
 
@@ -82,6 +82,41 @@ def edit_mpa(request, pk):
         'mpa': mpa,
         'respond_url': reverse('mpa-editsite', kwargs={'pk': pk}),
     }, context_instance=RequestContext(request))
+
+@transaction.commit_on_success
+@reversion.create_revision()
+def edit_mpa_geom(request, pk):
+    mpa = get_object_or_404(Mpa, pk=pk)
+    if (request.POST):
+        # Got a form submission
+        editform = MpaGeomForm(request.POST, instance=mpa)
+        if editform.is_valid():
+            try:
+                geom = geos.GEOSGeometry(editform.cleaned_data['boundarygeo'])
+                if (geom.geom_type != 'MultiPolygon'):
+                    geom = geos.MultiPolygon(geom)
+                mpa.geom = geom
+            except:
+                raise
+            mpasaved = editform.save()
+            mpasaved.set_geog_from_geom()
+            try:
+                reversion.set_comment("Boundary geometry updated.")
+            except:
+                pass
+            try:
+                reversion.set_user(request.user)
+            except:
+                pass
+            return HttpResponseRedirect(reverse('mpa-siteinfo', kwargs={'pk': pk}))
+    else:
+        editform = MpaGeomForm(instance=mpa)
+    return render_to_response('mpa/Mpa_editgeoform.html', {
+        'form': editform,
+        'mpa': mpa,
+        'respond_url': reverse('mpa-editsitegeom', kwargs={'pk': pk}),
+    }, context_instance=RequestContext(request))
+
 
 class MpaListView(ListView):
     def get_paginate_by(self, queryset):

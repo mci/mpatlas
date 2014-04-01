@@ -1,4 +1,6 @@
-from django.contrib.gis import admin
-from models import Campaign
+from django.contrib import admin
+from django.contrib.gis import admin as geoadmin
+from models import Campaign, Initiative
 
-admin.site.register(Campaign, admin.OSMGeoAdmin)
+admin.site.register(Campaign, geoadmin.OSMGeoAdmin)
+admin.site.register(Initiative, admin.ModelAdmin)

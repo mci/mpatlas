@@ -68,6 +68,8 @@ urlpatterns = patterns('',
         name='mpa-infojson'),
     url(r'^sites/(?P<pk>\d+)/features/$', 'mpa.views.get_mpa_geom_json', name='mpa-geojson'),
     url(r'^sites/(?P<pk>\d+)/edit/$', 'mpa.views.edit_mpa', name='mpa-editsite'),
+
+    url(r'^sites/(?P<pk>\d+)/edit/geo/$', 'mpa.views.edit_mpa_geom', name='mpa-editsitegeom'),
     
     url(r'^lookup/point/$', 'mpa.views.lookup_point'),
     

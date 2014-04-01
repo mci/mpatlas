@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'socialauth/', include('social_auth.urls')),
     
     url(r'^mpa/', include('mpa.urls')),
+    url(r'^campaign/', include('campaign.urls')),
     url(r'^region/', include('spatialdata.urls')),
     
     url(r'^news/', TemplateView.as_view(template_name='news.html')),

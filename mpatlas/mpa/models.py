@@ -175,6 +175,7 @@ class Mpa(models.Model):
     primary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
     secondary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
     tertiary_conservation_focus = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_FOCUS_CHOICES, default='Unknown')
+    conservation_focus_info = models.TextField(null=True, blank=True)
     conservation_focus_citation = models.TextField(null=True, blank=True)
     
     # Protection Focus
@@ -201,7 +202,7 @@ class Mpa(models.Model):
     # If is_point is true, this will be a box or circle based on the 
     # area estimate (calculated from local UTM crs or a global equal area crs)
     geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True, editable=False)
-    geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=False)
+    geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=True)
     geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Simplified polygon features
@@ -332,6 +333,13 @@ class Mpa(models.Model):
         cursor.execute("UPDATE mpa_mpa SET geom = geog::geometry, geom_smerc = ST_TRANSFORM(geog::geometry, 3857) WHERE mpa_id = %s" , [self.mpa_id])
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857) WHERE mpa_id = %s" , [self.mpa_id])
         transaction.commit_unless_managed()
+
+    def set_geog_from_geom(self):
+        # Raw SQL update geometry fields, much faster than through django
+        cursor = connection.cursor()
+        cursor.execute("UPDATE mpa_mpa SET geog = geom::geography, geom_smerc = ST_TRANSFORM(geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
+        cursor.execute("UPDATE mpa_mpa SET point_geog = point_geom::geography, point_geom_smerc = ST_TRANSFORM(point_geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
+        transaction.commit_unless_managed()
     
     @classmethod
     def set_all_geom_from_geog(cls):
@@ -341,13 +349,14 @@ class Mpa(models.Model):
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857)")
         transaction.commit_unless_managed()
 
-#@receiver(post_save, sender=Mpa)
+@receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
     # Calculate things once an mpa object is created or updated
     # Disconnect post_save so we don't enter recursive loop
     post_save.disconnect(mpa_post_save, sender=Mpa)
     instance.set_point_within()
     instance.set_bbox()
+    instance.set_geog_from_geom()
     post_save.connect(mpa_post_save, sender=Mpa)
 
 

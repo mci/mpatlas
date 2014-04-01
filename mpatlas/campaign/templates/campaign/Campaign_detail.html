@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}{{ campaign.name }}{% endblock %}
+
+{% block base_head_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
+<!--[if lte IE 9]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+
+<link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    require.config({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            //leaflet: '//leaflet.cloudmade.com/dist/leaflet',
+            leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+            backbone: 'backbone-min'
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+		priority: [
+			// 'leaflet'
+		],
+		waitSeconds: 30,
+        use: {
+		    'underscore': {
+		        attach: '_'
+		    },
+		    'backbone': {
+		        deps: ['use!underscore', 'json2', 'jquery'],
+		        attach: 'Backbone'
+		    },
+		    'jqueryui': {
+		        deps: ['jquery']
+		    }
+		}
+    });
+    require([
+        'prep',
+        'campaigndetail',
+        'jquery',
+        'use!jqueryui'
+    ], function(Prep, CampaignDetail) {
+        $(function() {
+            Prep.preparePage();
+            var site_id = {{ campaign.pk }},
+                feature_url = '{% url campaign-point-geojson campaign.pk %}',
+                is_point = false,
+                point_within = [{{ campaign.point_geom.coords.0 }},{{ campaign.point_geom.coords.1 }}],
+                bbox = [[{{ campaign.point_geom.coords.0 }} -10,{{ campaign.point_geom.coords.1 }}-2], [{{ campaign.point_geom.coords.0 }}+10,{{ campaign.point_geom.coords.1 }}+2]];
+            {% if campaign.point_geom %}
+            window['campaigndetail'] = new CampaignDetail.CampaignDetail($('#leafletmap'), site_id, feature_url, is_point, point_within, bbox);
+            // campaigndetail.map.setZoom(3);
+            {% endif %}
+        });
+    });
+
+</script>
+{% endblock %}
+
+{% block base_body_content %}
+    <div class='modetoggle medium' style="float:right;">
+        <a class="modebutton" href="/explore/">Map View</a><a class="modebutton" href="/explore/?list=1">List View</a>
+    </div>
+    <div class="clear" style="clear:both;"></div>
+    
+    <div id="leftcol" style="float:left; width:34%;">
+    	<div id='leafletmap'></div>
+        <br />
+
+        <div class="sidebar_item_title">Parent Initiatives</div>
+        <div class="sidebar_item_content">
+            {% for initiative in campaign.initiative_set.all %}
+                <p><a href="{{ initiative.get_absolute_url }}">{{ initiative.name }}</a></p>
+            {% endfor %}
+        </div>
+
+        <div class="sidebar_item_title">MPA Sites Designated through this Campaign</div>
+        <div class="sidebar_item_content">
+            List of MPAs here with boundaries
+        </div>
+    </div>
+    <div id="rightcol" style="float:right; width: 66%;">
+        <div style="padding: 8px;">
+            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
+                {{ campaign.name }}
+            </p>
+            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{% if campaign.country %}{{ campaign.country }}{% endif %}{% if campaign.sub_location %}: <span style="font-size:.9em;">{{ campaign.sub_location }}</span>{% endif %}</h4>
+            
+            <div class="sidebar_item_title">Campaign Description</div>
+        	<div class="sidebar_item_content">
+        	    {% if campaign.summary %}
+                    <p>
+                        {{ campaign.summary|safe }}
+                    </p>
+                    <div style="clear:both;"></div>
+                {% endif %}
+        	</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="width:100%;">
+        <div class="sidebar_item_title">Activity Timeline</div>
+        <div class="sidebar_item_content">
+            <iframe style="width:100%; height:500px;" src="http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=0AtnXcp5jYqysdEV6OEpGYnc2UTJqclUzdkx1TGo3MEE&font=Bevan-PotanoSans&maptype=toner&lang=en&height=500"></iframe>
+        </div>
+    </div>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% endblock %}
