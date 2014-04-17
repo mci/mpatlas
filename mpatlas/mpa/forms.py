@@ -1,5 +1,5 @@
 #from django import forms
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 from django import forms
 from mpa.models import Mpa
 from tinymce.widgets import TinyMCE
@@ -16,6 +16,9 @@ class MpaForm(ModelForm):
 		    'summary': TinyMCE(attrs={'cols':80, 'rows':30}),
 		    'verified_date': AdminDateWidget()
 		}
+
+class MpaGeomForm(Form):
+    boundarygeo = forms.CharField(widget=forms.Textarea, required=False, label="MPA Site Boundaries", help_text="Please enter a geojson geometry object here as a polygon or multipolygon.")
 
 # Creating a form to submit a new rsvp response
 #newform = TegnerForm()

@@ -6,7 +6,7 @@ import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 SITE_PATH = os.path.dirname(PROJECT_PATH)
 
-DEBUG = True
+DEBUG = False
 
 # Override DEBUG with local_settings.py value right away.  We override all other global
 # settings with local_settings.py values at the end of this file.

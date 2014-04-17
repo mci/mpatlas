@@ -11,7 +11,7 @@ from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
 from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
-from mpa.forms import MpaForm
+from mpa.forms import MpaForm, MpaGeomForm
 
 from mpa.filters import apply_filters
 
@@ -83,6 +83,48 @@ def edit_mpa(request, pk):
         'respond_url': reverse('mpa-editsite', kwargs={'pk': pk}),
     }, context_instance=RequestContext(request))
 
+@transaction.commit_on_success
+@reversion.create_revision()
+def edit_mpa_geom(request, pk):
+    mpa = get_object_or_404(Mpa, pk=pk)
+    if (request.POST):
+        # Got a form submission
+        editform = MpaGeomForm(request.POST)
+        if editform.is_valid():
+            try:
+                geom_geojson = editform.cleaned_data['boundarygeo']
+                if (geom_geojson) == '':
+                    mpa.geom = None
+                else:
+                    geom = geos.GEOSGeometry(editform.cleaned_data['boundarygeo'])
+                    if (geom.geom_type != 'MultiPolygon'):
+                        geom = geos.MultiPolygon(geom)
+                    mpa.geom = geom
+            except:
+                raise
+            mpa.save()
+            # mpa.set_geog_from_geom()
+            try:
+                reversion.set_comment("Boundary geometry updated.")
+            except:
+                pass
+            try:
+                reversion.set_user(request.user)
+            except:
+                pass
+            return HttpResponseRedirect(reverse('mpa-siteinfo', kwargs={'pk': pk}))
+    else:
+        initialdata = {}
+        if mpa.geom:
+            initialdata['boundarygeo'] = mpa.geom.geojson
+        editform = MpaGeomForm(initial=initialdata)
+    return render_to_response('mpa/Mpa_editgeoform.html', {
+        'form': editform,
+        'mpa': mpa,
+        'respond_url': reverse('mpa-editsitegeom', kwargs={'pk': pk}),
+    }, context_instance=RequestContext(request))
+
+
 class MpaListView(ListView):
     def get_paginate_by(self, queryset):
         try:
@@ -139,14 +181,21 @@ def get_mpa_geom_json(request, pk, simplified=True, webmercator=False):
         webmercator = (request.GET['webmercator'].upper() == 'TRUE')
     except:
         pass
-    geomfield = 'geom'
+    geomfield = sgeomfield = 'geom'
     if (webmercator):
         geomfield = 'geom_smerc'
+    mpaq = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields())
     if simplified:
-        geomfield = 'simple_' + geomfield
-    mpa = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields()).get(pk=pk)
-    geojson = mpa.geojson if not mpa.is_point else mpa.geojson_point
-    return HttpResponse(geojson, content_type='application/json; charset=utf-8')
+        sgeomfield = 'simple_' + geomfield
+        mpaq = mpaq.geojson(field_name=sgeomfield, model_att='geojson_simple')
+    mpa = mpaq.get(pk=pk)
+    if mpa.is_point:
+        geojson = mpa.geojson_point
+    else:
+        geojson = mpa.geojson if not simplified else mpa.geojson_simple
+    if not geojson and simplified:
+        geojson = mpa.geojson
+    return HttpResponse(geojson or '{}', content_type='application/json; charset=utf-8')
 
 
 def normalize_lon(lon):
