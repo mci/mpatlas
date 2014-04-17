@@ -1,0 +1,22 @@
+{
+    "total_count": {% if paginator %}{{ paginator.count }}{% else %}{{ campaign_list|length }}{% endif %},
+    "total_pages": {% if paginator %}{{ paginator.num_pages }}{% else %}1{% endif %},
+    "current_page": {% if page_obj %}{{ page_obj.number }}{% else %}1{% endif %},
+    "type": "FeatureCollection",
+    "features": [
+    	{% for campaign in campaign_list %}
+        {
+        	"type": "Feature",
+        	"id": "{{ campaign.pk }}",
+        	"properties": {
+        		"id": "{{ campaign.pk }}",
+	        	"name": "{{ campaign.name }}",
+	        	"country": "{{ campaign.country }}",
+	        	"sub_location": "{{ campaign.sub_location }}",
+	        	"url": "{{ campaign.get_absolute_url }}"
+        	},
+        	"geometry": {{ campaign.point_geom.geojson|safe }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
