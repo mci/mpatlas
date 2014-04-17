@@ -89,7 +89,6 @@ def edit_mpa_geom(request, pk):
     mpa = get_object_or_404(Mpa, pk=pk)
     if (request.POST):
         # Got a form submission
-<<<<<<< HEAD
         editform = MpaGeomForm(request.POST)
         if editform.is_valid():
             try:
