@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% comment %}
+{% load sekizai_tags %}
+{% endcomment %}
+
+{% block title %}Explore{% endblock %}
+
+{% block base_head_extra %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no" />
+
+<!--<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all-access.css"/>-->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ext-all-access-scoped.css"/>
+
+{% comment %}
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/dist/leaflet.ie.css" /><![endif]-->
+{% endcomment %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" /><![endif]-->
+
+<link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
+<!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+<script type="text/javascript">
+    // Here we define Ext for the first time
+    Ext = {
+        buildSettings:{
+            "scopeResetCSS": true  // Thanks, but I'll do my own scoping please
+        }
+    };
+    
+    require.config({
+        baseUrl: '{{ STATIC_URL }}js',
+        paths: {
+            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
+            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
+            leaflet: '//cdn.leafletjs.com/leaflet-0.5/leaflet',
+            //leaflet: '{{ STATIC_URL }}Leaflet/dist/leaflet',
+            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
+            underscore: 'underscore-min',
+			backbone: 'backbone-min',
+			//extjs: 'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all'
+    		// extjs: '//cdn.sencha.io/ext-4.1.1-gpl/ext-all'
+            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
+            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+        },
+        //priority: ['jquery']
+		priority: [
+			'leaflet'
+		],
+		waitSeconds: 30,
+        use: {
+		    'underscore': {
+		        attach: '_'
+		    },
+		    'backbone': {
+		        deps: ['use!underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+		        attach: 'Backbone'
+		    },
+		    'jqueryui': {
+		        deps: ['jquery']
+		    }
+		}
+    });
+    require([
+        'prep',
+        'campaign',
+        'jquery',
+		'use!jqueryui'
+    ], function(Prep, Campaign) {
+        $(function() {
+            Prep.preparePage();
+            window['campaignmap'] = new Campaign.CampaignMap($('#leafletmap'));
+            var campaigns_url = '{% url campaign-list-geojson %}';
+            var map = campaignmap.map;
+		    $.ajax({
+                url: campaigns_url,
+                success: function(data) {
+                	var geojsonMarkerOptions = {
+                        radius: 8,
+                        fillColor: "#66ff78",
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    };
+                    var onEachFeature = function(feature, layer) {
+                        // does this feature have a property named popupContent?
+                        if (feature.properties) {
+                        	var content = "<a href='"+ feature.properties.url +"'>" + feature.properties.name + "</a>";
+                            layer.bindPopup(content);
+                        }
+                    }
+                    var geojson = new L.GeoJSON(data, {
+					    pointToLayer: function (feature, latlng) {
+					    	var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
+					    	var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
+					    	var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
+					    	return L.featureGroup([m1, m2, m3])
+					    },
+					    onEachFeature: onEachFeature
+					});
+                    // geojson.setStyle({
+                    //     weight: 3,
+                    //     color: '#d0508c',
+                    //     opacity: 0.8,
+                    //     fillColor: '#d0508c',
+                    //     fillOpacity: 0.2
+                    // });
+                    // geojson.on('click', function(mapevent) {
+                    //     campaignmap.map.fireEvent('click', mapevent); // pass click from layer to map
+                    // });
+                    campaignmap.map.addLayer(geojson);
+                }
+            });
+        });
+    });
+
+</script>
+{% endblock %}
+
+{% block base_fblike %}
+{% endblock %}
+
+{% block header_post_user %}
+<div style="float:right; margin-top:8px;">
+    <div style="float:left; margin-right:15px;">
+        <a href="https://twitter.com/MPAtlas" style="margin-right:10px;" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @MPAtlas</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div style="float:left; width:110px;">
+        <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
+    </div>
+</div>
+{% endblock %}
+
+{% block base_body_content %}
+<div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
+
+<div id='stats_overlay'>
+	<div class="stats_header medium">Campaign Tracker</div>
+	<div class="heading bold" style="font-size:2.5em; line-height:120%;">Active MPA Campaigns</div>
+</div>
+{% endblock %}
+
+{% block base_body_extra %}
+{% endblock %}
+
+{% block base_footer_content %}
+{% endblock %}
+
+{% block bodyend_js %}
+
+{% endblock %}

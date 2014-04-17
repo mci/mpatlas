@@ -62,7 +62,8 @@ TIME_ZONE = 'America/Los_Angeles'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+# Site 2 is dev.mpatlas.org, 1 is mpatlas.org
+SITE_ID = 2 if DEBUG else 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -189,6 +190,22 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates')
 )
 
+#CKEditor
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+        # 'toolbar': 'Full',
+        'height': 500,
+        'width': '100%',
+        # 'extraPlugins': 'dialog,lineutils,widget,image2',
+        # 'removePlugins': 'image',
+    },
+    'awesome_ckeditor': {
+        'toolbar': 'Basic',
+    },
+}
+
 # TinyMCE Settings
 #TINYMCE_JS_URL = os.path.join(STATIC_URL, "tiny_mce", "tiny_mce.js")
 TINYMCE_FILEBROWSER = False
@@ -244,6 +261,7 @@ INSTALLED_APPS = (
     
     'reversion',
     'tinymce',
+    'ckeditor',
     'django_countries',
     
     # User accounts and registration
@@ -256,6 +274,7 @@ INSTALLED_APPS = (
     'usmpa',
     'mpa',
     'spatialdata',
+    'campaign',
 )
 
 # A sample logging configuration. The only tangible logging
