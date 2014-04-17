@@ -22,7 +22,7 @@ django-staticfiles
 hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
 django-tinymce
 docutils
-easy-thumbnails==1.0-alpha-16
+easy-thumbnails
 eventlet
 feedparser
 gevent
@@ -30,8 +30,9 @@ greenlet
 gunicorn
 ipython
 mercurial
-psycopg2==2.4.1
+psycopg2
 pygeoip
 python-memcached
 setproctitle
 sorl-thumbnail
+git+git://github.com/benjaoming/django-wiki.git#egg=wiki
