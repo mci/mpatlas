@@ -35,7 +35,7 @@ define(
 		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
-			domain: 'http://' + document.domain + '/',
+			domain: 'http://' + document.domain + (window.location.port ? ':' + window.location.port: '') + '/',
 			/*
 			proxy: '/proxy/?mode=native&url=',
 			domain: 'http://dev.mpatlas.org/',

@@ -1,6 +1,0 @@
-{
-    "mpas": [{% for mpa in mpa_candidate_list %}
-        {"name": "CANDIDATE: {{ mpa.name }}", "designation": "{{ mpa.designation_eng }}", "country": "{{ mpa.country }}", "id": "{{ mpa.pk }}", "url": "{% url mpa-siteinfo mpa.pk %}" {% if mpa.point_within %}, "point_within": {{ mpa.point_within.geojson|safe }}{% endif %}{% if mpa.bbox_lowerleft %}, "bbox_ll": {{ mpa.bbox_lowerleft.geojson|safe }}, "bbox_ur": {{ mpa.bbox_upperright.geojson|safe }}{% endif %} }{% if not forloop.last or mpa_list %},{% endif %}{% endfor %}{% for mpa in mpa_list %}
-        {"name": "{{ mpa.name }}", "designation": "{{ mpa.designation_eng }}", "country": "{{ mpa.country }}", "id": "{{ mpa.pk }}", "url": "{% url mpa-siteinfo mpa.pk %}" {% if mpa.point_within %}, "point_within": {{ mpa.point_within.geojson|safe }}{% endif %}{% if mpa.bbox_lowerleft %}, "bbox_ll": {{ mpa.bbox_lowerleft.geojson|safe }}, "bbox_ur": {{ mpa.bbox_upperright.geojson|safe }}{% endif %} }{% if not forloop.last %},{% endif %}{% endfor %}
-    ]
-}

@@ -1,0 +1,8 @@
+{
+    "total_count": {% if paginator %}{{ paginator.count }}{% else %}{{ mpa_list|length }}{% endif %},
+    "total_pages": {% if paginator %}{{ paginator.num_pages }}{% else %}1{% endif %},
+    "current_page": {% if page_obj %}{{ page_obj.number }}{% else %}1{% endif %},
+    "mpas": [{% for mpa in mpa_list %}
+        {"name": "{{ mpa.name }}", "designation": "{{ mpa.desig_eng }}", "country": "{{ mpa.country }}", "id": "{{ mpa.pk }}", "url": "{% url 'wdpa-siteinfo' mpa.pk %}" }{% if not forloop.last %},{% endif %}{% endfor %}
+    ]
+}
