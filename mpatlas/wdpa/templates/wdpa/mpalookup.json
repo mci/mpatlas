@@ -1,6 +1,0 @@
-{
-    "mpas": [{% for mpa in mpa_candidate_list %}
-        {"name": "PROPOSED {{ mpa.name|cut:" - MCBI"|cut:" - Greenpeace"|cut:" - WWF"|cut:" - GOBI"|cut:" - Hope Spot" }}", "country": "", "id": "{{ mpa.pk }}", "url": "{% url mpa-candidate-siteinfo mpa.pk %}" }{% if not forloop.last or mpa_list %},{% endif %}{% endfor %}{% for mpa in mpa_list %}
-        {"name": "{{ mpa.name }}", "country": "{{ mpa.country }}", "id": "{{ mpa.pk }}", "url": "{% url wdpa-siteinfo mpa.pk %}" {% if mpa.point_within_geojson %}, "point_within": {{ mpa.point_within_geojson|safe }}{% if mpa.bbox_geojson %}, "bbox": {{ mpa.bbox_geojson|safe }}{% endif %}{% endif %} }{% if not forloop.last %},{% endif %}{% endfor %}
-    ]
-}

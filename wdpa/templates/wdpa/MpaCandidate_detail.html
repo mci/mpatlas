@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mpa.name }}{% endblock %}
+
+{% block base_body_content %}
+    <div class='modetoggle medium' style="float:right;">
+        <a class="modebutton" href="/">Map View</a><a class="modebutton" href="{% url 'wdpa-siteslist' %}">List View</a>
+    </div>
+
+    <h3 style="float:left;">{{ mpa.country }} PROPOSED MPA</h3>
+    <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:10px;">
+        {{ mpa.name|cut:" - MCBI" }}
+        <span style="font-size:20px;">{{ mpa.desig_eng }} {% if mpa.desig_eng != mpa.desig %}({{ mpa.desig }}){% endif %}</span>
+    </p>
+    
+    <div id="leftcol" style="float:left; width:34%;">
+        <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
+            Bermuda / UK / International  
+            <br /><br />
+            Status:  
+                <div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Support from many organizations</div>
+        </div>
+        <div class="sidebar_item_title">Site Information</div>
+    	<div class="sidebar_item_content">
+    		<ul>
+            {% for key, value in mpa.myfieldslist %}
+                {% if not key == 'geom' and not key == 'geog' and not key == 'geom_smerc' and not key == 'bbox' and not key == 'bbox_geojson' and not key == 'point_within' %}
+                <li style="border-bottom:1px solid #DDD;"> <strong>{{ value.verbose }}</strong>: <span style="margin-left:4px;">{{ value.value|truncatewords:20 }}</span></li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+    	</div>
+    </div>
+    <div id="rightcol" style="float:right; width: 66%;">
+        <div style="padding: 8px;">
+            <div class="sidebar_item_title">Site Description</div>
+        	<div class="sidebar_item_content">
+        	    {% if mpa.name == 'Sargasso Sea - MCBI' %}
+                <p>
+                    The Sargasso Sea is a sea within a sea, a large, slowly turning gyre in the middle of the North Atlantic Ocean. Covering an area of approximately 2 million square miles (5.2 million square kilometers), it is a sea without a coastline. The Sargasso Sea occupies mostly international waters with the exception of a small slice of Bermuda’s Exclusive Economic Zone.  Rich in sailor’s lore and home to the Bermuda Triangle, the Sargasso Sea is the nursery of the North Atlantic.
+                    Offering food, habitat and refuge, the Sargasso Sea is dotted with large floating mats of Sargassum seaweed. It is the only place on Earth where such large mats form, and these provide a critical habitat for young animals, making it the nursery the North Atlantic. Many of these species are now endangered in their home waters, including four species of sea turtles as well as American and European eels. Bluefin tuna, young sharks and seabirds also rely on this unique floating world in the middle of the Atlantic.
+                    
+                </p>
+                {% else %}
+        		<p>
+        		    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac malesuada velit. Pellentesque fermentum quam eget lorem rutrum sodales. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis pulvinar ligula id porta. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc elementum turpis eget mi ornare varius. Maecenas at sapien et sapien consectetur rhoncus. Vivamus dignissim eros at risus ultricies vehicula. Etiam tortor augue, eleifend sed porta quis, sollicitudin eu neque. Nullam mollis condimentum est id adipiscing. Fusce id ante non nisi faucibus convallis et ut lacus. Proin volutpat pretium lectus, ac hendrerit ligula pharetra sit amet. Vestibulum laoreet, turpis sed pulvinar sollicitudin, mi dolor mattis orci, eu sagittis massa risus aliquet diam. Sed ut sem sapien, nec convallis odio. Vivamus feugiat, purus at vulputate lacinia, augue libero pulvinar mi, id semper arcu purus ut neque. Ut quis tincidunt neque.
+        		</p>
+        		
+        		<p>
+                    Suspendisse auctor, lectus sit amet gravida scelerisque, elit metus egestas ligula, blandit accumsan tortor est a enim. Sed rutrum lacinia nisi, sed hendrerit tortor adipiscing nec. Cras tristique sem vel felis vulputate sit amet sollicitudin tortor vehicula. Duis lectus nunc, commodo eu porta vel, cursus eu massa. Vestibulum quis egestas lacus. In pretium lorem nec nunc vestibulum in tristique leo scelerisque. In risus tortor, suscipit porta commodo vel, molestie sed urna. Sed fringilla magna non urna lacinia faucibus. Maecenas vel sollicitudin nisl. Praesent nulla nisi, aliquam id viverra vel, venenatis et lacus.
+                </p>
+                {% endif %}
+        	</div>
+
+        	<div class="sidebar_item_title">Nearby Sites</div>
+        	<div class="sidebar_item_content">
+        		
+        	</div>
+        	
+        	<div class="sidebar_item_title">Contacts & Resources</div>
+        	<div class="sidebar_item_content">
+        	    
+        	</div>
+    	</div>
+    </div>
+    <div class="clear"></div>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% endblock %}

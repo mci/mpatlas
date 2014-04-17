@@ -23,6 +23,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+ALLOWED_HOSTS = ['.mpatlas.org']
+
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -108,13 +110,13 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'staticfiles.finders.FileSystemFinder',
-    'staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'staticfiles.finders.LegacyAppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.LegacyAppDirectoriesFinder',
 )
 
-STATICFILES_STORAGE = 'staticfiles.storage.StaticFileStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 LOGIN_URL = '/users/login/'
@@ -172,15 +174,16 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'mpatlas.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
-    #'django.core.context_processors.static',
-    'staticfiles.context_processors.static',
-    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.static',
+    # 'staticfiles.context_processors.static',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'social_auth.context_processors.social_auth_by_name_backends',
+    'sekizai.context_processors.sekizai',
 )
 
 TEMPLATE_DIRS = (
@@ -247,20 +250,31 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    #'django.contrib.staticfiles',
-    'staticfiles',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    # 'staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     
     'django_extensions',
-    'storages',
+    # 'storages',
     'south',
     'django.contrib.gis',
+
+    'django_notify',
+    'mptt',
+    'sekizai',
+    'sorl.thumbnail',
+    'wiki',
+    'wiki.plugins.attachments',
+    'wiki.plugins.notifications',
+    'wiki.plugins.images',
+    'wiki.plugins.macros',
     
     'reversion',
-    'tinymce',
+    # 'tinymce',
     'ckeditor',
     'django_countries',
     
