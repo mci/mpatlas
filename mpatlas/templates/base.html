@@ -20,7 +20,8 @@
 
         <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8" />
         
-        <link href="{{ STATIC_URL }}css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css" media="screen" rel="stylesheet" type="text/css" />
+        <!-- <link href="{{ STATIC_URL }}css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css" media="screen" rel="stylesheet" type="text/css" /> -->
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         
         <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
         <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/main_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -34,8 +35,9 @@
             require.config({
                 baseUrl: '{{ STATIC_URL }}js',
                 paths: {
-                    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
-                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min'
+                    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
+                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min',
+                    bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
                 },
                 priority: ['jquery'],
                 waitSeconds: 30,
@@ -49,17 +51,49 @@
                     },
                     'jqueryui': {
                         deps: ['jquery']
+                    },
+                    'bootstrap': {
+                        deps: ['jquery']
                     }
                 }
             });
             require([
                 'prep',
                 'jquery',
-                'use!jqueryui'
+                'use!jqueryui',
+                'bootstrap'
             ], function(Prep) {
                 $(function() {
                     Prep.preparePage();
                     window['showsplashdialog'] = Prep.showsplashdialog;
+                });
+
+                jQuery.fn.extend({
+                    insertAtCaret: function(myValue){
+                      return this.each(function(i) {
+                        if (document.selection) {
+                          //For browsers like Internet Explorer
+                          this.focus();
+                          sel = document.selection.createRange();
+                          sel.text = myValue;
+                          this.focus();
+                        }
+                        else if (this.selectionStart || this.selectionStart == '0') {
+                          //For browsers like Firefox and Webkit based
+                          var startPos = this.selectionStart;
+                          var endPos = this.selectionEnd;
+                          var scrollTop = this.scrollTop;
+                          this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+                          this.focus();
+                          this.selectionStart = startPos + myValue.length;
+                          this.selectionEnd = startPos + myValue.length;
+                          this.scrollTop = scrollTop;
+                        } else {
+                          this.value += myValue;
+                          this.focus();
+                        }
+                      })
+                    }
                 });
             });
         </script>
@@ -279,10 +313,8 @@
             </p>
         </div>
         {% endblock %}
-        {% comment %}
-        {% render_block "js" %}
-        {% endcomment %}
         {% block bodyend_js %}{% endblock %}
+        {% render_block "js" %}
         <script type="text/javascript">
             var uvOptions = {};
             (function() {

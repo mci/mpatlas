@@ -2,6 +2,9 @@ from django.conf import settings
 from django.db import models
 from django_countries.fields import CountryField
 from django.db.models.signals import post_save
+from django.contrib import auth
+
+User = auth.get_user_model()
 
 TITLE_CHOICES = (
     ('--', ''),
@@ -26,6 +29,6 @@ class UserProfile(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        profile = UserProfile.objects.create(user=instance)
 
-post_save.connect(create_user_profile, sender=settings.AUTH_USER_MODEL)
+post_save.connect(create_user_profile, sender=User)
