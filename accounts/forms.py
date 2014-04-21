@@ -89,6 +89,7 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         # UserProfile is created by post_save signal on User
         # profile = user.get_profile()
+        user = User.objects.get(pk=user.pk) # refresh to get auto-created profile
         profile = user.userprofile
         profile.title = self.cleaned_data["title"]
         profile.affiliation = self.cleaned_data["affiliation"]
