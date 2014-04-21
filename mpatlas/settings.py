@@ -272,6 +272,10 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+    'wiki.plugins.links',
+    'wiki.plugins.help',
+    # 'wiki.plugins.haystack',
+
     
     'reversion',
     # 'tinymce',

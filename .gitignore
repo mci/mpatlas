@@ -4,4 +4,6 @@ mpatlas/www
 mpatlas/deploy/logs/*
 mpatlas/deploy/gunicorn.pid
 mpatlas/openlayers
+media
+static
 !.gitignore
