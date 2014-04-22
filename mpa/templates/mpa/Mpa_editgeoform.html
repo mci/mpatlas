@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-{% load adminmedia %}
 
 {% block title %}{{ mpa.name }}{% endblock %}
 
 {% block base_head_extra_extra %}
     <script type="text/javascript">
-        window.__admin_media_prefix__ = "{% filter escapejs %}{% admin_media_prefix %}{% endfilter %}";
+        window.__admin_media_prefix__ = "{% filter escapejs %}{{ STATIC_URL }}admin/{% endfilter %}";
     </script>
     
     
