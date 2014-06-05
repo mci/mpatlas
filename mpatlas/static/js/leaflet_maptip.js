@@ -18,34 +18,25 @@ define([
     	},
 
     	onAdd: function (map) {
-            this._map = map;
+    		this._map = map;
 
-            if (!this._container) {
-                this._initLayout();
-            }
+    		if (!this._container) {
+    			this._initLayout();
+    		}
+    		this._updateContent();
 
-            var animFade = map.options.fadeAnimation;
+    		this._container.style.opacity = '0';
+    		map._panes.popupPane.appendChild(this._container);
 
-            if (animFade) {
-                L.DomUtil.setOpacity(this._container, 0);
-            }
-            map._panes.popupPane.appendChild(this._container);
+    		map.on('viewreset', this._updatePosition, this);
 
-            map.on(this._getEvents(), this);
+    		if (this.options.closePopupOnClick && map.options.closePopupOnClick) {
+    			map.on('preclick', this._close, this);
+    		}
 
-            this.update();
+    		this.update();
 
-            if (animFade) {
-                L.DomUtil.setOpacity(this._container, 1);
-            }
-
-            this.fire('open');
-
-            map.fire('popupopen', {popup: this});
-
-            if (this._source) {
-                this._source.fire('popupopen', {popup: this});
-            }
+    		this._container.style.opacity = '1'; //TODO fix ugly opacity hack
     	},
      	
      	_initLayout: function () {
@@ -57,8 +48,7 @@ define([
     		if (this.options.closeButton) {
      			closeButton = this._closeButton = L.DomUtil.create('a', 'leaflet-popup-close-button ' + prefix + '-close-button', container);
      			closeButton.href = '#close';
-     			closeButton.innerHTML = '&#215;';
-                L.DomEvent.disableClickPropagation(closeButton);
+     			closeButton.innerHTML = 'x';
 
     			L.DomEvent.addListener(closeButton, 'click', this._onCloseButtonClick, this);
     		}
@@ -75,11 +65,7 @@ define([
     	
     	setLatLng: function (latlng) {
     		this._latlng = latlng;
-    		// this.update();
-            if (this._map) {
-                this._updatePosition();
-                this._adjustPan();
-            }
+    		this.update();
     		return this;
     	},
     	
@@ -90,15 +76,7 @@ define([
     	},
     	
     	_updatePosition: function () {
-            if (!this._map) { return; }
-
-    		var pos = this._map.latLngToLayerPoint(this._latlng),
-                animated = this._animated,
-                offset = L.point(this.options.offset);
-
-            if (animated) {
-                L.DomUtil.setPosition(this._container, pos);
-            }
+    		var pos = this._map.latLngToLayerPoint(this._latlng);
 
             // this._containerBottom = -pos.y - this.options.offset.y;
             // this._containerLeft = pos.x - Math.round(this._containerWidth / 2) + this.options.offset.x;
