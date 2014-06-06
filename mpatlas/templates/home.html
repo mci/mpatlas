@@ -90,6 +90,107 @@
         </div>
     	<div class="clear"></div>
     </div>
+
+    <div class="clearfix" style="margin-top: 10px;">
+        <img style="float:left;" src="{{ STATIC_URL }}images/splash/hammerheads_sm.png" style="width:364px; height:202px;" />
+        <div style="float:left; max-width: 358px;">
+            <img src="{{ STATIC_URL }}images/splash/just_released.png" style="width:280px; height:65px;" />
+            <h4 style="margin-left:20px;"><a href="/campaign/">MPA Campaign Tracker</a></h4>
+            <ul>
+                <li>Learn about conservation efforts
+                currently underway</li>
+                <li>Find out how you can get involved</li>
+                <li><a class="btn btn-callout btn-info" href="/campaign">Share your conservation success story</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- Carousel
+        ================================================== -->
+
+        <div class="container marketing">
+
+          <div class="row featurette">
+            <div class="col-md-7">
+              <div id="feature-whympa" class="row featurette bg-ltgray">
+                <div>
+                  <h2 class="featurette-heading">Why MPAs? <span class="text-muted">Because the ocean needs a lifeboat.</span></h2>
+                  <p class="lead">
+                    In a world where fisheries and marine biodiversity are declining, marine protected areas are an essential, but not the only, tool needed to slow and reverse the oceans’ downward trajectory.
+                  </p>
+                  <p>
+                    <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/why_feature.jpg" alt="Why MPAs?">
+                  </p>
+                  <p style="font-size:1.4em;">
+                    MPAs can increase biomass and diversity of species in both tropical and temperate ecosystems as well as serve as insurance policies against the impacts of fishing and other destructive activities. Marine protected areas, if managed properly, can be an effective way of protecting marine ecosystems and their cultural and historical heritage for future generations to experience and enjoy. 
+                  </p>
+                  <p>
+                    <a class="btn btn-callout" style="margin-left: 50px;" href="/learn/">Learn why MPAs work</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <h2 class="featurette-heading">@MPAtlas <span class="text-muted">Twitter Feed</span></h2>
+              <p class="lead">
+                <a class="twitter-timeline" href="https://twitter.com/MPAtlas" data-widget-id="388790833115189248">Tweets by @MPAtlas</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+              </p>
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          
+
+          <hr class="featurette-divider">
+
+          <div id="feature-explore" class="row featurette">
+            <div class="col-md-5">
+              <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/explore_feature.png" alt="Explore MPAs">
+            </div>
+            <div class="col-md-7">
+              <h2 class="featurette-heading">Explore Earth's MPAs. <span class="text-muted">Learn about the best places in the sea.</span></h2>
+              <ul class="lead">
+                <li>What is protected where?</li>
+                <li>Find out more about your favorite marine parks and refuges.</li>
+                <li>Determine management jurisdiction and regulations.</li>
+              </ul>
+              <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/?analyze=ecoregion">Start Exploring</a>
+              <div style="float: right;">
+                <form name="mpasearch-home" class="mpa-searchform form-inline" method="get" action="/mpa/sites/?">
+                  <fieldset class="search">
+                    <input type="text" class="mpa-searchbox text defaultValue form-control" name="q" data-placeholder="Search for an MPA" placeholder="Search for an MPA" value="Search for an MPA" />
+                    <input type="image" alt="Search" src="{{ STATIC_URL }}images/header_searchbutton.png" class="image" />
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div id="feature-analyze" class="row featurette bg-ltgray">
+            <div class="col-md-7">
+              <h2 class="featurette-heading">Analyze protection levels. <span class="text-muted">MPA statistics by political or ecological dimensions.</span></h2>
+              <p class="lead">
+                <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/?analyze=nation">By Nation</a>
+                <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/?analyze=ecoregion">By Biogeography</a>
+              </p>
+            </div>
+            <div class="col-md-5">
+              <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/analyze_feature.png" alt="Analyze MPA Protection">
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <!-- /END THE FEATURETTES -->
+
+        </div><!-- /.container -->
+
+
 {% endblock %}
 
 {% block base_body_extra %}
