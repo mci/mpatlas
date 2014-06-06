@@ -47,7 +47,8 @@ img {
 }
 
 #pagewrapper {
-    background-color: #FFFEF9;
+    /*background-color: #FFFEF9;*/
+    background-color: #fff;
 }
 
 #body_full {
