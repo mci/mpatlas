@@ -60,8 +60,34 @@
 {% block base_prebody_content %}
 {% endblock %}
 {% block base_body_content %}
-    <div>
-    	<div style="background: url('/static/images/hero_color_sharks.jpg');width:960px;height:800px;"></div>
+    <div style="padding-top:34px; z-index:1;">
+    	<div style="background: url('/static/images/splash/splash_fish.png');width:960px;height:257px;  position:relative; z-index:100;"></div>
+        <div style="background-color:#000; padding-top:30px; margin-top:-17px; min-height:100px; position:relative; z-index:1;">
+            <div style="width:482px; background-color:#ccc; margin: 0 auto;">
+                <a href="/explore/">
+                    <div style="float:left; width:160px; background-color:#fff; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Explore</h4>
+                        <p>the ocean's parks and refuges</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <a href="/explore/">
+                    <div style="float:left; width:160px; background-color:#fff; margin-left: 1px; margin-right: 1px; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Analyze</h4>
+                        <p>marine protection by country or ecoregion</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <a href="/campaign/">
+                    <div style="float:left; width:160px; background-color:#fff; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Track</h4>
+                        <p>the latest MPA campaigns & announcements</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <div class="clear"></div>
+            </div>
+        </div>
     	<div class="clear"></div>
     </div>
 {% endblock %}
