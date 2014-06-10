@@ -63,25 +63,25 @@
     <div style="position:relative; padding-top:34px; z-index:1;">
     	<div style="background: url('/static/images/splash/splash_fish.png');width:960px;height:257px;  position:relative; z-index:100;"></div>
         <div style="background-color:#000; padding-top:30px; margin-top:-17px; min-height:100px; position:relative; z-index:1;">
-            <div style="width:524px; background-color:#ccc; margin: 0 auto;">
-                <a href="/explore/">
-                    <div style="float:left; width:174px; min-height: 130px; background-color:#fff; padding:10px; color:black;">
+            <div style="width:572px; background-color:#ccc; margin: 0 auto;">
+                <a href="#feature-explore">
+                    <div style="float:left; width:190px; min-height: 130px; background-color:#fff; padding:10px; color:black;">
                         <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Explore</h4>
                         <p style="font-size:13px;">the ocean's parks and refuges</p>
                         <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
                     </div>
                 </a>
-                <a href="/explore/">
-                    <div style="float:left; width:174px; min-height: 130px; background-color:#fff; margin-left: 1px; margin-right: 1px; padding:10px; color:black;">
+                <a href="#feature-analyze">
+                    <div style="float:left; width:190px; min-height: 130px; background-color:#fff; margin-left: 1px; margin-right: 1px; padding:10px; color:black;">
                         <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Analyze</h4>
                         <p style="font-size:13px;">marine protection by country or ecoregion</p>
                         <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
                     </div>
                 </a>
                 <a href="/campaign/">
-                    <div style="float:left; width:174px; min-height: 130px; background-color:#fff; padding:10px; color:black;">
+                    <div style="float:left; width:190px; min-height: 130px; background-color:#fff; padding:10px; color:black;">
                         <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Track</h4>
-                        <p style="font-size:13px;">the latest MPA campaigns & announcements</p>
+                        <p style="font-size:13px;">the latest MPA campaigns and announcements</p>
                         <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
                     </div>
                 </a>
@@ -98,13 +98,12 @@
         <div style="float:left; max-width: 358px;">
             <img src="{{ STATIC_URL }}images/splash/just_released.png" style="width:280px; height:65px;" />
             <h4 style="margin-left:20px;"><a href="/campaign/">MPA Campaign Tracker</a></h4>
-            <ul>
+            <ul style="font-size:1.4em;">
                 <li>Learn about conservation efforts
                 currently underway</li>
                 <li>Find out how you can get involved</li>
-                <li><a class="btn btn-callout btn-info" href="/campaign">Share your conservation success story</a></li>
-
             </ul>
+            <a class="btn btn-callout btn-info" style="margin-left: 24px;" href="/campaign/">Share your conservation success story</a>
         </div>
     </div>
 
@@ -112,29 +111,33 @@
 
     <div class="">
 
+      <div id="feature-exploremap">
+        <a href="/explore/"><img src="{{ STATIC_URL }}images/homepage/explore_map.jpg" style="width:100%; max-width:960px; max-height:200px;" /></a>
+      </div> 
+
       <div class="row featurette">
         <div class="col-md-7" style="">
           <div id="feature-whympa" class="featurette bg-ltgray">
             <div>
-              <h2 class="featurette-heading">Why <span class="text-muted">Marine Protected Areas?</span></h2>
+              <h2 class="featurette-heading">Why Marine Protected Areas?</h2>
               <p style="float:right;">
                 <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/feature_cabo_sm.jpg" alt="Why MPAs?">
               </p>
-              <p class="lead">
-                Marine protected areas are an essential, but not the only, tool needed to safeguard biodiversity and to sustain vibrant seas.
+              <p style="font-size:1.4em;">
+                Marine protected areas are essential to safeguard biodiversity and to sustain vibrant seas.
               </p>
               <p style="font-size:1.4em;">
-                MPAs can increase biomass and diversity of species in both tropical and temperate ecosystems as well as serve as insurance policies against the impacts of fishing and other destructive activities. Marine protected areas, if managed properly, are an effective way of protecting marine ecosystems and their cultural and historical heritage for future generations to experience and enjoy. 
+                Marine protected areas can increase biomass and biodiversity in tropical and temperate ecosystems, as well as serve as insurance policies against the impacts of fishing and other destructive activities. If managed properly, they are an effective way of protecting marine ecosystems along with their cultural and historical heritage for us and future generations. 
               </p>
-              <p>
-                <a class="btn btn-callout" style="margin-left: 50px;" href="/learn/">Learn why MPAs work</a>
+              <p style="margin-top:1.5em;">
+                <a class="btn btn-callout" href="/learn/">Learn Why Marine Protected Areas Work</a>
               </p>
             </div>
           </div>
         </div>
         <div class="col-md-5">
-          <h2 class="featurette-heading">@MPAtlas <span class="text-muted">Twitter Feed</span></h2>
-          <p class="lead">
+          <h2 class="featurette-heading"><span class="text-muted">@MPAtlas Twitter Feed</span></h2>
+          <p style="font-size:1.4em;">
             <a class="twitter-timeline" href="https://twitter.com/MPAtlas" data-widget-id="388790833115189248">Tweets by @MPAtlas</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
           </p>
@@ -148,14 +151,14 @@
           <a href="/explore/"><img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/explore_feature.png" alt="Explore MPAs"></a>
         </div>
         <div class="col-md-7">
-          <h2 class="featurette-heading">Explore Earth's <span class="text-muted">Marine Protected Areas</span></h2>
-          <ul class="lead">
+          <h2 class="featurette-heading">Explore Earth's Marine Protected Areas</h2>
+          <ul style="font-size:1.4em;">
             <li>What is protected where?</li>
             <li>Find out more about your favorite marine parks and refuges.</li>
             <li>Determine management jurisdiction and regulations.</li>
           </ul>
-          <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/">Start Exploring</a>
-          <div style="float: right;">
+          <a class="btn btn-callout" style="margin-left: 24px; margin-top:1.5em;" href="/explore/">Start Exploring</a>
+          <div style="float: right; margin-top:1.5em;">
             <form name="mpasearch-home" class="mpa-searchform form-inline" method="get" action="/mpa/sites/?">
               <fieldset class="search">
                 <div class="input-group" style="width:190px;">
@@ -168,7 +171,6 @@
                 </div><!-- /input-group -->
               </fieldset>
             </form>
-
           </div>
         </div>
       </div>
@@ -177,10 +179,11 @@
 
       <div id="feature-analyze" class="row featurette bg-ltgray">
         <div class="col-md-7">
-          <h2 class="featurette-heading">Analyze protection levels. <span class="text-muted">MPA statistics by political or ecological dimensions.</span></h2>
-          <p class="lead">
-            <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/?analyze=nation">By Nation</a>
-            <a class="btn btn-callout" style="margin-left: 50px;" href="/explore/?analyze=ecoregion">By Biogeography</a>
+          <h2 class="featurette-heading">Analyze protection levels.</h2>
+          <p style="font-size:1.4em;">Marine Protected Area statistics by political or ecological dimensions.</p>
+          <p style="font-size:1.4em; margin-top:1.5em;">
+            <a class="btn btn-callout" href="/explore/?analyze=nation">By Nation</a>
+            <a class="btn btn-callout" disabled style="margin-left: 50px;" href="/explore/?analyze=ecoregion">By Biogeography (coming)</a>
           </p>
         </div>
         <div class="col-md-5">
