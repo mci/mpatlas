@@ -76,9 +76,11 @@
             <span class="level_title">Protection Level:</span>
             <!--<div style="color:black; padding:2px; border-radius:4px; border: 1px solid silver; background-color: orange; width:60%;">Moderate</div>-->
                 <div class="protection_bar" style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Not yet calculated</div>
+            {% comment %}
             <br />
             <span class="level_title">Conservation Effectiveness:</span>
                 <div class="effectiveness_bar" style="color:#666; padding:2px; border-radius:4px; border: 1px solid silver; background-color: #ddd; width:80%;">Unknown</div>
+            {% endcomment %}
         </div>
         <div id="siteinfotitle" class="sidebar_item_title">Site Information
             {% if user.is_authenticated %}
