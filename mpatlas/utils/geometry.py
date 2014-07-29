@@ -4,19 +4,16 @@ from django.db import connection, transaction
 # unsafe use of "%s" % (varname) string format substitution, but this should never use values
 # from web users.  No chance of SQL injection here.
 
-@transaction.commit_on_success
+@transaction.atomic
 def fix_geom_dateline_raw(table, geomfield, pkfield, pk):
     # First do a validity check, then fix topology using PostGIS 2.0 tools
     cursor = connection.cursor()
     cursor.execute("UPDATE %s SET %s = ST_MakeValid(%s) WHERE NOT (ST_IsValid(%s)) AND %s = %s" % (table, geomfield, geomfield, geomfield, pkfield, pk) )
-    transaction.set_dirty()
     # If some coords are outside -180 to 180, shift things around until 
     # everything is clipped between -180 to 180.
     # Polygons across dateline will be split into 2 pieces on each side.
     # This should now be safe to bring into PostGIS as a geometry or geography
     cursor.execute("UPDATE %s SET %s = ST_WrapX(ST_WrapX(%s, 0, 360), 180, -360) WHERE ((ST_XMin(%s) < -180) OR (ST_XMax(%s) > 180)) AND %s = %s" % (table, geomfield, geomfield, geomfield, geomfield, pkfield, pk) )
-    transaction.set_dirty()
-    #transaction.commit_unless_managed()    
 
 def fix_geom_dateline(obj, geomfield='geom'):
     table = obj._meta.db_table
@@ -24,7 +21,7 @@ def fix_geom_dateline(obj, geomfield='geom'):
     pk = obj.pk
     fix_geom_dateline_raw(table=table, geomfield=geomfield, pkfield=pkfield, pk=pk)
 
-@transaction.commit_on_success
+@transaction.atomic
 def geom2geog_raw(table, geomfield, geogfield, pkfield, pk):
     cursor = connection.cursor()
     # First set geog to geom as a default in all cases
@@ -43,7 +40,6 @@ def geom2geog_raw(table, geomfield, geogfield, pkfield, pk):
             WHERE t.%s = %s AND ST_XMin(t.%s) = -180 AND ST_XMax(t.%s) = 180
         ) as shift
         WHERE %s = %s AND (ST_XMax(shift.geomshift) - ST_XMin(shift.geomshift) < 360)""" % (table, geogfield, geomfield, table, pkfield, pk, geomfield, geomfield, pkfield, pk) )
-    transaction.set_dirty()
 
 def geom2geog(obj, geomfield='geom', geogfield='geog'):
     table = obj._meta.db_table
@@ -58,13 +54,11 @@ def geog2geom(geog):
     # _ST_BestSRID(geog1, geog2)
     pass
 
-@transaction.commit_on_success
+@transaction.atomic
 def simplify_geom_raw(table, geomfield, simplegeomfield, tolerance, pkfield, pk):
     # First do a validity check, then fix topology using PostGIS 2.0 tools
     cursor = connection.cursor()
     cursor.execute("UPDATE %s SET %s = ST_Multi(ST_SimplifyPreserveTopology(%s, %f)) WHERE %s = %s" % (table, simplegeomfield, geomfield, tolerance, pkfield, pk) )
-    transaction.set_dirty()
-    #transaction.commit_unless_managed()    
 
 def simplify_geom(obj, geomfield='geom_smerc', simplegeomfield='simple_geom_smerc', tolerance=500):
     table = obj._meta.db_table
