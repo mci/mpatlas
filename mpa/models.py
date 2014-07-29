@@ -338,17 +338,9 @@ class Mpa(models.Model):
     @transaction.atomic
     def set_geog_from_geom(self):
         # Raw SQL update geometry fields, much faster than through django
-        # cursor = connection.cursor()
-        # cursor.execute("UPDATE mpa_mpa SET geog = geom::geography, geom_smerc = ST_TRANSFORM(geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
-        # cursor.execute("UPDATE mpa_mpa SET point_geog = point_geom::geography, point_geom_smerc = ST_TRANSFORM(point_geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
-        # transaction.commit_unless_managed()
-        geom = self.geom
-        self.geog = None
-        self.geom_smerc = None # clear them out to start, this is useful when geom is empty
-        if geom:
-            self.geog = geom
-            self.geom_smerc = geom.transform(3857, clone=True)
-        self.save()
+        cursor = connection.cursor()
+        cursor.execute("UPDATE mpa_mpa SET geog = geom::geography, geom_smerc = ST_TRANSFORM(geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
+        cursor.execute("UPDATE mpa_mpa SET point_geog = point_geom::geography, point_geom_smerc = ST_TRANSFORM(point_geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
     
     @transaction.atomic
     @classmethod
