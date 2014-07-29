@@ -119,35 +119,35 @@ class Meow(models.Model):
     def get_geom_fields(cls):
         return ('geog', 'geom', 'geom_smerc', 'simple_geog', 'simple_geom', 'simple_geom_smerc')
     
+    @transaction.atomic
     @classmethod
     def clip_all_geom_at_dateline(cls):
         '''A class method to normalize all geometries crossing to dateline to split cleanly at -180/180 longitude.
             Affects whole table'''
         cursor = connection.cursor()
         cursor.execute("UPDATE spatialdata_meow SET geom = ST_WrapX(ST_WrapX(geom, 0, 360), 180, -360)")
-        transaction.commit_unless_managed()
     
+    @transaction.atomic
     @classmethod
     def set_all_geom_from_geog(cls):
         '''A class method to update all geometry and geography rows from geometry, affects whole table'''
         cursor = connection.cursor()
         cursor.execute("UPDATE spatialdata_meow SET geog = geom::geography, geom_smerc = ST_TRANSFORM(geom, 3857)")
-        transaction.commit_unless_managed()
     
+    @transaction.atomic
     @classmethod
     def set_all_geom_from_geog(cls):
         '''A class method to update all geometry rows from geography, affects whole table'''
         cursor = connection.cursor()
         cursor.execute("UPDATE spatialdata_meow SET geom = geog::geometry, geom_smerc = ST_TRANSFORM(geog::geometry, 3857)")
-        transaction.commit_unless_managed()
     
+    @transaction.atomic
     @classmethod
     def set_all_simple_geom(cls):
         '''A class method to create simplified geometries using tolerance in , affects whole table'''
         cursor = connection.cursor()
         cursor.execute("UPDATE spatialdata_meow SET simple_geom_smerc = ST_Multi(ST_SimplifyPreserveTopology(geom_smerc, 500))")
         cursor.execute("UPDATE spatialdata_meow SET simple_geom = ST_TRANSFORM(simple_geom_smerc, 4326), simple_geog = ST_TRANSFORM(simple_geom_smerc, 4326)::geography")
-        transaction.commit_unless_managed()
 
 # Auto-generated `LayerMapping` dictionary for Meow model
 meow_mapping = {
