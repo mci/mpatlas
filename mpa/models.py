@@ -287,7 +287,7 @@ class Mpa(models.Model):
         except:
             return None
     
-    @transaction.commit_on_success
+    @transaction.atomic
     def set_point_within(self):
         '''Get a point on the geometry surface.
             Use a point already in the db if possible, otherwise calculate and save one.
@@ -306,7 +306,7 @@ class Mpa(models.Model):
         except:
             return None
     
-    @transaction.commit_on_success
+    @transaction.atomic
     def set_bbox(self):
         '''Get the geometry bounding box.
             Use a shape already in the db if possible, otherwise calculate and save one.
@@ -328,27 +328,27 @@ class Mpa(models.Model):
         except:
             return None
     
+    @transaction.atomic
     def set_geom_from_geog(self):
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
         cursor.execute("UPDATE mpa_mpa SET geom = geog::geometry, geom_smerc = ST_TRANSFORM(geog::geometry, 3857) WHERE mpa_id = %s" , [self.mpa_id])
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857) WHERE mpa_id = %s" , [self.mpa_id])
-        transaction.commit_unless_managed()
 
+    @transaction.atomic
     def set_geog_from_geom(self):
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
         cursor.execute("UPDATE mpa_mpa SET geog = geom::geography, geom_smerc = ST_TRANSFORM(geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
         cursor.execute("UPDATE mpa_mpa SET point_geog = point_geom::geography, point_geom_smerc = ST_TRANSFORM(point_geom, 3857) WHERE mpa_id = %s" , [self.mpa_id])
-        transaction.commit_unless_managed()
     
+    @transaction.atomic
     @classmethod
     def set_all_geom_from_geog(cls):
         '''A class method to update all geometry rows from geography, affects whole table'''
         cursor = connection.cursor()
         cursor.execute("UPDATE mpa_mpa SET geom = geog::geometry, geom_smerc = ST_TRANSFORM(geog::geometry, 3857)")
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857)")
-        transaction.commit_unless_managed()
 
 @receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
