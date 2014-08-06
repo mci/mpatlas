@@ -244,6 +244,10 @@ TINYMCE_DEFAULT_CONFIG = {
   }   
 }
 
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations'
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -285,6 +289,9 @@ INSTALLED_APPS = (
     # User accounts and registration
     'social_auth',
     'accounts',
+
+    # Tagging/Categories
+    'taggit',
     
     # Spatial data
     'world',
