@@ -15,11 +15,19 @@ from uuslug import uuslug, slugify
 import reversion
 from reversion.models import Revision
 
+from mpa.models import Mpa
+
+from taggit.managers import TaggableManager
+from category.models import TaggedItem
+
 class Campaign(models.Model):
     # ID / Name
     id = models.AutoField('Campaign id', primary_key=True, editable=False)
     name = models.CharField('Name', max_length=254)
     slug = models.SlugField(max_length=254, unique=True, blank=True, editable=True)
+
+    # Taggit TaggableManger used to define categories
+    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
 
     # Set up foreign key to ISO Countries and Sub Locations
     country = models.CharField('Country / Territory', max_length=20)
@@ -30,6 +38,9 @@ class Campaign(models.Model):
 
     # Point location, used when we don't have polygon boundaries
     point_geom = models.PointField(srid=4326, null=True, blank=True, editable=True)
+
+    # Associated MPAs
+    mpas = models.ManyToManyField(Mpa, null=True, blank=True)
 
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()

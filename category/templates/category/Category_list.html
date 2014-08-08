@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Global Marine Protected Areas Campaigns - list view{% endblock %}
+
+{% block base_body_content %}
+    <p class="heading" style="margin:0px; padding:0; font-size:24px; line-height:28px;">
+        Categories of Global Marine Protected Areas
+    </p>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+    
+    {% if category_list %}
+        <ul>
+        {% for category in category_list %}
+            <li style="padding-bottom:3px;"><a href="{{ category.get_absolute_url }}" style="text-decoration:none;"><span style="font-size:1.2em;">{{ category.name }}</span></a></li>
+        {% endfor %}
+        </ul>
+    
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>No categories have yet been created.</p>
+    {% endif %}
+{% endblock %}
