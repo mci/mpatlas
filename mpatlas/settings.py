@@ -195,14 +195,33 @@ TEMPLATE_DIRS = (
 
 #CKEditor
 CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
+CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': None,
+        'toolbar': 'Complete',
         # 'toolbar': 'Full',
-        'height': 500,
+        'toolbar_Complete': [
+            ['Source', '-', 'Preview'], ['Paste', 'Paste as plain text'],
+        ],
+
+        'toolbar_Complete': [
+            { 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ], 'items': [ 'Source', '-', 'Preview'] },
+            { 'name': 'clipboard', 'groups': [ 'clipboard', 'undo' ], 'items': ['Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+            { 'name': 'editing', 'groups': [ 'find', 'selection', 'spellchecker' ], 'items': ['Scayt' ] },
+            { 'name': 'basicstyles', 'groups': [ 'basicstyles', 'cleanup' ], 'items': [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+            { 'name': 'paragraph', 'groups': [ 'list', 'indent', 'blocks', 'align', 'bidi' ], 'items': [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+            { 'name': 'links', 'items': [ 'Link', 'Unlink', 'Anchor' ] },
+            { 'name': 'insert', 'items': [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar', 'Iframe' ] },
+            '/',
+            { 'name': 'styles', 'items': [ 'Styles', 'Format', 'FontSize' ] },
+            { 'name': 'colors', 'items': [ 'TextColor', 'BGColor' ] },
+            { 'name': 'tools', 'items': [ 'Maximize', 'ShowBlocks' ] },
+            { 'name': 'others', 'items': [ '-' ] },
+        ],
+        'height': 300,
         'width': '100%',
-        # 'extraPlugins': 'dialog,lineutils,widget,image2',
-        # 'removePlugins': 'image',
+        'extraPlugins': 'image2',
+        'removePlugins': 'stylesheetparser',
     },
     'awesome_ckeditor': {
         'toolbar': 'Basic',
@@ -244,6 +263,10 @@ TINYMCE_DEFAULT_CONFIG = {
   }   
 }
 
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations'
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -278,13 +301,17 @@ INSTALLED_APPS = (
 
     
     'reversion',
-    # 'tinymce',
+    #'tinymce',
     'ckeditor',
     'django_countries',
     
     # User accounts and registration
     'social_auth',
     'accounts',
+
+    # Tagging/Categories
+    'taggit',
+    'category',
     
     # Spatial data
     'world',
