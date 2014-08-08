@@ -15,6 +15,7 @@ import reversion
 from reversion.models import Revision
 
 from taggit.managers import TaggableManager
+from category.models import TaggedItem
 
 from spatialdata.models import Nation
 
@@ -124,6 +125,9 @@ class Mpa(models.Model):
     long_name = models.CharField(max_length=254, blank=True) # name + designation
     short_name = models.CharField(max_length=254, blank=True) # name + designation with abbreviations
     slug = models.CharField(max_length=254, blank=True)
+
+    # Taggit TaggableManger used to define categories
+    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
     country = models.CharField('Country / Territory', max_length=20)
@@ -229,9 +233,6 @@ class Mpa(models.Model):
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()
 
-    # Taggit TaggableManger used to define categories
-    categories = TaggableManager('Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
-    
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.name
