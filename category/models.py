@@ -23,6 +23,10 @@ class Category(TagBase):
             slug += "_%d" % i
         return slug
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('category-info', args=[self.slug])
+
 
 class TaggedItem(GenericTaggedItemBase):
     # Here is where you provide your custom Tag class.
