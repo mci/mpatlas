@@ -66,7 +66,7 @@ define(
 				this.overlayLayers = {};
 				var subdomains = '12345678'; // tile1.mpatlas.org, tile2...
 	
-				// ESRI Oceans Base Layer
+				// ESRI World Oceans Base Layer
 				var lyr = new L.TileLayer(
 					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
@@ -74,7 +74,7 @@ define(
 				this.bgLayers['World Oceans'] = lyr;
 				this.layers.push(lyr);
 
-				// ESRI Oceans Base Layer
+				// ESRI World Oceans Reference
 				var lyr = new L.TileLayer(
 					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: ''}

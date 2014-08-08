@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     
     url(r'^mpa/', include('mpa.urls')),
     url(r'^campaign/', include('campaign.urls')),
+    url(r'^category/', include('category.urls')),
     url(r'^region/', include('spatialdata.urls')),
     
     url(r'^news/', TemplateView.as_view(template_name='news.html')),

@@ -44,12 +44,20 @@ function ($, _, Backbone) {
 			this.overlayLayers = {};
 			var subdomains = '12345678'; // tile1.mpatlas.org, tile2...
 
-			// ESRI Oceans Layer
-			lyr = new L.TileLayer(
-				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}.png',
-				{id: 0, maxZoom: 9, opacity: 1}
+			// ESRI World Oceans Base Layer
+			var lyr = new L.TileLayer(
+				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
+				{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
 			);
-			this.bgLayers['Oceans'] = lyr;
+			this.bgLayers['World Oceans'] = lyr;
+			this.layers.push(lyr);
+
+			// ESRI World Oceans Reference
+			var lyr = new L.TileLayer(
+				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
+				{id: 10, maxZoom: 10, opacity: 1, attribution: ''}
+			);
+			this.bgLayers['World Ocean Annotation'] = lyr;
 			this.layers.push(lyr);
 	
 			// Bing background layer for testing
