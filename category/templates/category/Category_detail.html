@@ -71,7 +71,7 @@
             <!-- List of MPAs here with boundaries -->
             <ul>
             {% for campaign in member_campaigns %}
-                <li>{{ campaign.name }}</li>
+                <li><a href="{{ campaign.get_absolute_url }}">{{ campaign.name }}</a></li>
             {% endfor %}
             </ul>
         </div>
@@ -82,7 +82,7 @@
             {% comment %}
             <ul>
             {% for mpa in member_mpas %}
-                <li>mpa.name</li>
+                <li><a href="{{ campaign.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }}</a></li>
             {% endfor %}
             </ul>
             {% endcomment %}
