@@ -236,6 +236,10 @@ class Mpa(models.Model):
     # Returns the string representation of the model.
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('mpa-siteinfo', args=[self.pk])
     
     @classmethod
     def get_geom_fields(cls):
