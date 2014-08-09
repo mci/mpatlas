@@ -11,7 +11,40 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
+<link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
+
 <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    var mpa_data = [
+        {% for mpa in member_mpas %}
+            {
+                "type": "Feature",
+                "properties": {
+                    'name': '{{ mpa.name }} {{ mpa.designation }}',
+                    'type': 'mpa',
+                    'id': {{ mpa.pk }},
+                    'url': '{{ mpa.get_absolute_url }}'
+                },
+                'geometry': {% if mpa.is_point and mpa.point_geom %}{{ mpa.point_geom.geojson|safe }}{% else %}{% if mpa.geom %}{{ mpa.geom.geojson|safe }}{% else %}{}{% endif %}{% endif %}
+            }{% if forloop.last %}{% else %},{% endif %}
+        {% endfor %}
+    ];
+    var campaign_data = [
+        {% for campaign in member_campaigns %}
+            {
+                "type": "Feature",
+                "properties": {
+                    'name': '{{ campaign.name }}',
+                    'type': 'campaign',
+                    'id': {{ campaign.pk }},
+                    'url': '{{ campaign.get_absolute_url }}'
+                },
+                'geometry': {% if campaign.point_geom %}{{ campaign.point_geom.geojson|safe }}{% else %}{}{% endif %}
+            }{% if forloop.last %}{% else %},{% endif %}
+        {% endfor %}
+    ];
+</script>
 
 <script type="text/javascript">
     require.config({
@@ -42,18 +75,22 @@
 		    },
 		    'jqueryui': {
 		        deps: ['jquery']
-		    }
+		    },
+            'leaflet.label': {
+                deps: ['leaflet']
+            }
 		}
     });
     require([
         'prep',
-        'campaigndetail',
+        'categorydetail',
         'jquery',
         'use!jqueryui'
-    ], function(Prep, CampaignDetail) {
+    ], function(Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
         });
+        window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
     });
 
 </script>
@@ -79,13 +116,13 @@
         <div class="sidebar_item_title">Designated Protected Areas</div>
         <div class="sidebar_item_content">
             <!-- List of MPAs here with boundaries -->
-            {% comment %}
+            
             <ul>
             {% for mpa in member_mpas %}
-                <li><a href="{{ campaign.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }}</a></li>
+                <li><a href="{{ mpa.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }} - {{ mpa.country }}</a></li>
             {% endfor %}
             </ul>
-            {% endcomment %}
+            
         </div>
     </div>
     <div id="rightcol" style="float:right; width: 66%;">
