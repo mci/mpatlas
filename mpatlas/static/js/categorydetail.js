@@ -5,7 +5,7 @@
       'use!backbone',
       'leaflet',
       'TileLayer.Bing',
-      'use!leaflet.label'
+      'use!leaflet_label'
       //'persist',
       //'MPAList'
     ],
