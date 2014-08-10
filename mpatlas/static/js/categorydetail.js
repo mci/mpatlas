@@ -25,7 +25,7 @@
                 }
                 this.mpa_data = mpa_data;
                 this.campaign_data = campaign_data;
-                this.defaultzoom = 1;
+                this.defaultzoom = 3;
                 
                 this.makeMap();
                 window['leafmap'] = this.map;
