@@ -13,7 +13,38 @@
 
 <link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
 
-<link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}css/sitedetailx.css" media="screen" rel="stylesheet" type="text/css" />
+
+<link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
+<!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+<style>
+    /*#leafletmap { position:absolute; top:0; bottom:0; width:100%; left:0; right:0; z-index:0;}*/
+
+    #member-list {
+        position:absolute;
+        top:0; right:0; width:200px;
+        bottom:0;
+        overflow-x:auto;
+        background:#fff;
+        margin:0;
+        padding:5px;
+    }
+    #member-list li {
+        padding:5px;
+        margin:0;
+        list-style-type:none;
+    }
+    #member-list li:hover {
+        background:#eee;
+    }
+
+    .tag {
+        padding:2px 4px;
+        background-color: #ccc;
+        border-radius: 4px;
+    }
+</style>
 
 <script type="text/javascript">
     var mpa_data = [
@@ -97,57 +128,47 @@
 {% endblock %}
 
 {% block base_body_content %}
-    <div class="clear" style="clear:both;"></div>
-    
-    <div id="leftcol" style="float:left; width:34%; padding-top:12px;">
-    	<div id='leafletmap'></div>
-        <br />
+<div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
 
-        <div class="sidebar_item_title">Protected Area Campaigns</div>
-        <div class="sidebar_item_content">
-            <!-- List of MPAs here with boundaries -->
-            <ul>
-            {% for campaign in member_campaigns %}
-                <li><a href="{{ campaign.get_absolute_url }}">{{ campaign.name }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
+<div style="z-index:2; padding-left:60px; padding-top:1px; position:relative; background-color:#fff; background-color:rgba(255,255,255,0.7);">
+    <h6 style="color:#666; text-transform:uppercase; margin-right:20px; padding-bottom:0; margin-bottom:0;">Category</h6>
+    <p class="heading" style="margin:0px; padding:0; font-size:32px; line-height:38px;color:#de744a;">
+        {{ category.name }}
+    </p>
 
-        <div class="sidebar_item_title">Designated Protected Areas</div>
-        <div class="sidebar_item_content">
-            <!-- List of MPAs here with boundaries -->
-            
-            <ul>
-            {% for mpa in member_mpas %}
-                <li><a href="{{ mpa.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }} - {{ mpa.country }}</a></li>
-            {% endfor %}
-            </ul>
-            
-        </div>
-    </div>
-    <div id="rightcol" style="float:right; width: 66%;">
-        <div style="padding: 8px;">
-            <h5 style="color:#666; text-transform:uppercase;">Category</h5>
-            <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px;color:#de744a;">
-                {{ category.name }}
+    <h5 style="color:#666;">{% if category.details.summary %}
+        {{ category.details.summary|safe }}
+    {% endif %}Stuff</h5>
+</div>
+
+<div id="leftcol" style="position:absolute; top:0; bottom:0; width:34%; min-width:350px; margin-top:120px;">
+    <div class="sidebar_item_title">Description</div>
+    <div class="sidebar_item_content" style="background-color:rgba(255,255,255,0.7); height:90%; width:100%; overflow:auto;">
+        {% if category.details.description %}
+            <p>
+                {{ category.details.description|safe }}x
             </p>
-
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-            <h5 style="color:#666;">{% if category.details.summary %}
-                {{ category.details.summary|safe }}
-            {% endif %}</h5>
-            
-            <div class="sidebar_item_title">Description</div>
-        	<div class="sidebar_item_content">
-        	    {% if category.details.description %}
-                    <p>
-                        {{ category.details.description|safe }}
-                    </p>
-                    <div style="clear:both;"></div>
-                {% endif %}
-        	</div>
-        </div>
+            <div style="clear:both;"></div>
+        {% endif %}
     </div>
-    <div class="clear"></div>
+</div>
+<div id="rightcol" style="position:absolute; top:0; bottom:0; right:0; width:34%; min-width:350px; margin-top:120px;">
+    <div class="sidebar_item_title">Protected Areas & Campaigns</div>
+    <div class="sidebar_item_content" style="width:100%; background-color:rgba(255,255,255,0.7); height:90%; overflow:auto;">
+        <!-- List of MPAs here with boundaries -->
+        <ul>
+        {% for campaign in member_campaigns %}
+            <li><a href="{{ campaign.get_absolute_url }}">{{ campaign.name }} <span class="tag">campaign</span></a></li>
+        {% endfor %}
+        </ul>
+
+        <ul>
+        {% for mpa in member_mpas %}
+            <li><a href="{{ mpa.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }} - {{ mpa.country }}</a></li>
+        {% endfor %}
+        </ul>
+        
+    </div>
+</div>
+<div class="clear"></div>
 {% endblock %}
