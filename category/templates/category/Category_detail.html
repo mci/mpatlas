@@ -90,8 +90,8 @@
     ], function(Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
+            window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
         });
-        window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
     });
 
 </script>
