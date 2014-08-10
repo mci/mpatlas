@@ -160,12 +160,14 @@
     <div class="sidebar_item_content" style="width:100%; background-color:rgba(255,255,255,0.7); height:90%; overflow:auto;">
         <!-- List of MPAs here with boundaries -->
         <ul id="member-list">
+        {% comment %}
         {% for campaign in member_campaigns %}
             <li><a href="{{ campaign.get_absolute_url }}">{{ campaign.name }} <span class="tag">campaign</span></a></li>
         {% endfor %}
         {% for mpa in member_mpas %}
             <li><a href="{{ mpa.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }} - {{ mpa.country }}</a></li>
         {% endfor %}
+        {% endcomment %}
         </ul>
         
     </div>
