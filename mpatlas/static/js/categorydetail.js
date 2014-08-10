@@ -16,15 +16,14 @@
             //proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
             //domain: 'http://mpatlas.org/',
             
-            initialize: function(map, mpa_data, campaign_data) {
+            initialize: function(map) {
                 var that = this;
                 if ($.type(map) === 'object') {
                     this.mapelem = (map.length) ? map[0] : map;
                 } else {
                     this.mapelem = $('#' + map)[0]; // Assume it's an element id string
                 }
-                this.mpa_data = mpa_data;
-                this.campaign_data = campaign_data;
+                this.member_data_url = 'features/';
                 this.defaultzoom = 3;
                 
                 this.makeMap();
@@ -214,36 +213,45 @@
                     fillOpacity: 0.8
                 };
                 var memberList = document.getElementById('member-list');
-                var geojson = new L.GeoJSON(this.mpa_data, {
-                    onEachFeature: function(feature, layer) {
-                        if (feature.properties) {
-                            layer.bindLabel(feature.properties.name);
-                            var item = memberList.appendChild(document.createElement('li'));
-                            item.innerHTML = feature.properties.name;
-                            layer.bindPopup(feature.properties.summary, {
-                                maxHeight: '100'
-                            });
-                            $(item).on('click', function() {
-                                that.map.setView(layer.getBounds().getCenter(), that.defaultzoom+2);
-                                layer.openPopup();
-                            });
-                        }
+                $.ajax({
+                    url: that.member_data_url,
+                    success: function(data) {
+                        var geojson = new L.GeoJSON(data, {
+                            onEachFeature: function(feature, layer) {
+                                if (feature.properties) {
+                                    layer.bindLabel(feature.properties.name);
+                                    var item = memberList.appendChild(document.createElement('li'));
+                                    item.innerHTML = feature.properties.name;
+                                    layer.bindPopup('<h5><a href="' + feature.properties.url + '">' + feature.properties.name + '</a></h5>' + 
+                                        '<a href="' + feature.properties.url + '">view full description</a>' + 
+                                        '<p>' + feature.properties.summary + '</p>', {
+                                        maxHeight: '120'
+                                    });
+                                    $(item).on('click', function() {
+                                        that.map.setView(layer.getBounds().getCenter(), that.defaultzoom+2);
+                                        layer.openPopup();
+                                    });
+                                }
+                            },
+                            pointToLayer: function (feature, latlng) {
+                                var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
+                                var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
+                                var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
+                                return L.featureGroup([m1, m2, m3])
+                            },
+                            style: {
+                                weight: 5,
+                                color: '#d0508c',
+                                opacity: 0.8,
+                                fillColor: '#d0508c',
+                                fillOpacity: 0.2
+                            }
+                        }).addTo(that.map);
                     },
-                    pointToLayer: function (feature, latlng) {
-                        var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
-                        var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
-                        var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
-                        return L.featureGroup([m1, m2, m3])
-                    },
-                    style: {
-                        weight: 5,
-                        color: '#d0508c',
-                        opacity: 0.8,
-                        fillColor: '#d0508c',
-                        fillOpacity: 0.2
+                    error: function(request, type, ex) {
+                        console.log(request, type, ex);
                     }
-                }).addTo(this.map);
-                geojson.addData(this.campaign_data);
+                });
             },
 
             loadFeature: function() {
