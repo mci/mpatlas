@@ -209,7 +209,7 @@ class Mpa(models.Model):
     # If is_point is true, this will be a box or circle based on the 
     # area estimate (calculated from local UTM crs or a global equal area crs)
     geom_smerc = models.MultiPolygonField(srid=3857, null=True, blank=True, editable=False)
-    geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=True)
+    geom = models.MultiPolygonField(srid=4326, null=True, blank=True, editable=False)
     geog = models.MultiPolygonField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Simplified polygon features
