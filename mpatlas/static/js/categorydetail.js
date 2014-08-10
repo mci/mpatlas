@@ -213,10 +213,20 @@
                     opacity: 1,
                     fillOpacity: 0.8
                 };
+                var memberList = document.getElementById('member-list');
                 var geojson = new L.GeoJSON(this.mpa_data, {
                     onEachFeature: function(feature, layer) {
                         if (feature.properties) {
                             layer.bindLabel(feature.properties.name);
+                            var item = memberList.appendChild(document.createElement('li'));
+                            item.innerHTML = feature.properties.name;
+                            layer.bindPopup(feature.properties.summary, {
+                                maxHeight: '100'
+                            });
+                            $(item).on('click', function() {
+                                that.map.setView(layer.getBounds().getCenter(), that.defaultzoom+2);
+                                layer.openPopup();
+                            });
                         }
                     },
                     pointToLayer: function (feature, latlng) {
