@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cache %}
 
 {% block title %}{{ campaign.name }}{% endblock %}
 
@@ -47,6 +48,37 @@
 </style>
 
 <script type="text/javascript">
+    var mpa_data = [
+        {% for mpa in member_mpas %}
+            {
+                "type": "Feature",
+                "properties": {
+                    'name': '{{ mpa.name }} {{ mpa.designation }}',
+                    'type': 'mpa',
+                    'id': {{ mpa.pk }},
+                    'url': '{{ mpa.get_absolute_url }}'
+                },
+                'geometry': {% cache 600 %}{% if mpa.is_point and mpa.point_geom %}{{ mpa.point_geom.geojson|safe }}{% else %}{% if mpa.geom %}{{ mpa.geom.geojson|safe }}{% else %}null{% endif %}{% endif %}{% endcache %}
+            }{% if forloop.last %}{% else %},{% endif %}
+        {% endfor %}
+    ];
+    var campaign_data = [
+        {% for campaign in member_campaigns %}
+            {
+                "type": "Feature",
+                "properties": {
+                    'name': '{{ campaign.name }}',
+                    'type': 'campaign',
+                    'id': {{ campaign.pk }},
+                    'url': '{{ campaign.get_absolute_url }}'
+                },
+                'geometry': {% cache 600 %}{% if campaign.point_geom %}{{ campaign.point_geom.geojson|safe }}{% else %}null{% endif %}{% endcache %}
+            }{% if forloop.last %}{% else %},{% endif %}
+        {% endfor %}
+    ];
+</script>
+
+<script type="text/javascript">
     require.config({
         baseUrl: '{{ STATIC_URL }}js',
         paths: {
@@ -90,8 +122,8 @@
     ], function(Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
-            window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
         });
+        window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
     });
 
 </script>
@@ -141,37 +173,4 @@
     </div>
 </div>
 <div class="clear"></div>
-{% endblock %}
-
-{% block bodyend_js %}
-<script type="text/javascript">
-    var mpa_data = [
-        {% for mpa in member_mpas %}
-            {
-                "type": "Feature",
-                "properties": {
-                    'name': '{{ mpa.name }} {{ mpa.designation }}',
-                    'type': 'mpa',
-                    'id': {{ mpa.pk }},
-                    'url': '{{ mpa.get_absolute_url }}'
-                },
-                'geometry': {% if mpa.is_point and mpa.point_geom %}{{ mpa.point_geom.geojson|safe }}{% else %}{% if mpa.geom %}{{ mpa.geom.geojson|safe }}{% else %}null{% endif %}{% endif %}
-            }{% if forloop.last %}{% else %},{% endif %}
-        {% endfor %}
-    ];
-    var campaign_data = [
-        {% for campaign in member_campaigns %}
-            {
-                "type": "Feature",
-                "properties": {
-                    'name': '{{ campaign.name }}',
-                    'type': 'campaign',
-                    'id': {{ campaign.pk }},
-                    'url': '{{ campaign.get_absolute_url }}'
-                },
-                'geometry': {% if campaign.point_geom %}{{ campaign.point_geom.geojson|safe }}{% else %}null{% endif %}
-            }{% if forloop.last %}{% else %},{% endif %}
-        {% endfor %}
-    ];
-</script>
 {% endblock %}
