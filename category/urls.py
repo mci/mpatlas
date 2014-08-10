@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView, DetailView, ListView
-from category.views import CategoryDetailView
+from category.views import CategoryDetailView, CategoryGeoJsonView
 
 from category.models import Category, Details
 
@@ -44,6 +44,12 @@ urlpatterns = patterns('',
             context_object_name='category',
             template_name='category/Category_detail.html'),
         name='category-info'),
+    url(r'^(?P<slug>[\w-]+)/features/$', 
+        CategoryGeoJsonView.as_view(
+            model=Category,
+            queryset=Category.objects.all().order_by('name'),
+            context_object_name='category',),
+        name='category-geojson'),
     # url(r'^(?P<pk>\d+)/point/$', 'campaign.views.get_campaign_pointgeom_json', name='campaign-point-geojson'),
     
     # url(r'^initiative/(?P<pk>\d+)/$',
