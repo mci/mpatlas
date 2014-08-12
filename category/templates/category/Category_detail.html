@@ -5,15 +5,16 @@
 {% block base_head_extra %}
 
 {% comment %}
-<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/leaflet.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/leaflet.ie.css" /><![endif]-->
-{% endcomment %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/leaflet.ie.css" /><![endif]-->
 
 <link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
 
-<link href="{{ STATIC_URL }}css/sitedetailx.css" media="screen" rel="stylesheet" type="text/css" />
+<!-- <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" /> -->
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -47,42 +48,10 @@
 </style>
 
 <script type="text/javascript">
-    var mpa_data = [
-        {% for mpa in member_mpas %}
-            {
-                "type": "Feature",
-                "properties": {
-                    'name': '{{ mpa.name }} {{ mpa.designation }}',
-                    'type': 'mpa',
-                    'id': {{ mpa.pk }},
-                    'url': '{{ mpa.get_absolute_url }}',
-                    'summary': '{{ mpa.summary|escapejs|safe }}'
-                },
-                'geometry': {% if mpa.is_point and mpa.point_geom %}{{ mpa.point_geom.geojson|safe }}{% else %}{% if mpa.geom %}{{ mpa.geom.geojson|safe }}{% else %}null{% endif %}{% endif %}
-            }{% if forloop.last %}{% else %},{% endif %}
-        {% endfor %}
-    ];
-    var campaign_data = [
-        {% for campaign in member_campaigns %}
-            {
-                "type": "Feature",
-                "properties": {
-                    'name': '{{ campaign.name }}',
-                    'type': 'campaign',
-                    'id': {{ campaign.pk }},
-                    'url': '{{ campaign.get_absolute_url }}',
-                    'summary': '{{ campaign.summary|escapejs|safe }}'
-                },
-                'geometry': {% if campaign.point_geom %}{{ campaign.point_geom.geojson|safe }}{% else %}null{% endif %}
-            }{% if forloop.last %}{% else %},{% endif %}
-        {% endfor %}
-    ];
-</script>
-
-<script type="text/javascript">
     require.config({
         baseUrl: '{{ STATIC_URL }}js',
         paths: {
+            /**
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min',
             leaflet: '//cdn.leafletjs.com/leaflet-0.7.3/leaflet',
@@ -90,9 +59,20 @@
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
             underscore: 'underscore-min',
             backbone: 'backbone-min',
+            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
             leaflet_label: 'leaflet.label'
             //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
             //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
+            **/
+            jquery: 'vendor/jquery.min',
+            jqueryui: 'vendor/jquery-ui.min',
+            leaflet: '{{ STATIC_URL }}leaflet/leaflet',
+            //leaflet: '{{ STATIC_URL }}Leaflet/leaflet',
+            json2: 'vendor/json2',
+            underscore: 'underscore-min',
+            backbone: 'backbone-min',
+            bootstrap: 'vendor/bootstrap.min',
+            leaflet_label: 'leaflet.label'
         },
         //priority: ['jquery']
 		priority: [
@@ -112,6 +92,9 @@
 		    },
             'leaflet_label': {
                 deps: ['leaflet']
+            },
+            'bootstrap': {
+                deps: ['jquery']
             }
 		}
     });
@@ -119,12 +102,13 @@
         'prep',
         'categorydetail',
         'jquery',
-        'use!jqueryui'
+        'use!jqueryui',
+        'use!bootstrap'
     ], function(Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
         });
-        window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'), mpa_data, campaign_data);
+        window['categorydetail'] = new CategoryDetail.CategoryDetail($('#leafletmap'));
     });
 
 </script>
