@@ -30,7 +30,7 @@ class CategoryGeoJsonView(DetailView):
         context = super(CategoryGeoJsonView, self).get_context_data(**kwargs)
         mpa_type = ContentType.objects.get_for_model(Mpa)
         mpa_ids = TaggedItem.objects.filter(tag=self.object,content_type=mpa_type).values_list('object_id', flat=True)
-        context['member_mpas'] = mpas_norejects_nogeom.filter(pk__in=mpa_ids).only('name', 'summary', 'is_point', 'point_geom').geojson(field_name='simple_geom').order_by('country','name')
+        context['member_mpas'] = mpas_norejects_nogeom.filter(pk__in=mpa_ids).only('name', 'summary', 'is_point', 'point_geom').geojson(field_name='simple_geom', precision=6).order_by('country','name')
         # context['member_mpas'] = mpas_norejects_nogeom.filter(categories__slug=self.object.slug)
         context['member_campaigns'] = Campaign.objects.filter(categories__slug=self.object.slug).only('name', 'summary').geojson(field_name='point_geom')
         return context
