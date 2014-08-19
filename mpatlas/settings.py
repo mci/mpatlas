@@ -194,7 +194,7 @@ TEMPLATE_DIRS = (
 )
 
 #CKEditor
-CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media-uploads/')
+CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_CONFIGS = {
     'default': {

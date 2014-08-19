@@ -4,6 +4,9 @@ from django.views.generic import RedirectView
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_notify.urls import get_pattern as get_notify_pattern
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib.gis import admin
 admin.autodiscover()
@@ -43,5 +46,5 @@ urlpatterns = patterns('',
 
     url(r'^learn/notify/', get_notify_pattern()),
     url(r'^learn/mpapedia/', get_wiki_pattern()),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
