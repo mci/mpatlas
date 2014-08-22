@@ -339,6 +339,12 @@ class Mpa(models.Model):
             return None
     
     @transaction.atomic
+    def make_simplified_geom(self, tolerance=0.001):
+        # Raw SQL update geometry fields, much faster than through django
+        cursor = connection.cursor()
+        cursor.execute("UPDATE mpa_mpa SET simple_geom = ST_Multi(ST_SimplifyPreserveTopology(geom, %s)) WHERE mpa_id = %s" , (tolerance, self.mpa_id) )
+
+    @transaction.atomic
     def set_geom_from_geog(self):
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
@@ -368,6 +374,7 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     instance.set_point_within()
     instance.set_bbox()
     instance.set_geog_from_geom()
+    instance.make_simplified_geom()
     post_save.connect(mpa_post_save, sender=Mpa)
 
 
