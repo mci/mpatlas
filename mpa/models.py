@@ -339,7 +339,7 @@ class Mpa(models.Model):
             return None
     
     @transaction.atomic
-    def make_simplified_geom(self, tolerance=0.01, preservetopology=True):
+    def make_simplified_geom(self, tolerance=0.01, preservetopology=False):
         st_simplify = 'ST_SimplifyPreserveTopology' if preservetopology else 'ST_Simplify'
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
