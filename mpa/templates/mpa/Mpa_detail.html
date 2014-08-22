@@ -54,7 +54,7 @@
         $(function() {
             Prep.preparePage();
             var site_id = {{ mpa.pk }},
-                feature_url = '{% url 'mpa-geojson' mpa.pk %}?simplified=false',
+                feature_url = '{% url 'mpa-geojson' mpa.pk %}?simplified=true',
                 is_point = {% if mpa.is_point %}true{% else %}false{% endif %},
                 point_within = [{{ mpa.point_within.coords.0 }},{{ mpa.point_within.coords.1 }}],
                 bbox = [[{{ mpa.bbox_lowerleft.coords.0 }},{{ mpa.bbox_lowerleft.coords.1 }}], [{{ mpa.bbox_upperright.coords.0 }},{{ mpa.bbox_upperright.coords.1 }}]];

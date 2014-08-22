@@ -21,6 +21,7 @@ from reversion.models import Revision
 from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata
 
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.decorators import login_required
 
 def do_revision(request):
     mpa = Mpa.objects.get(pk=4)
@@ -53,6 +54,7 @@ def revision_view2(request):
     rcm.end()
     return HttpResponse('Attempted to save a revision - 2')
 
+@login_required
 @transaction.commit_on_success
 @reversion.create_revision()
 def edit_mpa(request, pk):
@@ -83,6 +85,7 @@ def edit_mpa(request, pk):
         'respond_url': reverse('mpa-editsite', kwargs={'pk': pk}),
     }, context_instance=RequestContext(request))
 
+@login_required
 @transaction.commit_on_success
 @reversion.create_revision()
 def edit_mpa_geom(request, pk):
@@ -100,6 +103,7 @@ def edit_mpa_geom(request, pk):
                 raise
             mpasaved = editform.save()
             mpasaved.set_geog_from_geom()
+            mpasaved.make_simplified_geom()
             try:
                 reversion.set_comment("Boundary geometry updated.")
             except:
@@ -167,7 +171,7 @@ def get_mpa_geom_wkt(request, pk, simplified=True, webmercator=False):
 
 def get_mpa_geom_json(request, pk, simplified=True, webmercator=False):
     try:
-        simplified = (not request.GET['simplified'].upper() == 'FALSE')
+        simplified = request.GET['simplified'].lower() not in ('false', 'f', 'no', '0', 0)
     except:
         pass
     try:
