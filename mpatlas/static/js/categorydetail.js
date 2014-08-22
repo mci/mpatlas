@@ -240,11 +240,13 @@
                                 return L.featureGroup([m1, m2, m3])
                             },
                             style: {
-                                weight: 5,
-                                color: '#d0508c',
-                                opacity: 0.8,
-                                fillColor: '#d0508c',
-                                fillOpacity: 0.2
+                                weight: 4,
+                                // color: '#d0508c',
+                                color: '#de744a',
+                                opacity: 0.2,
+                                // fillColor: '#d0508c',
+                                fillColor: '#de744a',
+                                fillOpacity: 0.6
                             }
                         }).addTo(that.map);
                     },
