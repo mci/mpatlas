@@ -101,9 +101,10 @@ def edit_mpa_geom(request, pk):
                 mpa.geom = geom
             except:
                 raise
-            mpasaved = editform.save()
-            mpasaved.set_geog_from_geom()
-            mpasaved.make_simplified_geom()
+            mpa.save()
+            # mpasaved = editform.save()
+            # mpasaved.set_geog_from_geom()
+            # mpasaved.make_simplified_geom()
             try:
                 reversion.set_comment("Boundary geometry updated.")
             except:
