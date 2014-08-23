@@ -212,43 +212,142 @@
                     opacity: 1,
                     fillOpacity: 0.8
                 };
+                var polystyle = {
+                    weight: 1,
+                    // color: '#d0508c',
+                    color: '#de744a',
+                    opacity: 0.9,
+                    // fillColor: '#d0508c',
+                    fillColor: '#de744a',
+                    fillOpacity: 0.7
+                };
+                var outlinestyle = {
+                    weight: 8,
+                    // color: '#d0508c',
+                    color: '#de744a',
+                    opacity: 0.2,
+                    // fillColor: '#d0508c',
+                    fillColor: '#de744a',
+                    fillOpacity: 0
+                };
+                var highlightoutlinestyle = {
+                    weight: 8,
+                    // color: '#d0508c',
+                    color: '#d0508c',
+                    opacity: 0.2,
+                    // fillColor: '#d0508c',
+                    fillColor: '#de744a',
+                    fillOpacity: 0
+                };
+                var highlightstyle = {
+                    weight: 1,
+                    // color: '#ffc4f9',
+                    color: '#d0508c',
+                    opacity: 0.9,
+                    fillColor: '#d0508c',
+                    fillOpacity: 0.7
+                };
                 var memberList = document.getElementById('member-list');
+                var geojson;
+                function wrapCoords(coords, west, east) {
+                    var a = !isNaN(parseFloat(west)) && isFinite(west) ? west : -180;
+                    var b = !isNaN(parseFloat(east)) && isFinite(east) ? east : a + 360;
+                    var lng = (coords[0]) % (b - a) + (coords[0] < 0 ? (b - a) : 0); // shift to value between 0 and (b-a) (typically 0-360)
+                    lng = lng + (Math.floor((a - lng)/(b-a)) + 1)*(b-a); // translate to value between a and b
+                    return new L.LatLng(coords[1], lng);
+                }
+                function shiftLatLngs(latlngs, shift) {
+                    var _latlngs = [];
+                    for (var i=0; i < latlngs.length; i++) {
+                        _latlngs[i] = new L.LatLng(latlngs[i].lat, latlngs[i].lng + shift);
+                    }
+                    return _latlngs;
+                }
+                function shiftFeature(feature, shift) {
+                    var emptyObject = {};
+                    var shifted = $.extend(true,emptyObject,feature);
+
+                };
+                // wrapCoords(coords, -360, 0);
+                function highlightLayer(layer) {
+                    layer.feature.properties.original.setStyle(highlightoutlinestyle);
+                    layer.setStyle(highlightstyle);
+                    layer.bringToFront();
+                }
+                function resetLayer(layer) {
+                    layer.feature.properties.original.setStyle(outlinestyle);
+                    geojson.resetStyle(layer);
+                }
+                geojson = new L.GeoJSON(null, {
+                    onEachFeature: function(feature, layer) {
+                        var duplicatefeature = function(feature) {
+                            if (!feature.properties.duplicated) {
+                                var copiedObject = {};
+                                var feature2 = $.extend(true,copiedObject,feature);
+                                feature2.properties.duplicated = true;
+                                feature2.properties.original = layer;
+                                feature2.properties.id = '9999' + feature2.properties.id
+                                setTimeout(function() {
+                                    geojson.addData(feature2);
+                                }, 0);
+                            }
+                        };
+                        if (feature.properties) {
+                            layer.bindLabel(feature.properties.name);
+                            layer.bindPopup('<h5><a href="' + feature.properties.url + '">' + feature.properties.name + '</a></h5>' + 
+                                '<a href="' + feature.properties.url + '">view full description</a>' + 
+                                '<p>' + feature.properties.summary + '</p>', {
+                                maxHeight: '120'
+                            });
+                            if (!feature.properties.duplicated) {
+                                var item = memberList.appendChild(document.createElement('li'));
+                                item.innerHTML = '<a href="#" onclick="return false;">' + feature.properties.name + '</a>';
+                                $(item).on('mouseover', function() {
+                                    var _layer = (layer.feature.properties.duplicate) ? layer.feature.properties.duplicate : layer;
+                                    highlightLayer(_layer);
+                                });
+                                $(item).on('mouseout', function() {
+                                    var _layer = (layer.feature.properties.duplicate) ? layer.feature.properties.duplicate : layer;
+                                    resetLayer(_layer);
+                                });
+                                $(item).on('click', function() {
+                                    that.map.setView(layer.getBounds().getCenter(), that.defaultzoom+2);
+                                    layer.openPopup();
+                                });
+                            }
+                        }
+                        
+                        layer.setStyle(outlinestyle);
+                        if (feature.properties.duplicated == true) {
+                            var original = feature.properties.original;
+                            original.feature.properties.duplicate = layer;
+                            layer.setStyle(polystyle);
+                        }
+                        layer.on({
+                            mouseover: function(e) {
+                                var layer = (e.target.feature.properties.duplicate) ? e.target.feature.properties.duplicate : e.target;
+                                highlightLayer(layer);
+                            },
+                            mouseout: function(e) {
+                                var layer = (e.target.feature.properties.duplicate) ? e.target.feature.properties.duplicate : e.target;
+                                resetLayer(layer);
+                            }
+                        });
+
+                        duplicatefeature(feature);
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
+                        var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
+                        var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
+                        return L.featureGroup([m1, m2, m3])
+                    },
+                    style: polystyle
+                }).addTo(that.map);
                 $.ajax({
                     url: that.member_data_url,
                     success: function(data) {
-                        var geojson = new L.GeoJSON(data, {
-                            onEachFeature: function(feature, layer) {
-                                if (feature.properties) {
-                                    layer.bindLabel(feature.properties.name);
-                                    var item = memberList.appendChild(document.createElement('li'));
-                                    item.innerHTML = feature.properties.name;
-                                    layer.bindPopup('<h5><a href="' + feature.properties.url + '">' + feature.properties.name + '</a></h5>' + 
-                                        '<a href="' + feature.properties.url + '">view full description</a>' + 
-                                        '<p>' + feature.properties.summary + '</p>', {
-                                        maxHeight: '120'
-                                    });
-                                    $(item).on('click', function() {
-                                        that.map.setView(layer.getBounds().getCenter(), that.defaultzoom+2);
-                                        layer.openPopup();
-                                    });
-                                }
-                            },
-                            pointToLayer: function (feature, latlng) {
-                                var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
-                                var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
-                                var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
-                                return L.featureGroup([m1, m2, m3])
-                            },
-                            style: {
-                                weight: 4,
-                                // color: '#d0508c',
-                                color: '#de744a',
-                                opacity: 0.2,
-                                // fillColor: '#d0508c',
-                                fillColor: '#de744a',
-                                fillOpacity: 0.6
-                            }
-                        }).addTo(that.map);
+                        geojson.addData(data);
                     },
                     error: function(request, type, ex) {
                         console.log(request, type, ex);
