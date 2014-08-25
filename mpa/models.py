@@ -27,6 +27,13 @@ VERIFY_CHOICES = (
     ('Externally Verified', 'Externally Verified'),
 )
 
+MPA_TYPE_CHOICES = (
+    ('Marine Protected Area', 'Marine Protected Area'),
+    ('(Non-MPA) Fisheries Management Zone', '(Non-MPA) Fisheries Management Zone'),
+    ('(Non-MPA) Other Marine Managed Area', '(Non-MPA) Other Marine Managed Area'),
+    ('(Non-MPA) Terrestrial Area without Marine Component', '(Non-MPA) Terrestrial Area without Marine Component'),
+)
+
 DESIG_TYPE_CHOICES = (
     ('National', 'National'),
     ('International', 'International'),
@@ -219,7 +226,7 @@ class Mpa(models.Model):
     
     # Point location, used when we don't have polygon boundaries
     point_geom_smerc = models.MultiPointField(srid=3857, null=True, blank=True, editable=False)
-    point_geom = models.MultiPointField(srid=4326, null=True, blank=True, editable=True)
+    point_geom = models.MultiPointField(srid=4326, null=True, blank=True, editable=False)
     point_geog = models.MultiPointField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Point somewhere within the site
@@ -339,7 +346,13 @@ class Mpa(models.Model):
             return None
     
     @transaction.atomic
-    def make_simplified_geom(self, tolerance=0.01, preservetopology=False):
+    def make_point_buffer(self):
+        # Raw SQL update geometry fields, much faster than through django
+        cursor = connection.cursor()
+        cursor.execute("UPDATE mpa_mpa SET simple_geom = ST_Multi("+st_simplify+"(geom, %s)) WHERE mpa_id = %s" , (tolerance, self.mpa_id) )
+
+    @transaction.atomic
+    def make_simplified_geom(self, tolerance=0.005, preservetopology=False):
         st_simplify = 'ST_SimplifyPreserveTopology' if preservetopology else 'ST_Simplify'
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
