@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8" />
         
         <!-- <link href="{{ STATIC_URL }}css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css" media="screen" rel="stylesheet" type="text/css" /> -->
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
         
         <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
         <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/main_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
@@ -37,7 +37,7 @@
                 baseUrl: '{{ STATIC_URL }}js',
                 paths: {
                     jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
-                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min',
+                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
                     bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
                 },
                 priority: ['jquery'],
@@ -171,7 +171,7 @@
                     <form id="mainsearchform" name="mainsearchform" class="searchform form-inline" method="get" action="/mpa/sites/?">
                         <fieldset class="search">
                             <div class="input-group input-group-sm" style="width:190px;">
-                                <input type="text" class="form-control" name="q" id="mainsearchbox" data-placeholder="Search for an MPA" placeholder="Search for an MPA" value="" />
+                                <input type="text" class="form-control mpa-searchbox" name="q" id="mainsearchbox" data-placeholder="Search for an MPA" placeholder="Search for an MPA" value="" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info" type="button">
                                         <span class="icon-search"></span>
