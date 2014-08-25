@@ -125,7 +125,10 @@ def edit_mpa_geom(request, pk):
                 pass
             return HttpResponseRedirect(reverse('mpa-siteinfo', kwargs={'pk': pk}))
     else:
-        editform = MpaGeomForm(instance=mpa)
+        initialdata = {}
+        if mpa.geom:
+            initialdata['boundarygeo'] = mpa.geom.geojson
+        editform = MpaGeomForm(initial=initialdata)
     return render_to_response('mpa/Mpa_editgeoform.html', {
         'form': editform,
         'mpa': mpa,

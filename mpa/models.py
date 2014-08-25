@@ -356,7 +356,7 @@ class Mpa(models.Model):
         st_simplify = 'ST_SimplifyPreserveTopology' if preservetopology else 'ST_Simplify'
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
-        cursor.execute("UPDATE mpa_mpa SET simple_geom = ST_Multi("+st_simplify+"(geom, %s)) WHERE mpa_id = %s" , (tolerance, self.mpa_id) )
+        cursor.execute("UPDATE mpa_mpa SET simple_geom = ST_Multi(ST_MakeValid("+st_simplify+"(geom, %s))) WHERE mpa_id = %s" , (tolerance, self.mpa_id) )
 
     @transaction.atomic
     def set_geom_from_geog(self):
