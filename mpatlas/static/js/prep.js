@@ -4,7 +4,7 @@ define([
   'use!jqueryui'
 ], function(){  
     var preparePage = function() {
-        $('#mainsearchbox').autocomplete({
+        $('.mpa-searchbox').autocomplete({
 			source: function( request, response ) {
 				$.ajax({
 					url: "/mpa/sites/json/?q="+request.term,
