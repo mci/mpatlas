@@ -219,7 +219,7 @@ class Mpa(models.Model):
     
     # Point location, used when we don't have polygon boundaries
     point_geom_smerc = models.MultiPointField(srid=3857, null=True, blank=True, editable=False)
-    point_geom = models.MultiPointField(srid=4326, null=True, blank=True, editable=False)
+    point_geom = models.MultiPointField(srid=4326, null=True, blank=True, editable=True)
     point_geog = models.MultiPointField(srid=4326, geography=True, null=True, blank=True, editable=False)
     
     # Point somewhere within the site
