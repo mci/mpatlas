@@ -95,15 +95,20 @@ def edit_mpa_geom(request, pk):
         editform = MpaGeomForm(request.POST, instance=mpa)
         if editform.is_valid():
             try:
-                geom = geos.GEOSGeometry(editform.cleaned_data['boundarygeo'])
-                if geom.geom_type in ('Point', 'MultiPoint'):
-                    if geom.geom_type == 'Point':
-                        geom = geos.MultiPoint(geom)
-                    mpa.point_geom = geom
-                elif geom.geom_type in ('Polygon', 'MultiPolygon'):
-                    if geom.geom_type == 'Polygon':
-                        geom = geos.MultiPolygon(geom)
-                    mpa.geom = geom
+                geom_geojson = editform.cleaned_data['boundarygeo']
+                if (geom_geojson) == '':
+                    mpa.geom = None
+                    mpa.point_geom = None
+                else:
+                    geom = geos.GEOSGeometry(geom_geojson)
+                    if geom.geom_type in ('Point', 'MultiPoint'):
+                        if geom.geom_type == 'Point':
+                            geom = geos.MultiPoint(geom)
+                        mpa.point_geom = geom
+                    elif geom.geom_type in ('Polygon', 'MultiPolygon'):
+                        if geom.geom_type == 'Polygon':
+                            geom = geos.MultiPolygon(geom)
+                        mpa.geom = geom
             except:
                 raise
             mpa.save()
