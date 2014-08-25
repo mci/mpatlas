@@ -41,7 +41,8 @@
             underscore: 'underscore-min',
 			backbone: 'backbone-min',
 			//extjs: 'http://cdn.sencha.io/ext-4.0.7-gpl/ext-all'
-    		extjs: '//cdn.sencha.io/ext-4.1.1-gpl/ext-all'
+    		extjs: '//cdn.sencha.io/ext-4.1.1-gpl/ext-all',
+    		bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
             //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
             //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
         },
@@ -70,12 +71,12 @@
         'prep',
         'app',
         'MPAList',
-				'MPALayersWindow',
-				'MPAFiltersWindow',
-				'json/mpa_points',
+		'MPALayersWindow',
+		'MPAFiltersWindow',
+		'json/mpa_points',
         'jquery',
 		'use!jqueryui',
-		'bootstrap'
+		'use!bootstrap'
     ], function(Prep, App, MPAList) {
         $(function() {
             Prep.preparePage();
@@ -155,6 +156,7 @@
 	<div id="mpa-list-container"></div>
 </div>
 
+{% comment %}
 <div id='filters_overlay'>
 		<p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="MPAFiltersWindow.showWindow();return(false);" title="Add new MPA filter"><em class="addicon">+</em> Add Filter</a></p>
 		<a class="filtertag" style="text-decoration:none;" href="#" onclick="MPAFiltersWindow.clearFilters();return(false);" title="Remove All Filters"><em class="addicon">-</em> Remove All Filters</a>
@@ -162,6 +164,7 @@
 		<!--<p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
 		<p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>-->
 </div>
+{% endcomment %}
 
 <div id='modetoggle_overlay'>
 	<div class='modetoggle medium'>
