@@ -75,7 +75,8 @@ def get_nation_geom_json(request, iso3code, simplified=True, webmercator=False):
         n = Nation.objects.get(iso3code=iso3code)
     except Nation.DoesNotExist:
         n = None
-    geojson = n.eez_set.all().collect(field_name=geomfield).geojson
+    # geojson = n.eez_set.all().collect(field_name=geomfield).geojson
+    geojson = n.geom.geojson
     return HttpResponse(geojson, content_type='application/json; charset=utf-8')
 
 def normalize_lon(lon):
@@ -171,7 +172,7 @@ def region_lookup_point(request, region):
             'region_list': region_list,
         }, content_type='application/json; charset=utf-8')
 
-def nation_lookup_point(request, region):
+def nation_lookup_point_old(request, region):
     """Find nearby polygons with a point and search radius.
     Three lookup methods are supported:
         webmercator: radius (in km) is applied to search buffer in
