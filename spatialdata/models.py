@@ -9,6 +9,10 @@ class Nation(models.Model):
     iso3code = models.CharField(max_length=3, default='')
     summary = RichTextField('Nation Protection Summary', null=True, blank=True)
 
+    marine_area = models.FloatField(null=True, blank=True)
+    mpa_area = models.FloatField(null=True, blank=True)
+    mpa_percent = models.FloatField(null=True, blank=True)
+
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
     geom_smerc = models.MultiPolygonField(srid=3857, null=True)
