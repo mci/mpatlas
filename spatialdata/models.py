@@ -8,6 +8,18 @@ class Nation(models.Model):
     #iso3code = models.ForeignKey(country_iso)
     iso3code = models.CharField(max_length=3, default='')
     summary = RichTextField('Nation Protection Summary', null=True, blank=True)
+
+    # GeoDjango-specific: a geometry field (MultiPolygonField), and
+    # overriding the default manager with a GeoManager instance.
+    geom_smerc = models.MultiPolygonField(srid=3857, null=True)
+    geom = models.MultiPolygonField(srid=4326, null=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+    
+    simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
+    simple_geom = models.MultiPolygonField(srid=4326, null=True)
+    simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+
+    objects = models.GeoManager()
     
     def __unicode__(self):
         return self.name
@@ -20,6 +32,10 @@ class Nation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('nation-info', (), { 'iso3code': self.iso3code })
+
+    @classmethod
+    def get_geom_fields(cls):
+        return ('geog', 'geom', 'geom_smerc', 'simple_geog', 'simple_geom', 'simple_geom_smerc')
 
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  
