@@ -44,7 +44,8 @@ urlpatterns = patterns('',
         name='nation-infojson'),
     url(r'^nation/(?P<iso3code>\w+)/features/$', 'spatialdata.views.get_nation_geom_json', name='nation-geojson'),
 
-    url(r'^nation/lookup/point/$', 'spatialdata.views.nation_lookup_point', {'region': Eez}),
+    # url(r'^nation/lookup/point/$', 'spatialdata.views.nation_lookup_point', {'region': Eez}),
+    url(r'^nation/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Nation}),
     
     
     url(r'^eez/$',
