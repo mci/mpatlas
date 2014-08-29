@@ -27,6 +27,7 @@ eventlet
 feedparser
 gevent
 greenlet
+psycogreen
 gunicorn
 ipython
 mercurial
