@@ -23,7 +23,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['.mpatlas.org', '50.18.190.135']
+ALLOWED_HOSTS = ['.mpatlas.org', '54.219.255.15']
 
 DATABASES = {
     'default': {
