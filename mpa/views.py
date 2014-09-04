@@ -6,6 +6,7 @@ from django.views.generic import ListView
 from django.db.models import Q
 import re
 from itertools import chain
+import json
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
@@ -92,10 +93,22 @@ def edit_mpa_geom(request, pk):
     mpa = get_object_or_404(Mpa, pk=pk)
     if (request.POST):
         # Got a form submission
-        editform = MpaGeomForm(request.POST)
+        editform = MpaGeomForm(request.POST, request.FILES, instance=mpa)
         if editform.is_valid():
             try:
-                geom_geojson = editform.cleaned_data['boundarygeo']
+                if 'boundaryfile' in request.FILES:
+                    # Use uploaded file 'boundaryfile' instead of textarea 'boundarygeo'
+                    gj = json.load(request.FILES['boundaryfile'])
+                    if 'type' in gj and gj['type'] == 'FeatureCollection':
+                        geom_geojson = gj['features'][0]['geometry']
+                    elif 'type' in gj and gj['type'] == 'Feature':
+                        geom_geojson = gj['geometry']
+                    else:
+                        geom_geojson = gj
+                    geom_geojson = json.dumps(geom_geojson)
+                else:
+                    # Use 'boundarygeo' textarea
+                    geom_geojson = editform.cleaned_data['boundarygeo']
                 if (geom_geojson) == '':
                     mpa.geom = None
                     mpa.point_geom = None
