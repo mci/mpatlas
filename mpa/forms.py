@@ -20,6 +20,7 @@ class MpaForm(ModelForm):
 
 class MpaGeomForm(ModelForm):
     boundarygeo = forms.CharField(widget=forms.Textarea, required=False, label="MPA Site Boundaries", help_text="Please enter a geojson geometry object here as a polygon or multipolygon.")
+    boundaryfile = forms.FileField(required=False, label="MPA Site Boundaries geojson file")
     class Meta:
         model = Mpa
         fields = []
