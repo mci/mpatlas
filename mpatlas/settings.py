@@ -17,6 +17,13 @@ except ImportError:
 
 TEMPLATE_DEBUG = DEBUG
 
+# Use safelogging from https://github.com/litchfield/django-safelogging
+# Rate limits error log emails and suppresses disallowed hosts warnings
+try:
+    from safelogging.settings import *
+except:
+    pass
+
 ADMINS = (
     # ('Russell Moffitt', 'Russell.Moffitt@marine-conservation.org'),
 )
