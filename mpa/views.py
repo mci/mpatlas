@@ -99,16 +99,17 @@ def edit_mpa_geom(request, pk):
                 if 'boundaryfile' in request.FILES:
                     # Use uploaded file 'boundaryfile' instead of textarea 'boundarygeo'
                     gj = json.load(request.FILES['boundaryfile'])
-                    if 'type' in gj and gj['type'] == 'FeatureCollection':
-                        geom_geojson = gj['features'][0]['geometry']
-                    elif 'type' in gj and gj['type'] == 'Feature':
-                        geom_geojson = gj['geometry']
-                    else:
-                        geom_geojson = gj
-                    geom_geojson = json.dumps(geom_geojson)
                 else:
                     # Use 'boundarygeo' textarea
-                    geom_geojson = editform.cleaned_data['boundarygeo']
+                    gj = editform.cleaned_data['boundarygeo']
+                if 'type' in gj and gj['type'] == 'FeatureCollection':
+                    # Use first feature in collection and ignore the rest
+                    geom_geojson = gj['features'][0]['geometry']
+                elif 'type' in gj and gj['type'] == 'Feature':
+                    geom_geojson = gj['geometry']
+                else:
+                    geom_geojson = gj
+                geom_geojson = json.dumps(geom_geojson) 
                 if (geom_geojson) == '':
                     mpa.geom = None
                     mpa.point_geom = None
