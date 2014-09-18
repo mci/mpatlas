@@ -88,9 +88,9 @@
         <div class="sidebar_item_title">MPA Sites Designated through this Campaign</div>
         <div class="sidebar_item_content">
             <!-- List of MPAs here with boundaries -->
-            {% if campaign.slug = 'akaroa-harbor-marine-reserve' %}
-                <a href='/mpa/sites/9231/'>Akaroa Marine Reserve</a>
-            {% endif %}
+            {% for mpa in campaign.mpas.all %}
+                <p><a href="{{ mpa.get_absolute_url }}">{{ mpa.name }} {{ mpa.designation }}</a></p>
+            {% endfor %}
         </div>
     </div>
     <div id="rightcol" style="float:right; width: 66%;">
