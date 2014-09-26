@@ -51,10 +51,15 @@ IUCN_CAT_CHOICES = (
 
 STATUS_CHOICES = (
     ('Proposed', 'Proposed'),
-    ('Adopted', 'Adopted'),
-    ('Inscribed', 'Inscribed'),
+    # ('Adopted', 'Adopted'),
+    # ('Inscribed', 'Inscribed'),
     ('Designated', 'Designated'),
     ('Defunct/Degazetted', 'Defunct/Degazetted'),
+)
+
+IMPLEMENTED_CHOICES = (
+    ('Not Implemented', 'Not Implemented'),
+    ('Implemented', 'Implemented'),
 )
 
 NO_TAKE_CHOICES = (
@@ -155,6 +160,10 @@ class Mpa(models.Model):
     marine = models.NullBooleanField('Marine (field from WDPA)', null=True, blank=True, default=True, editable=False)
     status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
     status_year = models.IntegerField('Status Year', null=True, blank=True)
+
+    # Implementation
+    #implemented = models.BooleanField('MPA is designated and implemented with regulations enforced', blank=True, default=False)
+    #implementation_date = models.DateField('Date regulations went into effect or will go into effect', null=True, blank=True)
     
     # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
