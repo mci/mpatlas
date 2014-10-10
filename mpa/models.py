@@ -192,6 +192,7 @@ class Mpa(models.Model):
     fishing_info = models.TextField(null=True, blank=True)
     fishing_citation = models.TextField(null=True, blank=True)
     access = models.CharField(max_length=254, null=True, blank=True, choices=ACCESS_CHOICES, default='Unknown')
+    # access_info = models.TextField(null=True, blank=True)
     access_citation = models.TextField(null=True, blank=True)
     
     # Conservation Focus
