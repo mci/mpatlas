@@ -99,7 +99,7 @@ define(
 	
 				// Designated Marine Protected Areas
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
+					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png?v=20141001',
 					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA', attribution: 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
