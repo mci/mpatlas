@@ -228,24 +228,24 @@ Designed for Ext JS 4.1
 }
 
 .x-box-tl{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/corners.gif')
 }
 
 .x-box-tc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/tb.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/tb.gif')
 }
 
 .x-box-tr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/corners.gif')
 }
 
 .x-box-ml{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/l.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/l.gif')
 }
 
 .x-box-mc{
 	background-color:#eee;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/tb.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/tb.gif');
 	font-family:"Myriad Pro","Myriad Web","Tahoma","Helvetica","Arial",sans-serif;
 	color:#393939;
 	font-size:15px
@@ -257,27 +257,27 @@ Designed for Ext JS 4.1
 }
 
 .x-box-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/r.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/r.gif')
 }
 
 .x-box-bl{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/corners.gif')
 }
 
 .x-box-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/tb.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/tb.gif')
 }
 
 .x-box-br{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/corners.gif')
 }
 
 .x-box-blue .x-box-bl,.x-box-blue .x-box-br,.x-box-blue .x-box-tl,.x-box-blue .x-box-tr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/corners-blue.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/corners-blue.gif')
 }
 
 .x-box-blue .x-box-bc,.x-box-blue .x-box-mc,.x-box-blue .x-box-tc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/tb-blue.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/tb-blue.gif')
 }
 
 .x-box-blue .x-box-mc{
@@ -289,11 +289,11 @@ Designed for Ext JS 4.1
 }
 
 .x-box-blue .x-box-ml{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/l-blue.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/l-blue.gif')
 }
 
 .x-box-blue .x-box-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/box/r-blue.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/box/r-blue.gif')
 }
 
 .x-container{
@@ -584,29 +584,29 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-btn-arrow{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/arrow.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/arrow.gif');
 	display:block
 }
 
 .x-btn-split-right,.x-btn-over .x-btn-split-right{
 	background:transparent no-repeat right center;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow.gif');
 	padding-right:14px!important
 }
 
 .x-btn-split-bottom,.x-btn-over .x-btn-split-bottom{
 	background:transparent no-repeat center bottom;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-b.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-b.gif');
 	padding-bottom:14px
 }
 
 .x-toolbar .x-btn-split-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-noline.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-noline.gif');
 	padding-right:12px!important
 }
 
 .x-toolbar .x-btn-split-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-b-noline.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-b-noline.gif')
 }
 
 .x-btn-split{
@@ -622,11 +622,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-btn-over .x-btn-split-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-o.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-o.gif')
 }
 
 .x-btn-over .x-btn-split-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-bo.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-bo.gif')
 }
 
 .x-btn-default-small{
@@ -654,7 +654,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nlg .x-btn-default-small-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-bg.gif');
 	background-color:#2a3142
 }
 
@@ -673,12 +673,12 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 
 .x-nbr .x-btn-default-small-tl,.x-nbr .x-btn-default-small-bl,.x-nbr .x-btn-default-small-tr,.x-nbr .x-btn-default-small-br,.x-nbr .x-btn-default-small-tc,.x-nbr .x-btn-default-small-bc,.x-nbr .x-btn-default-small-ml,.x-nbr .x-btn-default-small-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-corners.gif')
 }
 
 .x-nbr .x-btn-default-small-ml,.x-nbr .x-btn-default-small-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-sides.gif');
 	background-position:0 0
 }
 
@@ -852,80 +852,80 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-small-over .x-frame-tl,.x-nbr .x-btn-default-small-over .x-frame-bl,.x-nbr .x-btn-default-small-over .x-frame-tr,.x-nbr .x-btn-default-small-over .x-frame-br,.x-nbr .x-btn-default-small-over .x-frame-tc,.x-nbr .x-btn-default-small-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-small-over .x-frame-ml,.x-nbr .x-btn-default-small-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-small-over .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-over-bg.gif')
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-tl,.x-nbr .x-btn-default-small-focus .x-frame-bl,.x-nbr .x-btn-default-small-focus .x-frame-tr,.x-nbr .x-btn-default-small-focus .x-frame-br,.x-nbr .x-btn-default-small-focus .x-frame-tc,.x-nbr .x-btn-default-small-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-ml,.x-nbr .x-btn-default-small-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-small-focus .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-focus-bg.gif')
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-tl,.x-nbr .x-btn-default-small-menu-active .x-frame-bl,.x-nbr .x-btn-default-small-menu-active .x-frame-tr,.x-nbr .x-btn-default-small-menu-active .x-frame-br,.x-nbr .x-btn-default-small-menu-active .x-frame-tc,.x-nbr .x-btn-default-small-menu-active .x-frame-bc,.x-nbr .x-btn-default-small-pressed .x-frame-tl,.x-nbr .x-btn-default-small-pressed .x-frame-bl,.x-nbr .x-btn-default-small-pressed .x-frame-tr,.x-nbr .x-btn-default-small-pressed .x-frame-br,.x-nbr .x-btn-default-small-pressed .x-frame-tc,.x-nbr .x-btn-default-small-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-ml,.x-nbr .x-btn-default-small-menu-active .x-frame-mr,.x-nbr .x-btn-default-small-pressed .x-frame-ml,.x-nbr .x-btn-default-small-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-small-menu-active .x-frame-mc,.x-nbr .x-btn-default-small-pressed .x-frame-mc{
 	background-color:#da7b19;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-pressed-bg.gif')
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-tl,.x-nbr .x-btn-default-small-disabled .x-frame-bl,.x-nbr .x-btn-default-small-disabled .x-frame-tr,.x-nbr .x-btn-default-small-disabled .x-frame-br,.x-nbr .x-btn-default-small-disabled .x-frame-tc,.x-nbr .x-btn-default-small-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-ml,.x-nbr .x-btn-default-small-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-small-disabled .x-frame-mc{
 	background-color:#6b6b6b;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-disabled-bg.gif')
 }
 
 .x-nlg .x-btn-default-small{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-bg.gif')
 }
 
 .x-nlg .x-btn-default-small-over{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-over-bg.gif')
 }
 
 .x-nlg .x-btn-default-small-focus{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-focus-bg.gif')
 }
 
 .x-nlg .x-btn-default-small-menu-active,.x-nlg .x-btn-default-small-pressed{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-pressed-bg.gif')
 }
 
 .x-nlg .x-btn-default-small-disabled{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-small-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-small-disabled-bg.gif')
 }
 
 .x-btn-default-medium{
@@ -953,7 +953,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nlg .x-btn-default-medium-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-bg.gif');
 	background-color:#2a3142
 }
 
@@ -972,12 +972,12 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 
 .x-nbr .x-btn-default-medium-tl,.x-nbr .x-btn-default-medium-bl,.x-nbr .x-btn-default-medium-tr,.x-nbr .x-btn-default-medium-br,.x-nbr .x-btn-default-medium-tc,.x-nbr .x-btn-default-medium-bc,.x-nbr .x-btn-default-medium-ml,.x-nbr .x-btn-default-medium-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-corners.gif')
 }
 
 .x-nbr .x-btn-default-medium-ml,.x-nbr .x-btn-default-medium-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-sides.gif');
 	background-position:0 0
 }
 
@@ -1151,80 +1151,80 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-medium-over .x-frame-tl,.x-nbr .x-btn-default-medium-over .x-frame-bl,.x-nbr .x-btn-default-medium-over .x-frame-tr,.x-nbr .x-btn-default-medium-over .x-frame-br,.x-nbr .x-btn-default-medium-over .x-frame-tc,.x-nbr .x-btn-default-medium-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-medium-over .x-frame-ml,.x-nbr .x-btn-default-medium-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-medium-over .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-over-bg.gif')
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-tl,.x-nbr .x-btn-default-medium-focus .x-frame-bl,.x-nbr .x-btn-default-medium-focus .x-frame-tr,.x-nbr .x-btn-default-medium-focus .x-frame-br,.x-nbr .x-btn-default-medium-focus .x-frame-tc,.x-nbr .x-btn-default-medium-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-ml,.x-nbr .x-btn-default-medium-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-medium-focus .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-focus-bg.gif')
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-tl,.x-nbr .x-btn-default-medium-menu-active .x-frame-bl,.x-nbr .x-btn-default-medium-menu-active .x-frame-tr,.x-nbr .x-btn-default-medium-menu-active .x-frame-br,.x-nbr .x-btn-default-medium-menu-active .x-frame-tc,.x-nbr .x-btn-default-medium-menu-active .x-frame-bc,.x-nbr .x-btn-default-medium-pressed .x-frame-tl,.x-nbr .x-btn-default-medium-pressed .x-frame-bl,.x-nbr .x-btn-default-medium-pressed .x-frame-tr,.x-nbr .x-btn-default-medium-pressed .x-frame-br,.x-nbr .x-btn-default-medium-pressed .x-frame-tc,.x-nbr .x-btn-default-medium-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-ml,.x-nbr .x-btn-default-medium-menu-active .x-frame-mr,.x-nbr .x-btn-default-medium-pressed .x-frame-ml,.x-nbr .x-btn-default-medium-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-medium-menu-active .x-frame-mc,.x-nbr .x-btn-default-medium-pressed .x-frame-mc{
 	background-color:#da7b19;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-pressed-bg.gif')
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-tl,.x-nbr .x-btn-default-medium-disabled .x-frame-bl,.x-nbr .x-btn-default-medium-disabled .x-frame-tr,.x-nbr .x-btn-default-medium-disabled .x-frame-br,.x-nbr .x-btn-default-medium-disabled .x-frame-tc,.x-nbr .x-btn-default-medium-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-ml,.x-nbr .x-btn-default-medium-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-medium-disabled .x-frame-mc{
 	background-color:#6b6b6b;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-disabled-bg.gif')
 }
 
 .x-nlg .x-btn-default-medium{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-bg.gif')
 }
 
 .x-nlg .x-btn-default-medium-over{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-over-bg.gif')
 }
 
 .x-nlg .x-btn-default-medium-focus{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-focus-bg.gif')
 }
 
 .x-nlg .x-btn-default-medium-menu-active,.x-nlg .x-btn-default-medium-pressed{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-pressed-bg.gif')
 }
 
 .x-nlg .x-btn-default-medium-disabled{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-medium-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-medium-disabled-bg.gif')
 }
 
 .x-btn-default-large{
@@ -1252,7 +1252,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nlg .x-btn-default-large-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-bg.gif');
 	background-color:#2a3142
 }
 
@@ -1271,12 +1271,12 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 
 .x-nbr .x-btn-default-large-tl,.x-nbr .x-btn-default-large-bl,.x-nbr .x-btn-default-large-tr,.x-nbr .x-btn-default-large-br,.x-nbr .x-btn-default-large-tc,.x-nbr .x-btn-default-large-bc,.x-nbr .x-btn-default-large-ml,.x-nbr .x-btn-default-large-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-corners.gif')
 }
 
 .x-nbr .x-btn-default-large-ml,.x-nbr .x-btn-default-large-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-sides.gif');
 	background-position:0 0
 }
 
@@ -1450,80 +1450,80 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-large-over .x-frame-tl,.x-nbr .x-btn-default-large-over .x-frame-bl,.x-nbr .x-btn-default-large-over .x-frame-tr,.x-nbr .x-btn-default-large-over .x-frame-br,.x-nbr .x-btn-default-large-over .x-frame-tc,.x-nbr .x-btn-default-large-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-large-over .x-frame-ml,.x-nbr .x-btn-default-large-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-large-over .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-over-bg.gif')
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-tl,.x-nbr .x-btn-default-large-focus .x-frame-bl,.x-nbr .x-btn-default-large-focus .x-frame-tr,.x-nbr .x-btn-default-large-focus .x-frame-br,.x-nbr .x-btn-default-large-focus .x-frame-tc,.x-nbr .x-btn-default-large-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-ml,.x-nbr .x-btn-default-large-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-large-focus .x-frame-mc{
 	background-color:#ed9200;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-focus-bg.gif')
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-tl,.x-nbr .x-btn-default-large-menu-active .x-frame-bl,.x-nbr .x-btn-default-large-menu-active .x-frame-tr,.x-nbr .x-btn-default-large-menu-active .x-frame-br,.x-nbr .x-btn-default-large-menu-active .x-frame-tc,.x-nbr .x-btn-default-large-menu-active .x-frame-bc,.x-nbr .x-btn-default-large-pressed .x-frame-tl,.x-nbr .x-btn-default-large-pressed .x-frame-bl,.x-nbr .x-btn-default-large-pressed .x-frame-tr,.x-nbr .x-btn-default-large-pressed .x-frame-br,.x-nbr .x-btn-default-large-pressed .x-frame-tc,.x-nbr .x-btn-default-large-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-ml,.x-nbr .x-btn-default-large-menu-active .x-frame-mr,.x-nbr .x-btn-default-large-pressed .x-frame-ml,.x-nbr .x-btn-default-large-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-large-menu-active .x-frame-mc,.x-nbr .x-btn-default-large-pressed .x-frame-mc{
 	background-color:#da7b19;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-pressed-bg.gif')
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-tl,.x-nbr .x-btn-default-large-disabled .x-frame-bl,.x-nbr .x-btn-default-large-disabled .x-frame-tr,.x-nbr .x-btn-default-large-disabled .x-frame-br,.x-nbr .x-btn-default-large-disabled .x-frame-tc,.x-nbr .x-btn-default-large-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-ml,.x-nbr .x-btn-default-large-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-large-disabled .x-frame-mc{
 	background-color:#6b6b6b;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-disabled-bg.gif')
 }
 
 .x-nlg .x-btn-default-large{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-bg.gif')
 }
 
 .x-nlg .x-btn-default-large-over{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-over-bg.gif')
 }
 
 .x-nlg .x-btn-default-large-focus{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-focus-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-focus-bg.gif')
 }
 
 .x-nlg .x-btn-default-large-menu-active,.x-nlg .x-btn-default-large-pressed{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-pressed-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-pressed-bg.gif')
 }
 
 .x-nlg .x-btn-default-large-disabled{
 	background-repeat:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-large-disabled-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-large-disabled-bg.gif')
 }
 
 .x-btn-default-toolbar-small{
@@ -1713,11 +1713,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-over .x-frame-br,.x-nbr .x-btn-default-toolbar-small-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-over .x-frame-mc{
@@ -1725,11 +1725,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-focus .x-frame-mc{
@@ -1737,11 +1737,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-small-pressed .x-frame-mc{
@@ -1749,11 +1749,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-small-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-small-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-small-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-small-disabled .x-frame-mc{
@@ -1947,11 +1947,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-over .x-frame-mc{
@@ -1959,11 +1959,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-focus .x-frame-mc{
@@ -1971,11 +1971,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-medium-pressed .x-frame-mc{
@@ -1983,11 +1983,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-medium-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-medium-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-medium-disabled .x-frame-mc{
@@ -2181,11 +2181,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-over .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-over .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-over .x-frame-br,.x-nbr .x-btn-default-toolbar-large-over .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-over-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-over-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-over .x-frame-mc{
@@ -2193,11 +2193,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-br,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-focus-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-focus-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-focus .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-focus-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-focus-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-focus .x-frame-mc{
@@ -2205,11 +2205,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-br,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-bc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-br,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-pressed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-pressed-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-mr,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-pressed-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-pressed-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-menu-active .x-frame-mc,.x-nbr .x-btn-default-toolbar-large-pressed .x-frame-mc{
@@ -2217,11 +2217,11 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tl,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-bl,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tr,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-br,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-tc,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-disabled-corners.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-ml,.x-nbr .x-btn-default-toolbar-large-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn/btn-default-toolbar-large-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn/btn-default-toolbar-large-disabled-sides.gif')
 }
 
 .x-nbr .x-btn-default-toolbar-large-disabled .x-frame-mc{
@@ -2285,12 +2285,12 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 
 .x-nbr .x-btn-group-default-framed-tl,.x-nbr .x-btn-group-default-framed-bl,.x-nbr .x-btn-group-default-framed-tr,.x-nbr .x-btn-group-default-framed-br,.x-nbr .x-btn-group-default-framed-tc,.x-nbr .x-btn-group-default-framed-bc,.x-nbr .x-btn-group-default-framed-ml,.x-nbr .x-btn-group-default-framed-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn-group/btn-group-default-framed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn-group/btn-group-default-framed-corners.gif')
 }
 
 .x-nbr .x-btn-group-default-framed-ml,.x-nbr .x-btn-group-default-framed-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/btn-group/btn-group-default-framed-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/btn-group/btn-group-default-framed-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -2397,7 +2397,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-datepicker-next a{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/right-btn.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/right-btn.gif')
 }
 
 .x-datepicker-prev{
@@ -2405,7 +2405,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-datepicker-prev a{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/left-btn.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/left-btn.gif')
 }
 
 .x-item-disabled .x-datepicker-prev a:hover,.x-item-disabled .x-datepicker-next a:hover{
@@ -2427,7 +2427,7 @@ table.x-container:before,tbody.x-container:before,tr.x-container:before{
 }
 
 .x-datepicker-month .x-btn-split-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/button/s-arrow-light.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/button/s-arrow-light.gif');
 	padding-right:12px
 }
 
@@ -2615,7 +2615,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-monthpicker-yearnav button{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tools/tool-sprites.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tools/tool-sprites.gif');
 	height:15px;
 	width:15px;
 	padding:0;
@@ -2676,13 +2676,13 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-nlg .x-datepicker-header{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/datepicker/datepicker-header-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/datepicker/datepicker-header-bg.gif');
 	background-repeat:repeat-x;
 	background-position:top left
 }
 
 .x-nlg .x-datepicker-footer,.x-nlg .x-monthpicker-buttons{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/datepicker/datepicker-footer-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/datepicker/datepicker-footer-bg.gif');
 	background-repeat:repeat-x;
 	background-position:top left
 }
@@ -2803,15 +2803,15 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-menu-item-checked .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/menu/checked.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/menu/checked.gif')
 }
 
 .x-menu-item-checked .x-menu-group-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/menu/group-checked.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/menu/group-checked.gif')
 }
 
 .x-menu-item-unchecked .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/menu/unchecked.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/menu/unchecked.gif')
 }
 
 .x-menu-item-unchecked .x-menu-group-icon{
@@ -2833,7 +2833,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	top:9px;
 	right:0;
 	background:no-repeat center center;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/menu/menu-parent.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/menu/menu-parent.gif')
 }
 
 .x-menu-item-indent{
@@ -2892,7 +2892,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 
 .x-nlg .x-menu-item-active .x-menu-item-link{
 	background:#ed9200 repeat-x left top;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/menu/menu-item-active-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/menu/menu-item-active-bg.gif')
 }
 
 .x-menu-date-item{
@@ -3024,12 +3024,12 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 
 .x-nlg .x-grid-header-ct,.x-nlg .x-column-header{
 	background:repeat-x 0 top;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/column-header-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/column-header-bg.gif')
 }
 
 .x-nlg .x-column-header-over,.x-nlg .x-column-header-sort-ASC,.x-nlg .x-column-header-sort-DESC{
 	background:#ebf3fd repeat-x 0 top;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/column-header-over-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/column-header-over-bg.gif')
 }
 
 .x-column-header-trigger{
@@ -3038,7 +3038,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	width:14px;
 	background:no-repeat left center;
 	background-color:#c3daf9;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/grid3-hd-btn.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/grid3-hd-btn.gif');
 	position:absolute;
 	right:0;
 	top:0;
@@ -3070,13 +3070,13 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 .x-column-header-sort-ASC .x-column-header-text{
 	padding-right:16px;
 	background:no-repeat right 6px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/sort_asc.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/sort_asc.gif')
 }
 
 .x-column-header-sort-DESC .x-column-header-text{
 	padding-right:16px;
 	background:no-repeat right 6px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/sort_desc.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/sort_desc.gif')
 }
 
 .x-grid-row{
@@ -3203,7 +3203,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-dirty-cell{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/dirty.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/dirty.gif');
 	background-position:0 0;
 	background-repeat:no-repeat
 }
@@ -3218,11 +3218,11 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-nlg .x-grid-row .x-grid-cell-special,.x-nlg .x-grid-row-over .x-grid-cell-special{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/cell-special-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/cell-special-bg.gif')
 }
 
 .x-nlg .x-grid-row-focused .x-grid-cell-special,.x-nlg .x-grid-row-selected .x-grid-cell-special{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/cell-special-selected-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/cell-special-selected-bg.gif')
 }
 
 .x-grid-with-col-lines .x-grid-cell{
@@ -3232,7 +3232,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 
 .x-property-grid .x-grid-row .x-grid-property-name .x-grid-cell-inner,.x-property-grid .x-grid-row-over .x-grid-property-name .x-grid-cell-inner{
 	padding-left:12px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/property-cell-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/property-cell-bg.gif');
 	background-repeat:no-repeat;
 	background-position:-16px 2px
 }
@@ -3275,7 +3275,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-row-expander{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-collapse.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-collapse.gif');
 	background-color:transparent;
 	width:9px;
 	height:13px;
@@ -3285,7 +3285,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-row-collapsed .x-grid-row-expander{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-expand.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-expand.gif')
 }
 
 .x-grid-resize-marker{
@@ -3309,11 +3309,11 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .col-move-top{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/col-move-top.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/col-move-top.gif')
 }
 
 .col-move-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/col-move-bottom.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/col-move-bottom.gif')
 }
 
 .x-tbar-page-number{
@@ -3339,14 +3339,14 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 
 .x-grid-group-title{
 	background:transparent no-repeat 0 -1px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-collapse.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-collapse.gif');
 	color:black;
 	font:bold 14px tahoma,arial,verdana,sans-serif;
 	padding:0 0 0 14px
 }
 
 .x-grid-group-hd-collapsed .x-grid-group-title{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-expand.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-expand.gif')
 }
 
 .x-grid-group-collapsed .x-grid-group-body{
@@ -3354,15 +3354,15 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-group-collapsed .x-grid-group-title{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-expand.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-expand.gif')
 }
 
 .x-group-by-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-by.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-by.gif')
 }
 
 .x-show-groups-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-by.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-by.gif')
 }
 
 .x-column-header-checkbox .x-column-header-inner{
@@ -3378,7 +3378,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	height:14px;
 	width:14px;
 	line-height:0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/unchecked.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/unchecked.gif');
 	background-position:-1px -1px;
 	background-repeat:no-repeat;
 	background-color:transparent
@@ -3394,7 +3394,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-hd-checker-on .x-column-header-text{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/checked.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/checked.gif')
 }
 
 .x-grid-cell-row-checker .x-grid-cell-inner{
@@ -3413,75 +3413,75 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-row-selected .x-grid-row-checker,.x-grid-row-checked .x-grid-row-checker{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/checked.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/checked.gif')
 }
 
 .x-tbar-page-first{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-first.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-first.gif')!important
 }
 
 .x-tbar-loading{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/refresh.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/refresh.gif')!important
 }
 
 .x-tbar-page-last{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-last.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-last.gif')!important
 }
 
 .x-tbar-page-next{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-next.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-next.gif')!important
 }
 
 .x-tbar-page-prev{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-prev.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-prev.gif')!important
 }
 
 .x-item-disabled .x-tbar-loading{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/refresh-disabled.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/refresh-disabled.gif')!important
 }
 
 .x-item-disabled .x-tbar-page-first{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-first-disabled.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-first-disabled.gif')!important
 }
 
 .x-item-disabled .x-tbar-page-last{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-last-disabled.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-last-disabled.gif')!important
 }
 
 .x-item-disabled .x-tbar-page-next{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-next-disabled.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-next-disabled.gif')!important
 }
 
 .x-item-disabled .x-tbar-page-prev{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/page-prev-disabled.gif')!important
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/page-prev-disabled.gif')!important
 }
 
 .x-hmenu-sort-asc .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/hmenu-asc.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/hmenu-asc.gif')
 }
 
 .x-hmenu-sort-desc .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/hmenu-desc.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/hmenu-desc.gif')
 }
 
 .x-hmenu-lock .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/hmenu-lock.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/hmenu-lock.gif')
 }
 
 .x-hmenu-unlock .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/hmenu-unlock.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/hmenu-unlock.gif')
 }
 
 .x-group-by-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-by.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-by.gif')
 }
 
 .x-cols-icon .x-menu-item-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/columns.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/columns.gif')
 }
 
 .x-show-groups-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/group-by.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/group-by.gif')
 }
 
 .x-grid-drop-indicator{
@@ -3496,7 +3496,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	position:absolute;
 	top:-8px;
 	left:-12px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/dd-insert-arrow-right.png');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/dd-insert-arrow-right.png');
 	height:16px;
 	width:16px
 }
@@ -3505,17 +3505,17 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	position:absolute;
 	top:-8px;
 	right:-11px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/dd-insert-arrow-left.png');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/dd-insert-arrow-left.png');
 	height:16px;
 	width:16px
 }
 
 .x-ie6 .x-grid-drop-indicator-left{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/dd-insert-arrow-right.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/dd-insert-arrow-right.gif')
 }
 
 .x-ie6 .x-grid-drop-indicator-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/dd-insert-arrow-left.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/dd-insert-arrow-left.gif')
 }
 
 .x-grid-editor .x-form-text{
@@ -3566,7 +3566,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 }
 
 .x-grid-editor .x-form-trigger-wrap .x-form-spinner-up,.x-grid-editor .x-form-trigger-wrap .x-form-spinner-down,.x-grid-row-editor .x-form-trigger-wrap .x-form-spinner-up,.x-grid-row-editor .x-form-trigger-wrap .x-form-spinner-down{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/spinner-small.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/spinner-small.gif');
 	height:10px!important
 }
 
@@ -3634,7 +3634,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	width:4px;
 	height:4px;
 	bottom:0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel/panel-default-framed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel/panel-default-framed-corners.gif')
 }
 
 .x-grid-row-editor-buttons-bl{
@@ -3750,7 +3750,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	font:normal 14px tahoma,arial,verdana,sans-serif;
 	line-height:16px;
 	background:no-repeat 0 2px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/exclamation.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/exclamation.gif')
 }
 
 .x-external-error-icon{
@@ -3766,7 +3766,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 .x-form-invalid-icon{
 	width:18px;
 	background:no-repeat 2px 3px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/exclamation.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/exclamation.gif');
 	overflow:hidden
 }
 
@@ -3790,7 +3790,7 @@ table.x-datepicker-inner .x-datepicker-disabled a{
 	background:repeat-x 0 0;
 	border:2px solid;
 	background-color:#34383f;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/text-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/text-bg.gif');
 	border-color:#737b8c
 }
 
@@ -3815,7 +3815,7 @@ textarea.x-form-field{
 	line-height:normal;
 	background:repeat-x 0 0;
 	background-color:#34383f;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/text-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/text-bg.gif');
 	resize:none
 }
 
@@ -3833,7 +3833,7 @@ textarea.x-form-field{
 
 .x-form-invalid-field,textarea.x-form-invalid-field{
 	background-color:#15171a;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/invalid_line.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/invalid_line.gif');
 	background-repeat:repeat-x;
 	background-position:bottom;
 	border-color:#c30
@@ -4028,7 +4028,7 @@ textarea.x-form-field{
 	width:19px;
 	height:19px;
 	background:no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/checkbox.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/checkbox.gif');
 	overflow:hidden;
 	padding:0;
 	border:0
@@ -4056,7 +4056,7 @@ textarea.x-form-field{
 }
 
 .x-form-radio{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/radio.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/radio.gif')
 }
 
 .x-form-cb-label-before{
@@ -4074,7 +4074,7 @@ textarea.x-form-field{
 .x-form-invalid .x-form-checkboxgroup-body{
 	border:1px solid #c30;
 	background:transparent repeat-x bottom;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/grid/invalid_line.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/grid/invalid_line.gif');
 	padding:0 3px 0 3px
 }
 
@@ -4096,7 +4096,7 @@ textarea.x-form-field{
 }
 
 .x-form-trigger{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/trigger.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/trigger.gif');
 	background-position:0 0;
 	width:20px;
 	height:24px;
@@ -4181,15 +4181,15 @@ textarea.x-form-field{
 }
 
 .x-form-arrow-trigger .x-form-trigger-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/boundlist/trigger-arrow.png')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/boundlist/trigger-arrow.png')
 }
 
 .x-form-date-trigger{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/date-trigger.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/date-trigger.gif')
 }
 
 .x-form-trigger-wrap .x-form-spinner-up,.x-form-trigger-wrap .x-form-spinner-down{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/spinner.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/spinner.gif');
 	width:20px!important;
 	height:13px!important;
 	font-size:0;
@@ -4217,7 +4217,7 @@ textarea.x-form-field{
 }
 
 .x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-up,.x-field-default-toolbar .x-form-trigger-wrap .x-form-spinner-down{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/spinner-small.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/spinner-small.gif');
 	height:12px!important
 }
 
@@ -4251,11 +4251,11 @@ textarea.x-form-field{
 }
 
 .x-form-clear-trigger{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/clear-trigger.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/clear-trigger.gif')
 }
 
 .x-form-search-trigger{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/search-trigger.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/search-trigger.gif')
 }
 
 .x-quirks .prefixie6 .x-form-trigger-input-cell{
@@ -4282,77 +4282,77 @@ textarea.x-form-field{
 
 .x-html-editor-tb .x-btn-text{
 	background:transparent no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-bold,.x-menu-item img.x-edit-bold{
 	background-position:0 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-italic,.x-menu-item img.x-edit-italic{
 	background-position:-16px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-underline,.x-menu-item img.x-edit-underline{
 	background-position:-32px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-forecolor,.x-menu-item img.x-edit-forecolor{
 	background-position:-160px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-backcolor,.x-menu-item img.x-edit-backcolor{
 	background-position:-176px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-justifyleft,.x-menu-item img.x-edit-justifyleft{
 	background-position:-112px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-justifycenter,.x-menu-item img.x-edit-justifycenter{
 	background-position:-128px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-justifyright,.x-menu-item img.x-edit-justifyright{
 	background-position:-144px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-insertorderedlist,.x-menu-item img.x-edit-insertorderedlist{
 	background-position:-80px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-insertunorderedlist,.x-menu-item img.x-edit-insertunorderedlist{
 	background-position:-96px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-increasefontsize,.x-menu-item img.x-edit-increasefontsize{
 	background-position:-48px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-decreasefontsize,.x-menu-item img.x-edit-decreasefontsize{
 	background-position:-64px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-sourceedit,.x-menu-item img.x-edit-sourceedit{
 	background-position:-192px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tb .x-edit-createlink,.x-menu-item img.x-edit-createlink{
 	background-position:-208px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/editor/tb-sprite.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/editor/tb-sprite.gif')
 }
 
 .x-html-editor-tip .x-tip-bd .x-tip-bd-inner{
@@ -4500,19 +4500,19 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-top{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-top-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-top-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-bottom-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-bottom-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-left{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-left-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-left-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-right-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-right-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-right{
@@ -4674,19 +4674,19 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-top{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-top-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-top-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-framed-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-framed-left{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-left-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-left-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-framed-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-right-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-right-bg.gif')
 }
 
 .x-nlg .x-panel-header-default-framed-right{
@@ -4702,19 +4702,19 @@ textarea.x-form-field{
 }
 
 .x-strict .x-ie9 .x-panel-header-default-framed-top,.x-nlg.x-opera .x-panel-header-default-framed-top,.x-nlg.x-safari .x-panel-header-default-framed-top{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-top-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-top-bg.gif')
 }
 
 .x-strict .x-ie9 .x-panel-header-default-framed-bottom,.x-nlg.x-opera .x-panel-header-default-framed-bottom,.x-nlg.x-safari .x-panel-header-default-framed-bottom{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-bottom-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-bottom-bg.gif')
 }
 
 .x-strict .x-ie9 .x-panel-header-default-framed-left,.x-nlg.x-opera .x-panel-header-default-framed-left,.x-nlg.x-safari .x-panel-header-default-framed-left{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-left-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-left-bg.gif')
 }
 
 .x-strict .x-ie9 .x-panel-header-default-framed-right,.x-nlg.x-opera .x-panel-header-default-framed-right,.x-nlg.x-safari .x-panel-header-default-framed-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-right-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-right-bg.gif')
 }
 
 .x-panel-header-text-default-framed{
@@ -4784,12 +4784,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-default-framed-tl,.x-nbr .x-panel-default-framed-bl,.x-nbr .x-panel-default-framed-tr,.x-nbr .x-panel-default-framed-br,.x-nbr .x-panel-default-framed-tc,.x-nbr .x-panel-default-framed-bc,.x-nbr .x-panel-default-framed-ml,.x-nbr .x-panel-default-framed-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel/panel-default-framed-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel/panel-default-framed-corners.gif')
 }
 
 .x-nbr .x-panel-default-framed-ml,.x-nbr .x-panel-default-framed-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel/panel-default-framed-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel/panel-default-framed-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -4842,7 +4842,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-top-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-top-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-top-bg.gif');
 	background-color:#3a4155
 }
 
@@ -4861,12 +4861,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-top-tl,.x-nbr .x-panel-header-default-framed-top-bl,.x-nbr .x-panel-header-default-framed-top-tr,.x-nbr .x-panel-header-default-framed-top-br,.x-nbr .x-panel-header-default-framed-top-tc,.x-nbr .x-panel-header-default-framed-top-bc,.x-nbr .x-panel-header-default-framed-top-ml,.x-nbr .x-panel-header-default-framed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-top-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-top-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-top-ml,.x-nbr .x-panel-header-default-framed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-top-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-top-sides.gif');
 	background-position:0 0
 }
 
@@ -4918,7 +4918,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-right-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-right-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-right-bg.gif');
 	background-color:#3a4155
 }
 
@@ -4937,12 +4937,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-right-tl,.x-nbr .x-panel-header-default-framed-right-bl,.x-nbr .x-panel-header-default-framed-right-tr,.x-nbr .x-panel-header-default-framed-right-br,.x-nbr .x-panel-header-default-framed-right-tc,.x-nbr .x-panel-header-default-framed-right-bc,.x-nbr .x-panel-header-default-framed-right-ml,.x-nbr .x-panel-header-default-framed-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-right-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-right-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-right-tc,.x-nbr .x-panel-header-default-framed-right-bc{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-right-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-right-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-x
 }
@@ -4995,7 +4995,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-bottom-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5014,12 +5014,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-bottom-tl,.x-nbr .x-panel-header-default-framed-bottom-bl,.x-nbr .x-panel-header-default-framed-bottom-tr,.x-nbr .x-panel-header-default-framed-bottom-br,.x-nbr .x-panel-header-default-framed-bottom-tc,.x-nbr .x-panel-header-default-framed-bottom-bc,.x-nbr .x-panel-header-default-framed-bottom-ml,.x-nbr .x-panel-header-default-framed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-bottom-ml,.x-nbr .x-panel-header-default-framed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-bottom-sides.gif');
 	background-position:0 0
 }
 
@@ -5071,7 +5071,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-left-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-left-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-left-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5090,12 +5090,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-left-tl,.x-nbr .x-panel-header-default-framed-left-bl,.x-nbr .x-panel-header-default-framed-left-tr,.x-nbr .x-panel-header-default-framed-left-br,.x-nbr .x-panel-header-default-framed-left-tc,.x-nbr .x-panel-header-default-framed-left-bc,.x-nbr .x-panel-header-default-framed-left-ml,.x-nbr .x-panel-header-default-framed-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-left-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-left-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-left-tc,.x-nbr .x-panel-header-default-framed-left-bc{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-left-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-left-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-x
 }
@@ -5201,7 +5201,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-top-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5220,12 +5220,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-collapsed-top-tl,.x-nbr .x-panel-header-default-framed-collapsed-top-bl,.x-nbr .x-panel-header-default-framed-collapsed-top-tr,.x-nbr .x-panel-header-default-framed-collapsed-top-br,.x-nbr .x-panel-header-default-framed-collapsed-top-tc,.x-nbr .x-panel-header-default-framed-collapsed-top-bc,.x-nbr .x-panel-header-default-framed-collapsed-top-ml,.x-nbr .x-panel-header-default-framed-collapsed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-top-ml,.x-nbr .x-panel-header-default-framed-collapsed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-top-sides.gif');
 	background-position:0 0
 }
 
@@ -5277,7 +5277,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-right-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5296,12 +5296,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-collapsed-right-tl,.x-nbr .x-panel-header-default-framed-collapsed-right-bl,.x-nbr .x-panel-header-default-framed-collapsed-right-tr,.x-nbr .x-panel-header-default-framed-collapsed-right-br,.x-nbr .x-panel-header-default-framed-collapsed-right-tc,.x-nbr .x-panel-header-default-framed-collapsed-right-bc,.x-nbr .x-panel-header-default-framed-collapsed-right-ml,.x-nbr .x-panel-header-default-framed-collapsed-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-right-tc,.x-nbr .x-panel-header-default-framed-collapsed-right-bc{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-right-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-x
 }
@@ -5354,7 +5354,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-bottom-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5373,12 +5373,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-collapsed-bottom-tl,.x-nbr .x-panel-header-default-framed-collapsed-bottom-bl,.x-nbr .x-panel-header-default-framed-collapsed-bottom-tr,.x-nbr .x-panel-header-default-framed-collapsed-bottom-br,.x-nbr .x-panel-header-default-framed-collapsed-bottom-tc,.x-nbr .x-panel-header-default-framed-collapsed-bottom-bc,.x-nbr .x-panel-header-default-framed-collapsed-bottom-ml,.x-nbr .x-panel-header-default-framed-collapsed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-bottom-ml,.x-nbr .x-panel-header-default-framed-collapsed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-bottom-sides.gif');
 	background-position:0 0
 }
 
@@ -5430,7 +5430,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-panel-header-default-framed-collapsed-left-mc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-bg.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-bg.gif');
 	background-color:#3a4155
 }
 
@@ -5449,12 +5449,12 @@ textarea.x-form-field{
 
 .x-nbr .x-panel-header-default-framed-collapsed-left-tl,.x-nbr .x-panel-header-default-framed-collapsed-left-bl,.x-nbr .x-panel-header-default-framed-collapsed-left-tr,.x-nbr .x-panel-header-default-framed-collapsed-left-br,.x-nbr .x-panel-header-default-framed-collapsed-left-tc,.x-nbr .x-panel-header-default-framed-collapsed-left-bc,.x-nbr .x-panel-header-default-framed-collapsed-left-ml,.x-nbr .x-panel-header-default-framed-collapsed-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-corners.gif')
 }
 
 .x-nbr .x-panel-header-default-framed-collapsed-left-tc,.x-nbr .x-panel-header-default-framed-collapsed-left-bc{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/panel-header/panel-header-default-framed-collapsed-left-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-x
 }
@@ -5527,12 +5527,12 @@ textarea.x-form-field{
 
 .x-nbr .x-tip-tl,.x-nbr .x-tip-bl,.x-nbr .x-tip-tr,.x-nbr .x-tip-br,.x-nbr .x-tip-tc,.x-nbr .x-tip-bc,.x-nbr .x-tip-ml,.x-nbr .x-tip-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tip/tip-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tip/tip-corners.gif')
 }
 
 .x-nbr .x-tip-ml,.x-nbr .x-tip-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tip/tip-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tip/tip-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -5644,7 +5644,7 @@ textarea.x-form-field{
 
 .x-form-invalid-tip-body{
 	background:1px 1px no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/exclamation.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/exclamation.gif');
 	padding-left:22px
 }
 
@@ -5688,12 +5688,12 @@ textarea.x-form-field{
 
 .x-nbr .x-form-invalid-tip-default-tl,.x-nbr .x-form-invalid-tip-default-bl,.x-nbr .x-form-invalid-tip-default-tr,.x-nbr .x-form-invalid-tip-default-br,.x-nbr .x-form-invalid-tip-default-tc,.x-nbr .x-form-invalid-tip-default-bc,.x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form-invalid-tip/form-invalid-tip-default-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form-invalid-tip/form-invalid-tip-default-corners.gif')
 }
 
 .x-nbr .x-form-invalid-tip-default-ml,.x-nbr .x-form-invalid-tip-default-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form-invalid-tip/form-invalid-tip-default-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form-invalid-tip/form-invalid-tip-default-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -5810,35 +5810,35 @@ textarea.x-form-field{
 }
 
 .x-slider-horz,.x-slider-horz .x-slider-end,.x-slider-horz .x-slider-inner{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-bg.png')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-bg.png')
 }
 
 .x-slider-horz .x-slider-thumb{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-thumb.png')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-thumb.png')
 }
 
 .x-slider-vert,.x-slider-vert .x-slider-end,.x-slider-vert .x-slider-inner{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-v-bg.png')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-v-bg.png')
 }
 
 .x-slider-vert .x-slider-thumb{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-v-thumb.png')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-v-thumb.png')
 }
 
 .x-ie6 .x-slider-horz,.x-ie6 .x-slider-horz .x-slider-end,.x-ie6 .x-slider-horz .x-slider-inner{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-bg.gif')
 }
 
 .x-ie6 .x-slider-horz .x-slider-thumb{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-thumb.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-thumb.gif')
 }
 
 .x-ie6 .x-slider-vert,.x-ie6 .x-slider-vert .x-slider-end,.x-ie6 .x-slider-vert .x-slider-inner{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-v-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-v-bg.gif')
 }
 
 .x-ie6 .x-slider-vert .x-slider-thumb{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/slider/slider-v-thumb.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/slider/slider-v-thumb.gif')
 }
 
 .x-progress{
@@ -5916,7 +5916,7 @@ textarea.x-form-field{
 
 .x-nlg .x-progress-default .x-progress-bar{
 	background:repeat-x;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/progress/progress-default-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/progress/progress-default-bg.gif')
 }
 
 .x-toolbar{
@@ -6011,7 +6011,7 @@ textarea.x-form-field{
 }
 
 .x-toolbar-more-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/toolbar/more.gif')!important;
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/toolbar/more.gif')!important;
 	background-position:2px center!important;
 	background-repeat:no-repeat
 }
@@ -6029,7 +6029,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-toolbar-default{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/toolbar/toolbar-default-bg.gif')!important;
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/toolbar/toolbar-default-bg.gif')!important;
 	background-repeat:repeat-x
 }
 
@@ -6212,12 +6212,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-default-tl,.x-nbr .x-window-default-bl,.x-nbr .x-window-default-tr,.x-nbr .x-window-default-br,.x-nbr .x-window-default-tc,.x-nbr .x-window-default-bc,.x-nbr .x-window-default-ml,.x-nbr .x-window-default-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window/window-default-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window/window-default-corners.gif')
 }
 
 .x-nbr .x-window-default-ml,.x-nbr .x-window-default-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window/window-default-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window/window-default-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6302,12 +6302,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-top-tl,.x-nbr .x-window-header-default-top-bl,.x-nbr .x-window-header-default-top-tr,.x-nbr .x-window-header-default-top-br,.x-nbr .x-window-header-default-top-tc,.x-nbr .x-window-header-default-top-bc,.x-nbr .x-window-header-default-top-ml,.x-nbr .x-window-header-default-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-top-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-top-corners.gif')
 }
 
 .x-nbr .x-window-header-default-top-ml,.x-nbr .x-window-header-default-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-top-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-top-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6371,12 +6371,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-right-tl,.x-nbr .x-window-header-default-right-bl,.x-nbr .x-window-header-default-right-tr,.x-nbr .x-window-header-default-right-br,.x-nbr .x-window-header-default-right-tc,.x-nbr .x-window-header-default-right-bc,.x-nbr .x-window-header-default-right-ml,.x-nbr .x-window-header-default-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-right-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-right-corners.gif')
 }
 
 .x-nbr .x-window-header-default-right-ml,.x-nbr .x-window-header-default-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-right-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-right-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6440,12 +6440,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-bottom-tl,.x-nbr .x-window-header-default-bottom-bl,.x-nbr .x-window-header-default-bottom-tr,.x-nbr .x-window-header-default-bottom-br,.x-nbr .x-window-header-default-bottom-tc,.x-nbr .x-window-header-default-bottom-bc,.x-nbr .x-window-header-default-bottom-ml,.x-nbr .x-window-header-default-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-bottom-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-bottom-corners.gif')
 }
 
 .x-nbr .x-window-header-default-bottom-ml,.x-nbr .x-window-header-default-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-bottom-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-bottom-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6509,12 +6509,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-left-tl,.x-nbr .x-window-header-default-left-bl,.x-nbr .x-window-header-default-left-tr,.x-nbr .x-window-header-default-left-br,.x-nbr .x-window-header-default-left-tc,.x-nbr .x-window-header-default-left-bc,.x-nbr .x-window-header-default-left-ml,.x-nbr .x-window-header-default-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-left-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-left-corners.gif')
 }
 
 .x-nbr .x-window-header-default-left-ml,.x-nbr .x-window-header-default-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-left-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-left-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6578,12 +6578,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-collapsed-top-tl,.x-nbr .x-window-header-default-collapsed-top-bl,.x-nbr .x-window-header-default-collapsed-top-tr,.x-nbr .x-window-header-default-collapsed-top-br,.x-nbr .x-window-header-default-collapsed-top-tc,.x-nbr .x-window-header-default-collapsed-top-bc,.x-nbr .x-window-header-default-collapsed-top-ml,.x-nbr .x-window-header-default-collapsed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-top-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-top-corners.gif')
 }
 
 .x-nbr .x-window-header-default-collapsed-top-ml,.x-nbr .x-window-header-default-collapsed-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-top-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-top-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6647,12 +6647,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-collapsed-right-tl,.x-nbr .x-window-header-default-collapsed-right-bl,.x-nbr .x-window-header-default-collapsed-right-tr,.x-nbr .x-window-header-default-collapsed-right-br,.x-nbr .x-window-header-default-collapsed-right-tc,.x-nbr .x-window-header-default-collapsed-right-bc,.x-nbr .x-window-header-default-collapsed-right-ml,.x-nbr .x-window-header-default-collapsed-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-right-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-right-corners.gif')
 }
 
 .x-nbr .x-window-header-default-collapsed-right-ml,.x-nbr .x-window-header-default-collapsed-right-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-right-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-right-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6716,12 +6716,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-collapsed-bottom-tl,.x-nbr .x-window-header-default-collapsed-bottom-bl,.x-nbr .x-window-header-default-collapsed-bottom-tr,.x-nbr .x-window-header-default-collapsed-bottom-br,.x-nbr .x-window-header-default-collapsed-bottom-tc,.x-nbr .x-window-header-default-collapsed-bottom-bc,.x-nbr .x-window-header-default-collapsed-bottom-ml,.x-nbr .x-window-header-default-collapsed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-bottom-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-bottom-corners.gif')
 }
 
 .x-nbr .x-window-header-default-collapsed-bottom-ml,.x-nbr .x-window-header-default-collapsed-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-bottom-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-bottom-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6785,12 +6785,12 @@ textarea.x-form-field{
 
 .x-nbr .x-window-header-default-collapsed-left-tl,.x-nbr .x-window-header-default-collapsed-left-bl,.x-nbr .x-window-header-default-collapsed-left-tr,.x-nbr .x-window-header-default-collapsed-left-br,.x-nbr .x-window-header-default-collapsed-left-tc,.x-nbr .x-window-header-default-collapsed-left-bc,.x-nbr .x-window-header-default-collapsed-left-ml,.x-nbr .x-window-header-default-collapsed-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-left-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-left-corners.gif')
 }
 
 .x-nbr .x-window-header-default-collapsed-left-ml,.x-nbr .x-window-header-default-collapsed-left-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/window-header/window-header-default-collapsed-left-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/window-header/window-header-default-collapsed-left-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -6855,23 +6855,23 @@ textarea.x-form-field{
 }
 
 .x-message-box .x-msg-box-wait{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/blue-loading.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/blue-loading.gif')
 }
 
 .x-message-box-info{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/icon-info.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/icon-info.gif')
 }
 
 .x-message-box-warning{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/icon-warning.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/icon-warning.gif')
 }
 
 .x-message-box-question{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/icon-question.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/icon-question.gif')
 }
 
 .x-message-box-error{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/shared/icon-error.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/shared/icon-error.gif')
 }
 
 .x-tab-bar{
@@ -6889,7 +6889,7 @@ textarea.x-form-field{
 }
 
 .x-nlg .x-tab-bar{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab-bar/tab-bar-default-bg.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab-bar/tab-bar-default-bg.gif')
 }
 
 .x-tab-bar-default-plain,.x-nlg .x-tab-bar-default-plain{
@@ -7064,12 +7064,12 @@ textarea.x-form-field{
 
 .x-nbr .x-tab-default-top-tl,.x-nbr .x-tab-default-top-bl,.x-nbr .x-tab-default-top-tr,.x-nbr .x-tab-default-top-br,.x-nbr .x-tab-default-top-tc,.x-nbr .x-tab-default-top-bc,.x-nbr .x-tab-default-top-ml,.x-nbr .x-tab-default-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-corners.gif')
 }
 
 .x-nbr .x-tab-default-top-ml,.x-nbr .x-tab-default-top-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -7133,12 +7133,12 @@ textarea.x-form-field{
 
 .x-nbr .x-tab-default-bottom-tl,.x-nbr .x-tab-default-bottom-bl,.x-nbr .x-tab-default-bottom-tr,.x-nbr .x-tab-default-bottom-br,.x-nbr .x-tab-default-bottom-tc,.x-nbr .x-tab-default-bottom-bc,.x-nbr .x-tab-default-bottom-ml,.x-nbr .x-tab-default-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-corners.gif')
 }
 
 .x-nbr .x-tab-default-bottom-ml,.x-nbr .x-tab-default-bottom-mr{
 	zoom:1;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-sides.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-sides.gif');
 	background-position:0 0;
 	background-repeat:repeat-y
 }
@@ -7388,7 +7388,7 @@ textarea.x-form-field{
 	line-height:0;
 	text-indent:-999px;
 	background:no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tabs/tab-close.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tabs/tab-close.gif');
 	filter:alpha(opacity=60);
 	opacity:.6
 }
@@ -7409,51 +7409,51 @@ a.x-tab-close-btn:hover{
 }
 
 .x-nbr .x-tab-top-over .x-frame-tl,.x-nbr .x-tab-top-over .x-frame-bl,.x-nbr .x-tab-top-over .x-frame-tr,.x-nbr .x-tab-top-over .x-frame-br,.x-nbr .x-tab-top-over .x-frame-tc,.x-nbr .x-tab-top-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-over-corners.gif')
 }
 
 .x-nbr .x-tab-top-over .x-frame-ml,.x-nbr .x-tab-top-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-over-sides.gif')
 }
 
 .x-nbr .x-tab-bottom-over .x-frame-tl,.x-nbr .x-tab-bottom-over .x-frame-bl,.x-nbr .x-tab-bottom-over .x-frame-tr,.x-nbr .x-tab-bottom-over .x-frame-br,.x-nbr .x-tab-bottom-over .x-frame-tc,.x-nbr .x-tab-bottom-over .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-over-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-over-corners.gif')
 }
 
 .x-nbr .x-tab-bottom-over .x-frame-ml,.x-nbr .x-tab-bottom-over .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-over-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-over-sides.gif')
 }
 
 .x-nbr .x-tab-top-active .x-frame-tl,.x-nbr .x-tab-top-active .x-frame-bl,.x-nbr .x-tab-top-active .x-frame-tr,.x-nbr .x-tab-top-active .x-frame-br,.x-nbr .x-tab-top-active .x-frame-tc,.x-nbr .x-tab-top-active .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-active-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-active-corners.gif')
 }
 
 .x-nbr .x-tab-top-active .x-frame-ml,.x-nbr .x-tab-top-active .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-active-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-active-sides.gif')
 }
 
 .x-nbr .x-tab-bottom-active .x-frame-tl,.x-nbr .x-tab-bottom-active .x-frame-bl,.x-nbr .x-tab-bottom-active .x-frame-tr,.x-nbr .x-tab-bottom-active .x-frame-br,.x-nbr .x-tab-bottom-active .x-frame-tc,.x-nbr .x-tab-bottom-active .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-active-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-active-corners.gif')
 }
 
 .x-nbr .x-tab-bottom-active .x-frame-ml,.x-nbr .x-tab-bottom-active .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-active-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-active-sides.gif')
 }
 
 .x-nbr .x-tab-top-disabled .x-frame-tl,.x-nbr .x-tab-top-disabled .x-frame-bl,.x-nbr .x-tab-top-disabled .x-frame-tr,.x-nbr .x-tab-top-disabled .x-frame-br,.x-nbr .x-tab-top-disabled .x-frame-tc,.x-nbr .x-tab-top-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-disabled-corners.gif')
 }
 
 .x-nbr .x-tab-top-disabled .x-frame-ml,.x-nbr .x-tab-top-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-top-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-top-disabled-sides.gif')
 }
 
 .x-nbr .x-tab-bottom-disabled .x-frame-tl,.x-nbr .x-tab-bottom-disabled .x-frame-bl,.x-nbr .x-tab-bottom-disabled .x-frame-tr,.x-nbr .x-tab-bottom-disabled .x-frame-br,.x-nbr .x-tab-bottom-disabled .x-frame-tc,.x-nbr .x-tab-bottom-disabled .x-frame-bc{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-disabled-corners.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-disabled-corners.gif')
 }
 
 .x-nbr .x-tab-bottom-disabled .x-frame-ml,.x-nbr .x-tab-bottom-disabled .x-frame-mr{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab/tab-default-bottom-disabled-sides.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab/tab-default-bottom-disabled-sides.gif')
 }
 
 .x-autowidth-table table.x-grid-table{
@@ -7522,43 +7522,43 @@ a.x-tab-close-btn:hover{
 }
 
 .x-tree-lines .x-tree-elbow{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow.gif')
 }
 
 .x-tree-lines .x-tree-elbow-end{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-end.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-end.gif')
 }
 
 .x-tree-lines .x-tree-elbow-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-plus.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-plus.gif')
 }
 
 .x-tree-lines .x-tree-elbow-end-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-end-plus.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-end-plus.gif')
 }
 
 .x-tree-lines .x-grid-tree-node-expanded .x-tree-elbow-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-minus.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-minus.gif')
 }
 
 .x-tree-lines .x-grid-tree-node-expanded .x-tree-elbow-end-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-end-minus.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-end-minus.gif')
 }
 
 .x-tree-lines .x-tree-elbow-line{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-line.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-line.gif')
 }
 
 .x-tree-no-lines .x-tree-elbow-plus,.x-tree-no-lines .x-tree-elbow-end-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-plus-nl.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-plus-nl.gif')
 }
 
 .x-tree-no-lines .x-grid-tree-node-expanded .x-tree-elbow-plus,.x-tree-no-lines .x-grid-tree-node-expanded .x-tree-elbow-end-plus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/elbow-end-minus-nl.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/elbow-end-minus-nl.gif')
 }
 
 .x-tree-arrows .x-tree-elbow-plus,.x-tree-arrows .x-tree-elbow-minus,.x-tree-arrows .x-tree-elbow-end-plus,.x-tree-arrows .x-tree-elbow-end-minus{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/arrows.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/arrows.gif')
 }
 
 .x-tree-icon{
@@ -7581,16 +7581,16 @@ a.x-tab-close-btn:hover{
 
 .x-tree-icon-leaf{
 	width:16px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/leaf.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/leaf.gif')
 }
 
 .x-tree-icon-parent{
 	width:16px;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/folder.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/folder.gif')
 }
 
 .x-grid-tree-node-expanded .x-tree-icon-parent{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/folder-open.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/folder-open.gif')
 }
 
 .x-grid-rowbody{
@@ -7641,7 +7641,7 @@ a.x-tab-close-btn:hover{
 	width:19px;
 	height:19px;
 	background:no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/form/checkbox.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/form/checkbox.gif');
 	overflow:hidden;
 	padding:0;
 	border:0
@@ -7661,23 +7661,23 @@ a.x-tab-close-btn:hover{
 }
 
 .x-tree-drop-ok-append .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/drop-append.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/drop-append.gif')
 }
 
 .x-tree-drop-ok-above .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/drop-above.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/drop-above.gif')
 }
 
 .x-tree-drop-ok-below .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/drop-below.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/drop-below.gif')
 }
 
 .x-tree-drop-ok-between .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/drop-between.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/drop-between.gif')
 }
 
 .x-grid-tree-loading .x-tree-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tree/loading.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tree/loading.gif')
 }
 
 .x-tree-ddindicator{
@@ -7828,15 +7828,15 @@ svg,vml{
 }
 
 .x-dd-drop-nodrop .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/dd/drop-no.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/dd/drop-no.gif')
 }
 
 .x-dd-drop-ok .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/dd/drop-yes.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/dd/drop-yes.gif')
 }
 
 .x-dd-drop-ok-add .x-dd-drop-icon{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/dd/drop-add.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/dd/drop-add.gif')
 }
 
 .x-resizable-handle{
@@ -7993,32 +7993,32 @@ svg,vml{
 
 .x-resizable-over .x-resizable-handle-east,.x-resizable-over .x-resizable-handle-west,.x-resizable-pinned .x-resizable-handle-east,.x-resizable-pinned .x-resizable-handle-west{
 	background-position:left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/e-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/e-handle.gif')
 }
 
 .x-resizable-over .x-resizable-handle-south,.x-resizable-over .x-resizable-handle-north,.x-resizable-pinned .x-resizable-handle-south,.x-resizable-pinned .x-resizable-handle-north{
 	background-position:top;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/s-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/s-handle.gif')
 }
 
 .x-resizable-over .x-resizable-handle-southeast,.x-resizable-pinned .x-resizable-handle-southeast{
 	background-position:top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/se-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/se-handle.gif')
 }
 
 .x-resizable-over .x-resizable-handle-northwest,.x-resizable-pinned .x-resizable-handle-northwest{
 	background-position:bottom right;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/nw-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/nw-handle.gif')
 }
 
 .x-resizable-over .x-resizable-handle-northeast,.x-resizable-pinned .x-resizable-handle-northeast{
 	background-position:bottom left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/ne-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/ne-handle.gif')
 }
 
 .x-resizable-over .x-resizable-handle-southwest,.x-resizable-pinned .x-resizable-handle-southwest{
 	background-position:top right;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/sizer/sw-handle.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/sizer/sw-handle.gif')
 }
 
 .x-splitter .x-collapse-el{
@@ -8044,42 +8044,42 @@ svg,vml{
 
 .x-layout-split-left{
 	background:no-repeat top right;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-left.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-left.gif')
 }
 
 .x-layout-split-right{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-right.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-right.gif')
 }
 
 .x-layout-split-top{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-top.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-top.gif')
 }
 
 .x-layout-split-bottom{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-bottom.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-bottom.gif')
 }
 
 .x-splitter-collapsed .x-layout-split-left{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-right.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-right.gif')
 }
 
 .x-splitter-collapsed .x-layout-split-right{
 	background:no-repeat top right;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-left.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-left.gif')
 }
 
 .x-splitter-collapsed .x-layout-split-top{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-bottom.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-bottom.gif')
 }
 
 .x-splitter-collapsed .x-layout-split-bottom{
 	background:no-repeat top left;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/util/splitter/mini-top.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/util/splitter/mini-top.gif')
 }
 
 .x-splitter-horizontal{
@@ -8291,7 +8291,7 @@ svg,vml{
 	cursor:pointer;
 	height:27px;
 	background:transparent no-repeat -18px 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab-bar/scroll-left.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab-bar/scroll-left.gif')
 }
 
 .x-box-scroller-left .x-toolbar-scroll-left-hover{
@@ -8306,7 +8306,7 @@ svg,vml{
 }
 
 .x-box-scroller-left .x-toolbar-scroll-left{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/toolbar/scroll-left.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/toolbar/scroll-left.gif');
 	background-position:-14px 0
 }
 
@@ -8340,7 +8340,7 @@ svg,vml{
 	cursor:pointer;
 	height:27px;
 	background:transparent no-repeat 0 0;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tab-bar/scroll-right.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tab-bar/scroll-right.gif')
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-hover{
@@ -8355,7 +8355,7 @@ svg,vml{
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right{
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/toolbar/scroll-right.gif')
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/toolbar/scroll-right.gif')
 }
 
 .x-box-scroller-right .x-toolbar-scroll-right-hover{
@@ -8379,7 +8379,7 @@ svg,vml{
 
 .x-box-scroller-top .x-menu-scroll-top{
 	background:transparent no-repeat center center;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/layout/mini-top.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/layout/mini-top.gif');
 	height:8px;
 	cursor:pointer
 }
@@ -8391,7 +8391,7 @@ svg,vml{
 
 .x-box-scroller-bottom .x-menu-scroll-bottom{
 	background:transparent no-repeat center center;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/layout/mini-bottom.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/layout/mini-bottom.gif');
 	height:8px;
 	cursor:pointer
 }
@@ -8424,7 +8424,7 @@ svg,vml{
 	cursor:pointer;
 	background-color:transparent;
 	background-repeat:no-repeat;
-	background-image:url('http://cdn.sencha.io/extjs-4.1.1-gpl/resources/themes/images/access/tools/tool-sprites.gif');
+	background-image:url('//cdn.sencha.com/ext/gpl/4.1.1/resources/themes/images/access/tools/tool-sprites.gif');
 	margin:0
 }
 
