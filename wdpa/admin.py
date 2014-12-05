@@ -1,5 +1,11 @@
 from django.contrib.gis import admin
-from models import WdpaPolygon, WdpaPoint
+from models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
 
-admin.site.register(WdpaPolygon, admin.GeoModelAdmin)
-admin.site.register(WdpaPoint, admin.GeoModelAdmin)
+class WdpaAdmin(admin.GeoModelAdmin):
+    list_display = ('name', 'wdpaid', 'country')
+    search_fields = ['name', 'country', 'wdpaid']
+
+admin.site.register(WdpaPolygon, WdpaAdmin)
+admin.site.register(WdpaPoint, WdpaAdmin)
+admin.site.register(Wdpa2014Polygon, WdpaAdmin)
+admin.site.register(Wdpa2014Point, WdpaAdmin)
