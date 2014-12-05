@@ -142,7 +142,8 @@ class Mpa(models.Model):
     categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
-    country = models.CharField('Country / Territory', max_length=20)
+    sovereign = models.CharField('Country / Territory', max_length=50)
+    country = models.CharField('Country / Territory', max_length=50)
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Verification State
@@ -392,6 +393,8 @@ class Mpa(models.Model):
 
 @receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
+    if kwargs['raw']:
+        return
     # Calculate things once an mpa object is created or updated
     # Disconnect post_save so we don't enter recursive loop
     post_save.disconnect(mpa_post_save, sender=Mpa)

@@ -145,6 +145,15 @@
 <div id='stats_overlay'>
 	<div class="stats_header medium">Campaign Tracker</div>
 	<div class="heading bold" style="font-size:2.5em; line-height:120%;">Active MPA Campaigns</div>
+    <div>
+        {% if campaign_list %}
+            <ul>
+            {% for campaign in campaign_list %}
+                <li style="padding-bottom:3px;"><a href="{{ campaign.get_absolute_url }}" style="text-decoration:none; color:#fff; font-size:0.8em;"><span style="font-size:1.2em;">{{ campaign.name }}</span> [{{ campaign.country }}{% if campaign.sub_location %} - {{ campaign.sub_location }}{% endif %}]</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
 
