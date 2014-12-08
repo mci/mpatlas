@@ -142,7 +142,7 @@ class Mpa(models.Model):
     categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
-    sovereign = models.CharField('Sovereign Country', max_length=50)
+    sovereign = models.CharField('Sovereign Country', max_length=50, null=True, blank=True)
     country = models.CharField('Country / Territory', max_length=50)
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
