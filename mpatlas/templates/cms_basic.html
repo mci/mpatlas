@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load cms_tags sekizai_tags i18n %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+
+{% block base_body_content %}
+    <p class="heading clear" style="font-size: 32px; margin:5px 0px 5px 5px; padding:0px; color:#de744a;">
+    	{% page_attribute "title" %}
+    </p>
+    {% placeholder "base_content" %}
+    
+{% endblock %}
+
+{% block base_body_extra %}
+{% endblock %}
+
+{% block base_footer_content %}
+{% endblock %}
+
+

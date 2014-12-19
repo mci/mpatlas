@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+# from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 from wiki.urls import get_pattern as get_wiki_pattern
@@ -46,5 +47,9 @@ urlpatterns = patterns('',
 
     url(r'^learn/notify/', get_notify_pattern()),
     url(r'^learn/mpapedia/', get_wiki_pattern()),
+
+    url(r'^', include('cms.urls')),
+
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

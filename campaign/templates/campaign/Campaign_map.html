@@ -72,8 +72,9 @@
         'jquery',
 		'use!jqueryui',
         'use!bootstrap'
-    ], function(Prep, Campaign) {
+    ], function(Prep, Campaign, $) {
         $(function() {
+            window.test$ = $;
             Prep.preparePage();
             window['campaignmap'] = new Campaign.CampaignMap($('#leafletmap'));
             var campaigns_url = '{% url 'campaign-list-geojson' %}';
