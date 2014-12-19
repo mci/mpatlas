@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% comment %}
-{% load sekizai_tags %}
-{% endcomment %}
+{% load url from future %}
+{% load cms_tags sekizai_tags i18n %}
 
 {% block title %}Home{% endblock %}
 
@@ -220,3 +219,4 @@
 {% block bodyend_js %}
 
 {% endblock %}
+

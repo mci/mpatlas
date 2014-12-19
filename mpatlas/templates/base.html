@@ -1,5 +1,5 @@
 {% load url from future %}
-{% load sekizai_tags i18n %}
+{% load cms_tags sekizai_tags i18n %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,6 +26,8 @@
         
         <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
         <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/main_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
         
         <script src="{{ STATIC_URL }}js/require.js" type="text/javascript"></script>
         <!-- IE8 messes up sometimes (10% of page loads) with require.js, loading jquery first seems to fix it -->
@@ -63,7 +65,7 @@
                 'jquery',
                 'use!jqueryui',
                 'use!bootstrap'
-            ], function(Prep) {
+            ], function(Prep, $) {
                 $(function() {
                     Prep.preparePage();
                     window['showsplashdialog'] = Prep.showsplashdialog;
@@ -122,6 +124,7 @@
              ref.parentNode.insertBefore(js, ref);
            }(document));
         </script>
+        {% cms_toolbar %}
         <div id='pagewrapper'>
             <div id='header_full'>
                 <div id='header_center'>
@@ -292,6 +295,7 @@
         {% endblock %}
         {% block bodyend_js %}{% endblock %}
         {% render_block "js" %}
+
         {% block uservoice %}
             <script type="text/javascript">
                 var uvOptions = {};
