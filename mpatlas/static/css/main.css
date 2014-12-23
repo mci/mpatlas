@@ -139,15 +139,16 @@ img {
     text-indent: -9999px;
 }
 
-#waittlogo {
+#mcilogo {
     float: right;
     display: block;
     position: relative;
-    width: 130px;
-    height: 66px;
+    width: 101px;
+    height: 64px;
     top: 5px;
     margin-right: 17px;
-    background: url('../images/header_waittlogo.png') no-repeat;
+    background: url('../images/header_mci_logo.png') no-repeat;
+    background-size: contain;
     overflow: hidden;
     outline: none;
     text-indent: -9999px;
