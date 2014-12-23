@@ -43,7 +43,7 @@ urlpatterns = patterns('',
     
     url(r'^explore/$', TemplateView.as_view(template_name='map.html')),
     
-    url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
+    # url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
 
     url(r'^learn/notify/', get_notify_pattern()),
     url(r'^learn/mpapedia/', get_wiki_pattern()),
