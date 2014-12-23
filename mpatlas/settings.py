@@ -301,6 +301,9 @@ THUMBNAIL_HIGH_RESOLUTION = True # for retina support
 # django-filer and ckeditor integration
 TEXT_SAVE_IMAGE_FUNCTION='cmsplugin_filer_image.integrations.ckeditor.create_image_plugin'
 
+FILER_IS_PUBLIC_DEFAULT = True
+FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
+
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations'
 }
