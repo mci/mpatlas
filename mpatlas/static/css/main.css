@@ -46,6 +46,13 @@ img {
     border: none;
 }
 
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+
 .btn-callout, .btn.btn-callout {
     border: 2px solid #00e2eb;
     z-index: 9;
