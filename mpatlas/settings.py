@@ -219,6 +219,28 @@ CMS_TEMPLATES = (
     ('cms_mpapedia.html', 'MPApedia Page'),
 )
 
+# These settings override djangocms_text_ckeditor toolbar settings
+CKEDITOR_SETTINGS = {
+    'language': '{{ language }}',
+    'toolbar': 'CMS',
+    'skin': 'moono',
+    'toolbarCanCollapse': False,
+    'toolbar_CMS': [
+                    ['Undo', 'Redo'],
+                    ['cmsplugins', '-', 'ShowBlocks'],
+                    ['Format', 'Styles'],
+                    ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+                    ['Maximize', ''],
+                    '/',
+                    ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+                    ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+                    ['HorizontalRule'],
+                    { 'name': 'links', 'items': [ 'Link', 'Unlink', 'Anchor' ] },
+                    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
+                    ['Source']
+                ],
+}
+
 #CKEditor
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
