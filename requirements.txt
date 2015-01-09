@@ -65,6 +65,9 @@ Shapely
 GeoIP-Python
 pygeoip
 
+django-cms
+git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
+
 # TileStache
 # ModestMaps
 
