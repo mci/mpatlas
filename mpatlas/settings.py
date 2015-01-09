@@ -368,6 +368,9 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
 
+    # Plaintext Plugin
+    'cmsplugin_plaintext',
+
     'cms',  # django CMS itself
     'mptt',  # utilities for implementing a tree
     'menus',  # helper for model independent hierarchical website navigation
