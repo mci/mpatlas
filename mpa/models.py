@@ -163,7 +163,7 @@ class Mpa(models.Model):
     status_year = models.IntegerField('Status Year', null=True, blank=True)
 
     # Implementation
-    implemented = models.BooleanField('Implemented?', help_text='MPA is designated and implemented with regulations enforced', blank=True, default=False)
+    implemented = models.BooleanField('Implemented?', help_text='MPA is designated and implemented with regulations enforced', blank=True, default=True)
     implementation_date = models.DateField('Implementation Date', help_text='Date regulations went into effect or will go into effect', null=True, blank=True)
     
     # Area Estimates
