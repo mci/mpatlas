@@ -15,7 +15,8 @@ class MpaForm(ModelForm):
         exclude = ('geom',)
         widgets = {
             'summary': RichTextField(),
-            'verified_date': AdminDateWidget()
+            'verified_date': AdminDateWidget(),
+            'implementation_date': AdminDateWidget()
         }
 
 class MpaGeomForm(ModelForm):
