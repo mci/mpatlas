@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Mpa.implemented'
         db.add_column(u'mpa_mpa', 'implemented',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      self.gf('django.db.models.fields.BooleanField')(default=True),
                       keep_default=False)
 
         # Adding field 'Mpa.implementation_date'
@@ -128,7 +128,7 @@ class Migration(SchemaMigration):
             'geom_smerc': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'srid': '3857', 'null': 'True', 'blank': 'True'}),
             'gov_type': ('django.db.models.fields.CharField', [], {'max_length': '254', 'null': 'True', 'blank': 'True'}),
             'implementation_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'implemented': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'implemented': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'int_criteria': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'is_point': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'iucn_category': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
