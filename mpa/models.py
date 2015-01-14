@@ -163,8 +163,8 @@ class Mpa(models.Model):
     status_year = models.IntegerField('Status Year', null=True, blank=True)
 
     # Implementation
-    #implemented = models.BooleanField('MPA is designated and implemented with regulations enforced', blank=True, default=False)
-    #implementation_date = models.DateField('Date regulations went into effect or will go into effect', null=True, blank=True)
+    implemented = models.BooleanField('MPA is designated and implemented with regulations enforced', blank=True, default=False)
+    implementation_date = models.DateField('Date regulations went into effect or will go into effect', null=True, blank=True)
     
     # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
@@ -193,7 +193,7 @@ class Mpa(models.Model):
     fishing_info = models.TextField(null=True, blank=True)
     fishing_citation = models.TextField(null=True, blank=True)
     access = models.CharField(max_length=254, null=True, blank=True, choices=ACCESS_CHOICES, default='Unknown')
-    # access_info = models.TextField(null=True, blank=True)
+    access_info = models.TextField(null=True, blank=True)
     access_citation = models.TextField(null=True, blank=True)
     
     # Conservation Focus
