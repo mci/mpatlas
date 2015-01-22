@@ -38,15 +38,15 @@ urlpatterns = patterns('',
     
     url(r'^news/', TemplateView.as_view(template_name='news.html')),
     
-    # Only redirect the top level /learn/ to mpapedia
-    url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
-    
     url(r'^explore/$', TemplateView.as_view(template_name='map.html')),
     
     # url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
 
-    url(r'^learn/notify/', get_notify_pattern()),
-    url(r'^learn/mpapedia/', get_wiki_pattern()),
+    (r'^learn/mpapedia/(?P<extrapath>.*)$', RedirectView.as_view(url='/learn/%(extrapath)s', permanent=True)),
+    # Only redirect the top level /learn/ to mpapedia
+    # url(r'^learn/$', RedirectView.as_view(url='/learn/mpapedia/', permanent=False)),
+    # url(r'^learn/notify/', get_notify_pattern()),
+    # url(r'^learn/mpapedia/', get_wiki_pattern()),
 
     url(r'^', include('cms.urls')),
 
