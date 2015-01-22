@@ -140,32 +140,27 @@
                                 <li>
                                     <a href="/category/shark-sanctuary/">Shark Sanctuaries</a>
                                 </li>
+                                <li>
+                                    <a href="/campaign/">MPA Campaigns & Proposals</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="/campaign/">Campaigns</a>
+                            <a href="/promises/">Tracking Promises</a>
+                            <ul>
+                                <li>
+                                    <a href="/promises/">MPA Commitments and Promises</a>
+                                </li>
+                                <li>
+                                    <a href="/campaign/">MPA Campaigns & Proposals</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="/learn/">Learn</a>
                             <ul>
                                 <li>
-                                    <a href="/learn/mpapedia/">MPApedia: all about marine protected areas</a>
-                                </li>
-                                <!--
-                                <li>
-                                    <a href="/learn/education/">Student/Teacher Resources</a>
-                                </li>
-                                -->
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/news/">News</a>
-                            <ul>
-                                <li>
-                                    <a href="/news/">Recent News Feed</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" href="http://depts.washington.edu/mpanews/">MPA News Website<br /><span style="font-size:.7em;">(external: Marine Affairs Research and Education)</span></a>
+                                    <a href="/learn/">MPApedia: why marine protected areas?</a>
                                 </li>
                             </ul>
                         </li>
@@ -227,6 +222,23 @@
                     </div>
                     
                     {% block header_post_user %}
+                    <nav class="subnav">
+                        <div style="float:left; margin-top:8px; margin-right:15px;">
+                            <a href="/about/">About</a>
+                        </div>
+                        <div style="float:left; margin-top:8px; margin-right:15px;">
+                            <a href="/about/our-team/">Our Team</a>
+                        </div>
+                        <div style="float:left; margin-top:8px; margin-right:15px;">
+                            <a href="/about/partners/">Partners</a>
+                        </div>
+                        <div style="float:left; margin-top:8px; margin-right:15px;">
+                            <a href="/take-action/">Take Action</a>
+                        </div>
+                        <div style="float:left; margin-top:8px; margin-right:15px;">
+                            <a href="/news/">News</a>
+                        </div>
+                    </nav>
                     {% endblock %}
                 
                 </div>
@@ -234,15 +246,6 @@
             {% block base_prebody_content %}{% endblock %}
             <div id='body_full'>
                 {% block base_fblike %}
-                    <div style="position: absolute; right:90px; top:8px;">
-                        <div style="float:left; margin-right:10px;">
-                            <a href="https://twitter.com/MPAtlas" style="margin-right:10px;" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @MPAtlas</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                        </div>
-                        <div style="float:left; width:110px;">
-                            <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
-                        </div>
-                    </div>
                 {% endblock %}
                 {% block base_body_content %}{% endblock %}
             </div>
