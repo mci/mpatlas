@@ -437,6 +437,13 @@ ul#mainmenu ul li {
     text-shadow: #000 1px 1px 1px;
 }
 
+.subnav a {
+    color: #5bc0de;
+}
+.subnav a:hover {
+    color: #e03e8a;
+}
+
 .modetoggle {
     /*line-height: 1;*/
     font-size: 16px;
