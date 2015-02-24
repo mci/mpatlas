@@ -12,6 +12,8 @@ class Nation(models.Model):
     marine_area = models.FloatField(null=True, blank=True)
     mpa_area = models.FloatField(null=True, blank=True)
     mpa_percent = models.FloatField(null=True, blank=True)
+    notake_area = models.FloatField(null=True, blank=True)
+    notake_percent = models.FloatField(null=True, blank=True)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
