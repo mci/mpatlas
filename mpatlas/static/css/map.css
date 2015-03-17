@@ -206,6 +206,12 @@ body {
     margin-right: 200px;
 }
 
+.cartodb-legend-stack {
+    left: 35px;
+    right: auto;
+    background: rgba(255,255,255,0.8);
+}
+
 .maptip {
     position: absolute;
     /*z-index: 9000;*/
