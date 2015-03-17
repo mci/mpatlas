@@ -206,7 +206,7 @@ body {
     margin-right: 200px;
 }
 
-.cartodb-legend-stack {
+.cartodb-legend-stack, div.cartodb-legend-stack {
     left: 35px;
     right: auto;
     background: rgba(255,255,255,0.8);
