@@ -96,8 +96,9 @@ define(
 					{type: 'Road', id: 2, maxZoom: 18, opacity: 1}
 				);
 				this.bgLayers['Bing World Map'] = lyr;
-	
+
 				// Designated Marine Protected Areas
+				/*
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png?v=20141001',
 					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA', attribution: 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>'}
@@ -105,7 +106,9 @@ define(
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
 				this.mpalayer = lyr;
+				*/
 				
+				/*
 				// Candidate Marine Protected Areas
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
@@ -113,6 +116,7 @@ define(
 				);
 				this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 				this.layers.push(lyr);
+				*/
 	
 				// EEZs / Nations		
 				lyr = new L.TileLayer(
@@ -151,13 +155,28 @@ define(
 				
 				var map = this.map; // use this var for closures inside event handlers
 
-	
-        // Add the clusterer to show filtered MPAs
-        var opts = {
-            maxZoom: 10,
-            gridSize: 60
-        };
-        this.clusterer = new LeafClusterer(this.map, null, opts);        
+				var that = this;
+
+				// Designated Marine Protected Areas
+				lyr = cartodb.createLayer(this.map, 'http://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json')
+				    .on('done', function(layer) {
+				      layer.options.attribution = 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>';
+				      that.overlayLayers['Designated Marine Protected Areas'] = layer;
+				      that.layers.unshift(layer);
+				      console.log(that.layers);
+				      that.mpalayer = layer;
+				    })
+				    .on('error', function(err) {
+				      alert("some error occurred: " + err);
+				    })
+				    .addTo(this.map);
+
+				// Add the clusterer to show filtered MPAs
+				var opts = {
+					maxZoom: 10,
+					gridSize: 60
+				};
+				this.clusterer = new LeafClusterer(this.map, null, opts);        
 
 				// override the position of layer control			
 				/*
@@ -219,7 +238,8 @@ define(
 				$('#btnListMode').removeClass('selected');
 				$('#btnMapMode').addClass('selected');
 				if (MPALayersWindow) {
-					MPALayersWindow.window.show();
+					// MPALayersWindow.window.show();
+					MPALayersWindow.window.hide();
 				}
 				
 				$('#body_list_full').fadeOut(600);
