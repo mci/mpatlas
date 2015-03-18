@@ -3,7 +3,7 @@ define(
 		// These are path aliases configured in the requireJS bootstrap
 		//'backbone-module',
 		'jquery',
-		'use!backbone',
+		'backbone',
 		'leaflet',
 		'leafclusterer',
 		'TileLayer.Bing',
