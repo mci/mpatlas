@@ -18,6 +18,8 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
+<link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
+
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
 <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -36,6 +38,7 @@
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
             leaflet: '//cdn.leafletjs.com/leaflet-0.7.3/leaflet',
             //leaflet: '{{ STATIC_URL }}Leaflet/leaflet',
+            leaflet_label: 'leaflet.label',
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
             underscore: 'underscore-min',
 			backbone: 'backbone-min',
@@ -50,28 +53,32 @@
 			'leaflet'
 		],
 		waitSeconds: 30,
-        use: {
-		    'underscore': {
-		        attach: '_'
-		    },
-		    'backbone': {
-		        deps: ['use!underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
-		        attach: 'Backbone'
-		    },
-		    'jqueryui': {
-		        deps: ['jquery']
-		    },
-            'bootstrap': {
-                deps: ['jquery']
-            }
-		}
+        shim: {
+            'underscore': {
+                exports: '_'
+            },
+            'backbone': {
+                deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+                exports: 'Backbone'
+            },
+            'jqueryui': ['jquery'],
+            'bootstrap': ['jquery'],
+            'leaflet': {
+                exports: 'cartodb',
+            },
+            'leaflet_label': ['leaflet'],
+            'leafclusterer': ['leaflet'],
+            'TileLayer.Bing': ['leaflet'],
+            'leaflet_utils': ['leaflet'],
+            'leaflet_maptip': ['leaflet']
+        }
     });
     require([
         'prep',
         'campaign',
         'jquery',
-		'use!jqueryui',
-        'use!bootstrap'
+		'jqueryui',
+        'bootstrap'
     ], function(Prep, Campaign, $) {
         $(function() {
             window.test$ = $;
@@ -94,9 +101,14 @@
                         // does this feature have a property named popupContent?
                         if (feature.properties) {
                         	var content = "<a href='"+ feature.properties.url +"'>" + feature.properties.name + "</a>";
-                            layer.bindPopup(content);
+                            // layer.bindPopup(content);
+                            layer.bindLabel(feature.properties.name);
+                            layer.on('click', function() {
+                                document.location = feature.properties.url;
+                            })
                         }
                     }
+
                     var geojson = new L.GeoJSON(data, {
 					    pointToLayer: function (feature, latlng) {
 					    	var m1 = L.circleMarker(latlng, geojsonMarkerOptions);

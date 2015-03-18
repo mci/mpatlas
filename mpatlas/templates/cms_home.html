@@ -11,48 +11,38 @@
         paths: {
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
-            idtabs: 'jquery.idTabs.min'
+            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
         },
         priority: ['jquery'],
         waitSeconds: 30,
-        use: {
-		    'underscore': {
-		        attach: '_'
-		    },
-		    'backbone': {
-		        deps: ['use!underscore', 'json2', 'jquery'],
-		        attach: 'Backbone'
-		    },
-		    'jqueryui': {
-		        deps: ['jquery']
-		    },
-        'bootstrap': {
-            deps: ['jquery']
-        },
-		    'idtabs': {
-		        deps: ['jquery']
-		    }
-		}
+        shim: {
+          'underscore': {
+            exports: '_'
+          },
+          'backbone': {
+            deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+            exports: 'Backbone'
+          },
+          'jqueryui': ['jquery'],
+          'bootstrap': ['jquery'],
+          'leaflet': {
+            exports: 'cartodb',
+          },
+          'leafclusterer': ['leaflet'],
+          'TileLayer.Bing': ['leaflet'],
+          'leaflet_utils': ['leaflet'],
+          'leaflet_maptip': ['leaflet']
+        }
     });
     require([
         'prep',
         'jquery',
-        'use!jqueryui',
-        'use!bootstrap',
-        'use!idtabs'
+        'jqueryui',
+        'bootstrap'
     ], function(Prep, $) {
 	    $(function() {
             Prep.preparePage();
             window['showsplashdialog'] = Prep.showsplashdialog;
-            $(".splashtabs ul").idTabs(function(id,list,set){ 
-    		    $("a",set).removeClass("selected") 
-    		    .filter("[href='"+id+"']",set).addClass("selected"); 
-    		    for(i in list) 
-    		      $(list[i]).hide(); 
-    		    $(id).fadeIn(); 
-    		    return false; 
-    		  });
         });
 	});
 </script>

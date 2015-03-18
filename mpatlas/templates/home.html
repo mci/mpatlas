@@ -17,31 +17,32 @@
         },
         priority: ['jquery'],
         waitSeconds: 30,
-        use: {
-		    'underscore': {
-		        attach: '_'
-		    },
-		    'backbone': {
-		        deps: ['use!underscore', 'json2', 'jquery'],
-		        attach: 'Backbone'
-		    },
-		    'jqueryui': {
-		        deps: ['jquery']
-		    },
-        'bootstrap': {
-            deps: ['jquery']
-        },
-		    'idtabs': {
-		        deps: ['jquery']
+        shim: {
+          'underscore': {
+            exports: '_'
+          },
+          'backbone': {
+            deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+            exports: 'Backbone'
+          },
+          'jqueryui': ['jquery'],
+          'bootstrap': ['jquery'],
+          'leaflet': {
+            exports: 'cartodb',
+          },
+          'leafclusterer': ['leaflet'],
+          'TileLayer.Bing': ['leaflet'],
+          'leaflet_utils': ['leaflet'],
+          'leaflet_maptip': ['leaflet'],
+          'idtabs': ['jquery']
 		    }
-		}
     });
     require([
         'prep',
         'jquery',
-        'use!jqueryui',
-        'use!bootstrap',
-        'use!idtabs'
+        'jqueryui',
+        'bootstrap',
+        'idtabs'
     ], function(Prep, $) {
 	    $(function() {
             Prep.preparePage();
