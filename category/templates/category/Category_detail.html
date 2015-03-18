@@ -78,31 +78,32 @@
 			// 'leaflet'
 		],
 		waitSeconds: 30,
-        use: {
-		    'underscore': {
-		        attach: '_'
-		    },
-		    'backbone': {
-		        deps: ['use!underscore', 'json2', 'jquery'],
-		        attach: 'Backbone'
-		    },
-		    'jqueryui': {
-		        deps: ['jquery']
-		    },
-            'leaflet_label': {
-                deps: ['leaflet']
+        shim: {
+            'underscore': {
+                exports: '_'
             },
-            'bootstrap': {
-                deps: ['jquery']
-            }
-		}
+            'backbone': {
+                deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+                exports: 'Backbone'
+            },
+            'jqueryui': ['jquery'],
+            'bootstrap': ['jquery'],
+            'leaflet': {
+                exports: 'cartodb',
+            },
+            'leaflet_label': ['leaflet'],
+            'leafclusterer': ['leaflet'],
+            'TileLayer.Bing': ['leaflet'],
+            'leaflet_utils': ['leaflet'],
+            'leaflet_maptip': ['leaflet']
+        }
     });
     require([
         'prep',
         'categorydetail',
         'jquery',
-        'use!jqueryui',
-        'use!bootstrap'
+        'jqueryui',
+        'bootstrap'
     ], function(Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
