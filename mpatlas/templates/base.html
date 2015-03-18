@@ -1,4 +1,5 @@
 {% load url from future %}
+{% load staticfiles %}
 {% load cms_tags sekizai_tags i18n %}
 <!DOCTYPE html>
 <html lang="en">
@@ -13,30 +14,30 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        <link href="{{ STATIC_URL }}wiki/bootstrap/css/wiki-bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'wiki/bootstrap/css/wiki-bootstrap.min.css' %}" rel="stylesheet">
 
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
         
         <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700|Josefin+Sans:300,400,500,600,700,800|Open+Sans:400,700|Open+Sans+Condensed:300,700|Roboto+Condensed:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
 
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts2.css" type="text/css" charset="utf-8" />
+        <link rel="stylesheet" href="{% static 'css/fonts2.css' %}" type="text/css" charset="utf-8" />
         
-        <!-- <link href="{{ STATIC_URL }}css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css" media="screen" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="{% static 'css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css' %}" media="screen" rel="stylesheet" type="text/css" /> -->
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
         
-        <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet" type="text/css" />
-        <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/main_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+        <link href="{% static 'css/main.css' %}" media="screen" rel="stylesheet" type="text/css" />
+        <!--[if lte IE 8]><link href="{% static 'css/main_ie.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
         
-        <script src="{{ STATIC_URL }}js/require.js" type="text/javascript"></script>
+        <script src="{% static 'js/require.js' %}" type="text/javascript"></script>
         <!-- IE8 messes up sometimes (10% of page loads) with require.js, loading jquery first seems to fix it -->
         <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script><![endif]-->
         
         {% block base_head_extra %}
         <script type="text/javascript">
             require.config({
-                baseUrl: '{{ STATIC_URL }}js',
+                baseUrl: '{% static "js" %}',
                 paths: {
                     jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
                     jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
@@ -109,7 +110,7 @@
           window.fbAsyncInit = function() {
             FB.init({
               appId      : '314437775301695', // App ID
-              channelUrl : '//'+window.location.hostname+'{{ STATIC_URL }}js/facebook/channel.html', // Channel File
+              channelUrl : '//'+window.location.hostname+'{% static "js/facebook/channel.html" %}', // Channel File
               status     : true, // check login status
               cookie     : true, // enable cookies to allow the server to access the session
               xfbml      : true  // parse XFBML
@@ -266,10 +267,10 @@
                     <div id='footer_bluebar' style="height:28px;"></div>
                     <div id='footer_graybar'>
                         {% block base_footer_content %}{% endblock %}
-                        <a style="float:right;" target="_blank" href="#"><img src="{{ STATIC_URL }}images/footer_winslow_logo.png" style="margin-top:4px; height:45px; " alt="" /></a>
-                        <a style="float:right;" target="_blank" href="http://waittfoundation.org"><img src="{{ STATIC_URL }}images/footer_waitt_logo.png" style="margin-top:4px; height:45px;" alt="" /></a>
-                        <a style="float:right;" target="_blank" href="http://www.hollandamerica.com"><img src="{{ STATIC_URL }}images/footer_hal_logo.png" style="margin-top:4px; height:45px;" alt="" /></a>
-                        <a style="float:right;" target="_blank" href="http://arntzfamilyfoundation.org"><img src="{{ STATIC_URL }}images/footer_arntz_logo.png" style="margin-top:4px; height:45px;" alt="" /></a>
+                        <a style="float:right;" target="_blank" href="#"><img src="{% static 'images/footer_winslow_logo.png' %}" style="margin-top:4px; height:45px; " alt="" /></a>
+                        <a style="float:right;" target="_blank" href="http://waittfoundation.org"><img src="{% static 'images/footer_waitt_logo.png' %}" style="margin-top:4px; height:45px;" alt="" /></a>
+                        <a style="float:right;" target="_blank" href="http://www.hollandamerica.com"><img src="{% static 'images/footer_hal_logo.png' %}" style="margin-top:4px; height:45px;" alt="" /></a>
+                        <a style="float:right;" target="_blank" href="http://arntzfamilyfoundation.org"><img src="{% static 'images/footer_arntz_logo.png' %}" style="margin-top:4px; height:45px;" alt="" /></a>
                     </div>
                 </div>
             </div>
@@ -307,7 +308,7 @@
                 2: US MPA Center. 2012. Marine Protected Areas Inventory. <a class="normal" href="http://www.mpa.gov/dataanalysis/mpainventory/">http://www.mpa.gov/dataanalysis/mpainventory/</a>
                 </span> 
             </p><p style="text-align:center;">
-                <img style="width:337px; height:76px;" src="{{ STATIC_URL }}images/logos/data_logos.png" />
+                <img style="width:337px; height:76px;" src="{% static 'images/logos/data_logos.png' %}" />
             </p>
         </div>
         {% endblock %}
