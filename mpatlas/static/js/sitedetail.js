@@ -1,8 +1,8 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
   'jquery',
-  'use!underscore',
-  'use!backbone',
+  'underscore',
+  'backbone',
   'leaflet',
   'TileLayer.Bing'
   //'persist',

@@ -44,27 +44,30 @@
                 },
                 priority: ['jquery'],
                 waitSeconds: 30,
-                use: {
+                shim: {
                     'underscore': {
-                        attach: '_'
+                        exports: '_'
                     },
                     'backbone': {
-                        deps: ['use!underscore', 'json2', 'jquery'],
-                        attach: 'Backbone'
+                        deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
+                        exports: 'Backbone'
                     },
-                    'jqueryui': {
-                        deps: ['jquery']
+                    'jqueryui': ['jquery'],
+                    'bootstrap': ['jquery'],
+                    'leaflet': {
+                        exports: 'cartodb',
                     },
-                    'bootstrap': {
-                        deps: ['jquery']
-                    }
+                    'leafclusterer': ['leaflet'],
+                    'TileLayer.Bing': ['leaflet'],
+                    'leaflet_utils': ['leaflet'],
+                    'leaflet_maptip': ['leaflet']
                 }
             });
             require([
                 'prep',
                 'jquery',
-                'use!jqueryui',
-                'use!bootstrap'
+                'jqueryui',
+                'bootstrap'
             ], function(Prep, $) {
                 $(function() {
                     Prep.preparePage();
