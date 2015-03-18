@@ -1,9 +1,17 @@
-<html>
-<head>
-	<title>500 - Internal Server Error</title>
-</head>
-<body>
-	<h2>500 - Internal Server Error</h2>
-	Oops, I must have spilled coffee on my keyboard...
-</body>
-</html>
+{% extends "base.html" %}
+{% load url from future %}
+{% load cms_tags sekizai_tags i18n %}
+
+{% block title %}404 - Page not found{% endblock %}
+
+{% block base_body_content %}
+    <h2>505 - Internal Server Error</h2>
+	Something has gone bellyup.  This error has been logged and our team will look into it.  Please email info@mpatlas.org with any questions.
+    
+{% endblock %}
+
+{% block base_body_extra %}
+{% endblock %}
+
+{% block base_footer_content %}
+{% endblock %}
