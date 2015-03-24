@@ -63,8 +63,9 @@ urlpatterns = patterns('',
         {'template_name': 'accounts/password_reset_done.html'},
         name='password_reset_done'),
     
-    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
-        'django.contrib.auth.views.password_reset_confirm',
+    # Password reset email link with token
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', 
+        'django.contrib.auth.views.password_reset_confirm', 
         {'template_name': 'accounts/password_reset_confirm.html'},
         name='password_reset_confirm'),
     
