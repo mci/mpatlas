@@ -65,7 +65,8 @@ Shapely
 GeoIP-Python
 pygeoip
 
-django-cms
+git+git://github.com/divio/django-cms@3.1.0b1#egg=cms
+git+https://github.com/divio/djangocms-admin-style.git#egg=djangocms_admin_style
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
 
 # TileStache
