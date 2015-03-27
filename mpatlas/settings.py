@@ -373,6 +373,7 @@ INSTALLED_APPS = (
 
     'cms',  # django CMS itself
     'mptt',  # utilities for implementing a tree
+    'treebeard',
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
     'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
