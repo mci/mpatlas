@@ -322,6 +322,6 @@ def lookup_point(request):
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,
-            'mpa_list': cleaned_mpa_list,
+            'mpa_list': mpa_list,
             'mpa_candidate_list': mpa_candidate_list,
         }, content_type='application/json; charset=utf-8')
