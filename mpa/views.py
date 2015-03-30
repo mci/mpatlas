@@ -308,9 +308,20 @@ def lookup_point(request):
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
         mpa_candidate_list = mpas_proposed_nogeom.filter(point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
         #mpa_candidate_list = mpas_proposed_nogeom
+        mpa_list = list(mpa_list)
+        ids = [m.mpa_id for m in mpa_list]
+        cleaned_mpa_list
+        for mpa in mpa_list:
+            if mpa.mpa_id >= 7700000:
+                orig_id = int(str(mpa_id)[-5:])
+                if orig_id in ids:
+                    ids.remove(orig_id)
+        for mpa in mpa_list:
+            if mpa.mpa_id in ids:
+                cleaned_mpa_list.append(mpa)
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,
-            'mpa_list': mpa_list,
+            'mpa_list': cleaned_mpa_list,
             'mpa_candidate_list': mpa_candidate_list,
         }, content_type='application/json; charset=utf-8')
