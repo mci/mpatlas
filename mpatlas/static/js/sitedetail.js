@@ -99,6 +99,7 @@ function ($, _, Backbone) {
 			);
 			this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 			
+			/*
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
 				'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
@@ -115,6 +116,7 @@ function ($, _, Backbone) {
 			);
 			this.overlayLayers['Candidate Marine Protected Areas'] = lyr;
 			//this.layers.push(lyr);
+			*/
 			
             this.map = new L.Map(this.mapelem, {
 				center: new L.LatLng(0, 0),
@@ -126,9 +128,27 @@ function ($, _, Backbone) {
 				attributionControl:false,
 				touchZoom: true // needed for Android tablets
 			});
+
+			//this.map.attributionControl.setPrefix('');
 			
             var map = this.map; // use this var for closures inside event handlers
 
+            var that = this;
+
+            // Designated Marine Protected Areas
+            lyr = cartodb.createLayer(this.map, 'http://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json', {cartodb_logo: false, legends: false})
+                .on('done', function(layer) {
+                  layer.options.attribution = 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>';
+                  that.overlayLayers['Designated Marine Protected Areas'] = layer;
+                  that.layers.unshift(layer);
+                  that.mpalayer = layer;
+                })
+                .on('error', function(err) {
+                  alert("some error occurred: " + err);
+                })
+                .addTo(this.map);
+
+            /*
 			// override the position of layer control			
 			L.Control.Layers.prototype.getPosition = function () {
 				return 'bottomleft';
@@ -142,6 +162,7 @@ function ($, _, Backbone) {
 				}
 			);
 			this.map.addControl(this.layersControl);
+			*/
 			
 			this.map.on('viewreset', function (e) {
 				try {
@@ -223,7 +244,7 @@ function ($, _, Backbone) {
                         color: '#d0508c',
                         opacity: 0.8,
                         fillColor: '#d0508c',
-                        fillOpacity: 0.2
+                        fillOpacity: 0.4
                     });
                     if (that.highlightlayer) {
                         that.map.removeLayer(that.highlightlayer);
