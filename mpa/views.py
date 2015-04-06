@@ -101,7 +101,7 @@ def edit_mpa_geom(request, pk):
                     gj = json.load(request.FILES['boundaryfile'])
                 else:
                     # Use 'boundarygeo' textarea
-                    gj = editform.cleaned_data['boundarygeo']
+                    gj = json.loads(editform.cleaned_data['boundarygeo'])
                 if 'type' in gj and gj['type'] == 'FeatureCollection':
                     # Use first feature in collection and ignore the rest
                     geom_geojson = gj['features'][0]['geometry']
