@@ -133,13 +133,13 @@ class Mpa(models.Model):
     wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, editable=False)
     usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, editable=False)
     other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True)
-    name = models.CharField('Name', max_length=254)
+    name = models.CharField('Name', max_length=254, help_text='Protected area name not including designation title')
     long_name = models.CharField(max_length=254, blank=True) # name + designation
-    short_name = models.CharField(max_length=254, blank=True) # name + designation with abbreviations
+    short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
     slug = models.CharField(max_length=254, blank=True)
 
     # Taggit TaggableManger used to define categories
-    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
+    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags enclosed in quotes (e.g., [ "Shark Sanctuary", "World Heritage Site" ]', blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
     sovereign = models.CharField('Sovereign Country', max_length=50, null=True, blank=True)
@@ -147,6 +147,7 @@ class Mpa(models.Model):
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Verification State
+    is_mpa = models.BooleanField(default=True)
     verification_state = models.CharField('Verification State', max_length=100, default='Unverified', choices=VERIFY_CHOICES)
     verification_reason = models.CharField('Verification Reason', max_length=1000, null=True, blank=True)
     verified_by = models.CharField('Verified By', max_length=100, null=True, blank=True)
@@ -214,7 +215,7 @@ class Mpa(models.Model):
     permanence_citation = models.TextField(null=True, blank=True)
     
     # Notes
-    wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
+    wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True, editable=False)
     notes = models.TextField('Area Notes', null=True, blank=True, default='')
     
     # Summary Info
