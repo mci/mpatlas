@@ -130,9 +130,9 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
 class Mpa(models.Model):
     # ID / Name
     mpa_id = models.AutoField('MPA id', primary_key=True, editable=False)
-    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, editable=False)
-    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, editable=False)
-    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True)
+    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, help_text='WDPA ID code. You probably should not be changing this.')
+    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
+    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True, help_text='ID codes used by other groups to identify this area, e.g., TNC Caribbean or Coral Triangle Atlas ids.')
     name = models.CharField('Name', max_length=254, help_text='Protected area name not including designation title')
     long_name = models.CharField(max_length=254, blank=True) # name + designation
     short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
