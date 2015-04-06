@@ -22,12 +22,13 @@ class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
     fieldsets = [
-        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug']}),
+        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids']}),
         ('Categories/Tags', {'fields': ['categories']}),
         ('Is this a Marine Protected Area or a different marine managed area?', {'fields': ['is_mpa']}),
         ('Status', {'fields': ['status', 'status_year', 'implemented', 'implementation_date', 'verification_state', 'verification_reason', 'verified_by', 'verified_date']}),
         ('Summary Information', {'fields': ['summary']}),
         ('Designation Type', {'fields': ['designation_type', 'int_criteria', 'iucn_category']}),
+        ('No-Take Status & Marine Area', {'fields': ['no_take', 'no_take_area', 'rep_m_area', 'calc_m_area', 'rep_area', 'calc_area']}),
         ('Region, Jurisdiction & Management', {'fields': ['sovereign', 'country', 'sub_location', 'gov_type', 'mgmt_auth', 'mgmt_plan_type', 'mgmt_plan_ref']}),
         ('Points of Contact', {'fields': ['contact', 'other_contacts']}),
         ('Boundaries', {'fields': ['is_point']}),
