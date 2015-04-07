@@ -282,7 +282,7 @@ def lookup_point(request):
             'mpa_list': mpa_list,
         }, content_type='application/json; charset=utf-8')
     else:
-        mpas_valid = mpas_noproposed_nogeom
+        mpas_valid = mpas_norejects_nogeom
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
@@ -320,7 +320,7 @@ def lookup_point(request):
             mpa_list = mpas_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
-        mpa_candidate_list = mpas_proposed_nogeom.filter(point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
+        mpa_point_list = mpas_norejects_nogeom.filter(is_point=True, point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
         #mpa_candidate_list = mpas_proposed_nogeom
         # mpa_list = list(mpa_list)
         # ids = [m.mpa_id for m in mpa_list]
@@ -336,6 +336,5 @@ def lookup_point(request):
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,
-            'mpa_list': mpa_list,
-            'mpa_candidate_list': mpa_candidate_list,
+            'mpa_list': mpa_list | mpa_point_list, # this joins the query sets with an OR
         }, content_type='application/json; charset=utf-8')
