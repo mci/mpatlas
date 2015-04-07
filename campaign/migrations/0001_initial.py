@@ -1,60 +1,48 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Campaign'
-        db.create_table('campaign_campaign', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=254)),
-            ('slug', self.gf('django.db.models.fields.CharField')(max_length=254)),
-            ('country', self.gf('django.db.models.fields.CharField')(max_length=20)),
-            ('sub_location', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('summary', self.gf('tinymce.models.HTMLField')(null=True, blank=True)),
-            ('point_geom', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('campaign', ['Campaign'])
-
-        # Adding model 'Initiative'
-        db.create_table('campaign_initiative', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=254)),
-            ('slug', self.gf('django.db.models.fields.CharField')(max_length=254)),
-        ))
-        db.send_create_signal('campaign', ['Initiative'])
+from django.db import models, migrations
+import ckeditor.fields
+import django.contrib.gis.db.models.fields
+import taggit.managers
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Campaign'
-        db.delete_table('campaign_campaign')
+class Migration(migrations.Migration):
 
-        # Deleting model 'Initiative'
-        db.delete_table('campaign_initiative')
+    dependencies = [
+        ('mpa', '0001_initial'),
+        ('category', '0001_initial'),
+    ]
 
-
-    models = {
-        'campaign.campaign': {
-            'Meta': {'object_name': 'Campaign'},
-            'country': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '254'}),
-            'point_geom': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '254'}),
-            'sub_location': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'summary': ('tinymce.models.HTMLField', [], {'null': 'True', 'blank': 'True'})
-        },
-        'campaign.initiative': {
-            'Meta': {'object_name': 'Initiative'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '254'}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '254'})
-        }
-    }
-
-    complete_apps = ['campaign']
+    operations = [
+        migrations.CreateModel(
+            name='Campaign',
+            fields=[
+                ('id', models.AutoField(verbose_name=b'Campaign id', serialize=False, editable=False, primary_key=True)),
+                ('name', models.CharField(max_length=254, verbose_name=b'Name')),
+                ('slug', models.SlugField(unique=True, max_length=254, blank=True)),
+                ('country', models.CharField(max_length=20, verbose_name=b'Country / Territory')),
+                ('sub_location', models.CharField(max_length=100, null=True, verbose_name=b'Sub Location', blank=True)),
+                ('summary', ckeditor.fields.RichTextField(null=True, verbose_name=b'Campaign Description', blank=True)),
+                ('point_geom', django.contrib.gis.db.models.fields.PointField(srid=4326, null=True, blank=True)),
+                ('categories', taggit.managers.TaggableManager(to='category.Category', through='category.TaggedItem', blank=True, help_text=b'You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', verbose_name=b'Categories')),
+                ('mpas', models.ManyToManyField(to='mpa.Mpa', null=True, blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Initiative',
+            fields=[
+                ('id', models.AutoField(verbose_name=b'Initiative id', serialize=False, editable=False, primary_key=True)),
+                ('name', models.CharField(max_length=254, verbose_name=b'Name')),
+                ('slug', models.SlugField(unique=True, max_length=254, blank=True)),
+                ('summary', ckeditor.fields.RichTextField(null=True, verbose_name=b'Initiative Description', blank=True)),
+                ('campaigns', models.ManyToManyField(to='campaign.Campaign')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+    ]
