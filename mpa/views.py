@@ -11,7 +11,7 @@ import json
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
-from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+from mpa.models import Mpa, MpaCandidate
 from mpa.forms import MpaForm, MpaGeomForm
 
 from mpa.filters import apply_filters
@@ -23,6 +23,13 @@ from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata
 
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
+
+# Predefined querysets
+mpas_norejects = Mpa.objects.exclude(verification_state='Rejected as MPA')
+mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
+mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
+mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
+mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())
 
 def do_revision(request):
     mpa = Mpa.objects.get(pk=4)

@@ -2,8 +2,8 @@ from django.conf.urls import patterns, include, url
 # from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView
-from wiki.urls import get_pattern as get_wiki_pattern
-from django_notify.urls import get_pattern as get_notify_pattern
+# from wiki.urls import get_pattern as get_wiki_pattern
+# from django_notify.urls import get_pattern as get_notify_pattern
 
 from django.conf import settings
 from django.conf.urls.static import static
