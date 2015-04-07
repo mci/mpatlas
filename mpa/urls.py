@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView, DetailView, ListView
 
-from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
-from mpa.views import MpaListView, MpaJsonListView
+from mpa.models import Mpa, MpaCandidate
+from mpa.views import MpaListView, MpaJsonListView, mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 
 urlpatterns = patterns('',
     # Examples:

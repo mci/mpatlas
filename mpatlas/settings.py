@@ -210,7 +210,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates')
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 CMS_TEMPLATES = (
@@ -344,7 +344,7 @@ INSTALLED_APPS = (
     
     'django_extensions',
     # 'storages',
-    'south',  # Only needed for Django < 1.7
+    # 'south',  # Only needed for Django < 1.7
     'django.contrib.gis',
 
     'filer',
@@ -383,16 +383,16 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
 
-    'django_notify',
     'sorl.thumbnail',
-    'wiki',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'wiki.plugins.images',
-    'wiki.plugins.macros',
-    'wiki.plugins.links',
-    'wiki.plugins.help',
-    # 'wiki.plugins.haystack',
+    # 'django_notify',
+    # 'wiki',
+    # 'wiki.plugins.attachments',
+    # 'wiki.plugins.notifications',
+    # 'wiki.plugins.images',
+    # 'wiki.plugins.macros',
+    # 'wiki.plugins.links',
+    # 'wiki.plugins.help',
+    # # 'wiki.plugins.haystack',
 
     
     'reversion',

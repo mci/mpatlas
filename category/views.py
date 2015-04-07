@@ -7,7 +7,8 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.contenttypes.models import ContentType
 
 from category.models import Category, Details, TaggedItem
-from mpa.models import Mpa, mpas_norejects_nogeom
+from mpa.models import Mpa
+from mpa.views import mpas_norejects_nogeom
 from campaign.models import Campaign
 
 class CategoryDetailView(DetailView):
