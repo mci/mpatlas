@@ -97,7 +97,7 @@
 	    
 	    <div class="sidebar_item_title">National MPA Contacts &amp; Resources</div>
     	<div class="sidebar_item_content">
-    	    {% if nation.contact and nation.contact.url %}
+    	    {% if nation.mpa_agency %}
                 <p>
                     {{ nation.mpa_agency|safe }}
                 </p>
