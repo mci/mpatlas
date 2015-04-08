@@ -1,5 +1,5 @@
 #from django import forms
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 from django import forms
 from mpa.models import Mpa
 # from tinymce.widgets import TinyMCE
@@ -27,6 +27,7 @@ class MpaGeomForm(ModelForm):
         fields = []
         # exclude = ()
         widgets = {}
+
 # Creating a form to submit a new rsvp response
 #newform = TegnerForm()
 
