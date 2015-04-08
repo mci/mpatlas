@@ -326,8 +326,8 @@ TEXT_SAVE_IMAGE_FUNCTION='cmsplugin_filer_image.integrations.ckeditor.create_ima
 FILER_IS_PUBLIC_DEFAULT = True
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 
-SOUTH_MIGRATION_MODULES = {
-    'taggit': 'taggit.south_migrations'
+MIGRATION_MODULES = {
+    'filer': 'filer.migrations_django',
 }
 
 INSTALLED_APPS = (
