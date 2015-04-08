@@ -6,11 +6,12 @@ from django.views.generic import ListView
 from django.db.models import Q
 import re
 from itertools import chain
+import json
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
-from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+from mpa.models import Mpa, MpaCandidate
 from mpa.forms import MpaForm, MpaGeomForm
 
 from mpa.filters import apply_filters
@@ -22,6 +23,13 @@ from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata
 
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
+
+# Predefined querysets
+mpas_norejects = Mpa.objects.exclude(verification_state='Rejected as MPA')
+mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
+mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
+mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
+mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())
 
 def do_revision(request):
     mpa = Mpa.objects.get(pk=4)
@@ -92,10 +100,23 @@ def edit_mpa_geom(request, pk):
     mpa = get_object_or_404(Mpa, pk=pk)
     if (request.POST):
         # Got a form submission
-        editform = MpaGeomForm(request.POST)
+        editform = MpaGeomForm(request.POST, request.FILES, instance=mpa)
         if editform.is_valid():
             try:
-                geom_geojson = editform.cleaned_data['boundarygeo']
+                if 'boundaryfile' in request.FILES:
+                    # Use uploaded file 'boundaryfile' instead of textarea 'boundarygeo'
+                    gj = json.load(request.FILES['boundaryfile'])
+                else:
+                    # Use 'boundarygeo' textarea
+                    gj = json.loads(editform.cleaned_data['boundarygeo'])
+                if 'type' in gj and gj['type'] == 'FeatureCollection':
+                    # Use first feature in collection and ignore the rest
+                    geom_geojson = gj['features'][0]['geometry']
+                elif 'type' in gj and gj['type'] == 'Feature':
+                    geom_geojson = gj['geometry']
+                else:
+                    geom_geojson = gj
+                geom_geojson = json.dumps(geom_geojson) 
                 if (geom_geojson) == '':
                     mpa.geom = None
                     mpa.point_geom = None
@@ -261,7 +282,7 @@ def lookup_point(request):
             'mpa_list': mpa_list,
         }, content_type='application/json; charset=utf-8')
     else:
-        mpas_valid = mpas_noproposed_nogeom
+        mpas_valid = mpas_norejects_nogeom
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
         point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
@@ -299,11 +320,21 @@ def lookup_point(request):
             mpa_list = mpas_valid.filter(geog__intersects=point).defer(*Mpa.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
-        mpa_candidate_list = mpas_proposed_nogeom.filter(point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
+        mpa_point_list = mpas_norejects_nogeom.filter(is_point=True, point_geog__dwithin=(origpoint, Distance(km=candidate_radius)))
         #mpa_candidate_list = mpas_proposed_nogeom
+        # mpa_list = list(mpa_list)
+        # ids = [m.mpa_id for m in mpa_list]
+        # cleaned_mpa_list
+        # for mpa in mpa_list:
+        #     if mpa.mpa_id >= 7700000:
+        #         orig_id = int(str(mpa_id)[-5:])
+        #         if orig_id in ids:
+        #             ids.remove(orig_id)
+        # for mpa in mpa_list:
+        #     if mpa.mpa_id in ids:
+        #         cleaned_mpa_list.append(mpa)
         search.transform(4326)
         return render(request, 'mpa/mpalookup.json', {
             'search': search.coords,
-            'mpa_list': mpa_list,
-            'mpa_candidate_list': mpa_candidate_list,
+            'mpa_list': mpa_list | mpa_point_list, # this joins the query sets with an OR
         }, content_type='application/json; charset=utf-8')

@@ -9,9 +9,13 @@ class Nation(models.Model):
     iso3code = models.CharField(max_length=3, default='')
     summary = RichTextField('Nation Protection Summary', null=True, blank=True)
 
+    mpa_agency = RichTextField('National Marine Protected Area Agency', null=True, blank=True)
+
     marine_area = models.FloatField(null=True, blank=True)
     mpa_area = models.FloatField(null=True, blank=True)
     mpa_percent = models.FloatField(null=True, blank=True)
+    notake_area = models.FloatField(null=True, blank=True)
+    notake_percent = models.FloatField(null=True, blank=True)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
@@ -30,7 +34,8 @@ class Nation(models.Model):
     
     @property
     def mpas(self):
-        from mpa.models import Mpa, MpaCandidate, mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+        from mpa.models import Mpa, MpaCandidate
+        from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
         return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
     
     @models.permalink

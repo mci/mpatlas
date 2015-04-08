@@ -51,10 +51,15 @@ IUCN_CAT_CHOICES = (
 
 STATUS_CHOICES = (
     ('Proposed', 'Proposed'),
-    ('Adopted', 'Adopted'),
-    ('Inscribed', 'Inscribed'),
+    # ('Adopted', 'Adopted'),
+    # ('Inscribed', 'Inscribed'),
     ('Designated', 'Designated'),
     ('Defunct/Degazetted', 'Defunct/Degazetted'),
+)
+
+IMPLEMENTED_CHOICES = (
+    ('Not Implemented', 'Not Implemented'),
+    ('Implemented', 'Implemented'),
 )
 
 NO_TAKE_CHOICES = (
@@ -125,22 +130,24 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
 class Mpa(models.Model):
     # ID / Name
     mpa_id = models.AutoField('MPA id', primary_key=True, editable=False)
-    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, editable=False)
-    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, editable=False)
-    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True)
-    name = models.CharField('Name', max_length=254)
+    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, help_text='WDPA ID code. You probably should not be changing this.')
+    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
+    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True, help_text='ID codes used by other groups to identify this area, e.g., TNC Caribbean or Coral Triangle Atlas ids.')
+    name = models.CharField('Name', max_length=254, help_text='Protected area name not including designation title')
     long_name = models.CharField(max_length=254, blank=True) # name + designation
-    short_name = models.CharField(max_length=254, blank=True) # name + designation with abbreviations
+    short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
     slug = models.CharField(max_length=254, blank=True)
 
     # Taggit TaggableManger used to define categories
-    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags (e.g., [ Shark Sanctuary, World Heritage Site ]', blank=True)
+    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags enclosed in quotes (e.g., [ "Shark Sanctuary", "World Heritage Site" ]', blank=True)
     
     # Set up foreign key to ISO Countries and Sub Locations
-    country = models.CharField('Country / Territory', max_length=20)
+    sovereign = models.CharField('Sovereign Country', max_length=50, null=True, blank=True)
+    country = models.CharField('Country / Territory', max_length=50)
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Verification State
+    is_mpa = models.BooleanField(default=True)
     verification_state = models.CharField('Verification State', max_length=100, default='Unverified', choices=VERIFY_CHOICES)
     verification_reason = models.CharField('Verification Reason', max_length=1000, null=True, blank=True)
     verified_by = models.CharField('Verified By', max_length=100, null=True, blank=True)
@@ -155,6 +162,10 @@ class Mpa(models.Model):
     marine = models.NullBooleanField('Marine (field from WDPA)', null=True, blank=True, default=True, editable=False)
     status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
     status_year = models.IntegerField('Status Year', null=True, blank=True)
+
+    # Implementation
+    implemented = models.BooleanField('Implemented?', help_text='MPA is designated and implemented with regulations enforced', blank=True, default=True)
+    implementation_date = models.DateField('Implementation Date', help_text='Date regulations went into effect or will go into effect', null=True, blank=True)
     
     # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
@@ -183,6 +194,7 @@ class Mpa(models.Model):
     fishing_info = models.TextField(null=True, blank=True)
     fishing_citation = models.TextField(null=True, blank=True)
     access = models.CharField(max_length=254, null=True, blank=True, choices=ACCESS_CHOICES, default='Unknown')
+    access_info = models.TextField(null=True, blank=True)
     access_citation = models.TextField(null=True, blank=True)
     
     # Conservation Focus
@@ -203,7 +215,7 @@ class Mpa(models.Model):
     permanence_citation = models.TextField(null=True, blank=True)
     
     # Notes
-    wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True)
+    wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True, editable=False)
     notes = models.TextField('Area Notes', null=True, blank=True, default='')
     
     # Summary Info
@@ -382,6 +394,8 @@ class Mpa(models.Model):
 
 @receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
+    if kwargs['raw']:
+        return
     # Calculate things once an mpa object is created or updated
     # Disconnect post_save so we don't enter recursive loop
     post_save.disconnect(mpa_post_save, sender=Mpa)
@@ -502,8 +516,3 @@ mpacandidate_mapping = {
     'geom' : 'MULTIPOINT',
 }
 
-mpas_norejects = Mpa.objects.exclude(verification_state='Rejected as MPA')
-mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
-mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
-mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
-mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())

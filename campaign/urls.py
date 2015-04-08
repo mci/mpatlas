@@ -16,7 +16,11 @@ urlpatterns = patterns('',
     # url(r'^map/$', 'campaign.views.map'),
 
     url(r'^$',
-        TemplateView.as_view(template_name='campaign/Campaign_map.html'),
+        ListView.as_view(
+            queryset=Campaign.objects.all().order_by('name'),
+            context_object_name='campaign_list',
+            paginate_by=None,
+            template_name='campaign/Campaign_map.html'),
         name='campaign-map'),
     url(r'^list/$',
         ListView.as_view(
