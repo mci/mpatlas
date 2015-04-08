@@ -1,39 +1,83 @@
-yolk
-BeautifulSoup
-#Django
-git+git://github.com/mci/django.git@1.3.1_postgis2.0#egg=Django
-Fabric
+Django<1.7
+git+git://github.com/benjaoming/django-wiki.git#egg=wiki
+git+git://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
+# django-storages
+hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
+# svn+http://django-filebrowser.googlecode.com/svn/branches/filebrowser3-no-grappelli/#egg:django-filebrowser
 git+git://github.com/jlopez/maxmind-geoip.git#egg=GeoIP-Python
-Pillow
-Pygments
+django-admin-tools
+django-appconf
+django-appmedia
+django-ckeditor-updated
+django-classy-tags
+django-countries
+django-debug-toolbar
+django-extensions
+django-filebrowser-no-grappelli
+django-haystack
+django-mptt
+django-reversion
+django-sekizai
+django-social-auth
+django-staticfiles
+django-taggit
+django-tinymce
 SQLAlchemy
 South
+Pillow
+BeautifulSoup
+Markdown
+Pygments
+python-slugify
+django-uuslug
+Unidecode
+argparse
 boto
-distribute
-django-admin-tools
-django-extensions
-django-debug-toolbar
-svn+http://django-filebrowser.googlecode.com/svn/branches/filebrowser3-no-grappelli/#egg:django-filebrowser
-django-haystack
-django-reversion<1.4
-django-sekizai
-django-staticfiles
-#django-storages
-hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
-django-tinymce
 docutils
 easy-thumbnails
-eventlet
 feedparser
+eventlet
 gevent
 greenlet
-psycogreen
 gunicorn
+httplib2
 ipython
 mercurial
+nose
+oauth2
+paramiko
+psycogreen
 psycopg2
-pygeoip
+pycrypto
 python-memcached
+python-openid
+pyenchant
+pysqlite
 setproctitle
+simplejson
 sorl-thumbnail
-git+git://github.com/benjaoming/django-wiki.git#egg=wiki
+sqlparse
+translationstring
+yolk
+Fabric
+Fiona
+Shapely
+GeoIP-Python
+pygeoip
+
+git+git://github.com/divio/django-cms@3.1.0b1#egg=cms
+git+https://github.com/divio/djangocms-admin-style.git#egg=djangocms_admin_style
+git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
+
+# TileStache
+# ModestMaps
+
+# Mako
+# MarkupSafe
+# pyramid
+# Paste
+# PasteDeploy
+# PasteScript
+# WebOb
+# Werkzeug
+# wsgiref

@@ -1,11 +1,10 @@
-# Django settings for mpatlas project.
-
 # -*- coding: utf-8 -*-
 import os
-#gettext = lambda s: s
+gettext = lambda s: s
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 SITE_PATH = os.path.dirname(PROJECT_PATH)
 
+# Django settings for mpatlas project.
 DEBUG = False
 
 # Override DEBUG with local_settings.py value right away.  We override all other global
@@ -17,13 +16,20 @@ except ImportError:
 
 TEMPLATE_DEBUG = DEBUG
 
+# Use safelogging from https://github.com/litchfield/django-safelogging
+# Rate limits error log emails and suppresses disallowed hosts warnings
+try:
+    from safelogging.settings import *
+except:
+    pass
+
 ADMINS = (
     # ('Russell Moffitt', 'Russell.Moffitt@marine-conservation.org'),
 )
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['.mpatlas.org', '54.219.255.15']
+ALLOWED_HOSTS = ['.mpatlas.org', '54.68.154.94']
 
 DATABASES = {
     'default': {
@@ -63,9 +69,12 @@ TIME_ZONE = 'America/Los_Angeles'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ('en-us', 'English'),
+]
 
 # Site 2 is dev.mpatlas.org, 1 is mpatlas.org
-SITE_ID = 2 if DEBUG else 1
+SITE_ID = 1 if DEBUG else 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -160,13 +169,22 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     # Uncomment to enable caching with memcached
     'django.middleware.cache.UpdateCacheMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.doc.XViewMiddleware',
+
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
+
     # Uncomment to enable caching with memcached
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
@@ -184,14 +202,43 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'social_auth.context_processors.social_auth_by_name_backends',
     'sekizai.context_processors.sekizai',
+    'cms.context_processors.cms_settings',
 )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates')
+    os.path.join(PROJECT_PATH, 'templates'),
 )
+
+CMS_TEMPLATES = (
+    ('cms_basic.html', 'Basic Page'),
+    ('cms_home.html', 'Homepage'),
+    ('cms_mpapedia.html', 'MPApedia Page'),
+)
+
+# These settings override djangocms_text_ckeditor toolbar settings
+CKEDITOR_SETTINGS = {
+    'language': '{{ language }}',
+    'toolbar': 'CMS',
+    'skin': 'moono',
+    'toolbarCanCollapse': False,
+    'toolbar_CMS': [
+                    ['Undo', 'Redo'],
+                    ['cmsplugins', '-', 'ShowBlocks'],
+                    ['Format', 'Styles'],
+                    ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+                    ['Maximize', ''],
+                    '/',
+                    ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+                    ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+                    ['HorizontalRule'],
+                    { 'name': 'links', 'items': [ 'Link', 'Unlink', 'Anchor' ] },
+                    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
+                    ['Source']
+                ],
+}
 
 #CKEditor
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
@@ -263,8 +310,23 @@ TINYMCE_DEFAULT_CONFIG = {
   }   
 }
 
-SOUTH_MIGRATION_MODULES = {
-    'taggit': 'taggit.south_migrations'
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+THUMBNAIL_HIGH_RESOLUTION = True # for retina support
+
+# django-filer and ckeditor integration
+TEXT_SAVE_IMAGE_FUNCTION='cmsplugin_filer_image.integrations.ckeditor.create_image_plugin'
+
+FILER_IS_PUBLIC_DEFAULT = True
+FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
+
+MIGRATION_MODULES = {
+    'filer': 'filer.migrations_django',
 }
 
 INSTALLED_APPS = (
@@ -272,32 +334,64 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.messages',
+    'django.contrib.messages', # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # 'staticfiles',
+
+    # 'debug_toolbar',
+    
+    'django_extensions',
+    # 'storages',
+    # 'south',  # Only needed for Django < 1.7
+    'django.contrib.gis',
+
+    'filer',
+    'easy_thumbnails',
+
+    'cmsplugin_filer_file',
+    'cmsplugin_filer_folder',
+    'cmsplugin_filer_link',
+    'cmsplugin_filer_image',
+    'cmsplugin_filer_teaser',
+    'cmsplugin_filer_video',
+
+    # 'djangocms_file',
+    'djangocms_flash',
+    'djangocms_googlemap',
+    'djangocms_inherit',
+    # 'djangocms_picture',
+    'djangocms_teaser',
+    # 'djangocms_video',
+    'djangocms_link',
+    'djangocms_snippet',
+    'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
+
+    # Plaintext Plugin
+    'cmsplugin_plaintext',
+
+    'cms',  # django CMS itself
+    'mptt',  # utilities for implementing a tree
+    'treebeard',
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
+    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    
-    'django_extensions',
-    # 'storages',
-    'south',
-    'django.contrib.gis',
 
-    'django_notify',
-    'mptt',
-    'sekizai',
     'sorl.thumbnail',
-    'wiki',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'wiki.plugins.images',
-    'wiki.plugins.macros',
-    'wiki.plugins.links',
-    'wiki.plugins.help',
-    # 'wiki.plugins.haystack',
+    # 'django_notify',
+    # 'wiki',
+    # 'wiki.plugins.attachments',
+    # 'wiki.plugins.notifications',
+    # 'wiki.plugins.images',
+    # 'wiki.plugins.macros',
+    # 'wiki.plugins.links',
+    # 'wiki.plugins.help',
+    # # 'wiki.plugins.haystack',
 
     
     'reversion',

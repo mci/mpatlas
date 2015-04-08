@@ -1,102 +1,112 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Eez'
-        db.create_table('spatialdata_eez', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('eez', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('country', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('objectid', self.gf('django.db.models.fields.IntegerField')()),
-            ('sovereign', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('remarks', self.gf('django.db.models.fields.CharField')(max_length=150)),
-            ('sov_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('iso_3digit', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('gazid', self.gf('django.db.models.fields.FloatField')()),
-            ('eez_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('area', self.gf('django.db.models.fields.FloatField')()),
-            ('geom_smerc', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(srid=900913, null=True)),
-            ('geom', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-            ('geog', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-            ('simple_geom_smerc', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(srid=900913, null=True)),
-            ('simple_geom', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-            ('simple_geog', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-        ))
-        db.send_create_signal('spatialdata', ['Eez'])
-
-        # Adding model 'EezSimplified'
-        db.create_table('spatialdata_eezsimplified', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('eez', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('country', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('objectid', self.gf('django.db.models.fields.IntegerField')()),
-            ('sovereign', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('remarks', self.gf('django.db.models.fields.CharField')(max_length=150)),
-            ('sov_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('iso_3digit', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('gazid', self.gf('django.db.models.fields.FloatField')()),
-            ('eez_id', self.gf('django.db.models.fields.IntegerField')()),
-            ('area', self.gf('django.db.models.fields.FloatField')()),
-            ('geom_smerc', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(srid=900913, null=True)),
-            ('geom', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-            ('geog', self.gf('django.contrib.gis.db.models.fields.MultiPolygonField')(null=True)),
-        ))
-        db.send_create_signal('spatialdata', ['EezSimplified'])
+from django.db import models, migrations
+import ckeditor.fields
+import django.contrib.gis.db.models.fields
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Eez'
-        db.delete_table('spatialdata_eez')
+class Migration(migrations.Migration):
 
-        # Deleting model 'EezSimplified'
-        db.delete_table('spatialdata_eezsimplified')
+    dependencies = [
+        ('mpa', '0001_initial'),
+    ]
 
-
-    models = {
-        'spatialdata.eez': {
-            'Meta': {'object_name': 'Eez'},
-            'area': ('django.db.models.fields.FloatField', [], {}),
-            'country': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'eez': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'eez_id': ('django.db.models.fields.IntegerField', [], {}),
-            'gazid': ('django.db.models.fields.FloatField', [], {}),
-            'geog': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'geom': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'geom_smerc': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'srid': '900913', 'null': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'iso_3digit': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'objectid': ('django.db.models.fields.IntegerField', [], {}),
-            'remarks': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'simple_geog': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'simple_geom': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'simple_geom_smerc': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'srid': '900913', 'null': 'True'}),
-            'sov_id': ('django.db.models.fields.IntegerField', [], {}),
-            'sovereign': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        'spatialdata.eezsimplified': {
-            'Meta': {'object_name': 'EezSimplified'},
-            'area': ('django.db.models.fields.FloatField', [], {}),
-            'country': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'eez': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'eez_id': ('django.db.models.fields.IntegerField', [], {}),
-            'gazid': ('django.db.models.fields.FloatField', [], {}),
-            'geog': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'geom': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'null': 'True'}),
-            'geom_smerc': ('django.contrib.gis.db.models.fields.MultiPolygonField', [], {'srid': '900913', 'null': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'iso_3digit': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'objectid': ('django.db.models.fields.IntegerField', [], {}),
-            'remarks': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'sov_id': ('django.db.models.fields.IntegerField', [], {}),
-            'sovereign': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        }
-    }
-
-    complete_apps = ['spatialdata']
+    operations = [
+        migrations.CreateModel(
+            name='Eez',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('eez', models.CharField(max_length=200)),
+                ('country', models.CharField(max_length=100)),
+                ('objectid', models.IntegerField()),
+                ('sovereign', models.CharField(max_length=100)),
+                ('remarks', models.CharField(max_length=150)),
+                ('sov_id', models.IntegerField()),
+                ('iso_3digit', models.CharField(max_length=50)),
+                ('gazid', models.FloatField()),
+                ('eez_id', models.IntegerField()),
+                ('area', models.FloatField()),
+                ('geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+                ('simple_geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('simple_geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('simple_geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='EezMembership',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('area_in_eez', models.FloatField(null=True, verbose_name=b'mpa area in eez (m2)')),
+                ('eez', models.ForeignKey(to='spatialdata.Eez')),
+                ('mpa', models.ForeignKey(to='mpa.Mpa')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Meow',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('ecoregion_code', models.FloatField()),
+                ('ecoregion', models.CharField(max_length=50)),
+                ('province_code', models.FloatField()),
+                ('province', models.CharField(max_length=40)),
+                ('realm_code', models.FloatField()),
+                ('realm', models.CharField(max_length=40)),
+                ('alt_code', models.FloatField()),
+                ('ecoregion_code_x', models.FloatField()),
+                ('latitude_zone', models.CharField(max_length=10)),
+                ('geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+                ('simple_geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('simple_geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('simple_geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Nation',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=240)),
+                ('iso3code', models.CharField(default=b'', max_length=3)),
+                ('summary', ckeditor.fields.RichTextField(null=True, verbose_name=b'Nation Protection Summary', blank=True)),
+                ('marine_area', models.FloatField(null=True, blank=True)),
+                ('mpa_area', models.FloatField(null=True, blank=True)),
+                ('mpa_percent', models.FloatField(null=True, blank=True)),
+                ('notake_area', models.FloatField(null=True, blank=True)),
+                ('notake_percent', models.FloatField(null=True, blank=True)),
+                ('geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+                ('simple_geom_smerc', django.contrib.gis.db.models.fields.MultiPolygonField(srid=3857, null=True)),
+                ('simple_geom', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True)),
+                ('simple_geog', django.contrib.gis.db.models.fields.MultiPolygonField(srid=4326, null=True, geography=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='eez',
+            name='mpas',
+            field=models.ManyToManyField(to='mpa.Mpa', verbose_name=b'MPAs within this EEZ', through='spatialdata.EezMembership'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='eez',
+            name='nation',
+            field=models.ForeignKey(default=None, to='spatialdata.Nation', null=True),
+            preserve_default=True,
+        ),
+    ]

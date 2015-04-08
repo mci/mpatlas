@@ -1,9 +1,17 @@
-<html>
-<head>
-	<title>404 - Page not found</title>
-</head>
-<body>
-	<h2>404 - Page not found</h2>
+{% extends "base.html" %}
+{% load url from future %}
+{% load cms_tags sekizai_tags i18n %}
+
+{% block title %}404 - Page not found{% endblock %}
+
+{% block base_body_content %}
+    <h2>404 - Page not found</h2>
 	This is not the page you are looking for...
-</body>
-</html>
+    
+{% endblock %}
+
+{% block base_body_extra %}
+{% endblock %}
+
+{% block base_footer_content %}
+{% endblock %}

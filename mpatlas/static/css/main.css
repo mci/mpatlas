@@ -46,6 +46,13 @@ img {
     border: none;
 }
 
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+
 .btn-callout, .btn.btn-callout {
     border: 2px solid #00e2eb;
     z-index: 9;
@@ -139,15 +146,16 @@ img {
     text-indent: -9999px;
 }
 
-#waittlogo {
+#mcilogo {
     float: right;
     display: block;
     position: relative;
-    width: 130px;
-    height: 66px;
+    width: 101px;
+    height: 64px;
     top: 5px;
     margin-right: 17px;
-    background: url('../images/header_waittlogo.png') no-repeat;
+    background: url('../images/header_mci_logo.png') no-repeat;
+    background-size: contain;
     overflow: hidden;
     outline: none;
     text-indent: -9999px;
@@ -427,6 +435,13 @@ ul#mainmenu ul li {
     font-weight: normal;
     font-size: 20px;
     text-shadow: #000 1px 1px 1px;
+}
+
+.subnav a {
+    color: #5bc0de;
+}
+.subnav a:hover {
+    color: #e03e8a;
 }
 
 .modetoggle {
