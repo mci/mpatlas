@@ -213,14 +213,21 @@ def get_mpa_geom_json(request, pk, simplified=True, webmercator=False):
         webmercator = (request.GET['webmercator'].upper() == 'TRUE')
     except:
         pass
-    geomfield = 'geom'
+    geomfield = sgeomfield = 'geom'
     if (webmercator):
         geomfield = 'geom_smerc'
+    mpaq = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields())
     if simplified:
-        geomfield = 'simple_' + geomfield
-    mpa = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields()).get(pk=pk)
-    geojson = mpa.geojson if not mpa.is_point else mpa.geojson_point
-    return HttpResponse(geojson, content_type='application/json; charset=utf-8')
+        sgeomfield = 'simple_' + geomfield
+        mpaq = mpaq.geojson(field_name=sgeomfield, model_att='geojson_simple')
+    mpa = mpaq.get(pk=pk)
+    if mpa.is_point:
+        geojson = mpa.geojson_point
+    else:
+        geojson = mpa.geojson if not simplified else mpa.geojson_simple
+    if not geojson and simplified:
+        geojson = mpa.geojson
+    return HttpResponse(geojson or '{}', content_type='application/json; charset=utf-8')
 
 
 def normalize_lon(lon):
