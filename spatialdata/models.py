@@ -9,6 +9,8 @@ class Nation(models.Model):
     iso3code = models.CharField(max_length=3, default='')
     summary = RichTextField('Nation Protection Summary', null=True, blank=True)
 
+    mpa_agency = RichTextField('National Marine Protected Area Agency', null=True, blank=True)
+
     marine_area = models.FloatField(null=True, blank=True)
     mpa_area = models.FloatField(null=True, blank=True)
     mpa_percent = models.FloatField(null=True, blank=True)
