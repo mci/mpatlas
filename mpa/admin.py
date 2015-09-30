@@ -19,7 +19,7 @@ def get_fields_missing_from_fieldsets(fieldsets, fields):
     return missing_fields
 
 class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
-    list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')
+    list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
     fieldsets = [
         ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids']}),
@@ -66,6 +66,15 @@ class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
     colored_verification_state.allow_tags = True
     colored_verification_state.admin_order_field = 'verification_state'
     colored_verification_state.short_description = 'Verification state'
+
+    def has_boundary(self, obj):
+        if (obj.geom):
+            return 'True'
+        else:
+            return '<span style="color: #f00;">False</span>'
+    has_boundary.allow_tags = True
+    has_boundary.admin_order_field = 'geom'
+    has_boundary.short_description = 'Has Boundaries'
 
 admin.site.register(Mpa, MpaAdmin)
 admin.site.register(Contact, reversion.VersionAdmin)
