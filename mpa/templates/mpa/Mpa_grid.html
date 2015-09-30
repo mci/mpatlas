@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Global Marine Protected Areas - list view{% endblock %}
+
+{% block base_body_content %}
+    <div class='modetoggle medium' style="float:right;">
+        <a class="modebutton" href="/explore/">Map View</a><a class="modebutton selected" >List View</a>
+    </div>
+    
+    <div id='filters_overlay' style="width:90%;">
+        <p class="filterstitle medium">Quick Filters:  <a class="addfilter" href="#" onclick="showfilterdialog(); return(false);" title="Add new MPA filter"><em>+</em> Add Filter</a></p>
+	    <p class="filtertag"><span class="filtername">Protection:</span> All Levels <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+	    <p class="filtertag"><span class="filtername">Countries:</span> All <a class="remove" title="remove filter" href="#" onclick="return(false);">X</a></p>
+	    <div class="clear"></div>
+	</div>
+    
+    <br /><br />
+    
+    <p class="heading" style="margin:0px; padding:0; font-size:24px; line-height:28px;">
+        Global Marine Protected Areas
+    </p>
+    
+    GRID
+{% endblock %}
