@@ -11,7 +11,10 @@
         paths: {
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
+            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
+            chartjs: 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min',
+            d3: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min',
+            nvd3: 'https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min'
         },
         priority: ['jquery'],
         waitSeconds: 30,
@@ -31,21 +34,151 @@
           'leafclusterer': ['leaflet'],
           'TileLayer.Bing': ['leaflet'],
           'leaflet_utils': ['leaflet'],
-          'leaflet_maptip': ['leaflet']
+          'leaflet_maptip': ['leaflet'],
+          'nvd3': ['d3']
         }
     });
     require([
         'prep',
         'jquery',
         'jqueryui',
-        'bootstrap'
+        'bootstrap',
+        'chartjs',
+        'd3',
+        'nvd3'
     ], function(Prep, $) {
 	    $(function() {
             Prep.preparePage();
             window['showsplashdialog'] = Prep.showsplashdialog;
+
+            var radialdata = [
+                {
+                    value: 0.0118,
+                    color: "#FDB45C",
+                    label: "Multi-use 1.18%"
+                },
+                {
+                    value: 0.0282,
+                    color: "#fedaaf",
+                    label: "Proposed"
+                },
+                {
+                    value: 0.0094,
+                    color: "#46BFBD",
+                    label: "No-Take 0.94%"
+                },
+                {
+                    value: 0.0106,
+                    color: "#a1dddc",
+                    label: "Proposed"
+                },
+                {
+                    value: 0.04,
+                    color:"#ccc",
+                    label: "Unprotected 97.9%"
+                }
+            ]
+            
+            // Chart.js doughnut chart
+            // Get context with jQuery - using jQuery's .get() method.
+            // var radialctx = $("#radialChart").get(0).getContext("2d");
+            // var radial = new Chart(radialctx).Doughnut(radialdata, {animationEasing : "easeOutQuart", animationSteps: 20, responsive: false});
+            // var radiallegend = radial.generateLegend();
+            // $('#radialLegend').html(radiallegend);
+            
+
+            // NVD3 doughnut chart
+            nv.addGraph(function() {
+              var chart = nv.models.pieChart()
+                .x(function(d) { return d.label })
+                .y(function(d) { return d.value })
+                .showLabels(false)     //Display pie labels
+                .labelThreshold(.005)  //Configure the minimum slice size for labels to show up
+                .labelType("key") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+                .donutRatio(0.45)     //Configure how big you want the donut hole size to be.
+                .labelsOutside(true)
+                .showLegend(true)
+                // .labelSunbeamLayout(true)
+                .cornerRadius(0)
+                .title('10% Target')
+                .titleOffset(-7)
+                // .width(200)
+                // .height(200)
+                .valueFormat(d3.format('.1%'))
+                ;
+
+              chart.pie
+                // make this a semicirlce
+                .startAngle(function(d) { return d.startAngle/3 -Math.PI/3 })
+                .endAngle(function(d) { return d.endAngle/3 -Math.PI/3 });
+
+              chart.legend
+                .updateState(false);
+
+              d3.select("#nvradialchart svg")
+                .datum(radialdata)
+                .transition().duration(350)
+                // .attr('width', 200)
+                // .attr('height', 200)
+                .call(chart);
+
+              /* Replace bullets with blocks */
+              d3.selectAll('#nvradialchart .nv-series').each(function(d,i) {
+                var group = d3.select(this),
+                  circle = group.select('circle');
+                var color = circle.style('fill');
+                circle.remove();
+                var symbol = group.append('path')
+                  .attr('d', d3.svg.symbol().type('square'))
+                  .style('stroke', color)
+                  .style('fill', color)
+                  // ADJUST SIZE AND POSITION
+                  // .attr('transform', 'scale(1.5) translate(-2,0)')
+              });
+
+              d3.selectAll('#nvradialchart .nv-pie-title').each(function(d,i) {
+                d3.select(this).style('fill', '#000');
+              });
+
+              return chart;
+            });
         });
 	});
 </script>
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet">
+
+<style>
+  .doughnut-legend {
+    list-style: none;
+    padding-left: 8px;
+  }
+  .doughnut-legend li {
+    display: block;
+    padding-left: 30px;
+    position: relative;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    padding: 2px 8px 2px 28px;
+    font-size: 14px;
+    cursor: default;
+    -webkit-transition: background-color 200ms ease-in-out;
+    -moz-transition: background-color 200ms ease-in-out;
+    -o-transition: background-color 200ms ease-in-out;
+    transition: background-color 200ms ease-in-out;
+  }
+  .doughnut-legend li span {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    border-radius: 5px;
+  }
+</style>
 
 {% block base_head_extra_extra %}{% endblock %}
 
@@ -66,7 +199,63 @@
 {% block base_prebody_content %}
 {% endblock %}
 {% block base_body_content %}
-    <div style="position:relative; padding-top:34px; z-index:1;">
+    <div style="padding-top:12px;"></div>
+    <div class="row featurette" style="margin-top:24px;">
+      <div class="col-md-7" style="">
+        <div id="feature-mpastats" class="featurette bg-ltgray">
+          <div>
+            <h1 style="font-size:40px; margin-bottom:0; margin-top:0;">How much of our ocean is protected?</h1>
+
+            <!--
+            <canvas id="radialChart" width="200" height="200"></canvas>
+
+            <ul id="radialLegend" class="doughnut-legend" style="display:inline-block; position:absolute; left:200px;"></ul>
+            -->
+
+            
+            <div id="nvradialchart" style="float:left; width:300px; height:300px; margin-bottom:-120px;">
+              <svg style="width: 100%; height:100%;"></svg>
+            </div>
+
+            {% placeholder home_protected_content %}
+            <h1 class="clear" style="font-size:40px; margin-bottom:0; margin-top:0;">The Road to 10 Percent</h1>
+            {% placeholder home_promise_content %}
+          </div>
+        </div>
+
+        <div id="feature-whympa" class="featurette bg-ltgray">
+          <div>
+            <h2 class="featurette-heading">Why Marine Protected Areas?</h2>
+            <p style="float:right;">
+              <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/feature_palmyra_sm.jpg" alt="Why MPAs?">
+            </p>
+            <p style="font-size:1.4em;">
+              Marine protected areas are essential to safeguard biodiversity and to sustain vibrant seas.
+            </p>
+            <p style="font-size:1.4em;">
+              Marine protected areas can increase biomass and biodiversity in tropical and temperate ecosystems, as well as serve as insurance policies against the impacts of fishing and other destructive activities. If managed properly, they are an effective way of protecting marine ecosystems along with their cultural and historical heritage for us and future generations. 
+            </p>
+            <p style="margin-top:1.5em;">
+              <a class="btn btn-callout" href="/learn/">Learn Why Marine Protected Areas Work</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-5">
+        <!--<h2 class="featurette-heading"><span class="text-muted">@MPAtlas Live Tweets</span></h2>-->
+        <p style="font-size:1.4em;">
+          <a class="twitter-timeline" href="https://twitter.com/MPAtlas" data-widget-id="388790833115189248">Tweets by @MPAtlas</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </p>
+        <div style="font-size:0.8em;">
+        {% placeholder home_aftertwitter_content %}
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div style="position:relative; padding-top:0px; z-index:1;">
     	<div style="background: url('/static/images/splash/splash_fish_coral.png');width:960px;height:251px;  position:relative; z-index:100;"></div>
         <div style="background: #000 url('/static/images/splash/splash_bar_coral.jpg') no-repeat; padding-top:30px; margin-top:-13px; min-height:100px; position:relative; z-index:1;">
             <div style="width:572px; background-color:#fff; background-color: rgba(255,255,255,0.85); margin: 0 auto;">
@@ -96,6 +285,7 @@
         </div>
     	<div class="clear"></div>
     </div>
+    -->
 
     <!--
     <div class="clearfix" style="margin-top: 10px;">
@@ -118,37 +308,6 @@
     <div class="">
 
       {% placeholder home_content %}
-
-      <div class="row featurette">
-        <div class="col-md-7" style="">
-          <div id="feature-whympa" class="featurette bg-ltgray">
-            <div>
-              <h2 class="featurette-heading">Why Marine Protected Areas?</h2>
-              <p style="float:right;">
-                <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/feature_palmyra_sm.jpg" alt="Why MPAs?">
-              </p>
-              <p style="font-size:1.4em;">
-                Marine protected areas are essential to safeguard biodiversity and to sustain vibrant seas.
-              </p>
-              <p style="font-size:1.4em;">
-                Marine protected areas can increase biomass and biodiversity in tropical and temperate ecosystems, as well as serve as insurance policies against the impacts of fishing and other destructive activities. If managed properly, they are an effective way of protecting marine ecosystems along with their cultural and historical heritage for us and future generations. 
-              </p>
-              <p style="margin-top:1.5em;">
-                <a class="btn btn-callout" href="/learn/">Learn Why Marine Protected Areas Work</a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <h2 class="featurette-heading"><span class="text-muted">@MPAtlas Twitter Feed</span></h2>
-          <p style="font-size:1.4em;">
-            <a class="twitter-timeline" href="https://twitter.com/MPAtlas" data-widget-id="388790833115189248">Tweets by @MPAtlas</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-          </p>
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
 
       <div id="feature-explore" class="row featurette">
         <div class="col-md-5">
