@@ -65,7 +65,7 @@ Shapely
 GeoIP-Python
 pygeoip
 
-git+git://github.com/divio/django-cms@3.1#egg=cms
+git+git://github.com/divio/django-cms@3.1.3#egg=cms
 git+https://github.com/divio/djangocms-admin-style.git#egg=djangocms_admin_style
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
 
