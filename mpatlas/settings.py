@@ -219,6 +219,8 @@ CMS_TEMPLATES = (
 )
 
 # These settings override djangocms_text_ckeditor toolbar settings
+# Disable server-side html sanitization via html5lib, it's removing too much right now
+TEXT_HTML_SANITIZE = False
 CKEDITOR_SETTINGS = {
     'language': '{{ language }}',
     'toolbar': 'CMS',
