@@ -13,12 +13,12 @@ class CampaignAdmin(geoadmin.OSMGeoAdmin):
             return strip_tags(obj.summary[:50]) + '...'
         else:
             return ''
-    summary_excerpt.admin_order_field = 'summary_excerpt'
+    summary_excerpt.admin_order_field = 'summary'
     summary_excerpt.short_description = 'Summary (excerpt)'
 
     def initiative_list(self, obj):
         return ', '.join(obj.initiative_set.values_list('name', flat=True))
-    initiative_list.admin_order_field = 'initiative_list'
+    # initiative_list.admin_order_field = 'initiative_list'
     initiative_list.short_description = 'Initiatives'
 
 class InitiativeAdmin(geoadmin.OSMGeoAdmin):
