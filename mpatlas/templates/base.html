@@ -14,7 +14,7 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        <link href="{% static 'wiki/bootstrap/css/wiki-bootstrap.min.css' %}" rel="stylesheet">
+        <!-- <link href="{% static 'wiki/bootstrap/css/wiki-bootstrap.min.css' %}" rel="stylesheet"> -->
 
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
         
@@ -23,25 +23,25 @@
         <link rel="stylesheet" href="{% static 'css/fonts2.css' %}" type="text/css" charset="utf-8" />
         
         <!-- <link href="{% static 'css/jqueryui/mpatlas-theme/jquery-ui-1.8.21.mpatlas.css' %}" media="screen" rel="stylesheet" type="text/css" /> -->
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
         
         <link href="{% static 'css/main.css' %}" media="screen" rel="stylesheet" type="text/css" />
         <!--[if lte IE 8]><link href="{% static 'css/main_ie.css' %}" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
-        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+
         <script src="{% static 'js/require.js' %}" type="text/javascript"></script>
+
         <!-- IE8 messes up sometimes (10% of page loads) with require.js, loading jquery first seems to fix it -->
-        <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript"></script><![endif]-->
+        <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script><![endif]-->
         
         {% block base_head_extra %}
         <script type="text/javascript">
             require.config({
                 baseUrl: '{% static "js" %}',
                 paths: {
-                    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min',
-                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min',
+                    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
+                    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
                     bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
                 },
                 priority: ['jquery'],
@@ -66,11 +66,11 @@
                 }
             });
             require([
-                'prep',
                 'jquery',
+                'prep',
                 'jqueryui',
                 'bootstrap'
-            ], function(Prep, $) {
+            ], function($, Prep) {
                 $(function() {
                     Prep.preparePage();
                     window['showsplashdialog'] = Prep.showsplashdialog;
