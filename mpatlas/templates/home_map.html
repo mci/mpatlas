@@ -60,13 +60,13 @@
         }
     });
     require([
+    	'jquery',
         'prep',
         'app',
         'MPAList',
-        'jquery',
 		'jqueryui',
 		'bootstrap'
-    ], function(Prep, App, MPAList) {
+    ], function($, Prep, App, MPAList) {
         $(function() {
             Prep.preparePage();
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));

@@ -38,12 +38,12 @@
 		    }
     });
     require([
-        'prep',
         'jquery',
+        'prep',
         'jqueryui',
         'bootstrap',
         'idtabs'
-    ], function(Prep, $) {
+    ], function($, Prep) {
 	    $(function() {
             Prep.preparePage();
             window['showsplashdialog'] = Prep.showsplashdialog;

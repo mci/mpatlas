@@ -49,11 +49,11 @@
         }
     });
     require([
-        'prep',
         'jquery',
+        'prep',
         'jqueryui',
         'bootstrap'
-    ], function(Prep) {
+    ], function($, Prep) {
         $(function() {
             Prep.preparePage();
         });
