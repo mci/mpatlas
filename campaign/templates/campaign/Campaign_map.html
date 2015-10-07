@@ -74,12 +74,12 @@
         }
     });
     require([
+        'jquery',
         'prep',
         'campaign',
-        'jquery',
 		'jqueryui',
         'bootstrap'
-    ], function(Prep, Campaign, $) {
+    ], function($, Prep, Campaign) {
         $(function() {
             window.test$ = $;
             Prep.preparePage();

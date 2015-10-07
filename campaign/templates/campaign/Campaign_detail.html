@@ -53,12 +53,12 @@
         }
     });
     require([
+        'jquery',
         'prep',
         'campaigndetail',
-        'jquery',
         'jqueryui',
         'bootstrap'
-    ], function(Prep, CampaignDetail) {
+    ], function($, Prep, CampaignDetail) {
         $(function() {
             Prep.preparePage();
             var site_id = {{ campaign.pk }},

@@ -99,12 +99,12 @@
         }
     });
     require([
+        'jquery',
         'prep',
         'categorydetail',
-        'jquery',
         'jqueryui',
         'bootstrap'
-    ], function(Prep, CategoryDetail) {
+    ], function($, Prep, CategoryDetail) {
         $(function() {
             Prep.preparePage();
         });
