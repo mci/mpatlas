@@ -75,18 +75,20 @@
 		}
     });
     require([
+        'jquery',
         'prep',
         'app',
         'MPAList',
 		'MPALayersWindow',
 		'MPAFiltersWindow',
 		'json/mpa_points',
-        'jquery',
 		'jqueryui',
 		'bootstrap'
-    ], function(Prep, App, MPAList) {
+    ], function($, Prep, App, MPAList) {
         $(function() {
             Prep.preparePage();
+        });
+        $(function() {
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
             window['showsplashdialog'] = Prep.showsplashdialog;
             //console.log(mpatlas.history.get('seensplash'));
