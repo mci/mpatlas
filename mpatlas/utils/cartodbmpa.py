@@ -12,7 +12,7 @@ cartodb_domain = 'mpatlas'
 fields = []
 
 # default queryset to use for syncing from mpatlas to CartoDB
-mpas = Mpa.objects.exclude(verification_state='Rejected as MPA').exclude(geom__isnull=True).order_by('mpa_id').only('mpa_id')
+mpas = Mpa.objects.exclude(verification_state='Rejected as MPA').exclude(geom__isnull=True).order_by('-mpa_id').only('mpa_id')
 
 def adaptParam(p):
 	'''Convert and escape python objects for use in Postgresql SQL statements.
@@ -106,16 +106,23 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
 		try:
 			cl.sql(upsert)
 		except CartoDBException as e:
-			error_ids.extend(step_ids)
 			print 'CartoDB Error for mpa_ids %s:' % step_ids, e
+			print 'Trying single updates.'
+			for mpa_id in step_ids:
+				try:
+					updateMpa(mpa_id)
+				except CartoDBException as e:
+					error_ids.append(mpa_id)
+					print 'CartoDB Error for mpa_id %s:' % mpa_id, e
 	end = time.time()
 	print 'TOTAL', end - start, 'sec elapsed'
 	return error_ids
 
-def purgeCartoDBMpas(mpas=mpas):
+def purgeCartoDBMpas(mpas=mpas, dryrun=False):
 	'''Execute Mpa remove statements using the CartoDB API via the cartodb module for
 	   mpas in the CartoDB mpatlas table that are not found in the passed mpas queryset.
 	   mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+	   dryrun = [False] if true, just return list of mpa_ids to be purged but don't run SQL.
 	   Returns list of mpa.mpa_ids that were removed, empty list if none removed.
 	'''
 	cl = CartoDBAPIKey(API_KEY, cartodb_domain)
@@ -135,11 +142,12 @@ def purgeCartoDBMpas(mpas=mpas):
 	deletesql = '''
 		DELETE FROM mpatlas WHERE mpa_id IN %(missing)s;
 	''' % ({'missing': adaptParam(tuple(missing))})
-	try:
-		cl.sql(deletesql)
-	except CartoDBException as e:
-		error_ids.extend(step_ids)
-		print 'CartoDB Error deleting %s mpas:' % len(missing), e
+	if not dryrun:
+		try:
+			cl.sql(deletesql)
+		except CartoDBException as e:
+			error_ids.extend(step_ids)
+			print 'CartoDB Error deleting %s mpas:' % len(missing), e
 	return missing
 
 fields = [
