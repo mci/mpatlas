@@ -79,6 +79,7 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
 	   limit = only process a subset of records, useful for testing
 	   Returns list of mpa.mpa_ids that were not processed due to errors, empty list if no errors
 	'''
+	cl = CartoDBAPIKey(API_KEY, cartodb_domain)
 	nummpas = mpas.count()
 	if limit:
 		nummpas = min(limit, nummpas)
@@ -117,6 +118,7 @@ def purgeCartoDBMpas(mpas=mpas):
 	   mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
 	   Returns list of mpa.mpa_ids that were removed, empty list if none removed.
 	'''
+	cl = CartoDBAPIKey(API_KEY, cartodb_domain)
 	nummpas = mpas.count()
 	local_ids = mpas.values_list('mpa_id', flat=True)
 	cartodb_idsql = '''
