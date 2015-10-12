@@ -71,6 +71,10 @@ git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
 
 #cartodb
 git+git://github.com/CartoDB/cartodb-python.git#egg=cartodb
+requests
+requests_oauthlib
+oauth2
+simplejson
 
 # TileStache
 # ModestMaps
