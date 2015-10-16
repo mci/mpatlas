@@ -46,7 +46,7 @@ def updateMpaSQL(m):
 		m = Mpa.objects.get(pk=m)
 	try:
 		mpadict = Mpa.objects.filter(pk=m.mpa_id).values(*fields).first()
-		mpadict['categories'] = ', '.join(m.categories.names())
+		mpadict['categories'] = '{' + ', '.join(m.categories.names()) + '}'
 		lookup = {'mpa_id': m.mpa_id, 'geom': m.geom.hexewkb, 'columns': ', '.join(mpadict.keys()), 'values': ', '.join([adaptParam(v) for v in mpadict.values()])}
 		upsert = '''
 			UPDATE mpatlas SET (the_geom, %(columns)s) = (ST_GeomfromEWKB(decode('%(geom)s', 'hex')), %(values)s) WHERE mpa_id=%(mpa_id)s;
