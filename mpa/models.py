@@ -19,7 +19,6 @@ from category.models import TaggedItem
 
 from spatialdata.models import Nation
 
-from mpatlas.utils import cartodbmpa
 
 VERIFY_CHOICES = (
     ('Unverified', 'Unverified'),
@@ -411,6 +410,7 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     finally:
         post_save.connect(mpa_post_save, sender=Mpa)
     try:
+        from mpatlas.utils import cartodbmpa
         cartodbmpa.updateMpa(instance.pk)
     except:
         pass # let this fail silently, maybe CartoDB is unreachable
