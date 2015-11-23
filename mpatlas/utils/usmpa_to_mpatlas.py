@@ -65,11 +65,17 @@ def update_usmpa():
                 m.access = 'No'
             elif p['Vessel'] == 'Prohibited':
                 m.access = 'Restricted'
+                if m.access_info is None:
+                    m.access_info = ''
                 m.access_info += '\nVessels prohibited.'
             elif p['Vessel'] == 'Restricted':
                 m.access = 'Restricted'
+                if m.access_info is None:
+                    m.access_info = ''
                 m.access_info += '\nVessels restricted.'
             if p['Anchor'] in ('Prohibited', 'Restricted'):
+                if m.access_info is None:
+                    m.access_info = ''
                 m.access_info += '\nAnchoring %s' % (p['Anchor'].lower())
 
             if p['Fish_Rstr'] == 'Commercial and Recreational Fishing Prohibited':
@@ -78,10 +84,14 @@ def update_usmpa():
                 m.fishing = 'Yes'
             else:
                 m.fishing = 'Some Restrictions'
+            if m.fishing_info is None:
+                m.fishing_info = ''
             m.fishing_info += '\n%s' % (p['Fish_Rstr'])
 
             m.status = 'Designated'
 
+            if m.notes is None:
+                m.notes = ''
             m.notes += '\nUS National System status: %s' % (p['NS_Full'])
             m.notes += '\nURL: %s' % (p['URL'])
 
