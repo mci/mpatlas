@@ -23,7 +23,7 @@ fieldmap = {
     'gov_type' : 'Gov_Level',
     'mgmt_plan_type' : 'Mgmt_Plan',
     'mgmt_auth' : 'Mgmt_Agen',
-    'primary_conservation_focus' : 'Pri_Con_Fo',
+    'primary_conservation_focus' : 'Pri_Con_Foc',
     'protection_focus' : 'Prot_Focus',
     'permanence' : 'Permanence',
     'constancy' : 'Constancy',
@@ -54,7 +54,7 @@ def update_usmpa():
             fnum = 0
             for focus in foci:
                 fnum += 1
-                if focus == p['Pri_Con_Fo']:
+                if focus == p['Pri_Con_Foc']:
                     continue
                 if fnum == 1:
                     m.secondary_conservation_focus = focus
