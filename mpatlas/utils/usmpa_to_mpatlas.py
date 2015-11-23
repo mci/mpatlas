@@ -110,6 +110,7 @@ def update_usmpa():
         m = Mpa.objects.get(usmpa_id=usmpa_id)
         m.verification_state = 'Rejected as MPA'
         m.verification_reason += '\nRemoved from US MPA Center inventory'
+        m.save()
 
 
 def update_cdfw():
