@@ -17,7 +17,7 @@ remove_ids = [
 
 fieldmap = {
     'usmpa_id' : 'Site_ID',
-    'rep_m_area' : 'Area_KM_Ma',
+    'rep_area' : 'Area_KM_Total',
     'name' : 'Site_Name',
     'short_name' : 'Site_Label',
     'gov_type' : 'Gov_Level',
