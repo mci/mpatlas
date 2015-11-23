@@ -96,7 +96,7 @@ def update_usmpa():
             m.notes += '\nURL: %s' % (p['URL'])
 
             m.country = 'USA'
-            m.sublocation = 'US-CA'
+            m.sub_location = 'US-CA'
 
             gj = g
             gjj = json.dumps(gj)
