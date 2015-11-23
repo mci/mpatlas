@@ -30,93 +30,92 @@ fieldmap = {
     'status_year' : 'Estab_Yr',
 }
 
-with open(usmpa_file) as f:
-    j=json.load(f)
-    for usmpa in j['features']:
-        p = usmpa['properties']
-        g = usmpa['geometry']
+def update_usmpa():
+    with open(usmpa_file) as f:
+        j=json.load(f)
+        for usmpa in j['features']:
+            p = usmpa['properties']
+            g = usmpa['geometry']
 
-        m = Mpa.objects.get(usmpa_id=p['Site_ID'])
-        print m.usmpa_id, m.pk
-
-        for key,value in fieldmap.items():
-            setattr(m, key, p[value])
-
-        if p['Prot_Lvl'] in ('No Take', 'No Access', 'No Impact'):
-            m.no_take = 'All'
-        elif p['Prot_Lvl'] in ('Zoned w/No Take Areas'):
-            m.no_take = 'Part'
-        else
-            m.no_take = 'None'
-
-        foci = p['Cons_Focus'].split(' and ')
-        fnum = 0
-        for focus in foci:
-            fnum += 1
-            if focus == p['Pri_Con_Fo']:
-                continue
-            if fnum == 1:
-                m.secondary_conservation_focus = focus
-            else:
-                m.tertiary_conservation_focus = focus
-
-        if p['Prot_Lvl'] in ('No Access', 'No Impact'):
-            m.access = 'No'
-        elif p['Vessel'] == 'Prohibited':
-            m.access = 'Restricted'
-            m.access_info += '\nVessels prohibited.'
-        elif p['Vessel'] == 'Restricted'
-            m.access = 'Restricted'
-            m.access_info += '\nVessels restricted.'
-        if p['Anchor'] in ('Prohibited', 'Restricted'):
-            m.access_info += '\nAnchoring %s' % (p['Anchor'].lower())
-
-        if p['Fish_Rstr'] == 'Commercial and Recreational Fishing Prohibited':
-            m.fishing = 'No'
-        elif p['Fish_Rstr'] == 'No site Restrictions':
-            m.fishing = 'Yes'
-        else:
-            m.fishing = 'Some Restrictions'
-        m.fishing_info += '\n%s' % (p['Fish_Rstr'])
-
-        m.status = 'Designated'
-
-        m.notes += '\nUS National System status: %s' % (p['NS_Full'])
-        m.notes += '\nURL: %s' % (p['URL'])
-
-        m.country = 'USA'
-        m.sublocation = 'US-CA'
-
-        gj = g
-        gjj = json.dumps(gj)
-        geom = geos.GEOSGeometry(gjj)
-        if geom.geom_type == 'Polygon':
-            geom = geos.MultiPolygon(geom)
-        m.geom = geom
-
-        m.save()
-
-
-with open(cdfw_file) as f:
-    j=json.load(f)
-    for f in j['features']:
-        if f['properties']['USMPA_ID']:
-            p = f['properties']
-            m = Mpa.objects.get(usmpa_id=p['USMPA_ID'])
+            m = Mpa.objects.get(usmpa_id=p['Site_ID'])
             print m.usmpa_id, m.pk
-            gj = f['geometry']
+
+            for key,value in fieldmap.items():
+                setattr(m, key, p[value])
+
+            if p['Prot_Lvl'] in ('No Take', 'No Access', 'No Impact'):
+                m.no_take = 'All'
+            elif p['Prot_Lvl'] in ('Zoned w/No Take Areas'):
+                m.no_take = 'Part'
+            else:
+                m.no_take = 'None'
+
+            foci = p['Cons_Focus'].split(' and ')
+            fnum = 0
+            for focus in foci:
+                fnum += 1
+                if focus == p['Pri_Con_Fo']:
+                    continue
+                if fnum == 1:
+                    m.secondary_conservation_focus = focus
+                else:
+                    m.tertiary_conservation_focus = focus
+
+            if p['Prot_Lvl'] in ('No Access', 'No Impact'):
+                m.access = 'No'
+            elif p['Vessel'] == 'Prohibited':
+                m.access = 'Restricted'
+                m.access_info += '\nVessels prohibited.'
+            elif p['Vessel'] == 'Restricted':
+                m.access = 'Restricted'
+                m.access_info += '\nVessels restricted.'
+            if p['Anchor'] in ('Prohibited', 'Restricted'):
+                m.access_info += '\nAnchoring %s' % (p['Anchor'].lower())
+
+            if p['Fish_Rstr'] == 'Commercial and Recreational Fishing Prohibited':
+                m.fishing = 'No'
+            elif p['Fish_Rstr'] == 'No site Restrictions':
+                m.fishing = 'Yes'
+            else:
+                m.fishing = 'Some Restrictions'
+            m.fishing_info += '\n%s' % (p['Fish_Rstr'])
+
+            m.status = 'Designated'
+
+            m.notes += '\nUS National System status: %s' % (p['NS_Full'])
+            m.notes += '\nURL: %s' % (p['URL'])
+
+            m.country = 'USA'
+            m.sublocation = 'US-CA'
+
+            gj = g
             gjj = json.dumps(gj)
             geom = geos.GEOSGeometry(gjj)
             if geom.geom_type == 'Polygon':
                 geom = geos.MultiPolygon(geom)
             m.geom = geom
-            m.name = p['FULLNAME']
-            m.short_name = p['NAME']
+
             m.save()
+    for usmpa_id in remove_ids:
+        m = Mpa.objects.get(usmpa_id=usmpa_id)
+        m.verification_state = 'Rejected as MPA'
+        m.verification_reason += '\nRemoved from US MPA Center inventory'
 
 
-for usmpa_id in remove_ids:
-    m = Mpa.objects.get(usmpa_id=usmpa_id)
-    m.verification_state = 'Rejected as MPA'
-    m.verification_reason += '\nRemoved from US MPA Center inventory'
-
+def update_cdfw():
+    with open(cdfw_file) as f:
+        j=json.load(f)
+        for f in j['features']:
+            if f['properties']['USMPA_ID']:
+                p = f['properties']
+                m = Mpa.objects.get(usmpa_id=p['USMPA_ID'])
+                print m.usmpa_id, m.pk
+                gj = f['geometry']
+                gjj = json.dumps(gj)
+                geom = geos.GEOSGeometry(gjj)
+                if geom.geom_type == 'Polygon':
+                    geom = geos.MultiPolygon(geom)
+                m.geom = geom
+                m.name = p['FULLNAME']
+                m.short_name = p['NAME']
+                m.save()
