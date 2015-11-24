@@ -121,7 +121,7 @@ define(
 				// EEZs / Nations		
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
-					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74', attribution: 'EEZs marineregions.org'}
+					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74', attribution: 'EEZs <a href="http://marineregions.org">marineregions.org</a>'}
 				);
 				this.overlayLayers['Exclusive Economic Zones'] = lyr;
 				this.layers.push(lyr);
