@@ -341,21 +341,6 @@ img {
     
 }
 
-.searchform input.image {
-    background: url("../images/header_searchbutton.png") no-repeat scroll 0 0 transparent;
-    border: medium none;
-    color: #F60;
-    float: left;
-    font-weight: bold;
-    height: 29px;
-    left: -10px;
-    margin: 0 -5px 0 0;
-    margin-bottom: -1px;
-    position: relative;
-    top: -3px;
-    width: 29px;
-}
-
 ul#mainmenu, ul#mainmenu li, ul#mainmenu ul {
     padding: 0;
     margin: 0;

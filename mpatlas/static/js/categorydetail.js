@@ -1,16 +1,13 @@
     define([
       // These are path aliases configured in the requireJS bootstrap
       'jquery',
-      'underscore',
       'backbone',
-      'leaflet',
-      'TileLayer.Bing',
-      'leaflet_label'
-      //'persist',
-      //'MPAList'
+      'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+      '/static/js/TileLayer.Bing',
+      '/static/js/leaflet.label'
     ],
-    function ($, _, Backbone) {  
-        var CategoryDetail = Backbone.View.extend({
+    function ($, Backbone) {  
+        var _CategoryDetail = Backbone.View.extend({
             proxy: '',
             domain: 'http://' + document.domain,
             //proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
@@ -395,7 +392,8 @@
         });
 
         return {
-            CategoryDetail: CategoryDetail
+            CategoryDetail: _CategoryDetail
         };
         // What we return here will be used by other modules
-    });
+    }
+);

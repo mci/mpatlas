@@ -1,67 +1,8 @@
 {% extends "base.html" %}
-{% comment %}
-{% load sekizai_tags %}
-{% endcomment %}
+{% load staticfiles %}
+{% load cms_tags sekizai_tags i18n %}
 
 {% block title %}Home{% endblock %}
-
-{% block base_head_extra %}
-<script type="text/javascript">
-    require.config({
-        baseUrl: '{{ STATIC_URL }}js',
-        paths: {
-            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
-            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
-            idtabs: 'jquery.idTabs.min'
-        },
-        priority: ['jquery'],
-        waitSeconds: 30,
-        shim: {
-          'underscore': {
-            exports: '_'
-          },
-          'backbone': {
-            deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
-            exports: 'Backbone'
-          },
-          'jqueryui': ['jquery'],
-          'bootstrap': ['jquery'],
-          'leaflet': {
-            exports: 'cartodb',
-          },
-          'leafclusterer': ['leaflet'],
-          'TileLayer.Bing': ['leaflet'],
-          'leaflet_utils': ['leaflet'],
-          'leaflet_maptip': ['leaflet'],
-          'idtabs': ['jquery']
-		    }
-    });
-    require([
-        'jquery',
-        'prep',
-        'jqueryui',
-        'bootstrap',
-        'idtabs'
-    ], function($, Prep) {
-	    $(function() {
-            Prep.preparePage();
-            window['showsplashdialog'] = Prep.showsplashdialog;
-            $(".splashtabs ul").idTabs(function(id,list,set){ 
-    		    $("a",set).removeClass("selected") 
-    		    .filter("[href='"+id+"']",set).addClass("selected"); 
-    		    for(i in list) 
-    		      $(list[i]).hide(); 
-    		    $(id).fadeIn(); 
-    		    return false; 
-    		  });
-        });
-	});
-</script>
-
-{% block base_head_extra_extra %}{% endblock %}
-
-{% endblock %}
 
 {% block base_fblike %}
     <div style="position: absolute; right:90px; top:8px;">

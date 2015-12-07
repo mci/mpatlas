@@ -1,7 +1,7 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
   'jquery',
-  'jqueryui'
+  'jquery-ui'
 ], function($){  
     var preparePage = function() {
         $('.mpa-searchbox').autocomplete({

@@ -1,8 +1,9 @@
 define(
 	[
-		'extjs'
+		'//cdn.sencha.com/ext/gpl/4.1.1/ext-all'
 	],
 	function () {
+		console.log(Ext);
 		MPAFiltersWindow = {
 			markers: [],
 			filtered: false,
