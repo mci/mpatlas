@@ -4,13 +4,13 @@ define(
 		//'backbone-module',
 		'jquery',
 		'backbone',
-		'leaflet',
-		'leafclusterer',
-		'TileLayer.Bing',
-		'leaflet_utils',
-		'leaflet_maptip',
-		'spin.min',
-		'persist'
+		'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+		'/static/js/leafclusterer',
+		'/static/js/TileLayer.Bing',
+		'/static/js/leaflet_utils',
+		'/static/js/leaflet_maptip',
+		'/static/js/spin.min',
+		'/static/js/persist'
 	].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
 	
 	function ($, Backbone) {

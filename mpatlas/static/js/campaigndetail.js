@@ -1,14 +1,14 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
   'jquery',
-  'underscore',
   'backbone',
-  'leaflet',
-  'TileLayer.Bing'
+  'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+  '/static/js/TileLayer.Bing',
+  '/static/js/leaflet_utils'
   //'persist',
   //'MPAList'
 ],
-function ($, _, Backbone) {  
+function ($, Backbone) {  
     var CampaignDetail = Backbone.View.extend({
 		proxy: '',
 		domain: 'http://' + document.domain,
