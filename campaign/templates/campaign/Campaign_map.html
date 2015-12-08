@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% comment %}
-{% load sekizai_tags %}
-{% endcomment %}
+{% load staticfiles %}
+{% load cms_tags sekizai_tags i18n %}
 
 {% block title %}Explore{% endblock %}
 
@@ -18,6 +17,8 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
+<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
+
 <link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
 
 <link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
@@ -30,66 +31,18 @@
             "scopeResetCSS": true  // Thanks, but I'll do my own scoping please
         }
     };
-    
-    require.config({
-        baseUrl: '{{ STATIC_URL }}js',
-        paths: {
-            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
-            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
-            leaflet: '//cdn.leafletjs.com/leaflet-0.7.3/leaflet',
-            //leaflet: '{{ STATIC_URL }}Leaflet/leaflet',
-            leaflet_label: 'leaflet.label',
-            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
-            underscore: 'underscore-min',
-			backbone: 'backbone-min'
-			//extjs: '//cdn.sencha.com/ext/gpl/4.1.1/ext-all'
-    		// extjs: '//cdn.sencha.com/ext/gpl/4.1.1/ext-all'
-            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
-            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
-        },
-        //priority: ['jquery']
-		priority: [
-			'leaflet'
-		],
-		waitSeconds: 30,
-        shim: {
-            'underscore': {
-                exports: '_'
-            },
-            'backbone': {
-                deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
-                exports: 'Backbone'
-            },
-            'jqueryui': ['jquery'],
-            'bootstrap': ['jquery'],
-            'leaflet': {
-                exports: 'cartodb',
-            },
-            'leaflet_label': ['leaflet'],
-            'leafclusterer': ['leaflet'],
-            'TileLayer.Bing': ['leaflet'],
-            'leaflet_utils': ['leaflet'],
-            'leaflet_maptip': ['leaflet']
-        }
-    });
-    require([
-        'jquery',
-        'prep',
-        'campaign',
-		'jqueryui',
-        'bootstrap'
-    ], function($, Prep, Campaign) {
+</script>
+
+<script type="text/javascript">
+    System.import('{% static "js" %}/campaign').then(function(Campaign) {
         $(function() {
-            window.test$ = $;
-            Prep.preparePage();
             window['campaignmap'] = new Campaign.CampaignMap($('#leafletmap'));
             var campaigns_url = '{% url 'campaign-list-geojson' %}';
             var map = campaignmap.map;
-		    $.ajax({
+            $.ajax({
                 url: campaigns_url,
                 success: function(data) {
-                	var geojsonMarkerOptions = {
+                    var geojsonMarkerOptions = {
                         radius: 8,
                         fillColor: "#66ff78",
                         color: "#000",
@@ -100,7 +53,7 @@
                     var onEachFeature = function(feature, layer) {
                         // does this feature have a property named popupContent?
                         if (feature.properties) {
-                        	var content = "<a href='"+ feature.properties.url +"'>" + feature.properties.name + "</a>";
+                            var content = "<a href='"+ feature.properties.url +"'>" + feature.properties.name + "</a>";
                             // layer.bindPopup(content);
                             layer.bindLabel(feature.properties.name);
                             layer.on('click', function() {
@@ -110,14 +63,14 @@
                     }
 
                     var geojson = new L.GeoJSON(data, {
-					    pointToLayer: function (feature, latlng) {
-					    	var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
-					    	var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
-					    	var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
-					    	return L.featureGroup([m1, m2, m3])
-					    },
-					    onEachFeature: onEachFeature
-					});
+                        pointToLayer: function (feature, latlng) {
+                            var m1 = L.circleMarker(latlng, geojsonMarkerOptions);
+                            var m2 = L.circleMarker(L.latLng(latlng.lat, latlng.lng - 360, true), geojsonMarkerOptions);
+                            var m3 = L.circleMarker(L.latLng(latlng.lat, latlng.lng + 360, true), geojsonMarkerOptions);
+                            return L.featureGroup([m1, m2, m3])
+                        },
+                        onEachFeature: onEachFeature
+                    });
                     // geojson.setStyle({
                     //     weight: 3,
                     //     color: '#d0508c',
@@ -133,7 +86,6 @@
             });
         });
     });
-
 </script>
 {% endblock %}
 

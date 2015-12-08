@@ -1,7 +1,7 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
-  'leaflet',
-  'leaflet_utils'
+  'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+  '/static/js/leaflet_utils'
 ], function(){
     L.Maptip = L.Popup.extend({
     	options: {

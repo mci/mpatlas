@@ -38,7 +38,7 @@ def do_revision(request):
     reversion.set_comment('Test comment')
 
 @never_cache
-@transaction.commit_on_success
+@transaction.atomic
 @reversion.create_revision()
 def revision_view(request):
     do_revision(request)
@@ -47,7 +47,7 @@ def revision_view(request):
     return HttpResponse('Attempted to save a revision - %s' % (versions))
 
 @never_cache
-@transaction.commit_on_success
+@transaction.atomic
 @reversion.create_revision()
 def revision_view2(request):
     rcm = reversion.revision_context_manager
@@ -63,7 +63,7 @@ def revision_view2(request):
     return HttpResponse('Attempted to save a revision - 2')
 
 @login_required
-@transaction.commit_on_success
+@transaction.atomic
 @reversion.create_revision()
 def edit_mpa(request, pk):
     mpa = get_object_or_404(Mpa, pk=pk)
@@ -94,7 +94,7 @@ def edit_mpa(request, pk):
     }, context_instance=RequestContext(request))
 
 @login_required
-@transaction.commit_on_success
+@transaction.atomic
 @reversion.create_revision()
 def edit_mpa_geom(request, pk):
     mpa = get_object_or_404(Mpa, pk=pk)

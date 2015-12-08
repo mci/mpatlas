@@ -1,6 +1,6 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
-  'leaflet',
+  'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
 ], function() {
     var MarkerWrap = function() {
         var markerLocation = new L.LatLng(51.5, -0.09),

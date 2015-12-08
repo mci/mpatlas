@@ -1,4 +1,4 @@
-Django<1.7
+Django>=1.8
 git+git://github.com/benjaoming/django-wiki.git#egg=wiki
 git+git://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
 # django-storages
@@ -65,8 +65,10 @@ Shapely
 GeoIP-Python
 pygeoip
 
-git+git://github.com/divio/django-cms@3.1.3#egg=cms
-git+https://github.com/divio/djangocms-admin-style.git#egg=djangocms_admin_style
+# git+git://github.com/divio/django-cms@3.1.3#egg=cms
+# git+https://github.com/divio/djangocms-admin-style.git#egg=djangocms_admin_style
+django-cms
+djangcms-admin-style
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext
 
 #cartodb
