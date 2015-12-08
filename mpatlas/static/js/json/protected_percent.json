@@ -1,0 +1,45 @@
+[
+    {
+        value: 0.0218,
+        color: "#46BFBD",
+        label: "MPAs 2.18%"
+    },
+    {
+        value: 0.0362,
+        color: "#a1dddc",
+        label: "Proposed MPAs"
+    },
+    {
+        value: 0.042,
+        color:"#ccc",
+        label: "Unprotected 94.2%"
+    }
+]
+
+// var radialdata = [
+//     {
+//         value: 0.0118,
+//         color: "#FDB45C",
+//         label: "Multi-use 1.18%"
+//     },
+//     {
+//         value: 0.0094,
+//         color: "#46BFBD",
+//         label: "No-Take 0.94%"
+//     },
+//     {
+//         value: 0.0282,
+//         color: "#fedaaf",
+//         label: "Proposed"
+//     },
+//     {
+//         value: 0.0106,
+//         color: "#a1dddc",
+//         label: "Proposed"
+//     },
+//     {
+//         value: 0.04,
+//         color:"#ccc",
+//         label: "Unprotected 97.9%"
+//     }
+// ]

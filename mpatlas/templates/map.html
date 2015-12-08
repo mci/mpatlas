@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% comment %}
-{% load sekizai_tags %}
-{% endcomment %}
+{% load staticfiles %}
+{% load cms_tags sekizai_tags i18n %}
 
 {% block title %}Explore{% endblock %}
 
@@ -30,82 +29,25 @@
             "scopeResetCSS": true  // Thanks, but I'll do my own scoping please
         }
     };
-    
-    require.config({
-        baseUrl: '{{ STATIC_URL }}js',
-        paths: {
-            jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
-            jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
-            // cartodb: 'http://libs.cartocdn.com/cartodb.js/v3/3.12/cartodb.js',
-            leaflet: 'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
-            // leaflet: '//cdn.leafletjs.com/leaflet-0.7.3/leaflet',
-            //leaflet: '{{ STATIC_URL }}Leaflet/leaflet',
-            json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',
-            underscore: 'underscore-min',
-			backbone: 'backbone-min',
-			//extjs: '//cdn.sencha.com/ext/gpl/4.1.1/ext-all'
-    		extjs: '//cdn.sencha.com/ext/gpl/4.1.1/ext-all',
-    		bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
-            //underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.2.2/underscore-min', // versions pre 1.3.0 have problems when used with backbone via requireJS
-            //backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min'
-        },
-        //priority: ['jquery']
-		priority: [
-			'leaflet'
-		],
-		waitSeconds: 30,
-		shim: {
-			'underscore': {
-				exports: '_'
-			},
-			'backbone': {
-				deps: ['underscore', 'jquery'].concat(!(typeof JSON !== 'undefined' && typeof JSON.stringify === 'function') ? ['json2'] : []),
-				exports: 'Backbone'
-			},
-			'jqueryui': ['jquery'],
-			'bootstrap': ['jquery'],
-			'leaflet': {
-				exports: 'cartodb',
-			},
-			'leafclusterer': ['leaflet'],
-			'TileLayer.Bing': ['leaflet'],
-			'leaflet_utils': ['leaflet'],
-			'leaflet_maptip': ['leaflet']
-		}
-    });
-    require([
-        'jquery',
-        'prep',
-        'app',
-        'MPAList',
-		'MPALayersWindow',
-		'MPAFiltersWindow',
-		'json/mpa_points',
-		'jqueryui',
-		'bootstrap'
-    ], function($, Prep, App, MPAList) {
-        $(function() {
-            Prep.preparePage();
-        });
+</script>
+
+<script type="text/javascript">
+    System.import('{% static "js" %}/app').then(function(App) {
         $(function() {
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
-            window['showsplashdialog'] = Prep.showsplashdialog;
-            //console.log(mpatlas.history.get('seensplash'));
             if (mpatlas.history.get('seensplash') != 'true') {
                 showsplashdialog();
                 mpatlas.history.set('seensplash', 'true');
             }
-            //console.log(mpatlas.history.get('seensplash'));
 
-						Ext.onReady(function() {
-								MPALayersWindow.load(mpatlas);
-								MPAFiltersWindow.load(mpatlas);
-						});
-
+            System.import('{% static "js" %}/MPAList').then(function(MPAList) {
+				Ext.onReady(function() {
+					MPALayersWindow.load(mpatlas);
+					MPAFiltersWindow.load(mpatlas);
+				});
+			});
         });
     });
-
 </script>
 {% endblock %}
 

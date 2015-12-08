@@ -1,6 +1,6 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
-  'leaflet'
+  'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb'
 ], function(){
     L.TileLayer.Bing = L.TileLayer.extend({
         options: {

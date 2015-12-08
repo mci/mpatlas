@@ -14,7 +14,7 @@ try:
 except ImportError:
     pass
 
-TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_DEBUG = DEBUG
 
 # Use safelogging from https://github.com/litchfield/django-safelogging
 # Rate limits error log emails and suppresses disallowed hosts warnings
@@ -159,13 +159,6 @@ SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = 'mpatlas_socialauth_user'
 # END Social_Auth settings
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
 MIDDLEWARE_CLASSES = (
     # Uncomment to enable caching with memcached
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -178,7 +171,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.doc.XViewMiddleware',
+    'django.contrib.admindocs.middleware.XViewMiddleware',
 
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
@@ -191,26 +184,64 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'mpatlas.urls'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    # 'staticfiles.context_processors.static',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'social_auth.context_processors.social_auth_by_name_backends',
-    'sekizai.context_processors.sekizai',
-    'cms.context_processors.cms_settings',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+            # Always use forward slashes, even on Windows.
+            # Don't forget to use absolute paths, not relative paths.
+            os.path.join(PROJECT_PATH, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'social_auth.context_processors.social_auth_by_name_backends',
+                'sekizai.context_processors.sekizai',
+                'cms.context_processors.cms_settings',
+            ],
+        },
+    },
+]
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates'),
-)
+# # List of callables that know how to import templates from various sources.
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# #     'django.template.loaders.eggs.Loader',
+# )
+
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.contrib.auth.context_processors.auth',
+#     'django.core.context_processors.debug',
+#     'django.core.context_processors.i18n',
+#     'django.core.context_processors.media',
+#     'django.core.context_processors.static',
+#     # 'staticfiles.context_processors.static',
+#     'django.contrib.messages.context_processors.messages',
+#     'django.core.context_processors.request',
+#     'social_auth.context_processors.social_auth_by_name_backends',
+#     'sekizai.context_processors.sekizai',
+#     'cms.context_processors.cms_settings',
+#     'django.template.context_processors.request',
+# )
+
+# TEMPLATE_DIRS = (
+#     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+#     # Always use forward slashes, even on Windows.
+#     # Don't forget to use absolute paths, not relative paths.
+#     os.path.join(PROJECT_PATH, 'templates'),
+# )
 
 CMS_TEMPLATES = (
     ('cms_basic.html', 'Basic Page'),
@@ -328,7 +359,14 @@ FILER_IS_PUBLIC_DEFAULT = True
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 
 MIGRATION_MODULES = {
-    'filer': 'filer.migrations_django',
+    # 'filer': 'filer.migrations_django',
+    # For cmsplugin-filer
+    'cmsplugin_filer_file': 'cmsplugin_filer_file.migrations_django',
+    'cmsplugin_filer_folder': 'cmsplugin_filer_folder.migrations_django',
+    'cmsplugin_filer_link': 'cmsplugin_filer_link.migrations_django',
+    'cmsplugin_filer_image': 'cmsplugin_filer_image.migrations_django',
+    'cmsplugin_filer_teaser': 'cmsplugin_filer_teaser.migrations_django',
+    'cmsplugin_filer_video': 'cmsplugin_filer_video.migrations_django',
 }
 
 INSTALLED_APPS = (

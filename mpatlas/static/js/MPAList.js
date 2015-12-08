@@ -1,6 +1,9 @@
 define(
 	[
-		'extjs'
+		'//cdn.sencha.com/ext/gpl/4.1.1/ext-all',
+		'/static/js/MPALayersWindow',
+		'/static/js/MPAFiltersWindow',
+		'/static/js/json/mpa_points'
 	],
 	function () {
 
@@ -231,7 +234,7 @@ define(
 						return "";
 					} else {
 						return Ext.String.format(
-							'<a href="javascript:void(0);" onclick="mpatlas.zoomToMPA({id:{0},pt:[{1}],bbox:[{2},{3}]})"><img src="http://static.mpatlas.org/images/header_searchbutton.png" style="height:16px;width:16px;" /></a>',
+							'<a href="javascript:void(0);" onclick="mpatlas.zoomToMPA({id:{0},pt:[{1}],bbox:[{2},{3}]})"><img src="/static/images/header_searchbutton.png" style="height:16px;width:16px;" /></a>',
 							value,
 							pt.coordinates,
 							bbox_ll.coordinates,
