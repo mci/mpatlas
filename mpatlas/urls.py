@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^admin/jsi18n/', i18n_javascript),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^ckeditor/', include('ckeditor.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
      
     url(r'^users/', include('accounts.urls')),
     url(r'socialauth/', include('social_auth.urls')),

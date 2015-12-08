@@ -276,6 +276,7 @@ CKEDITOR_SETTINGS = {
 #CKEditor
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Complete',
@@ -437,6 +438,7 @@ INSTALLED_APPS = (
     'reversion',
     #'tinymce',
     'ckeditor',
+    'ckeditor_uploader',
     'django_countries',
     
     # User accounts and registration
