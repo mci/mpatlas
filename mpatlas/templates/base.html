@@ -230,9 +230,10 @@
                 </div>
             </div>
             {% block base_prebody_content %}{% endblock %}
-            <div id='body_full'>
+            <div id='body_full' class='container'>
                 {% block base_fblike %}
                 {% endblock %}
+                {% block content %}{% endblock %}
                 {% block base_body_content %}{% endblock %}
             </div>
             <div id='footer_full'>
