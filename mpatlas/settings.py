@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-gettext = lambda s: s
+from django.utils.translation import ugettext_lazy as _
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 SITE_PATH = os.path.dirname(PROJECT_PATH)
 
@@ -249,6 +249,11 @@ CMS_TEMPLATES = (
     ('cms_mpapedia.html', 'MPApedia Page'),
 )
 
+ALDRYN_STYLE_CLASS_NAMES = (
+    ('container', _('bootstrap container')),
+    ('container-fluid', _('bootstrap fluid container')),
+)
+
 # These settings override djangocms_text_ckeditor toolbar settings
 # Disable server-side html sanitization via html5lib, it's removing too much right now
 TEXT_HTML_SANITIZE = False
@@ -258,25 +263,28 @@ CKEDITOR_SETTINGS = {
     'skin': 'moono',
     'toolbarCanCollapse': False,
     'toolbar_CMS': [
-                    ['Undo', 'Redo'],
-                    ['cmsplugins', '-', 'ShowBlocks'],
-                    ['Format', 'Styles'],
-                    ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-                    ['Maximize', ''],
-                    '/',
-                    ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-                    ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
-                    ['HorizontalRule'],
-                    { 'name': 'links', 'items': [ 'Link', 'Unlink', 'Anchor' ] },
-                    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
-                    ['Source']
-                ],
+        ['Undo', 'Redo'],
+        ['cmsplugins', '-', 'ShowBlocks'],
+        ['Format', 'Styles'],
+        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+        ['Maximize', ''],
+        '/',
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+        ['HorizontalRule'],
+        { 'name': 'links', 'items': [ 'Link', 'Unlink', 'Anchor' ] },
+        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
+        ['Source']
+    ],
+    'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
+    'contentsCss': ['/static/css/main.css'],
 }
 
 #CKEditor
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'
+CKEDITOR_allelements = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div']
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Complete',
@@ -350,7 +358,9 @@ THUMBNAIL_PROCESSORS = (
     #'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
+    'easy_thumbnails.processors.background',
 )
+
 THUMBNAIL_HIGH_RESOLUTION = True # for retina support
 
 # django-filer and ckeditor integration
@@ -390,6 +400,27 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
 
+    'cms',  # django CMS itself
+    'mptt',  # utilities for implementing a tree
+    'treebeard',
+    'menus',  # helper for model independent hierarchical website navigation
+    'sekizai',  # for javascript and css management
+    'reversion',
+    
+    'sorl.thumbnail',
+    # 'django_notify',
+    # 'wiki',
+    # 'wiki.plugins.attachments',
+    # 'wiki.plugins.notifications',
+    # 'wiki.plugins.images',
+    # 'wiki.plugins.macros',
+    # 'wiki.plugins.links',
+    # 'wiki.plugins.help',
+    # # 'wiki.plugins.haystack',
+
+    'aldryn_style',
+    'aldryn_bootstrap3',
+
     'cmsplugin_filer_file',
     'cmsplugin_filer_folder',
     'cmsplugin_filer_link',
@@ -411,28 +442,10 @@ INSTALLED_APPS = (
     # Plaintext Plugin
     'cmsplugin_plaintext',
 
-    'cms',  # django CMS itself
-    'mptt',  # utilities for implementing a tree
-    'treebeard',
-    'menus',  # helper for model independent hierarchical website navigation
-    'sekizai',  # for javascript and css management
-    
-    'sorl.thumbnail',
-    # 'django_notify',
-    # 'wiki',
-    # 'wiki.plugins.attachments',
-    # 'wiki.plugins.notifications',
-    # 'wiki.plugins.images',
-    # 'wiki.plugins.macros',
-    # 'wiki.plugins.links',
-    # 'wiki.plugins.help',
-    # # 'wiki.plugins.haystack',
-
-    
-    'reversion',
     #'tinymce',
     'ckeditor',
     'ckeditor_uploader',
+    
     'django_countries',
     
     # User accounts and registration
