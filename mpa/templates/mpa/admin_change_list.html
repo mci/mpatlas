@@ -1,0 +1,22 @@
+{% extends "reversion/change_list.html" %}
+{% load i18n admin_urls admin_static admin_list %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <style>
+    .dashboard table tbody th, .dashboard table tbody td, .change-list table tbody th, .change-list table tbody td, .tabular table tbody th, .tabular table tbody td, .results table tbody th, .results table tbody td, #change-history tbody th, #change-history tbody td {
+      font-size: 13px;
+      line-height: 13px;
+      padding: 6px !important;
+      max-width: 200px;
+    }
+
+    .change-list #changelist table tbody th, .change-list #changelist table tbody td {
+        white-space: inherit;
+    }
+
+    .dashboard table th p, .dashboard table th a, .dashboard table td p, .dashboard table td a, .dashboard table td span, .change-list table th p, .change-list table th a, .change-list table td p, .change-list table td a, .change-list table td span, .tabular table th p, .tabular table th a, .tabular table td p, .tabular table td a, .tabular table td span, .results table th p, .results table th a, .results table td p, .results table td a, .results table td span, #change-history th p, #change-history th a, #change-history td p, #change-history td a, #change-history td span {
+    font-size: 13px !important;
+    line-height: 13px;
+  </style>
+{% endblock %}
