@@ -276,7 +276,7 @@ CKEDITOR_SETTINGS = {
 #CKEditor
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
-CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Complete',
@@ -416,13 +416,7 @@ INSTALLED_APPS = (
     'treebeard',
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
-    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
-
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
-
+    
     'sorl.thumbnail',
     # 'django_notify',
     # 'wiki',
@@ -456,6 +450,13 @@ INSTALLED_APPS = (
     'mpa',
     'spatialdata',
     'campaign',
+
+    'djangocms_admin_style',  # for the admin skin. You **must** add 'djangocms_admin_style' in the list **before** 'django.contrib.admin'.
+
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
