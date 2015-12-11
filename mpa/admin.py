@@ -18,7 +18,9 @@ def get_fields_missing_from_fieldsets(fieldsets, fields):
                     missing_fields.remove(field)
     return missing_fields
 
+# class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
 class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
+    change_list_template = "mpa/admin_change_list.html"
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
     fieldsets = [
