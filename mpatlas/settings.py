@@ -284,7 +284,6 @@ CKEDITOR_SETTINGS = {
 CKEDITOR_UPLOAD_PATH = 'media-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'
-CKEDITOR_allelements = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div']
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Complete',
@@ -311,9 +310,13 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
         'extraPlugins': 'image2',
         'removePlugins': 'stylesheetparser',
+        'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
+        'contentsCss': ['/static/css/main.css'],
     },
     'awesome_ckeditor': {
         'toolbar': 'Basic',
+        'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
+        'contentsCss': ['/static/css/main.css'],
     },
 }
 
