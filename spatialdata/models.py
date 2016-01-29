@@ -36,8 +36,14 @@ class Nation(models.Model):
     def mpas(self):
         from mpa.models import Mpa, MpaCandidate
         from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
-        return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
-    
+        return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code, is_mpa=True).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
+
+    @property
+    def others(self):
+        from mpa.models import Mpa, MpaCandidate
+        from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+        return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code, is_mpa=False).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
+
     @models.permalink
     def get_absolute_url(self):
         return ('nation-info', (), { 'iso3code': self.iso3code })
