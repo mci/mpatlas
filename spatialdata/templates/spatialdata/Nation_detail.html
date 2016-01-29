@@ -143,6 +143,19 @@
         	    {% endfor %}
         	    </p>
         	</div>
+
+            <div class="sidebar_item_title">Other Marine Managed Areas in {{ nation.name }}</div>
+            <div class="sidebar_item_content">
+                <p style="font-style:italic">{{ nation.others.count }} Marine Managed Areas:</p>
+                <p>
+                {% for mpa in nation.others %}
+                    <a class="normal" href="{% url 'mpa-siteinfo' mpa.pk %}">
+                        <span style="font-size:1.1em; font-style:normal;">{{ mpa.name }}</span> {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
+                    </a>
+                    {% if not forloop.last %}<br />{% endif %}
+                {% endfor %}
+                </p>
+            </div>
         	
     	</div>
     </div>
