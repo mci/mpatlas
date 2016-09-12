@@ -18,7 +18,7 @@ function ($, Backbone, d3, nvd3) {
         label: "Proposed MPAs"
     },
     {
-        value: 0.0471
+        value: 0.0471,
         color:"#ccc",
         label: "Unprotected 94.71"
     }
