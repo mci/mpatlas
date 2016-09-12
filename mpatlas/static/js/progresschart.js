@@ -1,11 +1,28 @@
 define([
 	'jquery',
 	'backbone',
-	'/static/js/json/protected_percent.json!',
+	// '/static/js/json/protected_percent.json!',
 	'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min',
 	'https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min'
 ],
-function ($, Backbone, radialdata, d3, nvd3) {  
+function ($, Backbone, d3, nvd3) {
+    radialdata = [
+    {
+        value: 0.0263,
+        color: "#46BFBD",
+        label: "MPAs 2.63%"
+    },
+    {
+        value: 0.0266,
+        color: "#a1dddc",
+        label: "Proposed MPAs"
+    },
+    {
+        value: 0.0471
+        color:"#ccc",
+        label: "Unprotected 94.71"
+    }
+]  
     var _ProgressChart = Backbone.View.extend({
 		initialize: function() { },
 		makeChart: function() {
