@@ -10,17 +10,17 @@ function ($, Backbone, d3, nvd3) {
     {
         value: 0.0299,
         color: "#46BFBD",
-        label: "MPAs 2.99%"
+        label: "MPAs 3%"
     },
     {
         value: 0.0298,
         color: "#a1dddc",
-        label: "Proposed MPAs"
+        label: "Proposed MPAs 3%"
     },
     {
         value: 0.0403,
         color:"#ccc",
-        label: "Unprotected 94.03"
+        label: "Unprotected 94%"
     }
 ]  
     var _ProgressChart = Backbone.View.extend({
