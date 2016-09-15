@@ -8,19 +8,19 @@ define([
 function ($, Backbone, d3, nvd3) {
     radialdata = [
     {
-        value: 0.0263,
+        value: 0.0299,
         color: "#46BFBD",
-        label: "MPAs 2.63%"
+        label: "MPAs 2.99%"
     },
     {
-        value: 0.0266,
+        value: 0.0298,
         color: "#a1dddc",
         label: "Proposed MPAs"
     },
     {
-        value: 0.0471,
+        value: 0.0403,
         color:"#ccc",
-        label: "Unprotected 94.71"
+        label: "Unprotected 94.03"
     }
 ]  
     var _ProgressChart = Backbone.View.extend({
