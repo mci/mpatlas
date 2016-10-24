@@ -1,6 +1,7 @@
 from django.contrib.gis import admin
 from django.forms.models import fields_for_model
 import reversion
+from reversion.admin import VersionAdmin
 from models import Mpa, WikiArticle, Contact, CandidateInfo
 
 class WikiArticleInline(admin.StackedInline):
@@ -18,8 +19,8 @@ def get_fields_missing_from_fieldsets(fieldsets, fields):
                     missing_fields.remove(field)
     return missing_fields
 
-# class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
-class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
+# class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
+class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     change_list_template = "mpa/admin_change_list.html"
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
@@ -79,6 +80,6 @@ class MpaAdmin(reversion.VersionAdmin, admin.GeoModelAdmin):
     has_boundary.short_description = 'Has Boundaries'
 
 admin.site.register(Mpa, MpaAdmin)
-admin.site.register(Contact, reversion.VersionAdmin)
-# admin.site.register(WikiArticle, reversion.VersionAdmin)
+admin.site.register(Contact, VersionAdmin)
+# admin.site.register(WikiArticle, VersionAdmin)
 # admin.site.register(MpaCandidate, admin.GeoModelAdmin)
