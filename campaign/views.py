@@ -7,7 +7,8 @@ from django.views.generic import ListView
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
-import reversion
+# import reversion
+from reversion import revisions as reversion
 from reversion.models import Revision
 from django.db import connection, transaction
 

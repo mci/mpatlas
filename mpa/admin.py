@@ -1,7 +1,8 @@
 from django.contrib.gis import admin
 from django.forms.models import fields_for_model
-import reversion
 from reversion.admin import VersionAdmin
+# import reversion
+from reversion import revisions as reversion
 from models import Mpa, WikiArticle, Contact, CandidateInfo
 
 class WikiArticleInline(admin.StackedInline):
