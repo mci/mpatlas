@@ -12,7 +12,8 @@ from ckeditor.fields import RichTextField
 from BeautifulSoup import BeautifulSoup
 from uuslug import uuslug, slugify
 
-import reversion
+# import reversion
+from reversion import revisions as reversion
 from reversion.models import Revision
 
 from mpa.models import Mpa

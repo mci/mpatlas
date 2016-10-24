@@ -16,7 +16,8 @@ from mpa.forms import MpaForm, MpaGeomForm
 
 from mpa.filters import apply_filters
 
-import reversion
+#import reversion
+from reversion import revisions as reversion
 from django.db import connection, transaction
 from reversion.models import Revision
 from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata

@@ -11,7 +11,8 @@ from django.db import connection, transaction
 from ckeditor.fields import RichTextField
 from BeautifulSoup import BeautifulSoup
 
-import reversion
+# import reversion
+from reversion import revisions as reversion
 from reversion.models import Revision
 
 from taggit.managers import TaggableManager
