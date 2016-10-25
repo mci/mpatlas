@@ -373,14 +373,6 @@ FILER_IS_PUBLIC_DEFAULT = True
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 
 MIGRATION_MODULES = {
-    # 'filer': 'filer.migrations_django',
-    # For cmsplugin-filer
-    'cmsplugin_filer_file': 'cmsplugin_filer_file.migrations_django',
-    'cmsplugin_filer_folder': 'cmsplugin_filer_folder.migrations_django',
-    'cmsplugin_filer_link': 'cmsplugin_filer_link.migrations_django',
-    'cmsplugin_filer_image': 'cmsplugin_filer_image.migrations_django',
-    'cmsplugin_filer_teaser': 'cmsplugin_filer_teaser.migrations_django',
-    'cmsplugin_filer_video': 'cmsplugin_filer_video.migrations_django',
 }
 
 INSTALLED_APPS = (
@@ -410,7 +402,7 @@ INSTALLED_APPS = (
     'sekizai',  # for javascript and css management
     'reversion',
     
-    'sorl.thumbnail',
+    # 'sorl.thumbnail',
     # 'django_notify',
     # 'wiki',
     # 'wiki.plugins.attachments',
