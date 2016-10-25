@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.sites.models import get_current_site
+try:
+    from django.contrib.sites.models import get_current_site
+except ImportError:
+    from django.contrib.sites.shortcuts import get_current_site
 from django.template import Context, loader
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -29,7 +32,7 @@ def signup(request, template_name='accounts/signup.html',
            token_generator=default_token_generator,
            post_signup_redirect=None,
            redirect_field_name='next'):
-    redirect_to = request.REQUEST.get(redirect_field_name, '')
+    redirect_to = request.POST.get(redirect_field_name, request.GET.get(redirect_field_name, ''))
     if post_signup_redirect is None:
         post_signup_redirect = reverse('accounts.views.signup_done')
     if request.method == "POST":
