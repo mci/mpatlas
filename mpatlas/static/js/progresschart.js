@@ -13,12 +13,12 @@ function ($, Backbone, d3, nvd3) {
         label: "MPAs 3%"
     },
     {
-        value: 0.0315,
+        value: 0.0342,
         color: "#a1dddc",
         label: "Proposed MPAs 3%"
     },
     {
-        value: 0.0387,
+        value: 0.036,
         color:"#ccc",
         label: "Unprotected 94%"
     }
