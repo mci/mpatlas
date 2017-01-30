@@ -247,6 +247,9 @@ CMS_TEMPLATES = (
     ('cms_basic.html', 'Basic Page'),
     ('cms_home.html', 'Homepage'),
     ('cms_mpapedia.html', 'MPApedia Page'),
+    ('v2_cms_basic.html', 'V2 Basic Page'),
+    ('v2_cms_home.html', 'V2 Homepage'),
+    ('v2_news.html', 'V2 News Page'),
 )
 
 ALDRYN_STYLE_CLASS_NAMES = (
