@@ -403,6 +403,7 @@ INSTALLED_APPS = (
     'treebeard',
     'menus',  # helper for model independent hierarchical website navigation
     'sekizai',  # for javascript and css management
+    'djangocms_history',
     'reversion',
     
     # 'sorl.thumbnail',
