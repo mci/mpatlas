@@ -73,6 +73,7 @@ pygeoip
 django-cms
 djangocms-admin-style
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext_djangocms3
+git+git://github.com/divio/djangocms-history#egg=djangocms-history
 
 #cartodb
 git+git://github.com/CartoDB/cartodb-python.git#egg=cartodb
