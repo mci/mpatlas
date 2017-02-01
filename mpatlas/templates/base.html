@@ -168,20 +168,20 @@
                     
                     <div class='user_block'>
                     {% if user.is_authenticated %}
-                        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href='/users/logout?next={{ request.path }}'>[x]</a>
+                        Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href="{% url 'logout' %}?next={{ request.path }}">[x]</a>
                     {% else %}
                         <!--
                         <input style="float:right;" class="facebook" type="image" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
                         -->
                         <div id='user_logintab' style="float:right;">
-                            <a id='user_loginlink' class='user_loginlink' href='/users/login?next={{ request.path }}'>Sign In</a>
+                            <a id='user_loginlink' class='user_loginlink' href="{% url 'login' %}?next={{ request.path }}">Sign In</a>
                             <div id='user_loginformcontainer'>
                                 <a href="/socialauth/login/facebook/">LOGIN with FACEBOOK</a>
                                 {% if form.errors %}
                                     <p>Your username and password didn't match. Please try again.</p>
                                 {% endif %}
 
-                                <form id="user_loginform" action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login_form">
+                                <form id="user_loginform" action="{% url 'login' %}" method="post" class="login_form">
                                     {% csrf_token %}
                                     <div class="hide">
                                         <input type="hidden" name="next" value="{{ request.path }}" />
@@ -194,12 +194,12 @@
                                     </p>
                                     <p class="submit">
                                         <button class="user_button user_login" type="submit" name="submit" value="login">Log in</button>
-                                        <a href='/users/password_reset?next={{ request.path }}'>Forgot password?</a>
+                                        <a href="{% url 'password_reset' %}?next={{ request.path }}">Forgot password?</a>
                                         <span class="clear"></span>
                                     </p>
                                 </form>
                                 <p class="user_signupblock">
-                                    Not a member? <a id='user_signuplink' href='/users/signup/?next={{ request.path }}'>Join Now!</a>
+                                    Not a member? <a id='user_signuplink' href="{% url 'signup' %}?next={{ request.path }}">Join Now!</a>
                                 </p>
                             </div>
                         </div>
