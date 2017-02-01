@@ -29,7 +29,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['.mpatlas.org', '54.68.154.94']
+ALLOWED_HOSTS = ['.mpatlas.org', '54.68.154.94', 'localhost', '127.0.0.1']
 
 DATABASES = {
     'default': {
@@ -134,7 +134,7 @@ LOGIN_REDIRECT_URL = '/explore/'
 
 # BEGIN social_auth settings
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.facebook.FacebookBackend',
+    # 'social_auth.backends.facebook.FacebookBackend',
     # 'social_auth.backends.google.GoogleOAuthBackend',
     # 'social_auth.backends.google.GoogleOAuth2Backend',
     # 'social_auth.backends.google.GoogleBackend',
@@ -149,14 +149,14 @@ LOGIN_URL = '/users/login/'
 #LOGIN_REDIRECT_URL = '/users/profile/'
 #LOGIN_REDIRECT_URL = '/explore/'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/mpa/sites/'
+## SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/mpa/sites/'
 # SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/new-association-redirect-url/'
 # SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/account-disconnected-redirect-url/'
 #SOCIAL_AUTH_BACKEND_ERROR_URL = '/new-error-url/'
-SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
+## SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
+## SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
-SOCIAL_AUTH_DEFAULT_USERNAME = 'mpatlas_socialauth_user'
+## SOCIAL_AUTH_DEFAULT_USERNAME = 'mpatlas_socialauth_user'
 # END Social_Auth settings
 
 MIDDLEWARE_CLASSES = (
@@ -206,7 +206,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'social_auth.context_processors.social_auth_by_name_backends',
+                # 'social_auth.context_processors.social_auth_by_name_backends',
                 'sekizai.context_processors.sekizai',
                 'cms.context_processors.cms_settings',
             ],
@@ -448,7 +448,7 @@ INSTALLED_APPS = (
     'django_countries',
     
     # User accounts and registration
-    'social_auth',
+    # 'social_auth',
     'accounts',
 
     # Tagging/Categories

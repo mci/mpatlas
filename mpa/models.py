@@ -185,7 +185,7 @@ class Mpa(models.Model):
     
     # Contact
     contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True)
-    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', null=True, blank=True)
+    other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', blank=True)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')

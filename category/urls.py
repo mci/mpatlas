@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
 from category.views import CategoryDetailView, CategoryGeoJsonView
 
 from category.models import Category, Details
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
@@ -70,5 +70,5 @@ urlpatterns = patterns('',
     # url(r'^(?P<pk>\d+)/edit/$', 'campaign.views.edit_campaign', name='campaign-edit'),
     
     # url(r'^lookup/point/$', 'mpa.views.lookup_point'),
-)
+]
 

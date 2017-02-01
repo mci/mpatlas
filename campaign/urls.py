@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
-from campaign.views import JsonListView
+from campaign.views import JsonListView, get_campaign_pointgeom_json
 
 from campaign.models import Campaign, Initiative
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
@@ -50,7 +50,7 @@ urlpatterns = patterns('',
             context_object_name='campaign',
             template_name='campaign/Campaign_detail.html'),
         name='campaign-info'),
-    url(r'^(?P<pk>\d+)/point/$', 'campaign.views.get_campaign_pointgeom_json', name='campaign-point-geojson'),
+    url(r'^(?P<pk>\d+)/point/$', get_campaign_pointgeom_json, name='campaign-point-geojson'),
     
     url(r'^initiative/(?P<pk>\d+)/$',
         DetailView.as_view(
@@ -70,5 +70,5 @@ urlpatterns = patterns('',
     # url(r'^(?P<pk>\d+)/edit/$', 'campaign.views.edit_campaign', name='campaign-edit'),
     
     # url(r'^lookup/point/$', 'mpa.views.lookup_point'),
-)
+]
 

@@ -41,7 +41,7 @@ class Campaign(models.Model):
     point_geom = models.PointField(srid=4326, null=True, blank=True, editable=True)
 
     # Associated MPAs
-    mpas = models.ManyToManyField(Mpa, null=True, blank=True)
+    mpas = models.ManyToManyField(Mpa, blank=True)
 
     # Overriding the default manager with a GeoManager instance
     objects = models.GeoManager()
