@@ -1,10 +1,10 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
 
 from spatialdata.models import Nation, Eez, Meow
-from spatialdata.views import EezListView, EezJsonListView
+from spatialdata.views import EezListView, EezJsonListView, get_nation_geom_json, region_lookup_point, get_geom_json
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
@@ -42,10 +42,10 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='nation-infojson'),
-    url(r'^nation/(?P<iso3code>\w+)/features/$', 'spatialdata.views.get_nation_geom_json', name='nation-geojson'),
+    url(r'^nation/(?P<iso3code>\w+)/features/$', get_nation_geom_json, name='nation-geojson'),
 
-    # url(r'^nation/lookup/point/$', 'spatialdata.views.nation_lookup_point', {'region': Eez}),
-    url(r'^nation/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Nation}),
+    # url(r'^nation/lookup/point/$', nation_lookup_point, {'region': Eez}),
+    url(r'^nation/lookup/point/$', region_lookup_point, {'region': Nation}),
     
     
     url(r'^eez/$',
@@ -76,9 +76,9 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='eez-infojson'),
-    url(r'^eez/(?P<pk>\d+)/features/$', 'spatialdata.views.get_geom_json', {'model': Eez}, name='eez-geojson'),
+    url(r'^eez/(?P<pk>\d+)/features/$', get_geom_json, {'model': Eez}, name='eez-geojson'),
 
-    url(r'^eez/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Eez}),
+    url(r'^eez/lookup/point/$', region_lookup_point, {'region': Eez}),
     
     
     url(r'^meow/$',
@@ -109,7 +109,7 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='eez-infojson'),
-    url(r'^meow/(?P<pk>\d+)/features/$', 'spatialdata.views.get_geom_json', {'model': Meow}, name='meow-geojson'),
+    url(r'^meow/(?P<pk>\d+)/features/$', get_geom_json, {'model': Meow}, name='meow-geojson'),
     
-    url(r'^meow/lookup/point/$', 'spatialdata.views.region_lookup_point', {'region': Meow}),
-)
+    url(r'^meow/lookup/point/$', region_lookup_point, {'region': Meow}),
+]

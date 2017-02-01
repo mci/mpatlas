@@ -1,10 +1,12 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
 
 from mpa.models import Mpa, MpaCandidate
-from mpa.views import MpaListView, MpaJsonListView, mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
+from mpa.views import MpaListView, MpaJsonListView, get_mpa_geom_json, edit_mpa, edit_mpa_geom, lookup_point
+from mpa.views import revision_view, revision_view2
+from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
@@ -13,8 +15,8 @@ urlpatterns = patterns('',
     #url(r'^sites/', 'wdpa.views.sitelist'),
     #url(r'^sites/(?P<siteid>\d)/$', 'wdpa.views.siteinfo'),
     
-    url(r'^revision/$', 'mpa.views.revision_view'),
-    url(r'^revision2/$', 'mpa.views.revision_view2'),
+    url(r'^revision/$', revision_view),
+    url(r'^revision2/$', revision_view2),
     url(r'^sites/$',
         MpaListView.as_view(
             queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
@@ -65,12 +67,12 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/Mpa_detail.json'),
         name='mpa-infojson'),
-    url(r'^sites/(?P<pk>\d+)/features/$', 'mpa.views.get_mpa_geom_json', name='mpa-geojson'),
-    url(r'^sites/(?P<pk>\d+)/edit/$', 'mpa.views.edit_mpa', name='mpa-editsite'),
+    url(r'^sites/(?P<pk>\d+)/features/$', get_mpa_geom_json, name='mpa-geojson'),
+    url(r'^sites/(?P<pk>\d+)/edit/$', edit_mpa, name='mpa-editsite'),
 
-    url(r'^sites/(?P<pk>\d+)/edit/geo/$', 'mpa.views.edit_mpa_geom', name='mpa-editsitegeom'),
+    url(r'^sites/(?P<pk>\d+)/edit/geo/$', edit_mpa_geom, name='mpa-editsitegeom'),
     
-    url(r'^lookup/point/$', 'mpa.views.lookup_point'),
+    url(r'^lookup/point/$', lookup_point),
     
     url(r'^proposed/$',
         MpaListView.as_view(
@@ -86,5 +88,5 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='mpa/MpaCandidate_detail.html'),
         name='mpa-candidate-siteinfo'),
-)
+]
 

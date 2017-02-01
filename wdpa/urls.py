@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
 
 from wdpa.models import WdpaPolygon
 from mpa.models import MpaCandidate
 from wdpa.views import MpaListView, MpaJsonListView
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'mpatlas.views.home', name='home'),
     # url(r'^mpatlas/', include('mpatlas.foo.urls')),
@@ -59,4 +59,4 @@ urlpatterns = patterns('',
             context_object_name='mpa',
             template_name='wdpa/MpaCandidate_detail.html'),
         name='mpa-candidate-siteinfo'),
-)
+]
