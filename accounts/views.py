@@ -11,7 +11,7 @@ from django.utils.http import int_to_base36
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from accounts.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator
@@ -62,14 +62,13 @@ def signup(request, template_name='accounts/signup.html',
             return HttpResponseRedirect(redirect_to)
     else:
         form = signup_form()
-    return render_to_response(template_name, {
+    return render(request, template_name, {
             'form': form,
             redirect_field_name: redirect_to,
-        }, context_instance=RequestContext(request))
+        })
 
 def signup_done(request, template_name='accounts/signup_done.html'):
-    return render_to_response(template_name, 
-                              context_instance=RequestContext(request))
+    return render(request, template_name)
 
 def signup_confirm(request, uidb36=None, token=None,
                    token_generator=default_token_generator,
@@ -94,6 +93,4 @@ def signup_confirm(request, uidb36=None, token=None,
     return HttpResponseRedirect(post_signup_redirect)
 
 def signup_complete(request, template_name='accounts/signup_complete.html'):
-    return render_to_response(template_name, 
-                              context_instance=RequestContext(request, 
-                                                              {'login_url': settings.LOGIN_URL}))
+    return render(request, template_name, {'login_url': settings.LOGIN_URL}))

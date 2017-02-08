@@ -88,11 +88,11 @@ def edit_mpa(request, pk):
             return HttpResponseRedirect(reverse('mpa-siteinfo', kwargs={'pk': pk}))
     else:
         editform = MpaForm(instance=mpa)
-    return render_to_response('mpa/Mpa_editform.html', {
+    return render(request, 'mpa/Mpa_editform.html', {
         'form': editform,
         'mpa': mpa,
         'respond_url': reverse('mpa-editsite', kwargs={'pk': pk}),
-    }, context_instance=RequestContext(request))
+    })
 
 @login_required
 @transaction.atomic
@@ -153,11 +153,11 @@ def edit_mpa_geom(request, pk):
         if mpa.geom:
             initialdata['boundarygeo'] = mpa.geom.geojson
         editform = MpaGeomForm(initial=initialdata)
-    return render_to_response('mpa/Mpa_editgeoform.html', {
+    return render(request, 'mpa/Mpa_editgeoform.html', {
         'form': editform,
         'mpa': mpa,
         'respond_url': reverse('mpa-editsitegeom', kwargs={'pk': pk}),
-    }, context_instance=RequestContext(request))
+    })
 
 
 class MpaListView(ListView):
