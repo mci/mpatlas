@@ -34,7 +34,7 @@ def signup(request, template_name='accounts/signup.html',
            redirect_field_name='next'):
     redirect_to = request.POST.get(redirect_field_name, request.GET.get(redirect_field_name, ''))
     if post_signup_redirect is None:
-        post_signup_redirect = reverse('accounts.views.signup_done')
+        post_signup_redirect = reverse('signup_done')
     if request.method == "POST":
         form = signup_form(request.POST)
         if form.is_valid():
@@ -56,7 +56,7 @@ def signup(request, template_name='accounts/signup.html',
                     login(request, user)
             if not redirect_to:
                 if (post_signup_redirect is None):
-                    post_signup_redirect = reverse('accounts.views.signup_done')
+                    post_signup_redirect = reverse('signup_done')
                 else:
                     redirect_to = post_signup_redirect
             return HttpResponseRedirect(redirect_to)
@@ -75,7 +75,7 @@ def signup_confirm(request, uidb36=None, token=None,
                    post_signup_redirect=None):
     assert uidb36 is not None and token is not None #checked par url
     if post_signup_redirect is None:
-        post_signup_redirect = reverse('accounts.views.signup_complete')
+        post_signup_redirect = reverse('signup_complete')
     try:
         uid_int = base36_to_int(uidb36)
     except ValueError:
