@@ -15,7 +15,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from accounts.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template import RequestContext
 from django.conf import settings
 from django.utils.http import urlquote, base36_to_int
