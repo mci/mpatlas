@@ -93,4 +93,4 @@ def signup_confirm(request, uidb36=None, token=None,
     return HttpResponseRedirect(post_signup_redirect)
 
 def signup_complete(request, template_name='accounts/signup_complete.html'):
-    return render(request, template_name, {'login_url': settings.LOGIN_URL}))
+    return render(request, template_name, {'login_url': settings.LOGIN_URL})
