@@ -23,7 +23,7 @@
         <p>{{ form.non_field_errors }}</p>
     {% endif %}
     
-    <form action="{% url 'accounts.views.signup' %}" method="post" class="signup_form">
+    <form action="{% url 'signup' %}" method="post" class="signup_form">
         {% csrf_token %}
         {{ form.as_p }}
         <p class="submit">
