@@ -1,0 +1,22 @@
+{% load sekizai_tags cms_tags %}
+
+    <section class="
+            {% if instance.classes %} {{ instance.classes }}{% endif %}"
+
+        style="
+            {% if instance.min_height %}min-height: {{ instance.min_height }};{% endif %}
+            background: {% if instance.bg_color %}{{instance.bg_color}}{% endif %} {% if instance.bg_image.url %}url('{{instance.bg_image.url}}'){% endif %} {{instance.bg_position}}/{{ instance.bg_size }} {{instance.bg_repeat}} {{instance.bg_attachment}};
+            {% if instance.bg_size == 'cover' %}
+                -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;
+            {% endif %}
+        "
+
+        {{ instance.attributes_str }}>
+
+        <div class="{% if instance.add_container %}container{% endif %}">
+            {% for plugin in instance.child_plugin_instances %}
+                {% render_plugin plugin %}
+            {% endfor %}
+        </div>
+
+    </section>

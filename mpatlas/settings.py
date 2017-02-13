@@ -420,6 +420,8 @@ INSTALLED_APPS = (
     'aldryn_style',
     'aldryn_bootstrap3',
 
+    'bootstrap_layout',
+
     'cmsplugin_filer_file',
     'cmsplugin_filer_folder',
     'cmsplugin_filer_link',
