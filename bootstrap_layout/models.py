@@ -56,6 +56,7 @@ ATTACHMENT_CHOICES = (
 )
 
 class Section(CMSPlugin):
+	name = models.CharField('Section Name', max_length=25, default='', help_text='Descriptive name [not rendered on page]', blank=True, null=True)
 	min_height = models.CharField('Minimum Section Height', max_length=25, default='0px', help_text='0 is default. Set it larger to expand height of section.')
 	bg_image = FilerImageField(blank=True, null=True)
 	bg_color = models.CharField('CSS Background Color', max_length=25, default='transparent', help_text='(e.g., #RRGGBB, rgba(120,120,120,0.3))')
@@ -75,4 +76,4 @@ class Section(CMSPlugin):
     )
 
 	def __unicode__(self):
-		return unicode(self.pk)
+		return unicode(self.name)
