@@ -4,11 +4,15 @@
 {% block title %}{% page_attribute "page_title" %}{% endblock %}
 
 {% block base_body_content %}
-	<section class="container page-title">
-	    <p class="heading clear" style="font-size: 32px; margin:5px 0px 5px 5px; padding:0px; color:#de744a;">
-	    	{% page_attribute "title" %}
-	    </p>
-	</section>
+	{% block page_title %}
+		{% placeholder "page_title" or %}
+		<section class="container page-title">
+		    <h1 class="heading clear" style="font-size: 32px; margin:5px 0px 5px 5px; padding:0px; color:#de744a;">
+		    	{% page_attribute "title" %}
+		    </h1>
+		</section>
+		{% endplaceholder %}
+	{% endblock %}
 
     {% block base_body_content_inner %}
     {% placeholder "base_content" %}
