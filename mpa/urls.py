@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
 
 from mpa.models import Mpa, MpaCandidate
-from mpa.views import MpaListView, MpaJsonListView, get_mpa_geom_json, edit_mpa, edit_mpa_geom, lookup_point
+from mpa.views import MpaListView, MpaJsonListView, MpaJsonView, get_mpa_geom_json, edit_mpa, edit_mpa_geom, lookup_point
 from mpa.views import revision_view, revision_view2
 from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
 
@@ -61,11 +61,10 @@ urlpatterns = [
             template_name='mpa/Mpa_detail.html'),
         name='mpa-siteinfo'),
     url(r'^sites/(?P<pk>\d+)/json/$',
-        DetailView.as_view(
+        MpaJsonView.as_view(
             model=Mpa,
             queryset=mpas_all_nogeom,
-            context_object_name='mpa',
-            template_name='mpa/Mpa_detail.json'),
+            context_object_name='mpa',),
         name='mpa-infojson'),
     url(r'^sites/(?P<pk>\d+)/features/$', get_mpa_geom_json, name='mpa-geojson'),
     url(r'^sites/(?P<pk>\d+)/edit/$', edit_mpa, name='mpa-editsite'),

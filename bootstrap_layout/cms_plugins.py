@@ -10,7 +10,7 @@ from . import models
 class SectionPlugin(CMSPluginBase):
 	model = models.Section
 	name = "Website Section"
-	module = 'Bootstrap Layout'
+	module = 'Advanced Bootstrap Layout'
 	render_template = "bootstrap_layout/section.html"
 	allow_children = True
 	text_enabled = False

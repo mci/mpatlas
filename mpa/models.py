@@ -20,6 +20,11 @@ from category.models import TaggedItem
 
 from spatialdata.models import Nation
 
+from collections import OrderedDict
+
+# fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
+# via a .values(*fields) call.  Update this for new columns.
+mpa_export_fields = []
 
 VERIFY_CHOICES = (
     ('Unverified', 'Unverified'),
@@ -302,7 +307,24 @@ class Mpa(models.Model):
             field = self._meta.get_field(name)
             l.append( (name, {"verbose": field.verbose_name, "value": field.value_to_string(self)}) )
         return l
-    
+
+    @property
+    def export_field_names(self):
+        return mpa_export_fields
+
+    @property
+    def export_dict(self):
+        export_fields = mpa_export_fields[:] # copy list for local manipulation
+        if 'categories' in mpa_export_fields:
+            export_fields.remove('categories')
+        if 'geom' in export_fields:
+            export_fields.remove('geom')
+        export_dict = Mpa.objects.filter(pk=self.mpa_id).values(*export_fields).first()
+        export_dict = OrderedDict([(f, export_dict[f]) for f in export_fields])
+        if 'categories' in mpa_export_fields:
+            export_dict['categories'] = list(self.categories.names())
+        return export_dict
+
     @property
     def nation(self):
         try:
@@ -525,4 +547,70 @@ mpacandidate_mapping = {
     'name' : 'NAME',
     'geom' : 'MULTIPOINT',
 }
+
+mpa_export_fields = [
+    'mpa_id',
+    # 'geom',
+    'name',
+    'designation',
+    'designation_eng',
+    'designation_type',
+    'access',
+    'access_citation',
+    'access_info',
+    'calc_area',
+    'calc_m_area',
+    'categories',
+    'conservation_effectiveness',
+    'conservation_focus_citation',
+    'conservation_focus_info',
+    'constancy',
+    'constancy_citation',
+    'contact_id',
+    'country',
+    'fishing',
+    'fishing_citation',
+    'fishing_info',
+    'gov_type',
+    'implementation_date',
+    'implemented',
+    'int_criteria',
+    'is_mpa',
+    'is_point',
+    'iucn_category',
+    'long_name',
+    'marine',
+    'mgmt_auth',
+    'mgmt_plan_ref',
+    'mgmt_plan_type',
+    'no_take',
+    'no_take_area',
+    'notes',
+    'other_ids',
+    'permanence',
+    'permanence_citation',
+    'primary_conservation_focus',
+    'secondary_conservation_focus',
+    'tertiary_conservation_focus',
+    'protection_focus',
+    'protection_focus_citation',
+    'protection_focus_info',
+    'protection_level',
+    'rep_area',
+    'rep_m_area',
+    'short_name',
+    'slug',
+    'sovereign',
+    'status',
+    'status_year',
+    'sub_location',
+    'summary',
+    'usmpa_id',
+    'verification_reason',
+    'verification_state',
+    'verified_by',
+    'verified_date',
+    'wdpa_id',
+    'wdpa_notes'
+]
 

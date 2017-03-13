@@ -2,7 +2,8 @@ from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.template import RequestContext
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.views.generic.detail import BaseDetailView
 from django.db.models import Q
 import re
 from itertools import chain
@@ -25,12 +26,25 @@ from mpa.models import Mpa, Contact, WikiArticle, VersionMetadata
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 
+import datetime
+
+
 # Predefined querysets
 mpas_norejects = Mpa.objects.exclude(verification_state='Rejected as MPA')
 mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
 mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
 mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
 mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())
+
+def json_serial(o):
+    """JSON serializer for objects not serializable by default json code"""
+    if isinstance(o, datetime.datetime):
+        serial = o.isoformat()
+        return serial
+    if isinstance(o, datetime.date):
+        serial = o.isoformat()
+        return serial
+    raise TypeError(repr(o) + " is not JSON serializable")
 
 def do_revision(request):
     mpa = Mpa.objects.get(pk=4)
@@ -197,6 +211,18 @@ class MpaListView(ListView):
 class MpaJsonListView(MpaListView):
     def render_to_response(self, context, **kwargs):
         return super(MpaJsonListView, self).render_to_response(context, content_type='application/json; charset=utf-8', **kwargs)
+
+class MpaJsonView(BaseDetailView):
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Return a response, using the application/json content_type.
+        json.dump a dict of mpa fields and values.
+        """
+        mpas = mpas_all_nogeom
+        mpa = mpas.get(pk=self.object.pk)
+        mpa_export = mpa.export_dict
+        mpa_json = json.dumps(mpa_export, default=json_serial)
+        return HttpResponse(mpa_json or '{}', content_type='application/json; charset=utf-8')
 
 def get_mpa_geom_wkt(request, pk, simplified=True, webmercator=False):
     geomfield = 'geom'
