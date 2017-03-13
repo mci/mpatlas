@@ -1,0 +1,12 @@
+{
+	"name": "{{ mpa.name }}",
+	"designation": "{{ mpa.designation_eng }}",
+	"country": "{{ mpa.country }}",
+	"id": "{{ mpa.pk }}",
+	"status": "{{ mpa.status }}",
+	"url": "{% url 'mpa-siteinfo' mpa.pk %}"
+	
+}
+
+
+
