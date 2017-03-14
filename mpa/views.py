@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render_to_response, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic import ListView, DetailView
@@ -35,16 +35,6 @@ mpas_norejects_nogeom = mpas_norejects.defer(*Mpa.get_geom_fields())
 mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
 mpas_noproposed_nogeom = mpas_norejects.exclude(status='Proposed').defer(*Mpa.get_geom_fields())
 mpas_proposed_nogeom = mpas_norejects.filter(status='Proposed').defer(*Mpa.get_geom_fields())
-
-def json_serial(o):
-    """JSON serializer for objects not serializable by default json code"""
-    if isinstance(o, datetime.datetime):
-        serial = o.isoformat()
-        return serial
-    if isinstance(o, datetime.date):
-        serial = o.isoformat()
-        return serial
-    raise TypeError(repr(o) + " is not JSON serializable")
 
 def do_revision(request):
     mpa = Mpa.objects.get(pk=4)
@@ -221,8 +211,11 @@ class MpaJsonView(BaseDetailView):
         mpas = mpas_all_nogeom
         mpa = mpas.get(pk=self.object.pk)
         mpa_export = mpa.export_dict
-        mpa_json = json.dumps(mpa_export, default=json_serial)
-        return HttpResponse(mpa_json or '{}', content_type='application/json; charset=utf-8')
+        # Allow unicode to pass through json.dumps with ensure_ascii=False.
+        # We rely on Django's Json/HttpReponse() to encode content to utf-8 automatically via force_bytes()
+        return JsonResponse(mpa_export or '{}', json_dumps_params={'ensure_ascii': False}, content_type='application/json; charset=utf-8')
+        # mpa_json = json.dumps(mpa_export, ensure_ascii=False, default=json_serial)
+        # return HttpResponse(mpa_json or '{}', content_type='application/json; charset=utf-8')
 
 def get_mpa_geom_wkt(request, pk, simplified=True, webmercator=False):
     geomfield = 'geom'
