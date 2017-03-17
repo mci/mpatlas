@@ -71,7 +71,7 @@ class Section(CMSPlugin):
 	bg_repeat = models.CharField('Background Repeat', max_length=25, choices=REPEAT_CHOICES, default='no-repeat', blank=True)
 	bg_attachment = models.CharField('Background Attachment', max_length=25, choices=ATTACHMENT_CHOICES, default='scroll', blank=True)
 	add_container = models.BooleanField('Add .container element', default=True, blank=True, help_text='Adds a ".container" element inside the section')
-	container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, default='', blank=True, help_text='Adds a ".container" or ".container-fluid" element inside the section')
+	# container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, default='', blank=True, help_text='Adds a ".container" or ".container-fluid" element inside the section')
 
 	classes = Classes()
 
