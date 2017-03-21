@@ -62,25 +62,25 @@ CONTAINER_CHOICES = (
 )
 
 class Section(CMSPlugin):
-	name = models.CharField('Section Name', max_length=25, default='', help_text='Descriptive name [not rendered on page]', blank=True, null=True)
-	min_height = models.CharField('Minimum Section Height', max_length=25, default='0px', help_text='0 is default. Set it larger to expand height of section.')
-	bg_image = FilerImageField(blank=True, null=True)
-	bg_color = models.CharField('CSS Background Color', max_length=25, default='transparent', help_text='(e.g., #RRGGBB, rgba(120,120,120,0.3))')
-	bg_size = models.CharField('Background Size', max_length=25, choices=SIZE_CHOICES, default='cover')
-	bg_position = models.CharField('Background Position', max_length=25, default='center', blank=True)
-	bg_repeat = models.CharField('Background Repeat', max_length=25, choices=REPEAT_CHOICES, default='no-repeat', blank=True)
-	bg_attachment = models.CharField('Background Attachment', max_length=25, choices=ATTACHMENT_CHOICES, default='scroll', blank=True)
-	add_container = models.BooleanField('Add .container element', default=True, blank=True, help_text='Adds a ".container" element inside the section')
-	# container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, default='', blank=True, help_text='Adds a ".container" or ".container-fluid" element inside the section')
+    name = models.CharField('Section Name', max_length=25, default='', help_text='Descriptive name [not rendered on page]', blank=True, null=True)
+    min_height = models.CharField('Minimum Section Height', max_length=25, default='0px', help_text='0 is default. Set it larger to expand height of section.')
+    bg_image = FilerImageField(blank=True, null=True)
+    bg_color = models.CharField('CSS Background Color', max_length=25, default='transparent', help_text='(e.g., #RRGGBB, rgba(120,120,120,0.3))')
+    bg_size = models.CharField('Background Size', max_length=25, choices=SIZE_CHOICES, default='cover')
+    bg_position = models.CharField('Background Position', max_length=25, default='center', blank=True)
+    bg_repeat = models.CharField('Background Repeat', max_length=25, choices=REPEAT_CHOICES, default='no-repeat', blank=True)
+    bg_attachment = models.CharField('Background Attachment', max_length=25, choices=ATTACHMENT_CHOICES, default='scroll', blank=True)
+    add_container = models.BooleanField('Add .container element', default=True, blank=True, help_text='Adds a ".container" element inside the section')
+    # container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, default='', blank=True, help_text='Adds a ".container" or ".container-fluid" element inside the section')
 
-	classes = Classes()
+    classes = Classes()
 
-	attributes = AttributesField(
+    attributes = AttributesField(
         verbose_name='Attributes',
         blank=True,
         excluded_keys=['class'],
     )
 
-	def __unicode__(self):
-
-		return unicode(self.name + ' ' + self.container )
+    def __unicode__(self):
+        return unicode(self.name + ' ' + 'container' if self.add_container else '' )
+        # return unicode(self.name + ' ' + self.container )
