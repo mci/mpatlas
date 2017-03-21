@@ -13,7 +13,7 @@
 
         {{ instance.attributes_str }}>
 
-        <div class="{% if instance.add_container %}container{% endif %}">
+        <div class="{{ instance.container }}">
             {% for plugin in instance.child_plugin_instances %}
                 {% render_plugin plugin %}
             {% endfor %}
