@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load cms_tags sekizai_tags i18n %}
+{% load cms_tags sekizai_tags i18n humanize %}
 
 {% block title %}Explore{% endblock %}
 
@@ -59,7 +59,7 @@
 <div id="stats_overlay" class="hidden-xs">
 	<div>
 		<div class="stats_header medium">All Marine Protected Areas</div>
-		<div class="heading bold" style="line-height:1em; color:#4398d1;">2.98<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#4398d1;">2.98<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 
 		<div class="heading bold" style="font-size:26px; line-height:1em; margin-top:10px; color:#4398d1;">7.29<span style="font-size:0.75em;">%<br /></span></div>
@@ -68,13 +68,13 @@
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Strongly Protected Reserves</div>
-		<div class="heading bold" style="line-height:1em; color:#09c478;">1.63<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#09c478;">1.63<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 	</div>
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Proposed & Unimplemented MPAs</div>
-		<div class="heading bold" style="line-height:1em; color:#aaa;">+3.42<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#aaa;">+3.42<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 
 		<div class="heading bold" style="font-size:26px; line-height:1em; color:#aaa;">+6.33<span style="font-size:0.75em;">%<br /></span></div>
@@ -83,7 +83,11 @@
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Total Designated MPAs</div>
-		<div id="stats_total_mpas" class="heading bold" style="font-size:26px; line-height:1em; color:#4398d1;">13,674</div>
+		<div id="stats_total_mpas" class="heading bold" style="font-size:26px; line-height:1em; color:#4398d1;">
+			{{ mpa_count.implemented|intcomma }}
+			<br/ >
+			<span style="font-size:18px;">({{ mpa_count.designated_unimplemented|intcomma }} unimplemented)</span>
+		</div>
 	</div>
 
 	<p id="stats_mpas_current_filter" style="display:none;">&nbsp;</p>

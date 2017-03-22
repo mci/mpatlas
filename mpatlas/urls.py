@@ -4,6 +4,9 @@ from django.views.generic import TemplateView
 from django.views.generic import RedirectView
 # from wiki.urls import get_pattern as get_wiki_pattern
 # from django_notify.urls import get_pattern as get_notify_pattern
+from django.views.decorators.cache import cache_page, never_cache
+
+from views import MapView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,7 +31,7 @@ urlpatterns = [
     
     url(r'^news/', TemplateView.as_view(template_name='news.html')),
 
-    url(r'^explore/$', TemplateView.as_view(template_name='map.html')),
+    url(r'^explore/$', cache_page(60*1)(MapView.as_view(template_name='map.html'))),
     
     # url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
 
