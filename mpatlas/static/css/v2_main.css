@@ -97,6 +97,11 @@ img {
     background-color: #fff;
 }
 
+#pagewrapper.map {
+    display: flex;
+    flex-direction: column;
+}
+
 #body_full {
     position:relative;
     /*width: 960px;*/
