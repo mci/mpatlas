@@ -838,3 +838,7 @@ div.rssincl-entry p.rssincl-itemtitle a:hover {
 div.rssincl-entry p.rssincl-itemtitle a:active {
     color: #de744a;
 }
+
+.well-blue {
+    background-color: #99ddff;
+}
