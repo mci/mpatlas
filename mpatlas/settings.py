@@ -405,6 +405,8 @@ INSTALLED_APPS = (
     'sekizai',  # for javascript and css management
     'djangocms_history',
     'reversion',
+
+    'djangocms_attributes_field',
     
     # 'sorl.thumbnail',
     # 'django_notify',
