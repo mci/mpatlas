@@ -70,7 +70,7 @@ class Section(CMSPlugin):
     bg_position = models.CharField('Background Position', max_length=25, default='center', blank=True)
     bg_repeat = models.CharField('Background Repeat', max_length=25, choices=REPEAT_CHOICES, default='no-repeat', blank=True)
     bg_attachment = models.CharField('Background Attachment', max_length=25, choices=ATTACHMENT_CHOICES, default='scroll', blank=True)
-    container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, default='.container', help_text='Adds a ".container" or ".container-fluid" element inside the section')
+    container = models.CharField('Add .container element or .container-fluid', max_length=25, choices=CONTAINER_CHOICES, blank=True, default='container', help_text='Adds a ".container" or ".container-fluid" element inside the section')
 
     classes = Classes()
 
