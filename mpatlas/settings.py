@@ -31,6 +31,9 @@ MANAGERS = ADMINS
 
 ALLOWED_HOSTS = ['.mpatlas.org', '54.68.154.94', 'localhost', '127.0.0.1']
 
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_URLS_REGEX = r'^.*$'
+
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -163,6 +166,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment to enable caching with memcached
     'django.middleware.cache.UpdateCacheMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -394,6 +398,7 @@ INSTALLED_APPS = (
     # 'storages',
     # 'south',  # Only needed for Django < 1.7
     'django.contrib.gis',
+    'corsheaders',
 
     'filer',
     'easy_thumbnails',

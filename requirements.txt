@@ -67,6 +67,7 @@ Fiona
 Shapely
 GeoIP-Python
 pygeoip
+django-cors-headers
 
 django-cms
 djangocms-admin-style
