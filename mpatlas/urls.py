@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^news/', TemplateView.as_view(template_name='news.html')),
 
     url(r'^explore/$', cache_page(60*1)(MapView.as_view(template_name='map.html'))),
-    url(r'^dev/map/$', cache_page(60*1)(MapView.as_view(template_name='v2_map.html'))),
+    url(r'^dev/map/$', cache_page(60*1)(MapView.as_view(template_name='v3_map.html'))),
     
     # url(r'^(index\.htm(l)?)?$', TemplateView.as_view(template_name='home.html')),
 

@@ -1,0 +1,599 @@
+/* Fix for Safari changing font rendering for z-indexed elements when map added to page */
+* {
+    -webkit-font-smoothing: subpixel-antialiased !important;
+}
+
+.busy, .busy * {  
+  cursor: progress !important;  
+}
+
+html, body {
+    height: 100%; /* We're running a full window viewport for the map */
+    width: 100%;
+    margin: 0px;
+    overflow: hidden;
+}
+
+body, body.x-body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
+
+body {
+    background-color: #FFFFFF !important;
+    font-size: 12px !important;
+}
+
+body.map {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+body.map #content_full {
+    position: relative;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    /*height: 100%;*/
+    margin: 0px;
+    overflow: hidden;
+}
+
+body.map #body_list_full {
+    display: none;
+}
+
+body.map #footer_full {
+    color: #000000;
+    width: 100%;
+    /*position: absolute;*/
+    /*top:100%;*/
+    /*margin-top: -84px;*/
+}
+
+.map-overlay {
+    /* add this class to anything that needs to be positioned over the leaflet map */
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
+}
+
+#stats_overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    /*height: 100%;*/
+    overflow: auto;
+    padding-top:12px;
+    background-color: transparent;
+    background-color: rgba(10,10,10,0.8);
+    color:white;
+    text-align:center;
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
+}
+
+#stats_overlay div.stats_header {
+    font-size:21px;
+    text-shadow: #000 1px 1px 1px;
+}
+
+#stats_overlay div.heading {
+    color:#e03e6f;
+    text-shadow: #000 1px 1px 2px;
+}
+
+#stats_overlay div.stats_box_header {
+    text-shadow: #000 1px 1px 1px;
+    margin-bottom: 4px;
+}
+
+#stats_overlay div.stats_box {
+    border-radius: 6px 6px 6px 6px;
+    border: 1px solid #666;
+    margin: 0 4px;
+    background-color: transparent;
+    background-color: rgba(10,10,10,0.3);
+}
+
+#stats_mpas_current_filter {
+    font-style:italic;
+    font-size:.8em;
+}
+
+#filters_overlay {
+    position:absolute;
+    left: 6px;
+    top: 79px;
+    -webkit-transform: translate3d(0,0,0); /* Needed for Android tablets*/
+}
+
+.filterstitle {
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.addfilter {
+    margin-left: 6px;
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.filtertag {
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+#list-bg {
+    position:absolute;
+    top:0px;
+    left:0px;
+    right: 200px;
+    height:100%;
+    background-color: rgb(60,60,60);
+    background-color: rgba(60,60,60,0.7);
+}
+
+#mpa-list-container {
+    position:absolute;
+    top: 44px;
+    left: 0px;
+    right: 215px;
+    height:100%;
+}
+
+#modetoggle_overlay {
+    position:absolute;
+    right:208px;
+    top:0px;
+}
+
+.maplayer {
+    clear: both;
+    border-radius: 4px 4px 4px 4px;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid silver;
+    padding: 4px;
+    margin: 8px;
+}
+
+.layerstitle {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    margin: 4px 8px;
+    text-align: center;
+}
+
+.addlayer {
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 8px;
+}
+
+.addlayer, .addfilter {
+    font-size: 11px;
+    color: #9F9 !important;
+}
+.addlayer:hover, .addfilter:hover {
+    color: #0F0 !important;
+    background-color: rgb(100,180,100);
+    background-color: rgba(100,180,100,0.8);
+    border: 1px solid #0C0;
+}
+
+.layercolor {
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    float: left;
+    margin-right: 4px;
+    margin-top: 2px;
+}
+
+.layercolor.designatedmpa {
+    background-color: #70F;
+}
+.layercolor.candidatempa {
+    background-color: orange;
+}
+.layercolor.eezs {
+    background-color: #8F8;
+}
+
+.leaflet-control-container .leaflet-top {
+    margin-top:40px;
+}
+
+.leaflet-right .leaflet-control {
+    margin-right: 200px;
+}
+
+.cartodb-legend-stack, div.cartodb-legend-stack {
+    left: 35px;
+    right: auto;
+    background: rgba(255,255,255,0.8);
+}
+
+.maptip {
+    position: absolute;
+    /*z-index: 9000;*/
+    margin-left: 14px;
+    margin-top: -29px;
+    left: -9000px;
+    top: 0;
+    min-height: 40px;
+    zoom: 1;
+    font-family: Helvetica, Arial, sans-serif;
+    -webkit-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
+    -moz-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
+    -o-transition:opacity .2s linear, visibility .2s linear, height .2s linear;
+    transition:opacity .2s linear, visibility .2s linear, height .2s linear;
+    
+    opacity: 1;
+	text-align: center;
+	/*-webkit-transform: translate3d(0,0,0);*/
+}
+
+.maptip .maptip-content-wrapper {
+    border-radius: 8px 8px 8px 8px;
+    background-color: rgb(10,10,10);
+    background-color: rgba(10,10,10,0.8);
+    padding: 6px;
+    color: white;
+    min-width: 150px;
+    max-width: 250px;
+    min-height: 40px;
+    padding: 1px;
+	text-align: left;
+}
+
+.maptip.heightanim {
+    min-height: 40px;
+}
+.maptip.transparent {
+    opacity: 0;
+    filter: alpha(opacity=0); /* IE6 & 7 */
+    -ms-filter: "alpha(opacity=0)"; /* IE8 */
+    /*visibility: hidden;*/
+}
+.maptip.hidden {
+    /*display: none;*/
+    left: -9000px;
+}
+.maptip.nodisplay {
+    display: none;
+}
+
+.maptip .maptip-arrow-container {
+    position: absolute;
+    right: 100%;
+    top: 26px;
+    margin-top: -16px;
+    width: 15px;
+    height: 34px;
+    overflow: hidden;
+}
+
+.maptip .maptip-arrow {
+    width: 15px;
+    height: 15px;
+    margin: 8px auto;
+    margin-left: 7px;
+    padding: 1px;
+    /*background-image: url("../images/ui/maptip_left_solid.png");*/
+    /*opacity: 0.8;*/
+    background-color: #0A0A0A;
+    background: rgba(10,10,10,0.8);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.maptip .maptip-content {
+    max-width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 6px 6px;
+}
+.maptip-content::-webkit-scrollbar {
+	-webkit-appearance: none;
+}
+.maptip-content::-webkit-scrollbar:vertical {
+	width: 4px;
+}
+.maptip-content::-webkit-scrollbar-thumb:vertical {
+    border-radius: 4px;
+	background-color: rgba(0,0,0,.5);
+	-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.maptip .maptip-content-wrapper, .maptip .maptip-arrow {
+    box-shadow: 0 1px 10px #888;
+    -moz-box-shadow: 0 1px 10px #888;
+    -webkit-box-shadow: 0 1px 14px #999;
+}
+
+.maptip .maptip-close-button {
+    background-color: rgb(10,10,10) !important;
+    background-color: rgba(10,10,10,0.9) !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    height: 18px !important;
+    width: 18px !important;
+    border-radius: 9px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    right: -5px !important;
+    top: -5px !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important;
+    font-size: 13px !important;
+}
+
+.maptip .maptip-close-button:hover {
+    background-color: rgb(90,90,90) !important;
+}
+
+.maptip_mpalink {
+    text-decoration: none;
+    color: white !important;
+    border-bottom: 1px solid #666;
+    font-size: 11px;
+    display: block;
+    margin: 6px;
+    padding: 0;
+    /*max-width: 200px;*/
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.maptip_mpalink:hover {
+    color: #d0508c !important;
+}
+
+.explore_toolbar {
+    float: left;
+    min-height: 57px;
+    margin-right: 40px;
+}
+
+.explore_button {
+    position: relative;
+    float: left;
+    width: 150px;
+    height: 57px;
+    border-right: 1px solid #555;
+    text-align: center;
+    padding-top: 10px;
+    font: 14px/1.2em 'Josefin Sans',verdana,sans-serif;
+    font-weight: 400;
+    font-weight: bold;
+    cursor: pointer;
+    
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    
+    background-color: #324455;
+    /* blue gradient: #324455, #242F3A */
+    background-image: -moz-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: -webkit-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: -o-linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));
+    background-image: linear-gradient(top, rgba(50,68,85,0.2), rgba(36,47,58,0.2));*/
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
+}
+
+.explore_button:first-child {
+    border-left: 1px solid #555;
+}
+
+.explore_button:hover {
+    background-color: #de744a;
+    background-image: -moz-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: -webkit-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: -o-linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    background-image: linear-gradient(top, rgba(222,116,74,0.2), rgba(207,89,39,1));
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
+}
+
+.explore_button.selected {
+    background-color: #C94E85;
+    /* orange: #de744a, #cf5927 */
+    /* darker pink: #C94E85 #B24574 */
+    /* pink: #d0508c, #ba326f */
+    background-image: -moz-linear-gradient(top, #C94E85, #B24574);
+    background-image: -webkit-linear-gradient(top, #C94E85, #B24574);
+    background-image: -o-linear-gradient(top, #C94E85, #B24574);
+    background-image: linear-gradient(top, #C94E85, #B24574);
+    
+    -webkit-transition:background-color .2s linear;
+    -moz-transition:background-color .2s linear;
+    -o-transition:background-color .2s linear;
+    transition:background-color .2s linear;
+}
+
+.explore_button_heavytext {
+    font-family: 'Yanone Kaffeesatz','TitilliumText22LMedium', 'Impact', serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.explore_arrow_container {
+    /*display: none;*/
+    position: absolute;
+    overflow: hidden;
+    margin-top: 0px;
+    width: 100%;
+    height: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    visibility: hidden;
+}
+
+.explore_button.selected .explore_arrow_container {
+    /*display: block;*/
+    visibility: visible;
+    height: 25px;
+    margin-top: -35px;
+}
+
+.explore_arrow {
+    width: 50px;
+    height: 50px;
+    background-color: #C94E85;
+    margin: 0 auto;
+    margin-top: 40px;
+    box-shadow: 0 0 3px #000;
+    -moz-box-shadow: 0 0 3px #000;
+    -webkit-box-shadow: 0 0 4px #000;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.explore_button.selected .explore_arrow {
+    margin-top: 12px;
+    -webkit-transition:all .2s linear;
+    -moz-transition:all .2s linear;
+    -o-transition:all .2s linear;
+    transition:all .2s linear;
+}
+
+/*
+	we begin here a bunch of ugly hacks to override changes caused by the ExtJS stylesheet
+	the stylesheet should be trimmed to just what's required. then we can remove these hacks
+*/
+
+.x-grid-cell, .x-column-header-text, .x-toolbar-text, .x-form-text, .x-btn-inner {
+	font: 12px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif !important;    
+}
+
+.x-grid-with-row-lines .x-grid-cell-inner {
+	padding: 3px;
+}
+
+.x-grid .x-grid-cell-inner {
+	padding-bottom: 1px;
+}
+
+.x-form-text {
+	color: #000000;
+	background-color: #FFFFFF!important;
+	background-image: none !important;
+}
+
+.x-grid-row .x-grid-cell {
+	background-color: #FFFFFF;
+	color: #000000;
+	border-bottom: 1px solid #AAAAAA;
+	border-right: 1px solid #AAAAAA;
+	border-top: none;
+	line-height:18px;
+}
+
+.x-grid-row-alt .x-grid-cell {
+	background-color: #ECECEC;
+}
+
+.x-grid-row a {
+	color: #000000;
+}
+
+.x-grid-row .x-grid-cell-first, .x-column-header {
+	color: white;
+	background-color: #314453;
+	background-image: none !important;
+}}
+
+.x-grid-row .x-grid-cell-treecolumn {
+	color: #000000;
+	background-color: #F0F0F0;
+	border-bottom: none;
+	border-right: none;	
+}
+
+.x-column-header {
+	font-weight: bold;
+}
+
+.x-column-header-sort-ASC, .x-column-header-sort-DESC {
+	background-color: #C54C81;    
+}
+
+.x-column-header-over {
+	background-color: #DE7347;    
+	background-image: none !important;
+}
+.x-toolbar {
+	/*background-color: #314453;*/
+	background-color: rgba(10,10,10,0.8);
+	background-image: none !important;
+}
+
+.x-btn-default-toolbar-small-over {
+	background-color: #FF5A50;
+	border-color: #FFFFFF;
+}
+
+.x-form-focus {
+	border: 2px solid #de744a;
+}
+
+.x-window .x-window-header .x-tool {
+	margin-right: 5px;
+}
+
+.x-panel .x-panel-header span, .x-window .x-window-header span {
+	line-height:28px;
+	padding-left: 5px;
+}
+
+#MPAList .x-grid-row .x-grid-cell-first, .x-column-header {
+	line-height: 18px !important;
+	padding: 3px !important;
+	margin-top: -2px !important;
+}
+
+#MPALayers .x-grid-row .x-grid-cell, #MPALayers .x-grid-row-selected .x-grid-cell,
+#MPAFilters .x-grid-row .x-grid-cell, #MPAFilters .x-grid-row-selected .x-grid-cell {
+	color: #000000;
+	border-bottom: none;
+	border-right: none;
+	border-top: none;
+}
+
+#MPALayers .x-grid-row .x-grid-cell, #MPALayers .x-grid-row-selected .x-grid-cell,
+#MPAFilters .x-grid-row .x-grid-cell {
+	background-color: #FFFFFF !important;
+}
+
+#MPALayers .x-grid-row .x-grid-cell-name, #MPALayers .x-grid-row-selected .x-grid-cell-name,
+#MPAFilters .x-grid-row .x-grid-cell-name, #MPALayers .x-grid-row-selected .x-grid-cell-name {
+	line-height: 19px !important;
+  padding-top:4px !important;
+}
+
+#MPALayers .x-grid-row .x-grid-cell-special, #MPALayers .x-grid-row-selected .x-grid-cell-special,
+#MPAFilters .x-grid-row .x-grid-cell-special, #MPAFilters .x-grid-row-selected .x-grid-cell-special {
+	background-color: #FFFFFF !important;
+	color: #000000;
+	border-bottom: none;
+	border-right: none;
+	border-top: none;
+	background-image: none !important;
+}
+
+/*  end of ugly extjs hacks  */
+
