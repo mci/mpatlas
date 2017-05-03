@@ -1,0 +1,31 @@
+{% extends "v3_base.html" %}
+{% load cms_tags sekizai_tags i18n %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+
+{% block base_body_content %}
+	{% block page_title %}
+		{% placeholder "page_title" or %}
+		<section class="container page-title">
+		    <h1 class="heading clear" style="font-size: 32px; margin:5px 0px 5px 5px; padding:0px; color:#de744a;">
+		    	{% page_attribute "title" %}
+		    </h1>
+		</section>
+		{% endplaceholder %}
+	{% endblock %}
+
+    {% block base_body_content_inner %}
+    {% placeholder "base_content" %}
+    {% endblock %}
+
+    {% block base_post_body_content %}{% endblock %}
+    
+{% endblock %}
+
+{% block base_body_extra %}
+{% endblock %}
+
+{% block base_footer_content %}
+{% endblock %}
+
+
