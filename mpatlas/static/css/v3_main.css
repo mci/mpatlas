@@ -183,3 +183,7 @@ ul.submenu a:hover {
 	background: #eee;
 	background: linear-gradient(to bottom, #d8d8d8 0%,#eee 8px); /* W3C */
 }
+
+.well-blue {
+    background-color: #3560a5;
+}
