@@ -8,17 +8,17 @@
 }
 
 html, body {
-    height: 100%; /* We're running a full window viewport for the map */
+    height: 100%;  We're running a full window viewport for the map 
     width: 100%;
     margin: 0px;
     overflow: hidden;
 }
 
-body, body.x-body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}
+/*body, body.x-body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}*/
 
 body {
     background-color: #FFFFFF !important;
-    font-size: 12px !important;
+    /*font-size: 12px !important;*/
 }
 
 body.map {
@@ -40,14 +40,6 @@ body.map #content_full {
 
 body.map #body_list_full {
     display: none;
-}
-
-body.map #footer_full {
-    color: #000000;
-    width: 100%;
-    /*position: absolute;*/
-    /*top:100%;*/
-    /*margin-top: -84px;*/
 }
 
 .map-overlay {
@@ -72,12 +64,12 @@ body.map #footer_full {
 }
 
 #stats_overlay div.stats_header {
-    font-size:21px;
+    /*font-size:21px;*/
     text-shadow: #000 1px 1px 1px;
 }
 
 #stats_overlay div.heading {
-    color:#e03e6f;
+    /*color:#e03e6f;*/
     text-shadow: #000 1px 1px 2px;
 }
 

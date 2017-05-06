@@ -75,6 +75,7 @@
     {% block pagetopper %}
       <div class="container">
         MPAtlas is now BlueRefuge
+        <div style="float:right;">An initiative of Marine Conservation Insitute</div>
       </div>
     {% endblock %}
   </div>
@@ -94,6 +95,14 @@
           <ul class="mainmenu">
             {% show_menu_below_id "dev_home" 0 0 %}
           </ul>
+          <div class="search-main">
+            <form class="navbar-form navbar-right" role="form">
+              <div class="form-group">
+                <input type="text" placeholder="search for an MPA..." class="form-control search-main-input mpa-searchbox">
+              </div>
+              <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
         </nav>
       </div>
     </div>
@@ -132,7 +141,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Blue xRefuge</a>
+        <a class="navbar-brand" href="#">Blue Refuge</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <div class="navbar-right" style="color: #fff;">
@@ -170,7 +179,9 @@
   <footer class="site-footer-lower">
     <div class="footer-inner container">
       {% block base_footer_content %}{% endblock %}
+      <a style="float:left;" target="_blank" href="#"><img src="{% static 'images/header_mci_logo.png' %}" style="height:64px; " alt="" /></a>
       <div class="footer-supporters" style="padding-top:5px; float:right;">
+        <div style="color:#999;">Supported by</div>
         <a style="float:right;" target="_blank" href="#"><img src="{% static 'images/footer_winslow_logo.png' %}" style="height:45px; " alt="" /></a>
         <a style="float:right;" target="_blank" href="http://waittfoundation.org"><img src="{% static 'images/footer_waitt_logo.png' %}" style="height:45px;" alt="" /></a>
         <a style="float:right;" target="_blank" href="http://arntzfamilyfoundation.org"><img src="{% static 'images/footer_arntz_logo.png' %}" style="height:45px;" alt="" /></a>
