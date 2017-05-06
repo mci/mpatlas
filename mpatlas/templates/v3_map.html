@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=no" />
 
 <!--<link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/4.1.1/resources/css/ext-all-access.css"/>-->
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ext-all-access-scoped.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ext-all-access-scoped.css"/> -->
 
 {% comment %}
 <link rel="stylesheet" href="{{ STATIC_URL }}Leaflet/leaflet.css" />
@@ -32,20 +32,13 @@
 </script>
 
 <script type="text/javascript">
-    System.import('{% static "js" %}/app').then(function(App) {
+    System.import('{% static "js" %}/v3_app').then(function(App) {
         $(function() {
             window['mpatlas'] = new App.MPAtlas($('#leafletmap'));
             if (mpatlas.history.get('seensplash') != 'true') {
                 showsplashdialog();
                 mpatlas.history.set('seensplash', 'true');
             }
-
-            System.import('{% static "js" %}/MPAList').then(function(MPAList) {
-				Ext.onReady(function() {
-					MPALayersWindow.load(mpatlas);
-					MPAFiltersWindow.load(mpatlas);
-				});
-			});
         });
     });
 </script>

@@ -253,30 +253,32 @@ define(
 			},
 			
 			switchToListView: function () {
-				if (!MPAList.List) {
-					document.location.href = this.domain + 'mpa/sites/';
-					return;
-				}
-
-				if (mpatlas.currenttip) {
-					mpatlas.currenttip._close();
-					delete mpatlas.currenttip;
-				}
-				$('#btnMapMode').removeClass('selected');
-				$('#btnListMode').addClass('selected');
-
-				// if (MPALayersWindow) {
-				// 	MPALayersWindow.window.hide();
+				document.location.href = this.domain + 'mpa/sites/';
+				
+				// if (!MPAList.List) {
+				// 	document.location.href = this.domain + 'mpa/sites/';
+				// 	return;
 				// }
 
-				$('#body_list_full').fadeIn(600);
+				// if (mpatlas.currenttip) {
+				// 	mpatlas.currenttip._close();
+				// 	delete mpatlas.currenttip;
+				// }
+				// $('#btnMapMode').removeClass('selected');
+				// $('#btnListMode').addClass('selected');
+
+				// // if (MPALayersWindow) {
+				// // 	MPALayersWindow.window.hide();
+				// // }
+
+				// $('#body_list_full').fadeIn(600);
 				
-				if (MPAList.List) {
-					// wait slightly for the fade in
-					new Ext.util.DelayedTask(function () {
-						MPAList.List.resizeGrid();
-					}).delay(100);
-				}
+				// if (MPAList.List) {
+				// 	// wait slightly for the fade in
+				// 	new Ext.util.DelayedTask(function () {
+				// 		MPAList.List.resizeGrid();
+				// 	}).delay(100);
+				// }
 	
 			},
 			

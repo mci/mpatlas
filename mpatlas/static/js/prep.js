@@ -4,6 +4,18 @@ define([
   'jquery-ui'
 ], function($){  
     var preparePage = function() {
+ 		$('.search-main .navbar-form')
+ 			.on("focusin", function(e) {
+	 			$(e.delegateTarget).addClass('focused');
+	 		})
+	 		.on("focusout", function(e) {
+	 			$(e.delegateTarget).removeClass('focused');
+	 		})
+	 		.on("keyup", function(e) {
+	 		     if (e.keyCode == 27) { // escape key maps to keycode `27`
+	 		        $('.search-main .navbar-form *').blur();
+	 		    }
+	 		});;
         $('.mpa-searchbox').autocomplete({
 			source: function( request, response ) {
 				$.ajax({
