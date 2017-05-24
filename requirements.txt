@@ -1,6 +1,7 @@
 # Standard Python Package Tools
 pip
 setuptools
+wheel
 
 # Versioning Tools
 mercurial
@@ -52,7 +53,7 @@ django-filer
 django-cms
 djangocms-admin-style
 git+git://github.com/divio/djangocms-history#egg=djangocms-history
-https://github.com/haricot/djangocms-attributes-field.git#egg=djangocms_attributes_field
+git+https://github.com/haricot/djangocms-attributes-field.git#egg=djangocms_attributes_field
 
 # DjangoCMS Plugins
 aldryn-bootstrap3
