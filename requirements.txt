@@ -1,95 +1,139 @@
+# Standard Python Package Tools
+pip
+setuptools
+
+# Versioning Tools
+mercurial
+
+# DJANGO itself
 Django<1.11
-git+git://github.com/benjaoming/django-wiki.git#egg=wiki
-git+git://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
-# django-storages
-hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
-# svn+http://django-filebrowser.googlecode.com/svn/branches/filebrowser3-no-grappelli/#egg:django-filebrowser
-git+git://github.com/jlopez/maxmind-geoip.git#egg=GeoIP-Python
-# html5lib==0.999
-django-admin-tools
-django-appconf
-django-appmedia
-django-ckeditor-updated
-django-classy-tags
-django-countries
-django-debug-toolbar
-django-extensions
-django-filebrowser-no-grappelli
-django-haystack
-django-mptt
-# django-reversion
-django-reversion<2.0
-django-sekizai
-# django-social-auth
-git+https://github.com/mci/django-social-auth.git@django1.9#egg=django-social-auth
-django-staticfiles
-django-taggit
-django-tinymce
-SQLAlchemy
-South
-Pillow
-BeautifulSoup
-Markdown
-Pygments
-python-slugify
-django-uuslug
-Unidecode
-argparse
-boto
-docutils
-easy-thumbnails
-feedparser
+
+# Application and WSGI Utils
+Werkzeug
 eventlet
 gevent
 greenlet
 gunicorn
-httplib2
-ipython
-mercurial
-nose
-oauth2
-paramiko
+
+# Database
 psycogreen
 psycopg2
-pycrypto
-python-memcached
-python-openid
-pyenchant
+SQLAlchemy
 pysqlite
-setproctitle
-simplejson
-sorl-thumbnail
-sqlparse
-translationstring
-yolk
-Fabric
-Fiona
-Shapely
-GeoIP-Python
-pygeoip
-django-cors-headers
 
+# Django Utils
+django-admin-tools
+django-appconf
+django-appmedia
+django-debug-toolbar
+django-extensions
+git+git://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
+django-classy-tags
+
+# Django Models, Fields, Addons
+django-countries
+django-durationfield
+Unidecode
+python-slugify
+django-uuslug
+django-taggit
+django-cors-headers
+django-reversion<2.0
+django-select2
+
+# Rich Text Editors
+django-ckeditor
+django-tinymce
+
+# Django-Filer
+django-filer
+
+# DjangoCMS
 django-cms
 djangocms-admin-style
-git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext_djangocms3
 git+git://github.com/divio/djangocms-history#egg=djangocms-history
+https://github.com/haricot/djangocms-attributes-field.git#egg=djangocms_attributes_field
 
-#cartodb
+# DjangoCMS Plugins
+aldryn-bootstrap3
+aldryn-style
+djangocms-text-ckeditor
+git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext_djangocms3
+djangocms-file
+djangocms-flash
+djangocms-googlemap
+djangocms-inherit
+djangocms-link
+djangocms-picture
+djangocms-snippet
+djangocms-teaser
+djangocms-video
+cmsplugin-filer
+
+# Images
+Pillow
+easy-thumbnails
+sorl-thumbnail
+
+# Search
+django-haystack
+
+# CartoDB API
 git+git://github.com/CartoDB/cartodb-python.git#egg=cartodb
+
+# Authentication
+git+https://github.com/mci/django-social-auth.git@django1.9#egg=django-social-auth
+python-social-auth
+
+# Spatial Libraries
+Fiona
+Shapely
+django-shapes
+git+https://github.com/sigma-geosistemas/django-shape-engine.git#egg=django_shape_engine
+
+# Amazon Web Services
+boto
+
+# Location Services
+python-geoip
+python-geoip-geolite2
+pygeoip
+GeoIP
+
+# Automation
+Fabric
+
+# Testing
+pytest
+
+# Other Python Utils
+argparse
+BeautifulSoup
+cryptography
+docutils
+feedparser
+httplib2
+ipython
+jupyter
+Markdown
+ndg-httpsclient
+oauth2
+path.py
+pycrypto
+pyenchant
+Pygments
+python-memcached
+setproctitle
+simplejson
 requests
 requests_oauthlib
-oauth2
-simplejson
+webencodings
 
-# TileStache
-# ModestMaps
+# WIKI
+git+git://github.com/benjaoming/django-wiki.git#egg=wiki
 
-# Mako
-# MarkupSafe
-# pyramid
-# Paste
-# PasteDeploy
-# PasteScript
-# WebOb
-# Werkzeug
-# wsgiref
+# NOT USED
+#hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
+#git+git://github.com/jlopez/maxmind-geoip.git#egg=GeoIP-Python
+#django-filebrowser-no-grappelli
+

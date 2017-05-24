@@ -1,5 +1,5 @@
 #!/bin/bash
-VIRTUALENV=/home/mpatlas/virtualenvs/mpatlas_dev
+VIRTUALENV=/home/mpatlas/virtualenvs/mpatlas
 PROJECTDIR=/home/mpatlas/projects/django_mpatlas
 DJANGO_WSGI_MODULE=mpatlas.wsgi
 
