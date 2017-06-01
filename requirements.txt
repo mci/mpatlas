@@ -53,7 +53,7 @@ django-filer
 django-cms
 djangocms-admin-style
 git+git://github.com/divio/djangocms-history#egg=djangocms-history
-git+https://github.com/haricot/djangocms-attributes-field.git#egg=djangocms_attributes_field
+git+https://github.com/haricot/djangocms-attributes-field.git@patch-1#egg=djangocms_attributes_field
 
 # DjangoCMS Plugins
 aldryn-bootstrap3
