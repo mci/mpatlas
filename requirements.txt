@@ -90,6 +90,7 @@ python-social-auth
 Fiona
 Shapely
 django-shapes
+geographiclib
 git+https://github.com/sigma-geosistemas/django-shape-engine.git#egg=django_shape_engine
 
 # Amazon Web Services

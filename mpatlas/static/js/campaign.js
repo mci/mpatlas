@@ -137,6 +137,7 @@ define(
 					minZoom: 0,
 					maxZoom: 14,
 					attributionControl: true,
+					scrollWheelZoom: false, // disable scroll zooming so you can navigate down the page without getting stuck
 					touchZoom: true // needed for Android tablets
 				});
 

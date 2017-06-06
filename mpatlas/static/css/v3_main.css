@@ -1,3 +1,21 @@
+.clear {
+    clear: both;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
 .pagetopper {
   background-color: #27a7cf;
   color: #fff;
@@ -41,6 +59,11 @@
 .nav-secondary {
 	/*flex: 0 1 auto;*/
 	align-self: flex-end;
+}
+
+.nav-secondary a {
+	color: #27a7cf;
+	color: #609CAF;
 }
 
 .nav-main {
@@ -274,4 +297,26 @@ ul.submenu a:hover {
 
 .well-blue {
     background-color: #3560a5;
+}
+
+.sidebar_item_title {
+	padding: 4px;
+	padding-left: 10px;
+	background-color: #27a7cf;
+	color: white;
+	margin-bottom: 0;
+	font-weight: 300;
+}
+
+.sidebar_item_content {
+	padding-left: 8px;
+	margin-top: 0;
+	border-left: 1px solid #27a7cf;
+	border-width: 0 0 0 1px;
+    border-style: solid;
+    -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(44,186,231)), to(rgba(0, 0, 0, 0))) 1 100%;
+    -webkit-border-image: -webkit-linear-gradient(rgb(44,186,231), rgba(0, 0, 0, 0)) 1 100%;
+    -moz-border-image: -moz-linear-gradient(rgb(44,186,231), rgba(0, 0, 0, 0)) 1 100%;
+    -o-border-image: -o-linear-gradient(rgb(44,186,231), rgba(0, 0, 0, 0)) 1 100%;
+    border-image: linear-gradient(to bottom, rgb(44,186,231), rgba(0, 0, 0, 0)) 1 100%;
 }
