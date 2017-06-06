@@ -11,7 +11,7 @@ html, body {
     height: 100%;  We're running a full window viewport for the map 
     width: 100%;
     margin: 0px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 /*body, body.x-body {font: 12px/20px 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, 'TitilliumText22LRegular', Arial, sans-serif; line-height: 1.25;}*/

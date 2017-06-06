@@ -255,8 +255,10 @@ CMS_TEMPLATES = (
     ('v2_cms_home.html', 'V2 Homepage'),
     ('v2_news.html', 'V2 News Page'),
     ('v3_base.html', 'V3 Base HTML5BP'),
+    ('v3_home.html', 'V3 Home'),
     ('v3_cms_basic.html', 'V3 Basic Page'),
     ('v3_news.html', 'V3 News Page'),
+    ('base_old.html', 'Base old version'),
 )
 
 ALDRYN_STYLE_CLASS_NAMES = (

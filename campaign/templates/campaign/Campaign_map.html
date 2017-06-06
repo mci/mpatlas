@@ -21,7 +21,7 @@
 
 <link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
 
-<link href="{{ STATIC_URL }}css/map.css" media="screen" rel="stylesheet" type="text/css" />
+<!-- <link href="{{ STATIC_URL }}css/v3_map.css" media="screen" rel="stylesheet" type="text/css" /> -->
 <!--[if lte IE 8]><link href="{{ STATIC_URL }}css/map_ie.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 
 <script type="text/javascript">
@@ -92,22 +92,22 @@
 {% block base_fblike %}
 {% endblock %}
 
-{% block base_body_content %}
-<div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
+{% block pagewrapper_class %}map_campaign{% endblock %}
 
-<div id='stats_overlay'>
-	<div class="stats_header medium">Campaign Tracker</div>
-	<div class="heading bold" style="font-size:2.5em; line-height:120%;">Active MPA Campaigns</div>
-    <div>
-        {% if campaign_list %}
-            <ul>
-            {% for campaign in campaign_list %}
-                <li style="padding-bottom:3px;"><a href="{{ campaign.get_absolute_url }}" style="text-decoration:none; color:#fff; font-size:0.8em;"><span style="font-size:1.2em;">{{ campaign.name }}</span> [{{ campaign.country }}{% if campaign.sub_location %} - {{ campaign.sub_location }}{% endif %}]</a></li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+{% block base_body_content %}
+<div id="leafletmap" style="width:100%; height:300px; z-index:0;"></div>
+<div class="stats_header medium">Campaign Tracker</div>
+<div class="heading bold" style="font-size:2.5em; line-height:120%;">Active MPA Campaigns</div>
+<div>
+    {% if campaign_list %}
+        <ul>
+        {% for campaign in campaign_list %}
+            <li style="padding-bottom:3px;"><a href="{{ campaign.get_absolute_url }}" style="font-size:0.8em;"><span style="font-size:1.2em;">{{ campaign.name }}</span> [{{ campaign.country }}{% if campaign.sub_location %} - {{ campaign.sub_location }}{% endif %}]</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 </div>
+
 {% endblock %}
 
 {% block base_body_extra %}

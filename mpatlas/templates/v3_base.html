@@ -74,26 +74,26 @@
     <![endif]-->
     {% block pagetopper %}
       <div class="container">
-        MPAtlas is now BlueRefuge
-        <div style="float:right;">An initiative of Marine Conservation Insitute</div>
+        <!-- MPAtlas is now BlueRefuge -->
+        <div>An initiative of Marine Conservation Institute</div>
       </div>
     {% endblock %}
   </div>
   <header class="site-header site-header-dark">
     <div class="header-inner container">
       <div class="logo-wrap">
-        <a href="/"><img class="mainlogo" src="{% static 'images/br_logo.svg' %}"><div class="name-hidden visible-print-block">BlueRefuge - the atlas of marine protected areas</div></a>
+        <a href="/"><img class="mainlogo" src="{% static 'images/mp_logo.svg' %}"><div class="name-hidden visible-print-block">BlueRefuge - the atlas of marine protected areas</div></a>
       </div>
 
       <div class="nav-wrap">
         <nav class="nav-secondary" role="navigation">
           <p>
-            <a href="/dev/about">About</a> | <a href="/dev/about/about-mpas/">Why MPAs?</a> | <a href="/dev/reports-citations/">Reports & Citations</a> | <a href="/dev/news">News</a> | # Login
+            <a href="/about">About</a> | <a href="/about/why-mpas/">Why MPAs?</a> | <a href="/reports-citations/">Reports & Citations</a> | <a href="/faq/">FAQ</a> | <a href="/news">News</a><!--  | # Login -->
           </p>
         </nav>
         <nav class="nav-main" role="navigation">
           <ul class="mainmenu">
-            {% show_menu_below_id "dev_home" 0 0 %}
+            {% show_menu_below_id "home" 0 0 %}
           </ul>
           <div class="search-main">
             <form class="navbar-form navbar-right" role="form">
