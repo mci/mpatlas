@@ -21,6 +21,8 @@ System.config({
     "core-js": "npm:core-js@1.2.7",
     "jquery": "npm:jquery@3.2.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
+    "jquery-ui-bundle": "npm:jquery-ui-bundle@1.12.1",
+    "jquery-ui-dist": "npm:jquery-ui-dist@1.12.1",
     "jqueryui": "npm:jqueryui@1.11.1",
     "nvd3": "npm:nvd3@1.8.5",
     "underscore": "npm:underscore@1.8.3",
@@ -238,6 +240,12 @@ System.config({
     },
     "npm:inherits@2.0.3": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:jquery-ui-bundle@1.12.1": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:jquery-ui-dist@1.12.1": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:jquery-ui@1.12.1": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
