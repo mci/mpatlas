@@ -1,0 +1,1 @@
+module.exports = require("npm:jquery-ui@1.12.1/ui/widget.js");

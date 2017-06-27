@@ -1,7 +1,7 @@
 define([
   // These are path aliases configured in the requireJS bootstrap
   'jquery',
-  'jquery-ui'
+  'jqueryui'
 ], function($){  
     var preparePage = function() {
  		$('.search-main .navbar-form')
