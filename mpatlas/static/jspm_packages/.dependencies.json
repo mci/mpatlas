@@ -330,5 +330,11 @@
   "npm:core-util-is@1.0.2": {
     "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
   },
-  "npm:isarray@0.0.1": {}
+  "npm:isarray@0.0.1": {},
+  "npm:jquery-ui-dist@1.12.1": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:jquery-ui-bundle@1.12.1": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  }
 }

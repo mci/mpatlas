@@ -1,0 +1,1 @@
+module.exports = require("npm:jquery-ui-bundle@1.12.1/jquery-ui.js");
