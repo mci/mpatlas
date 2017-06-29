@@ -19,11 +19,15 @@ System.config({
     "backbone": "npm:backbone@1.3.3",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
     "core-js": "npm:core-js@1.2.7",
+    "d3": "npm:d3@3.5.17",
+    "geojson-vt": "npm:geojson-vt@2.4.0",
     "jquery": "npm:jquery@3.2.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "jquery-ui-bundle": "npm:jquery-ui-bundle@1.12.1",
     "jquery-ui-dist": "npm:jquery-ui-dist@1.12.1",
     "jqueryui": "npm:jqueryui@1.11.1",
+    "leaflet": "npm:leaflet@0.7.7",
+    "leaflet.vectorgrid": "npm:leaflet.vectorgrid@1.2.0",
     "nvd3": "npm:nvd3@1.8.5",
     "underscore": "npm:underscore@1.8.3",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -144,6 +148,14 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0"
     },
+    "npm:commander@2.10.0": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "graceful-readlink": "npm:graceful-readlink@1.0.1",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:constants-browserify@0.0.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
@@ -220,6 +232,12 @@ System.config({
       "create-hash": "npm:create-hash@1.1.3",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
     },
+    "npm:geojson-vt@2.4.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:graceful-readlink@1.0.1": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2"
+    },
     "npm:hash-base@2.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "inherits": "npm:inherits@2.0.3",
@@ -261,6 +279,14 @@ System.config({
     "npm:jqueryui@1.11.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:leaflet.vectorgrid@1.2.0": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.1",
+      "leaflet": "npm:leaflet@1.1.0",
+      "pbf": "npm:pbf@3.0.5",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "topojson-client": "npm:topojson-client@2.1.0",
+      "vector-tile": "npm:vector-tile@1.3.0"
+    },
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.11.7",
       "brorand": "npm:brorand@1.1.0"
@@ -281,6 +307,14 @@ System.config({
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:pbf@3.0.5": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "ieee754": "npm:ieee754@1.1.8",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "resolve-protobuf-schema": "npm:resolve-protobuf-schema@2.0.0",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
     "npm:pbkdf2@3.0.12": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "create-hash": "npm:create-hash@1.1.3",
@@ -295,6 +329,10 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
+    },
+    "npm:protocol-buffers-schema@2.2.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:public-encrypt@4.0.0": {
       "bn.js": "npm:bn.js@4.11.7",
@@ -321,6 +359,11 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
+    "npm:resolve-protobuf-schema@2.0.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "protocol-buffers-schema": "npm:protocol-buffers-schema@2.2.0"
+    },
     "npm:ripemd160@2.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "hash-base": "npm:hash-base@2.0.2",
@@ -343,9 +386,17 @@ System.config({
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1"
     },
+    "npm:topojson-client@2.1.0": {
+      "commander": "npm:commander@2.10.0"
+    },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:vector-tile@1.3.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "point-geometry": "npm:point-geometry@0.0.0"
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"

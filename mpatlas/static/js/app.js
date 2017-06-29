@@ -4,7 +4,7 @@ define(
 		//'backbone-module',
 		'jquery',
 		'backbone',
-		'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+		'cartodb',
 		'/static/js/leafclusterer',
 		'/static/js/TileLayer.Bing',
 		'/static/js/leaflet_utils',

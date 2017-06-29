@@ -1,0 +1,1 @@
+module.exports = require("npm:protocol-buffers-schema@2.2.0/index.js");

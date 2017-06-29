@@ -1,0 +1,1 @@
+module.exports = require("npm:leaflet.vectorgrid@1.2.0/dist/Leaflet.VectorGrid.bundled.min.js");

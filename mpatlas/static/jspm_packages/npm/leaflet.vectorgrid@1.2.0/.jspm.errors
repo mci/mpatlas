@@ -1,0 +1,63 @@
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:5:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:5:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:5:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:6:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:6:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:6:26: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:8:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:8:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:8:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:9:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:9:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:9:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:10:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:10:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:10:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:11:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:11:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:11:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:12:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:12:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle-extra.js:12:16: Semi-colon expected
+
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:4:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:4:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:4:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:5:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:5:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:5:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:6:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:6:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:6:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:7:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:7:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:7:16: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:8:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:8:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/bundle.js:8:16: Semi-colon expected
+
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.js:1:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.js:1:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.js:1:16: Semi-colon expected
+
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:2:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:2:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:2:12: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:2:17: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:3:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:3:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Protobuf.js:3:26: Semi-colon expected
+
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Slicer.js:6:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Slicer.js:6:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Slicer.js:6:19: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/Leaflet.VectorGrid.Slicer.js:6:24: Semi-colon expected
+
+MultipleErrors: /Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:1:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:1:8: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:1:18: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:1:23: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:2:1: Unexpected reserved word import
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:2:13: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:2:22: Semi-colon expected
+/Users/russmo/.jspm/packages/npm/leaflet.vectorgrid@1.2.0/src/slicerWebWorker.js:2:27: Semi-colon expected

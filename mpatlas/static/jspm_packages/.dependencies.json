@@ -336,5 +336,56 @@
   },
   "npm:jquery-ui-bundle@1.12.1": {
     "process": "github:jspm/nodelibs-process@^0.1.0"
-  }
+  },
+  "npm:commander@2.10.0": {
+    "graceful-readlink": "npm:graceful-readlink",
+    "events": "github:jspm/nodelibs-events@^0.1.1",
+    "child_process": "github:jspm/nodelibs-child_process@^0.1.0",
+    "path": "github:jspm/nodelibs-path@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:graceful-readlink@1.0.1": {
+    "fs": "github:jspm/nodelibs-fs@^0.1.0"
+  },
+  "npm:leaflet.vectorgrid@1.2.0": {
+    "pbf": "npm:pbf@^3.0.2",
+    "topojson-client": "npm:topojson-client@^2.1.0",
+    "vector-tile": "npm:vector-tile@^1.3.0",
+    "leaflet": "npm:leaflet@^1.0.2",
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:topojson-client@2.1.0": {
+    "commander": "npm:commander@^2.0.0"
+  },
+  "npm:point-geometry@0.0.0": {},
+  "npm:vector-tile@1.3.0": {
+    "point-geometry": "npm:point-geometry@0.0.0",
+    "path": "github:jspm/nodelibs-path@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0"
+  },
+  "npm:resolve-protobuf-schema@2.0.0": {
+    "protocol-buffers-schema": "npm:protocol-buffers-schema@^2.0.2",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "path": "github:jspm/nodelibs-path@^0.1.0"
+  },
+  "npm:protocol-buffers-schema@2.2.0": {
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "systemjs-json": "github:systemjs/plugin-json@^0.1.0"
+  },
+  "github:jspm/nodelibs-child_process@0.1.0": {},
+  "npm:pbf@3.0.5": {
+    "ieee754": "npm:ieee754@^1.1.6",
+    "resolve-protobuf-schema": "npm:resolve-protobuf-schema@^2.0.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "systemjs-json": "github:systemjs/plugin-json@^0.1.0",
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
+  },
+  "npm:leaflet@1.1.0": {},
+  "npm:geojson-vt@2.4.0": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:leaflet@0.7.7": {}
 }
