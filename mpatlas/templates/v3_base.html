@@ -36,6 +36,18 @@
     <script src='{% static "" %}/jspm_packages/system.js'></script>
     <script src='{% static "" %}/config.js'></script>
     <script type="text/javascript">
+      SystemJS.config({
+          map: {
+              cartodb: 'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
+          },
+          meta: {
+              'cartodb': {
+                  exports: 'cartodb',
+                  format: 'global',
+                  deps: ['leaflet/dist/leaflet']
+              }
+          }
+      });
       System.import('bootstrap');
       System.import('underscore');
       System.import('backbone');

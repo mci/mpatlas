@@ -1,0 +1,1 @@
+module.exports = require("npm:resolve-protobuf-schema@2.0.0/index.js");

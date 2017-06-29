@@ -2,8 +2,9 @@ define([
   // These are path aliases configured in the requireJS bootstrap
   'jquery',
   'backbone',
-  'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+  'cartodb',
   '/static/js/TileLayer.Bing'
+  // 'leaflet.vectorgrid'
   //'persist',
   //'MPAList'
 ],
@@ -262,6 +263,32 @@ function ($, Backbone) {
                         that.map.fitBounds(that.highlightlayer.getBounds());
                     }
                 }
+                // success: function(data) {
+                // 	geojson_tiles = L.vectorGrid.slicer(data, {
+                // 		vectorTileLayerStyles: {
+                // 			sliced: {
+                // 				weight: 3,
+                // 				color: '#d0508c',
+                // 				opacity: 0.8,
+                // 				fillColor: '#d0508c',
+                // 				fillOpacity: 0.4
+                // 			}
+                // 		}
+                // 	})
+                //     if (that.highlightlayer) {
+                //         that.map.removeLayer(that.highlightlayer);
+                //     }
+                //     delete that.highlightlayer;
+                //     geojson_tiles.on('click', function(mapevent) {
+                //         that.map.fireEvent('click', mapevent); // pass click from layer to map
+                //     });
+                //     that.map.addLayer(geojson_tiles);
+                //     // console.log('added geojson tiles', geojson_tiles);
+                //     that.highlightlayer = geojson_tiles;
+                //     if (!that.bbox[0][0]) {
+                //         that.map.fitBounds(that.highlightlayer.getBounds());
+                //     }
+                // }
             });
 		},
 

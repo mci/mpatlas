@@ -1,0 +1,1 @@
+module.exports = require("npm:geojson-vt@2.4.0/src/index.js");

@@ -1,0 +1,1 @@
+module.exports = require("npm:topojson-client@2.1.0/dist/topojson-client.js");
