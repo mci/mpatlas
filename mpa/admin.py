@@ -26,7 +26,7 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
     fieldsets = [
-        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids']}),
+        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasource']}),
         ('Categories/Tags', {'fields': ['categories']}),
         ('Is this a Marine Protected Area or a different marine managed area?', {'fields': ['is_mpa']}),
         ('Status', {'fields': ['status', 'status_year', 'implemented', 'implementation_date', 'verification_state', 'verification_reason', 'verified_by', 'verified_date']}),
