@@ -74,13 +74,13 @@
                     {% endcomment %}
                     <div class="sidebar_item_title h4">Contacts &amp; Resources</div>
                     <div class="sidebar_item_content">
-                        {% if mpa.contact and mpa.contact.url %}
+                        {% if mpa.contact %}
                             <div>
-                                <span style="font-weight:bold;">{{ mpa.contact.agency }}</span>
+                                {% if mpa.contact.agency %}<span style="font-weight:bold;">{{ mpa.contact.agency }}</span>{% endif %}
                                 <div style="margin-left:10px; color:#666;">
-                                    <a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
-                                    <br />
-                                    {{ mpa.contact.address|safe|linebreaksbr }}
+                                    {% if mpa.contact.url %}<a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
+                                    <br />{% endif %}
+                                    {% if mpa.contact.address %}{{ mpa.contact.address|safe|linebreaksbr }}{% endif %}
                                 </div>
                             </div>
                         {% endif %}
