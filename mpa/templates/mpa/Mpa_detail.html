@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load cms_tags sekizai_tags i18n %}
+{% load thumbnail %}
 
 {% block title %}{{ mpa.name }}{% endblock %}
 
@@ -75,9 +76,10 @@
                     <div class="sidebar_item_title h4">Contacts &amp; Resources</div>
                     <div class="sidebar_item_content">
                         {% if mpa.contact %}
-                            <div>
-                                {% if mpa.contact.agency %}<span style="font-weight:bold;">{{ mpa.contact.agency }}</span>{% endif %}
-                                <div style="margin-left:10px; color:#666;">
+                            <div class="clearfix">
+                                <h5 style="font-weight:bold;">{{ mpa.contact.agency }}</h5>
+                                <img style="float:left;" src="{% thumbnail mpa.contact.logo 150x150 %}">
+                                <div style="margin-left:150px; padding-left: 6px; color:#666;">
                                     {% if mpa.contact.url %}<a href="{{ mpa.contact.url }}">{{ mpa.contact.url }}</a>
                                     <br />{% endif %}
                                     {% if mpa.contact.address %}{{ mpa.contact.address|safe|linebreaksbr }}{% endif %}
@@ -97,6 +99,19 @@
                             <p>
                                 Original data record from <a href="http://www.mpa.gov">US MPA Center</a>.
                             </p>
+                        {% endif %}
+                        {% if mpa.datasource %}
+                            <div class="clearfix">
+                                <h5 style="font-weight:bold;">{{ mpa.datasource.name }}</h5>
+                                <img style="float:left;" src="{% thumbnail mpa.datasource.logo 150x150 %}">
+                                <div style="margin-left:150px; padding-left: 6px; color:#666;">
+                                    {% if mpa.datasource.version %}{{ mpa.datasource.url }}
+                                    <br />{% endif %}
+                                    {% if mpa.datasource.url %}<a href="{{ mpa.datasource.url }}">{{ mpa.datasource.url }}</a>
+                                    <br />{% endif %}
+                                    {% if mpa.contact.address %}{{ mpa.contact.address|safe|linebreaksbr }}{% endif %}
+                                </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

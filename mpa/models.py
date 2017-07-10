@@ -22,6 +22,8 @@ from spatialdata.models import Nation
 
 from collections import OrderedDict
 
+from filer.fields.image import FilerImageField
+
 # fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
 # via a .values(*fields) call.  Update this for new columns.
 mpa_export_fields = []
@@ -191,6 +193,9 @@ class Mpa(models.Model):
     # Contact
     contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True)
     other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', blank=True)
+
+    # Data Source
+    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
@@ -461,10 +466,21 @@ class Contact(models.Model):
     email = models.EmailField(max_length=500, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     phone = models.CharField(max_length=500, null=True, blank=True)
+    logo = FilerImageField(null=True, blank=True, related_name="contact_logos")
     
     # Returns the string representation of the model.
     def __unicode__(self):
-        return self.agency
+        return 'Contact: %s' % (self.agency)
+
+class DataSource(models.Model):
+    name = models.CharField('Data Source Name', max_length=500)
+    version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
+    url = models.URLField('Data Source URL', max_length=500, null=True, blank=True)
+    logo = FilerImageField(null=True, blank=True, related_name="datasource_logos")
+    
+    # Returns the string representation of the model.
+    def __unicode__(self):
+        return 'Data Source: %s - %s' % (self.name, self.version)
 
 
 class VersionMetadata(models.Model):

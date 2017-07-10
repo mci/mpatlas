@@ -3,7 +3,7 @@ from django.forms.models import fields_for_model
 from reversion.admin import VersionAdmin
 # import reversion
 from reversion import revisions as reversion
-from models import Mpa, WikiArticle, Contact, CandidateInfo
+from models import Mpa, WikiArticle, Contact, DataSource, CandidateInfo
 
 class WikiArticleInline(admin.StackedInline):
     model = WikiArticle
@@ -80,7 +80,14 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     has_boundary.admin_order_field = 'geom'
     has_boundary.short_description = 'Has Boundaries'
 
+class ContactAdmin(VersionAdmin):
+    search_fields = ['agency', 'url', 'email', 'address']
+
+class DataSourceAdmin(VersionAdmin):
+    search_fields = ['name', 'version', 'url']
+
 admin.site.register(Mpa, MpaAdmin)
-admin.site.register(Contact, VersionAdmin)
+admin.site.register(Contact, ContactAdmin)
+admin.site.register(DataSource, DataSourceAdmin)
 # admin.site.register(WikiArticle, VersionAdmin)
 # admin.site.register(MpaCandidate, admin.GeoModelAdmin)
