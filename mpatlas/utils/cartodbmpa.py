@@ -134,7 +134,6 @@ def purgeCartoDBMpas(mpas=mpas, dryrun=False):
 	try:
 		result = cl.sql(cartodb_idsql)
 	except CartoDBException as e:
-		error_ids.extend(step_ids)
 		print('CartoDB Error for getting mpa_ids', e)
 	cartodb_ids = [i['mpa_id'] for i in result['rows']]
 	missing = list(set(cartodb_ids) - set(local_ids))
@@ -146,7 +145,6 @@ def purgeCartoDBMpas(mpas=mpas, dryrun=False):
 		try:
 			cl.sql(deletesql)
 		except CartoDBException as e:
-			error_ids.extend(step_ids)
 			print 'CartoDB Error deleting %s mpas:' % len(missing), e
 	return missing
 
