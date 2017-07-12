@@ -18,6 +18,8 @@ from reversion.models import Revision
 from taggit.managers import TaggableManager
 from category.models import TaggedItem
 
+from django.contrib.gis.db.models import Extent
+
 from spatialdata.models import Nation
 
 from collections import OrderedDict
@@ -378,7 +380,7 @@ class Mpa(models.Model):
             else:
                 if not self.geom.valid:
                     return None
-                extent = self.__class__.objects.only('mpa_id').filter(pk=self.pk).extent(field_name='geom')
+                extent = self.__class__.objects.only('mpa_id').filter(pk=self.pk).aggregate(Extent('geom')).get('geom__extent')
                 self.bbox_lowerleft = geos.Point(extent[0], extent[1], srid=gdal.SpatialReference('WGS84').srid)
                 self.bbox_upperright = geos.Point(extent[2], extent[3], srid=gdal.SpatialReference('WGS84').srid)
             self.save()
