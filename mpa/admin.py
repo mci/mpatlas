@@ -5,6 +5,7 @@ from reversion.admin import VersionAdmin
 from reversion import revisions as reversion
 from models import Mpa, WikiArticle, Contact, DataSource, CandidateInfo
 from views import mpas_all_nogeom
+from django.db.models import When, Case, Value, F, Q, BooleanField
 
 class WikiArticleInline(admin.StackedInline):
     model = WikiArticle
@@ -24,8 +25,8 @@ def get_fields_missing_from_fieldsets(fieldsets, fields):
 # class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
 class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     change_list_template = "mpa/admin_change_list.html"
-    # list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
-    list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')
+    list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
+    # list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
     fieldsets = [
         ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasource']}),
@@ -49,9 +50,17 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     ]
 
     def get_queryset(self, request):
-        # qs = super(MpaAdmin, self).get_queryset(request)
-        # qs = qs.defer(*Mpa.get_geom_fields())
-        qs = mpas_all_nogeom = Mpa.objects.all().defer(*Mpa.get_geom_fields())
+        # qs = super(MpaAdmin, self).get_queryset(request).defer(*Mpa.get_geom_fields())
+        qs = mpas_all_nogeom # already defined in mpa.views.mpas_all_nogeom
+        # Add expression to check if boundaries exist, instead of the of pulling entire
+        # geom field from database to the web server just to check if it exists
+        qs = qs.annotate(
+            has_boundary=Case(
+                When(geom__isnull=True, then=Value(False)),
+                default=Value(True),
+                output_field=BooleanField()
+            )
+        )
         return qs
 
     def get_fieldsets(self, request, obj=None):
@@ -79,14 +88,14 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     colored_verification_state.admin_order_field = 'verification_state'
     colored_verification_state.short_description = 'Verification state'
 
-    # def has_boundary(self, obj):
-    #     if (obj.geom):
-    #         return 'True'
-    #     else:
-    #         return '<span style="color: #f00;">False</span>'
-    # has_boundary.allow_tags = True
-    # has_boundary.admin_order_field = 'geom'
-    # has_boundary.short_description = 'Has Boundaries'
+    def has_boundary(self, obj):
+        if (obj.has_boundary):
+            return 'True'
+        else:
+            return '<span style="color: #f00;">False</span>'
+    has_boundary.allow_tags = True
+    has_boundary.admin_order_field = 'has_boundary'
+    has_boundary.short_description = 'Has Boundaries'
 
 class ContactAdmin(VersionAdmin):
     search_fields = ['agency', 'url', 'email', 'address']
