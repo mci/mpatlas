@@ -4,7 +4,7 @@
 
 from django.contrib.gis.db import models
 from django.contrib.gis import geos, gdal
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
 # from tinymce.models import HTMLField
@@ -442,6 +442,16 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     try:
         from mpatlas.utils import cartodbmpa
         cartodbmpa.updateMpa(instance.pk)
+    except:
+        pass # let this fail silently, maybe CartoDB is unreachable
+
+@receiver(post_delete, sender=Mpa)
+def mpa_post_delete(sender, instance, *args, **kwargs):
+    if kwargs['raw']:
+        return
+    try:
+        from mpatlas.utils import cartodbmpa
+        cartodbmpa.purgeCartoDBMpas()
     except:
         pass # let this fail silently, maybe CartoDB is unreachable
 
