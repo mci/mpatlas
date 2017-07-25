@@ -447,8 +447,6 @@ def mpa_post_save(sender, instance, *args, **kwargs):
 
 @receiver(post_delete, sender=Mpa)
 def mpa_post_delete(sender, instance, *args, **kwargs):
-    if kwargs['raw']:
-        return
     try:
         from mpatlas.utils import cartodbmpa
         cartodbmpa.purgeCartoDBMpas()
