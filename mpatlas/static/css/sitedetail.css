@@ -22,6 +22,30 @@
     -webkit-box-shadow: 1px 1px 4px #999;
 }
 
+.glores_status {
+    margin-top: 6px;
+    padding: 4px;
+    padding-left: 10px;
+    background-color: #ccc;
+    color: white;
+    margin-bottom: 0;
+    font-size: 1.6em;
+    font-weight: 300;
+}
+
+.glores_status.platinum {
+    background-color: #d6d0c3;
+}
+.glores_status.gold {
+    background-color: #e7ba5a;
+}
+.glores_status.silver {
+    background-color: #acafb3;
+}
+.glores_status.nominee {
+    background-color: #86a0c8;
+}
+
 .protection_level {
     margin-top: 6px;
     padding: 4px;

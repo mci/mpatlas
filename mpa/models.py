@@ -68,6 +68,14 @@ STATUS_CHOICES = (
     ('Defunct/Degazetted', 'Defunct/Degazetted'),
 )
 
+GLORES_CHOICES = (
+    ('', 'None'),
+    ('nominee', 'Nominee'),
+    ('platinum', 'Platinum Award'),
+    ('gold', 'Gold Award'),
+    ('silver', 'Silver Award'),
+)
+
 IMPLEMENTED_CHOICES = (
     ('Not Implemented', 'Not Implemented'),
     ('Implemented', 'Implemented'),
@@ -151,7 +159,8 @@ class Mpa(models.Model):
 
     # Taggit TaggableManger used to define categories
     categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags enclosed in quotes (e.g., [ "Shark Sanctuary", "World Heritage Site" ]', blank=True)
-    
+    glores_status = models.CharField('GLORES Status', max_length=100, blank=True, choices=GLORES_CHOICES, default='')
+
     # Set up foreign key to ISO Countries and Sub Locations
     sovereign = models.CharField('Sovereign Country', max_length=50, null=True, blank=True)
     country = models.CharField('Country / Territory', max_length=50)
