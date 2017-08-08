@@ -125,6 +125,10 @@
                         <div class="protection_level partnotake">Some No-Take Zones</div>
                     {% endif %}
 
+                    {% if mpa.glores_status != '' %}
+                        <div class="glores_status {{ mpa.glores_status }}">Global Ocean Refuge System status: {{ mpa.glores_status|title }}</div>
+                    {% endif %}
+
                 <div id="siteinfotitle" class="sidebar_item_title h5 clearfix">Site Information
                     {% if user.is_authenticated %}
                             <a class="btn btn-xs btn-warning button editbutton" href="edit" style="float:right; color:white; margin-right:8px;">Edit</a>
