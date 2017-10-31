@@ -6,7 +6,7 @@ from django.views.generic import RedirectView
 # from django_notify.urls import get_pattern as get_notify_pattern
 from django.views.decorators.cache import cache_page, never_cache
 
-from views import MapView
+from .views import MapView
 
 from django.conf import settings
 from django.conf.urls.static import static

@@ -11,7 +11,7 @@ DEBUG = True
 # Override DEBUG with local_settings.py value right away.  We override all other global
 # settings with local_settings.py values at the end of this file.
 try:
-    from local_settings import DEBUG
+    from .local_settings import DEBUG
 except ImportError:
     pass
 

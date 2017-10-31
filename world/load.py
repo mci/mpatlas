@@ -1,6 +1,6 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from models import WorldBorder, worldborder_mapping
+from .models import WorldBorder, worldborder_mapping
 
 world_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/TM_WORLD_BORDERS-0.3.shp'))
 

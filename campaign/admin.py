@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis import admin as geoadmin
-from models import Campaign, Initiative
+from .models import Campaign, Initiative
 from django.utils.html import strip_tags
 
 class CampaignAdmin(geoadmin.OSMGeoAdmin):

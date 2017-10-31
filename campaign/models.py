@@ -9,7 +9,7 @@ from django.dispatch import receiver
 from django.db import connection, transaction
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from uuslug import uuslug, slugify
 
 # import reversion

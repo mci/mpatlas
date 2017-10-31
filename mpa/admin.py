@@ -3,8 +3,8 @@ from django.forms.models import fields_for_model
 from reversion.admin import VersionAdmin
 # import reversion
 from reversion import revisions as reversion
-from models import Mpa, WikiArticle, Contact, DataSource, CandidateInfo
-from views import mpas_all_nogeom
+from .models import Mpa, WikiArticle, Contact, DataSource, CandidateInfo
+from .views import mpas_all_nogeom
 from django.db.models import When, Case, Value, F, Q, BooleanField
 
 class WikiArticleInline(admin.StackedInline):
@@ -71,18 +71,18 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
         return fieldsets
 
     def english_designation(self, obj):
-    	if (obj.designation == obj.designation_eng):
-    		return obj.designation
-    	else:
-    		return '%s (%s)' % (obj.designation, obj.designation_eng)
+        if (obj.designation == obj.designation_eng):
+            return obj.designation
+        else:
+            return '%s (%s)' % (obj.designation, obj.designation_eng)
     english_designation.admin_order_field = 'designation'
     english_designation.short_description = 'Designation'
 
     def colored_verification_state(self, obj):
-    	if (obj.verification_state == 'Rejected as MPA'):
-    		color_code = 'f00'
-    	else:
-    		color_code = '000'
+        if (obj.verification_state == 'Rejected as MPA'):
+            color_code = 'f00'
+        else:
+            color_code = '000'
         return '<span style="color: #%s;">%s</span>' % (color_code, obj.verification_state)
     colored_verification_state.allow_tags = True
     colored_verification_state.admin_order_field = 'verification_state'

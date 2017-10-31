@@ -1,7 +1,7 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from models import WdpaPolygon, wdpapolygon_mapping, WdpaPoint, wdpapoint_mapping
-from models import Wdpa2014Polygon, wdpa2014polygon_mapping, Wdpa2014Point, wdpa2014point_mapping
+from .models import WdpaPolygon, wdpapolygon_mapping, WdpaPoint, wdpapoint_mapping
+from .models import Wdpa2014Polygon, wdpa2014polygon_mapping, Wdpa2014Point, wdpa2014point_mapping
 
 wdpapolygon_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepolygons.shp'))
 wdpapoint_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepoints.shp'))

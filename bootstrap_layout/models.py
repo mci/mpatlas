@@ -12,7 +12,6 @@ from ckeditor.fields import RichTextField
 from . import fields
 from djangocms_attributes_field.fields import AttributesField
 
-
 class Classes(models.TextField):
     default_field_class = fields.Classes
 
@@ -81,4 +80,4 @@ class Section(CMSPlugin):
     )
 
     def __unicode__(self):
-        return unicode(self.name + ' ' + self.container )
+        return self.name + ' ' + self.container

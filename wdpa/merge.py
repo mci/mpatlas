@@ -1,4 +1,5 @@
-from models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
+from __future__ import print_function
+from .models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
 from mpa.models import Mpa, mpas_all_nogeom, VersionMetadata, mpa_post_save
 from mpa import admin as mpa_admin # needed to kick in reversion registration
 
@@ -42,7 +43,7 @@ def getRemoveWdpaList():
         if wdpaid not in wdpa2014_list:
             # wdpaid has been removed from 2014 wdpaid
             wdpa2remove.append(wdpaid)
-            print wdpaid, ':', count, 'processed'
+            print(wdpaid, ':', count, 'processed')
     return wdpa2remove
 
 def removeMpasByWdpaId(remove_ids):
@@ -68,7 +69,7 @@ def getAddWdpaList():
         if wdpaid not in wdpa_list:
             # old record doesn't exist
             wdpa2add.append(wdpaid)
-            print wdpaid, ':', count, 'processed'
+            print(wdpaid, ':', count, 'processed')
     newpolys = Wdpa2014Polygon.objects.filter(wdpaid__in=wdpa2add)
     newpoints = Wdpa2014Point.objects.filter(wdpaid__in=wdpa2add)
     newpolys.update(new=True, updateme=True)
@@ -99,7 +100,7 @@ def getUpdateWdpaList():
                             continue
                         # w.updateme = True
                         wdpa2update.append(w.wdpaid)
-                        print w.wdpaid, ': count', count, field.name, valnew, valold
+                        print(w.wdpaid, ': count', count, field.name, valnew, valold)
                         break
             except:
                 raise
@@ -132,19 +133,19 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, existingrevisions={}):
         try:
             mpa = Mpa.objects.get(wdpa_id=wpoly.wdpaid)
             if mpa.country in UsaCodes:
-                print 'USA: not processing', wpoly.wdpaid
+                print('USA: not processing', wpoly.wdpaid)
                 continue
         except Mpa.DoesNotExist:
             mpa = Mpa(wdpa_id=wpoly.wdpaid)
             created = True
         count += 1
-        print count
+        print(count)
         try:
             versions = len(reversion.get_for_object(mpa))
         except:
             versions = 0
         if versions > 0:
-            print 'Previous versions for wdpaid', wpoly.wdpaid
+            print('Previous versions for wdpaid', wpoly.wdpaid)
             existingrevisions[wpoly.wdpaid] = (
                 {
                     'no_take_old': mpa.no_take,
@@ -156,7 +157,7 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, existingrevisions={}):
                 }
             )
         else:
-            print 'Updating wdpaid', wpoly.wdpaid
+            print('Updating wdpaid', wpoly.wdpaid)
         # update record and create a revision so we can roll back if needed
         with transaction.atomic(), reversion.create_revision():
             updateMpaFromWdpa(wpoly, mpa, poly)

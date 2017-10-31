@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
+from .models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
 
 class WdpaAdmin(admin.GeoModelAdmin):
     list_display = ('name', 'wdpaid', 'country')

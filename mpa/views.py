@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+
 from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
@@ -59,7 +62,7 @@ def revision_view2(request):
     rc = rcm.create_revision()
     rcm.start(manage_manually=False)
     #rcm.start(manage_manually=True)
-    print rcm.is_active(), rcm.is_invalid(), rcm.is_managing_manually()
+    print(rcm.is_active(), rcm.is_invalid(), rcm.is_managing_manually())
     mpa = Mpa.objects.get(pk=4)
     mpa.summary = 'Test2'
     mpa.save()
@@ -182,7 +185,7 @@ class MpaListView(ListView):
                 #return self.queryset.filter(name__istartswith=q)
                 # \m is Postgresql regex word boundary, Python used \b
                 # (?i) is a Postgresql regex mode modifier to make regex case insensitive
-                qs = qs.filter(name__regex=ur'(?i)\m' + re.sub(r'([.*/\|^$:(){}\'"+&?])', r'\\\1', q))
+                qs = qs.filter(name__regex=r'(?i)\m' + re.sub(r'([.*/\|^$:(){}\'"+&?])', r'\\\1', q))
             sortby = self.request.GET.get('sort')
             direction = self.request.GET.get('dir')
             if sortby:

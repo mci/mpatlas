@@ -1,3 +1,4 @@
+from __future__ import print_function
 from wdpa import merge
 from mpa.models import Mpa, mpas_all_nogeom, VersionMetadata, mpa_post_save
 from mpa import admin as mpa_admin # needed to kick in reversion registration
@@ -24,13 +25,13 @@ addlist = []
 updatelist = []
 existingrevisions = {}
 with open('/home/mpatlas/wdpa2014_removed.json', 'r') as removefile:
-	removelist = json.load(removefile)
+    removelist = json.load(removefile)
 with open('/home/mpatlas/wdpa2014_added.json', 'r') as addfile:
-	addlist = json.load(addfile)
+    addlist = json.load(addfile)
 with open('/home/mpatlas/wdpa2014_updated.json', 'r') as updatefile:
-	updatelist = json.load(updatefile)
+    updatelist = json.load(updatefile)
 with open('/home/mpatlas/wdpa2014_dataconflicts.json', 'r') as existingfile:
-	existingrevisions = json.load(existingfile)
+    existingrevisions = json.load(existingfile)
 
 # mpa_id codes
 # 99##### = wdpa removed and no revisions >> just delete it for good
@@ -45,84 +46,84 @@ with open('/home/mpatlas/wdpa2014_dataconflicts.json', 'r') as existingfile:
 datelimit = datetime.datetime(2014,11,17)
 mpas = mpas_all_nogeom
 for m in mpas:
-	try:
-		versions = reversion.get_for_object(m)
-	    numversions = len(versions)
-	except:
-	    numversions = 0
-	if numversions > 0:
-		revdate = versions[0].revision.date_created
-		if revdate >= datelimit:
-			print m.pk
-			m = Mpa.objects.get(pk=m.pk)
-			m.pk = 60000000 + m.pk
-			m.save()
+    try:
+        versions = reversion.get_for_object(m)
+        numversions = len(versions)
+    except:
+        numversions = 0
+    if numversions > 0:
+        revdate = versions[0].revision.date_created
+        if revdate >= datelimit:
+            print(m.pk)
+            m = Mpa.objects.get(pk=m.pk)
+            m.pk = 60000000 + m.pk
+            m.save()
 
 # tag removes
 removes = mpas_all_nogeom.filter(wdpa_id__in = removelist)
 for m in removes:
-	try:
-		versions = reversion.get_for_object(m)
-	    numversions = len(versions)
-	except:
-	    numversions = 0
-	if numversions > 0 or m.pk >= 60000000:
-		print m.pk
-		m = Mpa.objects.get(pk=m.pk)
-		m.pk = 8800000 + m.pk
-		m.save()
+    try:
+        versions = reversion.get_for_object(m)
+        numversions = len(versions)
+    except:
+        numversions = 0
+    if numversions > 0 or m.pk >= 60000000:
+        print(m.pk)
+        m = Mpa.objects.get(pk=m.pk)
+        m.pk = 8800000 + m.pk
+        m.save()
 # don't code straight deletes without revisions, we're not updating them
 
 # tag adds with previous mpatlas revisions the same as other updates
 adds = mpas_all_nogeom.filter(wdpa_id__in = addlist)
 for m in adds:
-	if str(m.wdpa_id) in existingrevisions or m.pk >= 60000000:
-		print m.pk
-		m = Mpa.objects.get(pk=m.pk)
-		m.pk = 7700000 + m.pk
-		m.save()
+    if str(m.wdpa_id) in existingrevisions or m.pk >= 60000000:
+        print(m.pk)
+        m = Mpa.objects.get(pk=m.pk)
+        m.pk = 7700000 + m.pk
+        m.save()
 # done with add tagging
 
 # tag updates with previous mpatlas revisions
 updates = mpas_all_nogeom.filter(wdpa_id__in = updatelist)
 for m in updates:
-	if str(m.wdpa_id) in existingrevisions or m.pk >= 60000000:
-		print m.pk
-		m = Mpa.objects.get(pk=m.pk)
-		m.pk = 7700000 + m.pk
-		m.save()
+    if str(m.wdpa_id) in existingrevisions or m.pk >= 60000000:
+        print(m.pk)
+        m = Mpa.objects.get(pk=m.pk)
+        m.pk = 7700000 + m.pk
+        m.save()
 # done with update tagging
 
 # eliminate duplicates
 dups = []
 mpas = mpas_all_nogeom.filter(pk__gte=68800000)
 for m in mpas:
-	altpk = m.pk - 60000000
-	try:
-		n = Mpa.objects.get(pk=altpk)
-		dups.append(n.pk)
-	except:
-		pass
-	altpk = m.pk - 8800000
-	try:
-		n = Mpa.objects.get(pk=altpk)
-		dups.append(n.pk)
-	except:
-		pass
+    altpk = m.pk - 60000000
+    try:
+        n = Mpa.objects.get(pk=altpk)
+        dups.append(n.pk)
+    except:
+        pass
+    altpk = m.pk - 8800000
+    try:
+        n = Mpa.objects.get(pk=altpk)
+        dups.append(n.pk)
+    except:
+        pass
 mpas = mpas_all_nogeom.filter(pk__gte=67700000, pk__lt=68800000)
 for m in mpas:
-	altpk = m.pk - 60000000
-	try:
-		n = Mpa.objects.get(pk=altpk)
-		dups.append(n.pk)
-	except:
-		pass
-	altpk = m.pk - 7700000
-	try:
-		n = Mpa.objects.get(pk=altpk)
-		dups.append(n.pk)
-	except:
-		pass
+    altpk = m.pk - 60000000
+    try:
+        n = Mpa.objects.get(pk=altpk)
+        dups.append(n.pk)
+    except:
+        pass
+    altpk = m.pk - 7700000
+    try:
+        n = Mpa.objects.get(pk=altpk)
+        dups.append(n.pk)
+    except:
+        pass
 dupmpas = mpas_all_nogeom.filter(pk__in=dups)
 dupmpas.delete()
 

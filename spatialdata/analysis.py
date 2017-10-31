@@ -1,10 +1,11 @@
-from models import Eez, EezMembership
+from __future__ import print_function
+from .models import Eez, EezMembership
 from wdpa.models import WdpaPolygon
 from django.db import connection, transaction
 
 def findMpasInEez(simplified=False):
     for eez in Eez.objects.only('id'):
-        print 'Eez:', eez.eez
+        print('Eez:', eez.eez)
         if (simplified):
             mpas = WdpaPolygon.objects.only('id').filter(geom__relate=(eez.simple_geom, 'T********'))
         else:
@@ -19,11 +20,11 @@ def findMpasInEez(simplified=False):
             transaction.rollback_unless_managed()
             mpamember = EezMembership(eez=eez, mpa=mpa, area_in_eez=area)
             mpamember.save()
-            print mpa.name, ':', area/1000000, "km^2"
+            print(mpa.name, ':', area/1000000, "km^2")
 
 def findMpasInEezRaw(simplified=False):
     for eez in Eez.objects.only('id'):
-        print 'Eez:', eez.eez
+        print('Eez:', eez.eez)
         mpas = WdpaPolygon.objects.only('id').filter(geom__relate=(eez.geom, 'T********'))
         cursor = connection.cursor()
         try:
@@ -46,6 +47,6 @@ def findMpasInEezRaw(simplified=False):
                 mpamember = EezMembership(eez=eez, mpa=mpa, area_in_eez=area)
                 mpamember.save()
                 transaction.commit_unless_managed()
-                print mpa.name, ':', area/1000000, "km^2"
+                print(mpa.name, ':', area/1000000, "km^2")
         except:
             transaction.rollback_unless_managed()

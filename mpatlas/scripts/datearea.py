@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from mpa.models import Mpa
 import csv
 
@@ -11,10 +12,10 @@ def run():
     encoding = 'utf8'
     outfile = open('/home/mpatlas/datearea.csv', 'wb')
     csvWriter = csv.writer(outfile, dialect=csv.excel)
-    header = [unicode(u'%s' % f).encode(encoding) for f in outfields]
+    header = [('%s' % f).encode(encoding) for f in outfields]
     csvWriter.writerow(header)
     for mpa in Mpa.objects.all().order_by('status_year', 'name').only(*outfields):
-        output = [unicode(getattr(mpa, f)).encode(encoding) if (getattr(mpa, f) is not None) else '' for f in outfields]
+        output = [getattr(mpa, f).encode(encoding) if (getattr(mpa, f) is not None) else '' for f in outfields]
         csvWriter.writerow(output)
     outfile.close()
     return open('/tmp/datearea.csv', 'r')

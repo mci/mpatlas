@@ -1,7 +1,7 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from models import Eez, EezSimplified, eez_mapping, eezsimplified_mapping
-from models import Meow, meow_mapping
+from .models import Eez, EezSimplified, eez_mapping, eezsimplified_mapping
+from .models import Meow, meow_mapping
 
 eez_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/World_EEZ_v6.1_20110512/World_EEZ_v6_1_20110512.shp'))
 eezsimplified_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/World_EEZ_v6.1_20110512_LR/World_EEZ_v6_1_simpliefiedcoastlines_20110512.shp'))

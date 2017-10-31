@@ -49,9 +49,9 @@ def apply_filters(qs, filterjson):
         except:
             return qs
         for f in filter_list:
-            for name in f.keys():
+            for name in f:
                 value = f[name]
-                if filters.has_key(name):
+                if name in filters:
                     try:
                         qs = filters[name](qs, value)
                     except:
@@ -119,9 +119,9 @@ def status_year(qs, years):
     # 'all' means don't filter
     try:
         # dict with min and/or max range values?
-        if years.has_key('min'):
+        if 'min' in years:
             qs = qs.filter(status_year__gte=years['min'])
-        if years.has_key('max'):
+        if 'max' in years:
             qs = qs.filter(status_year__lte=years['max'])
     except AttributeError:
         # list of years

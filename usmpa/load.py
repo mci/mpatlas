@@ -1,6 +1,6 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from models import USMpaPolygon, usmpapolygon_mapping
+from .models import USMpaPolygon, usmpapolygon_mapping
 
 usmpapolygon_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/shp/MPA_Inventory_2011_public.shp'))
 

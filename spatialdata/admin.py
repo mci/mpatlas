@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from models import Nation, Eez
+from .models import Nation, Eez
 
 class NationAdmin(admin.GeoModelAdmin):
     list_display = ('name',)
