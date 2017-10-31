@@ -22,7 +22,7 @@ def fix_geom_dateline(geom):
 
 def geom2geog(geom):
     geom_out = geom
-    if ST_XMin(geom == -180 && ST_XMax(geom) == 180:
+    if ST_XMin(geom) == -180 and ST_XMax(geom) == 180:
         # Polygon reaches across entire world, mostly likely because it's split
         # at the dateline, with one piece touching -180 and another at 180
         # First, try moving western hemisphere over 360 degrees (longitudes are now 0-360)

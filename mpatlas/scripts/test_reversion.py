@@ -1,3 +1,4 @@
+from __future__ import print_function
 import reversion
 from django.db import connection, transaction
 from reversion.models import Revision
@@ -17,7 +18,7 @@ def test2():
     rc = rcm.create_revision()
     #rcm.start(manage_manually=False)
     rcm.start(manage_manually=True)
-    print rcm.is_active(), rcm.is_invalid(), rcm.is_managing_manually()
+    print(rcm.is_active(), rcm.is_invalid(), rcm.is_managing_manually())
     mpa = Mpa.objects.get(pk=2)
     mpa.summary = 'Test1'
     mpa.save()
@@ -26,5 +27,5 @@ def test2():
     return (mpa, rcm, rc)
 
 mpa, rcm, rc = test2()
-print mpa.summary
-print reversion.get_for_object(mpa)
+print(mpa.summary)
+print(reversion.get_for_object(mpa))

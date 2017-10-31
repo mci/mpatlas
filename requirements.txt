@@ -7,7 +7,7 @@ wheel
 mercurial
 
 # DJANGO itself
-Django<1.11
+Django<2
 
 # Application and WSGI Utils
 Werkzeug
@@ -20,7 +20,7 @@ gunicorn
 psycogreen
 psycopg2
 SQLAlchemy
-pysqlite
+pysqlite; python_version < '3.0' # only needed on Python2, use sqlite3 in Python3 library
 
 # Django Utils
 django-admin-tools
@@ -53,10 +53,10 @@ django-filer
 django-cms
 djangocms-admin-style
 git+git://github.com/divio/djangocms-history#egg=djangocms-history
-git+https://github.com/haricot/djangocms-attributes-field.git@patch-1#egg=djangocms_attributes_field
+djangocms-attributes-field
 
 # DjangoCMS Plugins
-aldryn-bootstrap3
+git+https://github.com/russmo/aldryn-bootstrap3.git#egg=aldryn-bootstrap3
 aldryn-style
 djangocms-text-ckeditor
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext_djangocms3
@@ -73,7 +73,7 @@ cmsplugin-filer
 
 # Images
 Pillow
-easy-thumbnails
+easy-thumbnails>=2.4
 sorl-thumbnail
 
 # Search
@@ -110,7 +110,7 @@ pytest
 
 # Other Python Utils
 argparse
-BeautifulSoup
+BeautifulSoup4
 cryptography
 docutils
 feedparser

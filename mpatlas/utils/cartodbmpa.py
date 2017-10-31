@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 import sys, json, time
 from cartodb import CartoDBAPIKey, CartoDBException
 from mpa.models import Mpa
@@ -25,14 +27,14 @@ def adaptParam(p):
 	if isinstance(p, geos.GEOSGeometry):
 		p = p.wkt
 	try:
-		p = unicode.encode(p, 'utf-8')
+		p = type('').encode(p, 'utf-8')
 	except:
 		pass
 	try:
 		a = adapt(p).getquoted()
 	except UnicodeEncodeError:
 		try:
-			a = adapt(unicode.encode(json.loads(json.dumps(p)), 'utf-8'))
+			a = adapt(type('').encode(json.loads(json.dumps(p)), 'utf-8'))
 		except:
 			pass
 	return a
@@ -56,7 +58,7 @@ def updateMpaSQL(m):
 		''' % (lookup)
 		return upsert
 	except Exception as e:
-		print 'ERROR processing mpa %s: ' % m.mpa_id, e
+		print('ERROR processing mpa %s: ' % m.mpa_id, e)
 		raise(e)
 
 def updateMpa(m):
@@ -69,7 +71,7 @@ def updateMpa(m):
 		cl.sql(updateMpaSQL(m))
 		return m.pk
 	except CartoDBException as e:
-		print 'CartoDB Error for mpa_id %s:' % m.pk, e
+		print('CartoDB Error for mpa_id %s:' % m.pk, e)
 	return None
 
 def updateAllMpas(mpas=mpas, step=10, limit=None):
@@ -83,16 +85,16 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
 	nummpas = mpas.count()
 	if limit:
 		nummpas = min(limit, nummpas)
-	print 'Processing %s of %s mpa records at a time' % (step, nummpas)
-	r = range(0,nummpas+2,step)
+	print('Processing %s of %s mpa records at a time' % (step, nummpas))
+	r = list(range(0,nummpas+2,step))
 	if r and r[-1] < nummpas:
 		r.append(nummpas)
 	error_ids = []
 	start = time.time()
-	for i in xrange(0,len(r)-1):
+	for i in range(0,len(r)-1):
 		r0 = r[i]
 		r1 = r[i+1]
-		print 'Records [%s - %s]' % (r0, r1-1)
+		print('Records [%s - %s]' % (r0, r1-1))
 		step_ids = []
 		upsert = ''
 		for m in mpas[r0:r1]:
@@ -101,21 +103,21 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
 				step_ids.append(m.pk)
 			except:
 				error_ids.append(m.pk)
-				print 'Skipping Mpa', m.pk
+				print('Skipping Mpa', m.pk)
 		# Now update this batch of records in CartoDB
 		try:
 			cl.sql(upsert)
 		except CartoDBException as e:
-			print 'CartoDB Error for mpa_ids %s:' % step_ids, e
-			print 'Trying single updates.'
+			print('CartoDB Error for mpa_ids %s:' % step_ids, e)
+			print('Trying single updates.')
 			for mpa_id in step_ids:
 				try:
 					updateMpa(mpa_id)
 				except CartoDBException as e:
 					error_ids.append(mpa_id)
-					print 'CartoDB Error for mpa_id %s:' % mpa_id, e
+					print('CartoDB Error for mpa_id %s:' % mpa_id, e)
 	end = time.time()
-	print 'TOTAL', end - start, 'sec elapsed'
+	print('TOTAL', end - start, 'sec elapsed')
 	return error_ids
 
 def purgeCartoDBMpas(mpas=mpas, dryrun=False):
@@ -145,7 +147,7 @@ def purgeCartoDBMpas(mpas=mpas, dryrun=False):
 		try:
 			cl.sql(deletesql)
 		except CartoDBException as e:
-			print 'CartoDB Error deleting %s mpas:' % len(missing), e
+			print('CartoDB Error deleting %s mpas:' % len(missing), e)
 	return missing
 
 fields = [

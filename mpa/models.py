@@ -2,6 +2,8 @@
 # Do not remove, we're using some special characters
 # in string literals below
 
+from __future__ import unicode_literals
+
 from django.contrib.gis.db import models
 from django.contrib.gis import geos, gdal
 from django.db.models.signals import post_save, post_delete
@@ -9,7 +11,7 @@ from django.dispatch import receiver
 from django.db import connection, transaction
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 # import reversion
 from reversion import revisions as reversion
@@ -189,11 +191,11 @@ class Mpa(models.Model):
     
     # Area Estimates
     no_take = models.CharField('No Take', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
-    no_take_area = models.FloatField(u'No Take Area km²', null=True, blank=True)
-    rep_m_area = models.FloatField(u'Reported Marine Area km²', null=True, blank=True)
-    calc_m_area = models.FloatField(u'Calculated Marine Area km²', null=True, blank=True)
-    rep_area = models.FloatField(u'Reported Area km²', null=True, blank=True)
-    calc_area = models.FloatField(u'Calculated Area km²', null=True, blank=True)
+    no_take_area = models.FloatField('No Take Area km²', null=True, blank=True)
+    rep_m_area = models.FloatField('Reported Marine Area km²', null=True, blank=True)
+    calc_m_area = models.FloatField('Calculated Marine Area km²', null=True, blank=True)
+    rep_area = models.FloatField('Reported Area km²', null=True, blank=True)
+    calc_area = models.FloatField('Calculated Area km²', null=True, blank=True)
     
     # Management details
     gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True) # = US gov_level
@@ -299,7 +301,7 @@ class Mpa(models.Model):
 
     @property
     def my_fields_list(self):
-        return self.my_fields.items()
+        return list(self.my_fields.items())
     
     display_field_names = ('designation', 'designation_type', 'status', 'gov_type',
         'no_take', 'no_take_area', 'rep_m_area', 'fishing', 'fishing_info',
@@ -345,7 +347,7 @@ class Mpa(models.Model):
     def nation(self):
         try:
             return Nation.objects.get(iso3code=self.country)
-        except Nation.DoesNotExist, Nation.MultipleObjectsReturned:
+        except (Nation.DoesNotExist, Nation.MultipleObjectsReturned) as e:
             return None
     
     # Keep ourselves from having to always test if onetoone exists for wikiarticle
@@ -575,7 +577,7 @@ class MpaCandidate(models.Model):
 
     @property
     def myfieldslist(self):
-        return sorted(self.myfields.items())
+        return sorted(list(self.myfields.items()))
 
 # Auto-generated `LayerMapping` dictionary for MpaCandidate model
 mpacandidate_mapping = {

@@ -1,7 +1,8 @@
+from __future__ import print_function
 import os, re, csv
 from django.contrib.gis.utils import LayerMapping
-from models import MpaCandidate, mpacandidate_mapping
-from models import Mpa, Contact, CandidateInfo
+from .models import MpaCandidate, mpacandidate_mapping
+from .models import Mpa, Contact, CandidateInfo
 from wdpa.models import WdpaPolygon, WdpaPoint
 from usmpa.models import USMpaPolygon
 
@@ -24,7 +25,7 @@ def import_candidates():
         lon = row[2]
         lat = row[3]
         
-        print name
+        print(name)
         
         mpa = Mpa.objects.get_or_create(name=name, status='Proposed')[0]
         mpa.status = 'Proposed'
@@ -40,7 +41,7 @@ def import_candidates():
             mpa.point_geom_smerc = multipoint.transform(3857)
             mpa.point_within = point
         except:
-            print '  ERROR: could not create point'
+            print('  ERROR: could not create point')
             pass
         mpa.save()
         
@@ -76,7 +77,7 @@ def wdpapoly2mpa():
     for wpoly in wpolys:
         mpa, created = Mpa.objects.get_or_create(wdpa_id=wpoly.wdpaid)
         count += 1
-        print count
+        print(count)
         mpa.name = wpoly.name
         mpa.wdpa_id = wpoly.wdpaid
         mpa.country = wpoly.country
@@ -105,11 +106,11 @@ def wdpapoly2mpa():
         mpa.save()
     
     # SQL update all geometry rows, much faster than through django
-    print 'UPDATE geometry columns'
+    print('UPDATE geometry columns')
     cursor = connection.cursor()
     cursor.execute("UPDATE mpa_mpa SET geog = w.geog FROM wdpa_wdpapolygon as w WHERE mpa_mpa.wdpa_id = w.wdpaid")
     transaction.commit_unless_managed()
-    print 'UPDATE complete'
+    print('UPDATE complete')
     
     Mpa.set_all_geom_from_geog()
 
@@ -121,9 +122,9 @@ def wdpapoint2mpa():
             mpa, created = Mpa.objects.get_or_create(wdpa_id=wpoint.wdpaid)
         except:
             mpa = Mpa() # create a new object if wpoint has no wdpaid
-            print 'wdpaid error', wpoint.wdpaid, wpoint.pk
+            print('wdpaid error', wpoint.wdpaid, wpoint.pk)
         count += 1
-        print count
+        print(count)
         mpa.is_point = True
         mpa.name = wpoint.name
         mpa.wdpa_id = wpoint.wdpaid
@@ -150,11 +151,11 @@ def wdpapoint2mpa():
         mpa.save()
 
     # SQL update all geometry rows, much faster than through django
-    print 'UPDATE point geometry columns'
+    print('UPDATE point geometry columns')
     cursor = connection.cursor()
     cursor.execute("UPDATE mpa_mpa SET point_geog = w.geog FROM wdpa_wdpapoint as w WHERE mpa_mpa.wdpa_id = w.wdpaid")
     transaction.commit_unless_managed()
-    print 'UPDATE complete'
+    print('UPDATE complete')
     
     Mpa.set_all_geom_from_geog()
 
@@ -166,7 +167,7 @@ def usmpa2mpa(usmpa_id=None):
     for usmpa in usmpas:
         mpa, created = Mpa.objects.get_or_create(usmpa_id=usmpa.site_id)
         count += 1
-        print count, usmpa.site_name, usmpa.state, usmpa.site_id
+        print(count, usmpa.site_name, usmpa.state, usmpa.site_id)
         mpa.name = usmpa.site_name
         mpa.long_name = usmpa.site_name
         mpa.short_name = usmpa.site_label
@@ -183,7 +184,7 @@ def usmpa2mpa(usmpa_id=None):
         match = statecode.match(usmpa.site_id)
         if match:
             mpa.sub_location = match.group(1)
-            print '  ', mpa.sub_location
+            print('  ', mpa.sub_location)
         
         mpa.constancy = usmpa.constancy
         if usmpa.permanence == 'Permanent':
@@ -263,10 +264,10 @@ def usmpa2mpa(usmpa_id=None):
         mpa.save()
 
     # SQL update all geometry rows, much faster than through django
-    print 'UPDATE geometry columns'
+    print('UPDATE geometry columns')
     cursor = connection.cursor()
     cursor.execute("UPDATE mpa_mpa SET geom = u.geom, geog = u.geog, geom_smerc = u.geom_smerc FROM usmpa_usmpapolygon as u WHERE mpa_mpa.usmpa_id = u.site_id")
     transaction.commit_unless_managed()
-    print 'UPDATE complete'
+    print('UPDATE complete')
     
     Mpa.set_all_geom_from_geog()

@@ -1,5 +1,6 @@
+from __future__ import print_function
 import csv, os
-from models import Mpa, Contact, WikiArticle
+from .models import Mpa, Contact, WikiArticle
 
 def import_wikipedia():
     wikifilename = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/Wikipedia_Matches_20120214_v2.csv'))
@@ -25,5 +26,5 @@ def import_wikipedia():
         wiki.url = url
         wiki.title = title
         wiki.summary = summary
-        print line, title, url
+        print(line, title, url)
         wiki.save()

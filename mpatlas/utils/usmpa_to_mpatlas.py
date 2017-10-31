@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 from mpa.models import Mpa
 from django.contrib.gis import geos, gdal
 import json
@@ -6,13 +8,13 @@ usmpa_file = '/home/mpatlas/usmpa_2014_CA.geojson'
 cdfw_file = '/home/mpatlas/MPA_CA_Existing_2015.geojson'
 
 create_ids =[
-    u'CA275', u'CA320', u'CA283', u'CA280', u'CA296', u'CA321', u'CA284', u'CA297', u'CA308', u'CA322', u'CA309', u'CA294', u'CA315', u'CA314', u'CA317', u'CA316', u'CA269', u'CA268', u'CA313', u'CA312', u'CA265', u'CA326', u'CA267', u'CA266', u'CA319', u'CA318', u'CA289', u'CA288', u'CA286', u'CA299', u'CA295', u'CA282', u'CA323', u'CA287', u'CA291', u'CA327', u'CA292', u'CA285', u'CA281', u'CA293', u'CA311', u'CA310', u'CA306', u'CA307', u'CA304', u'CA305', u'CA302', u'CA303', u'CA300', u'CA301', u'CA276', u'CA277', u'CA274', u'CA279', u'CA272', u'CA273', u'CA270', u'CA271', u'CA324', u'CA328', u'CA325', u'CA290', u'CA298', u'CA278'
+    'CA275', 'CA320', 'CA283', 'CA280', 'CA296', 'CA321', 'CA284', 'CA297', 'CA308', 'CA322', 'CA309', 'CA294', 'CA315', 'CA314', 'CA317', 'CA316', 'CA269', 'CA268', 'CA313', 'CA312', 'CA265', 'CA326', 'CA267', 'CA266', 'CA319', 'CA318', 'CA289', 'CA288', 'CA286', 'CA299', 'CA295', 'CA282', 'CA323', 'CA287', 'CA291', 'CA327', 'CA292', 'CA285', 'CA281', 'CA293', 'CA311', 'CA310', 'CA306', 'CA307', 'CA304', 'CA305', 'CA302', 'CA303', 'CA300', 'CA301', 'CA276', 'CA277', 'CA274', 'CA279', 'CA272', 'CA273', 'CA270', 'CA271', 'CA324', 'CA328', 'CA325', 'CA290', 'CA298', 'CA278'
 ]
 update_ids = [
-    u'CA28', u'CA29', u'CA22', u'CA23', u'CA20', u'CA21', u'CA26', u'CA27', u'CA24', u'CA25', u'CA264', u'CA261', u'CA260', u'CA262', u'CA229', u'CA141', u'CA249', u'CA248', u'CA243', u'CA242', u'CA241', u'CA240', u'CA247', u'CA246', u'CA245', u'CA244', u'CA34', u'CA31', u'CA30', u'CA33', u'CA32', u'CA38', u'CA254', u'CA255', u'CA256', u'CA257', u'CA250', u'CA251', u'CA252', u'CA253', u'CA258', u'CA259', u'CA150', u'CA40', u'CA45', u'CA48', u'CA221', u'CA220', u'CA223', u'CA222', u'CA225', u'CA224', u'CA227', u'CA226', u'CA140', u'CA228', u'CA142', u'CA143', u'CA144', u'CA145', u'CA146', u'CA147', u'CA53', u'CA52', u'CA54', u'CA233', u'CA151', u'CA231', u'CA236', u'CA237', u'CA234', u'CA235', u'CA238', u'CA239', u'CA139', u'CA138', u'CA137', u'CA136', u'CA113', u'CA6', u'CA209', u'CA208', u'CA207', u'CA206', u'CA205', u'CA204', u'CA203', u'CA202', u'CA201', u'CA19', u'CA18', u'CA17', u'CA16', u'CA15', u'CA14', u'CA13', u'CA12', u'CA11', u'CA10', u'CA218', u'CA219', u'CA94', u'CA210', u'CA211', u'CA212', u'CA213', u'CA214', u'CA215', u'CA216', u'CA217', u'CA9', u'CA8', u'CA3', u'CA2', u'CA1', u'CA7', u'CA116', u'CA5', u'CA4'
+    'CA28', 'CA29', 'CA22', 'CA23', 'CA20', 'CA21', 'CA26', 'CA27', 'CA24', 'CA25', 'CA264', 'CA261', 'CA260', 'CA262', 'CA229', 'CA141', 'CA249', 'CA248', 'CA243', 'CA242', 'CA241', 'CA240', 'CA247', 'CA246', 'CA245', 'CA244', 'CA34', 'CA31', 'CA30', 'CA33', 'CA32', 'CA38', 'CA254', 'CA255', 'CA256', 'CA257', 'CA250', 'CA251', 'CA252', 'CA253', 'CA258', 'CA259', 'CA150', 'CA40', 'CA45', 'CA48', 'CA221', 'CA220', 'CA223', 'CA222', 'CA225', 'CA224', 'CA227', 'CA226', 'CA140', 'CA228', 'CA142', 'CA143', 'CA144', 'CA145', 'CA146', 'CA147', 'CA53', 'CA52', 'CA54', 'CA233', 'CA151', 'CA231', 'CA236', 'CA237', 'CA234', 'CA235', 'CA238', 'CA239', 'CA139', 'CA138', 'CA137', 'CA136', 'CA113', 'CA6', 'CA209', 'CA208', 'CA207', 'CA206', 'CA205', 'CA204', 'CA203', 'CA202', 'CA201', 'CA19', 'CA18', 'CA17', 'CA16', 'CA15', 'CA14', 'CA13', 'CA12', 'CA11', 'CA10', 'CA218', 'CA219', 'CA94', 'CA210', 'CA211', 'CA212', 'CA213', 'CA214', 'CA215', 'CA216', 'CA217', 'CA9', 'CA8', 'CA3', 'CA2', 'CA1', 'CA7', 'CA116', 'CA5', 'CA4'
 ]
 remove_ids = [
-    u'CA82', u'CA90', u'CA148', u'CA105', u'CA106', u'CA107', u'CA100', u'CA81', u'CA102', u'CA83', u'CA51', u'CA78', u'CA37', u'CA50', u'CA56', u'CA55', u'CA71', u'CA73', u'CA75', u'CA74', u'CA76', u'CA80', u'CA84', u'CA93', u'CA92', u'CA49', u'CA152', u'CA98', u'CA104', u'CA85', u'CA135', u'CA41', u'CA42', u'CA43', u'CA66', u'CA67', u'CA60', u'CA263', u'CA230'
+    'CA82', 'CA90', 'CA148', 'CA105', 'CA106', 'CA107', 'CA100', 'CA81', 'CA102', 'CA83', 'CA51', 'CA78', 'CA37', 'CA50', 'CA56', 'CA55', 'CA71', 'CA73', 'CA75', 'CA74', 'CA76', 'CA80', 'CA84', 'CA93', 'CA92', 'CA49', 'CA152', 'CA98', 'CA104', 'CA85', 'CA135', 'CA41', 'CA42', 'CA43', 'CA66', 'CA67', 'CA60', 'CA263', 'CA230'
 ]
 
 fieldmap = {
@@ -38,7 +40,7 @@ def update_usmpa():
             g = usmpa['geometry']
 
             m = Mpa.objects.get(usmpa_id=p['Site_ID'])
-            print m.usmpa_id, m.pk
+            print(m.usmpa_id, m.pk)
 
             for key,value in fieldmap.items():
                 setattr(m, key, p[value])
@@ -120,7 +122,7 @@ def update_cdfw():
             if f['properties']['USMPA_ID']:
                 p = f['properties']
                 m = Mpa.objects.get(usmpa_id=p['USMPA_ID'])
-                print m.usmpa_id, m.pk
+                print(m.usmpa_id, m.pk)
                 gj = f['geometry']
                 gjj = json.dumps(gj)
                 geom = geos.GEOSGeometry(gjj)
