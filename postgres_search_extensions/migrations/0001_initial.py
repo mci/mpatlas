@@ -11,9 +11,7 @@ from django.contrib.postgres.operations import UnaccentExtension, TrigramExtensi
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('mpa', '0006_auto_20171106_2135'),
-    ]
+    dependencies = []
 
     operations = [
         UnaccentExtension(),
