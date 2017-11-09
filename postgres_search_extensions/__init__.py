@@ -1,0 +1,1 @@
+default_app_config = 'postgres_search_extensions.apps.PostgresConfig'

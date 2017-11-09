@@ -7,10 +7,13 @@ from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic import ListView, DetailView
 from django.views.generic.detail import BaseDetailView
-from django.db.models import Q
+from django.db.models import Q, F
+from django.db.models.functions import Concat
+from django.db.models import Value
 import re
 from itertools import chain
 import json
+from functools import reduce
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
@@ -30,6 +33,10 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 
 import datetime
+
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, \
+    TrigramSimilarity, TrigramDistance
+from postgres_search_extensions.search import PrefixedPhraseQuery
 
 
 # Predefined querysets
@@ -179,18 +186,41 @@ class MpaListView(ListView):
     
     def get_queryset(self):
         qs = self.queryset
+        lang = 'english_unaccent'
+        simple_unaccent = 'simple_unaccent'
         try:
             q = self.request.GET.get('q')
             if q:
-                #return self.queryset.filter(name__istartswith=q)
-                # \m is Postgresql regex word boundary, Python used \b
-                # (?i) is a Postgresql regex mode modifier to make regex case insensitive
-                qs = qs.filter(name__regex=r'(?i)\m' + re.sub(r'([.*/\|^$:(){}\'"+&?])', r'\\\1', q))
+                qterms = q.split()
+                #qs = qs.annotate(fullname=Concat(F('name'), Value(' '), F('designation'), Value(' '), F('designation_eng')))
+                vector = SearchVector('name', config=lang) + SearchVector('designation', config=lang) + SearchVector('designation_eng', config=lang)
+                vector_simple = SearchVector('name', config=simple_unaccent) + SearchVector('designation', config=simple_unaccent) + SearchVector('designation_eng', config=simple_unaccent)
+                query = SearchQuery(q, config=lang)
+                mysearch = Q()
+                shortterms = []
+                for term in qterms:
+                    if len(term) < 3:
+                        shortterms.append(term)
+                    else:
+                        mysearch = mysearch & (
+                            Q(name__funaccent__icontains=term) |
+                            Q(designation__funaccent__icontains=term) |
+                            Q(designation_eng__funaccent__icontains=term)
+                        )
+                if shortterms:
+                    query_simple = PrefixedPhraseQuery(' '.join(shortterms), config=simple_unaccent, all_partial=True)
+                    mysearch = mysearch & (
+                        Q(search_simple=query_simple)
+                    )
+                qs = qs.annotate(search_simple=vector_simple, search=vector).filter(mysearch | Q(search=query))
+            qs = qs.order_by('name')
             sortby = self.request.GET.get('sort')
             direction = self.request.GET.get('dir')
             if sortby:
                 dirflag = '-' if (direction and direction.lower() == 'desc') else ''
                 qs = qs.order_by(dirflag + sortby)
+            else:
+                qs = qs.order_by('name')
             # Apply specified filters
             filters = self.request.GET.get('filter')
             if filters:

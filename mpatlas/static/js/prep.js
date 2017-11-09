@@ -19,7 +19,7 @@ define([
         $('.mpa-searchbox').autocomplete({
 			source: function( request, response ) {
 				$.ajax({
-					url: "/mpa/sites/json/?q="+request.term,
+					url: "/mpa/sites/json/?paginate_by=50&q="+request.term,
 					success: function( data ) {
 						response( $.map( data.mpas, function( item ) {
 							return {

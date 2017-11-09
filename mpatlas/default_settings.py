@@ -405,6 +405,7 @@ INSTALLED_APPS = (
     # 'storages',
     # 'south',  # Only needed for Django < 1.7
     'django.contrib.gis',
+    'django.contrib.postgres', # postgresql full text search extensions
     'corsheaders',
 
     'filer',
@@ -470,6 +471,9 @@ INSTALLED_APPS = (
     # Tagging/Categories
     'taggit',
     'category',
+
+    # Postgresql UNACCENT immutable transform for indices and PrefixedPhraseSearch
+    'postgres_search_extensions',
     
     # Spatial data
     'world',
