@@ -9,9 +9,7 @@ import django_countries.fields
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('accounts', '0001_initial'), ('accounts', '0002_auto_20171106_2137')]
-
+    
     initial = True
 
     dependencies = [

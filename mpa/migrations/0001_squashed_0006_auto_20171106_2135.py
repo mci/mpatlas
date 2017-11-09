@@ -11,9 +11,7 @@ import taggit.managers
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('mpa', '0001_initial'), ('mpa', '0002_auto_20170213_1333'), ('mpa', '0003_auto_20170710_1306'), ('mpa', '0004_auto_20170710_1312'), ('mpa', '0005_mpa_glores_status'), ('mpa', '0006_auto_20171106_2135')]
-
+    
     initial = True
 
     dependencies = [

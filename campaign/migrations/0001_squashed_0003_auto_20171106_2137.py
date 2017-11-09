@@ -9,9 +9,7 @@ import taggit.managers
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('campaign', '0001_initial'), ('campaign', '0002_auto_20170213_1333'), ('campaign', '0003_auto_20171106_2137')]
-
+    
     initial = True
 
     dependencies = [
