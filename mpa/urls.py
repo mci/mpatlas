@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^revision2/$', revision_view2),
     url(r'^sites/$',
         MpaListView.as_view(
-            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'mpa_id', 'status', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=30,
             template_name='mpa/Mpa_list.html'),
