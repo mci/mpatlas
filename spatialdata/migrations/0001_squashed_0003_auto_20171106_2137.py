@@ -9,9 +9,7 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('spatialdata', '0001_initial'), ('spatialdata', '0002_nation_mpa_agency'), ('spatialdata', '0003_auto_20171106_2137')]
-
+    
     initial = True
 
     dependencies = [

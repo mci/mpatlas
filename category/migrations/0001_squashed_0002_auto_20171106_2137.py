@@ -8,9 +8,7 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('category', '0001_initial'), ('category', '0002_auto_20171106_2137')]
-
+    
     initial = True
 
     dependencies = [
