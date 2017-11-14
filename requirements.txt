@@ -81,7 +81,7 @@ sorl-thumbnail
 django-haystack
 
 # CartoDB API
-git+git://github.com/CartoDB/cartodb-python.git#egg=cartodb
+git+git://github.com/CartoDB/cartodb-python.git#egg=carto
 
 # Authentication
 git+https://github.com/mci/django-social-auth.git@django1.9#egg=django-social-auth
