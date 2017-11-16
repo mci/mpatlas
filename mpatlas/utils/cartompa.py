@@ -5,7 +5,7 @@ import sys, json, time
 from carto.auth import APIKeyAuthClient
 from carto.sql import SQLClient, CartoException
 from mpa.models import Mpa
-from django.db import connections
+from django.db import connections, connection
 from psycopg2.extensions import adapt, AsIs
 from django.contrib.gis import geos
 
@@ -13,7 +13,11 @@ from django.contrib.gis import geos
 # function to encode strings to utf-8. It defaults to latin-1 if no connection
 # is present, which is not helpful. Here we use the low level connection used
 # by django.
-conn = connections['default'].cursor().connection
+try:
+    djangoconn = connections['default']
+except:
+    djangoconn = connection
+conn = djangoconn.cursor().connection
 
 API_KEY ='485144583b0c0fda73509f91ec81762f8d6a188a'
 carto_domain = 'mpatlas'
@@ -195,6 +199,33 @@ def purgeCartoMpas(mpas=mpas, dryrun=False):
                 sql.send(deletesql)
             except CartoException as e:
                 print('Carto Error deleting %s mpas:' % len(missing), e)
+    return missing
+
+def addMissingMpas(mpas=mpas, dryrun=False):
+    '''Execute Mpa remove statements using the Carto API via the carto module for
+       mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
+       mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       dryrun = [False] if true, just return list of mpa_ids to be purged but don't run SQL.
+       Returns list of mpa.mpa_ids that were removed, empty list if none removed.
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    nummpas = mpas.count()
+    local_ids = mpas.values_list('mpa_id', flat=True)
+    carto_idsql = '''
+        SELECT mpa_id FROM mpatlas ORDER BY mpa_id;
+    '''
+    try:
+        result = sql.send(carto_idsql)
+    except CartoException as e:
+        print('Carto Error for getting mpa_ids', e)
+    carto_ids = [i['mpa_id'] for i in result['rows']]
+    missing = list(set(local_ids) - set(carto_ids))
+    missing.sort()
+    if missing:
+        addmpas = mpas.filter(mpa_id__in = missing)
+        if not dryrun:
+            updateAllMpas(addmpas)
     return missing
 
 fields = [
