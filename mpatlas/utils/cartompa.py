@@ -8,6 +8,7 @@ from mpa.models import Mpa
 from django.db import connections, connection
 from psycopg2.extensions import adapt, AsIs
 from django.contrib.gis import geos
+from django.conf import settings
 
 # get psycopg2 connection object, we need it to force psycopg2.extensions.adapt
 # function to encode strings to utf-8. It defaults to latin-1 if no connection
@@ -19,7 +20,8 @@ except:
     djangoconn = connection
 conn = djangoconn.cursor().connection
 
-API_KEY ='485144583b0c0fda73509f91ec81762f8d6a188a'
+# API key should be defined in local_settings.py
+API_KEY = getattr(settings, "CARTO_API_KEY", '1234')
 carto_domain = 'mpatlas'
 
 USERNAME="mpatlas"

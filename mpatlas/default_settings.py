@@ -6,7 +6,6 @@ SITE_PATH = os.path.dirname(PROJECT_PATH)
 
 # Django settings for mpatlas project.
 DEBUG = False
-DEBUG = True
 
 # Override DEBUG with local_settings.py value right away.  We override all other global
 # settings with local_settings.py values at the end of this file.
@@ -16,6 +15,9 @@ except ImportError:
     pass
 
 # TEMPLATE_DEBUG = DEBUG
+
+# CartoDB API Key, set this in local settings
+CARTO_API_KEY ='1234'
 
 # Use safelogging from https://github.com/litchfield/django-safelogging
 # Rate limits error log emails and suppresses disallowed hosts warnings
