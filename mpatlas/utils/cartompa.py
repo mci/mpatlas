@@ -98,9 +98,9 @@ def updateMpaSQL(m):
         mpadict['categories'] = '{' + ', '.join(m.categories.names()) + '}'
         lookup = {'mpa_id': m.mpa_id, 'geom': adaptParam(m.geom.hexewkb), 'columns': ', '.join(mpadict.keys()), 'values': ', '.join([adaptParam(v) for v in mpadict.values()])}
         upsert = '''
-            UPDATE mpatlas SET (the_geom, %(columns)s) = (ST_GeomfromEWKB(decode(%(geom)s, 'hex')), %(values)s) WHERE mpa_id=%(mpa_id)s;
+            UPDATE mpatlas SET (the_geom, %(columns)s) = (%(geom)s::geometry, %(values)s) WHERE mpa_id=%(mpa_id)s;
                 INSERT INTO mpatlas (the_geom, %(columns)s)
-                    SELECT ST_GeomfromEWKB(decode(%(geom)s, 'hex')), %(values)s
+                    SELECT %(geom)s::geometry, %(values)s
                     WHERE NOT EXISTS (SELECT 1 FROM mpatlas WHERE mpa_id=%(mpa_id)s);
         ''' % (lookup)
         return upsert
