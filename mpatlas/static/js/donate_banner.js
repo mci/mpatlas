@@ -3,7 +3,7 @@ define([
   'jquery',
   'jquery.cookie'
 ], function($){
-    var donatecookiename = 'mci_saw_donate_30min';
+    var donatecookiename = 'mpatlas_saw_donate_30min';
     var setdonatecookie = function() {
         // set session cookie
         var expdate = new Date();
