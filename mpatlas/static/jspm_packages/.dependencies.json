@@ -387,5 +387,6 @@
   "npm:geojson-vt@2.4.0": {
     "process": "github:jspm/nodelibs-process@^0.1.0"
   },
-  "npm:leaflet@0.7.7": {}
+  "npm:leaflet@0.7.7": {},
+  "github:carhartl/jquery-cookie@1.4.1": {}
 }

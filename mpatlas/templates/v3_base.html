@@ -8,236 +8,246 @@
 <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MPAtlas » {% block title %}{% endblock %}</title>
-  <meta name="description" content="">
-  <meta name="author" content="mpatlas.org">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MPAtlas » {% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="author" content="mpatlas.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="{% static 'images/favicon.ico' %]" type="image/x-icon" />
-  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
-  <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" href="{% static 'images/favicon.ico' %]" type="image/x-icon" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
 
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700|Open+Sans+Condensed:200,300,400,500,600,700|Roboto+Condensed:400,400italic,700,700italic'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700|Open+Sans+Condensed:200,300,400,500,600,700|Roboto+Condensed:400,400italic,700,700italic'>
 
-  <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <!-- Optional theme --><!-- <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}"> -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
-  <script src="https://use.fontawesome.com/0dff6e1566.js"></script>
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="{% static 'css/v3_main.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme --><!-- <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+    <script src="https://use.fontawesome.com/0dff6e1566.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'css/v3_main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/donate_banner.css' %}">
 
-  <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
+    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 
-  {% block base_head_init %}
-    <!-- <script src="https://jspm.io/system@0.19.js"></script> -->
-    <script src='{% static "" %}/jspm_packages/system.js'></script>
-    <script src='{% static "" %}/config.js'></script>
-    <script type="text/javascript">
-      SystemJS.config({
-          map: {
-              cartodb: 'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
-              //cartodb: 'http://crossorigin.me/http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
-          },
-          meta: {
-              'cartodb': {
-                  exports: 'cartodb',
-                  format: 'global',
-                  deps: ['leaflet/dist/leaflet']
-              }
-          }
-      });
-      System.import('bootstrap');
-      System.import('underscore');
-      System.import('backbone');
-      System.import('{% static "js" %}/prep').then(function(Prep) {
-        $(function() {
-          Prep.preparePage();
-          window['showsplashdialog'] = Prep.showsplashdialog;
-          //console.log(mpatlas.history.get('seensplash'));
-        });
-      });
-    </script>
-  {% endblock %}
+    {% block base_head_init %}
+        <!-- <script src="https://jspm.io/system@0.19.js"></script> -->
+        <script src='{% static "" %}/jspm_packages/system.js'></script>
+        <script src='{% static "" %}/config.js'></script>
+        <script type="text/javascript">
+            SystemJS.config({
+                map: {
+                    cartodb: 'http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
+                    //cartodb: 'http://crossorigin.me/http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
+                },
+                meta: {
+                    'cartodb': {
+                        exports: 'cartodb',
+                        format: 'global',
+                        deps: ['leaflet/dist/leaflet']
+                    }
+                }
+            });
+            System.import('bootstrap');
+            System.import('underscore');
+            System.import('backbone');
+            System.import('{% static "js" %}/prep').then(function(Prep) {
+                $(function() {
+                    Prep.preparePage();
+                    window['showsplashdialog'] = Prep.showsplashdialog;
+                    //console.log(mpatlas.history.get('seensplash'));
+                });
+            });
+            System.import('{% static "js" %}/donate_banner').then(function(donateBanner) {
+                $(function() {
+                    donateBanner.show_donate_banner();
+                });
+            });
+        </script>
+    {% endblock %}
 
-  <style>
-    /*body {
-      padding-top: 50px;
-      padding-bottom: 20px;
-    }*/
+    <style>
+        /*body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }*/
 
-    .navbar, .navbar-inverse {
-      border-radius: 0;
-      display: none;
-    }
-  </style>
+        .navbar, .navbar-inverse {
+            border-radius: 0;
+            display: none;
+        }
+    </style>
 
-  {% block base_head_extra %}
-    {% block base_head_extra_extra %}{% endblock %}
-  {% endblock %}
+    {% block base_head_extra %}
+        {% block base_head_extra_extra %}{% endblock %}
+    {% endblock %}
 
-  {% render_block "css" %}
+    {% render_block "css" %}
 </head>
 
 <body class="{% block pagewrapper_class %}{% endblock %}">
-  <!-- PAGE TOPPER for messages, alerts, special content -->
-  <div class="pagetopper">
-    <!--[if lt IE 8]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    {% block pagetopper %}
-      <div class="container">
-        <!-- MPAtlas is now BlueRefuge -->
-        <div>An initiative of Marine Conservation Institute</div>
-      </div>
+    <!-- PAGE TOPPER for messages, alerts, special content -->
+    <div class="pagetopper">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        {% block pagetopper %}
+            <div class="container">
+                <!-- MPAtlas is now BlueRefuge -->
+                <div>An initiative of Marine Conservation Institute</div>
+            </div>
+        {% endblock %}
+    </div>
+    <header class="site-header site-header-dark">
+        <div class="header-inner container">
+            <div class="logo-wrap">
+                <a href="/"><img class="mainlogo" src="{% static 'images/mp_logo.svg' %}"><div class="name-hidden visible-print-block">BlueRefuge - the atlas of marine protected areas</div></a>
+            </div>
+
+            <div class="nav-wrap">
+                <nav class="nav-secondary" role="navigation">
+                    <p>
+                        <a href="/about">About</a> | <a href="/about/why-mpas/">Why MPAs?</a> | <a href="/reports-citations/">Reports & Citations</a> | <a href="/faq/">FAQ</a> | <a href="/news">News</a><!--  | # Login -->
+                    </p>
+                </nav>
+                <nav class="nav-main" role="navigation">
+                    <ul class="mainmenu">
+                        {% show_menu_below_id "home" 0 0 %}
+                    </ul>
+                    <div class="search-main">
+                        <form class="navbar-form navbar-right" role="form">
+                            <div class="form-group">
+                                <input type="text" placeholder="search for an MPA..." class="form-control search-main-input mpa-searchbox">
+                            </div>
+                            <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- subheader navigation -->
+        <div id='subheader' class=''>
+            <div id='subheader_center' class='container'>
+                <ul class="submenu">
+                    {% show_sub_menu 1 2 0 %}
+                </ul>
+                <ul class="submenu">
+                    {% show_sub_menu 1 3 0 %}
+                </ul>
+                <ul class="submenu">
+                    {% show_sub_menu 1 4 0 %}
+                </ul>
+                <ul class="submenu">
+                    {% show_sub_menu 1 5 0 %}
+                </ul>
+                <ul class="submenu">
+                    {% show_sub_menu 1 6 0 %}
+                </ul>
+                <ul class="submenu">
+                    {% show_sub_menu 1 7 0 %}
+                </ul>
+            </div>
+        </div>
+        <!-- end subheader navigation -->
+    </header>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Blue Refuge</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <div class="navbar-right" style="color: #fff;">
+                    About | Why MPAs? | Reports & Citations | News | # Login
+                </div>
+                <div class="navbar-right" style="color: #fff;">
+                    Interactive Map  |  Protection Dashboard  |  MPA Progress  |  Data & Maps  |  Search
+                </div>
+                <form class="navbar-form navbar-right" role="form">
+                    <div class="form-group">
+                        <input type="text" placeholder="search for an MPA..." class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    {% cms_toolbar %}
+
+    {% block base_prebody_content %}{% endblock %}
+    <div id='content_full'>
+            <a id="slidebanner" class="small humpback-gt" href="https://marine-conservation-institute.givecorps.com/projects/6363-donation-page?code=mci">
+                <div class="bannerimg"></div>
+                <div class="slidehide"></div>
+            </a>
+            {% block base_fblike %}
+            {% endblock %}
+            {% block content %}{% endblock %}
+            {% block base_body_content %}{% endblock %}
+    </div>
+
+    <footer class="site-footer-upper">
+        <div class="footer-inner container">
+            <p>&copy; Marine Conservation Institute {% now "Y" %}</p>
+        </div>
+    </footer>
+    <footer class="site-footer-lower">
+        <div class="footer-inner container">
+            {% block base_footer_content %}{% endblock %}
+            <a style="float:left;" target="_blank" href="#"><img src="{% static 'images/header_mci_logo.png' %}" style="height:64px; " alt="" /></a>
+            <div class="footer-supporters" style="padding-top:5px; float:right;">
+                <div style="color:#999;">Supported by</div>
+                <a style="float:right;" target="_blank" href="#"><img src="{% static 'images/footer_winslow_logo.png' %}" style="height:45px; " alt="" /></a>
+                <a style="float:right;" target="_blank" href="http://waittfoundation.org"><img src="{% static 'images/footer_waitt_logo.png' %}" style="height:45px;" alt="" /></a>
+                <a style="float:right;" target="_blank" href="http://arntzfamilyfoundation.org"><img src="{% static 'images/footer_arntz_logo.png' %}" style="height:45px;" alt="" /></a>
+            </div>
+        </div>
+    </footer>
+
+    {% block base_body_extra %}{% endblock %}
+
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.11.2.min.js' %}"><\/script>')
+    </script> -->
+    <!-- <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script> -->
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+    
+    {% block bodyend_js %}{% endblock %}
+    {% render_block "js" %}
+    
+    {% comment %}
+    {% block uservoice %}
+        <script type="text/javascript">
+            var uvOptions = {};
+            (function() {
+                var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+                uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/So5wN1x390zOxll4baeaOQ.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+            })();
+        </script>
     {% endblock %}
-  </div>
-  <header class="site-header site-header-dark">
-    <div class="header-inner container">
-      <div class="logo-wrap">
-        <a href="/"><img class="mainlogo" src="{% static 'images/mp_logo.svg' %}"><div class="name-hidden visible-print-block">BlueRefuge - the atlas of marine protected areas</div></a>
-      </div>
+    {% endcomment %}
 
-      <div class="nav-wrap">
-        <nav class="nav-secondary" role="navigation">
-          <p>
-            <a href="/about">About</a> | <a href="/about/why-mpas/">Why MPAs?</a> | <a href="/reports-citations/">Reports & Citations</a> | <a href="/faq/">FAQ</a> | <a href="/news">News</a><!--  | # Login -->
-          </p>
-        </nav>
-        <nav class="nav-main" role="navigation">
-          <ul class="mainmenu">
-            {% show_menu_below_id "home" 0 0 %}
-          </ul>
-          <div class="search-main">
-            <form class="navbar-form navbar-right" role="form">
-              <div class="form-group">
-                <input type="text" placeholder="search for an MPA..." class="form-control search-main-input mpa-searchbox">
-              </div>
-              <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </form>
-          </div>
-        </nav>
-      </div>
-    </div>
-    <!-- subheader navigation -->
-    <div id='subheader' class=''>
-      <div id='subheader_center' class='container'>
-        <ul class="submenu">
-          {% show_sub_menu 1 2 0 %}
-        </ul>
-        <ul class="submenu">
-          {% show_sub_menu 1 3 0 %}
-        </ul>
-        <ul class="submenu">
-          {% show_sub_menu 1 4 0 %}
-        </ul>
-        <ul class="submenu">
-          {% show_sub_menu 1 5 0 %}
-        </ul>
-        <ul class="submenu">
-          {% show_sub_menu 1 6 0 %}
-        </ul>
-        <ul class="submenu">
-          {% show_sub_menu 1 7 0 %}
-        </ul>
-      </div>
-    </div>
-    <!-- end subheader navigation -->
-  </header>
-
-  <nav class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Blue Refuge</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <div class="navbar-right" style="color: #fff;">
-          About | Why MPAs? | Reports & Citations | News | # Login
-        </div>
-        <div class="navbar-right" style="color: #fff;">
-          Interactive Map  |  Protection Dashboard  |  MPA Progress  |  Data & Maps  |  Search
-        </div>
-        <form class="navbar-form navbar-right" role="form">
-          <div class="form-group">
-            <input type="text" placeholder="search for an MPA..." class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
-      </div>
-      <!--/.navbar-collapse -->
-    </div>
-  </nav>
-
-  {% cms_toolbar %}
-
-  {% block base_prebody_content %}{% endblock %}
-  <div id='content_full'>
-      {% block base_fblike %}
-      {% endblock %}
-      {% block content %}{% endblock %}
-      {% block base_body_content %}{% endblock %}
-  </div>
-
-  <footer class="site-footer-upper">
-    <div class="footer-inner container">
-      <p>&copy; Marine Conservation Institute {% now "Y" %}</p>
-    </div>
-  </footer>
-  <footer class="site-footer-lower">
-    <div class="footer-inner container">
-      {% block base_footer_content %}{% endblock %}
-      <a style="float:left;" target="_blank" href="#"><img src="{% static 'images/header_mci_logo.png' %}" style="height:64px; " alt="" /></a>
-      <div class="footer-supporters" style="padding-top:5px; float:right;">
-        <div style="color:#999;">Supported by</div>
-        <a style="float:right;" target="_blank" href="#"><img src="{% static 'images/footer_winslow_logo.png' %}" style="height:45px; " alt="" /></a>
-        <a style="float:right;" target="_blank" href="http://waittfoundation.org"><img src="{% static 'images/footer_waitt_logo.png' %}" style="height:45px;" alt="" /></a>
-        <a style="float:right;" target="_blank" href="http://arntzfamilyfoundation.org"><img src="{% static 'images/footer_arntz_logo.png' %}" style="height:45px;" alt="" /></a>
-      </div>
-    </div>
-  </footer>
-
-  {% block base_body_extra %}{% endblock %}
-
-  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script>
-  window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.11.2.min.js' %}"><\/script>')
-  </script> -->
-  <!-- <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script> -->
-  <!-- Latest compiled and minified JavaScript -->
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-  
-  {% block bodyend_js %}{% endblock %}
-  {% render_block "js" %}
-  
-  {% comment %}
-  {% block uservoice %}
-    <script type="text/javascript">
-      var uvOptions = {};
-      (function() {
-        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/So5wN1x390zOxll4baeaOQ.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-      })();
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-32494450-1','auto');ga('send','pageview');
     </script>
-  {% endblock %}
-  {% endcomment %}
-
-  <script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-    e.src='//www.google-analytics.com/analytics.js';
-    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-32494450-1','auto');ga('send','pageview');
-  </script>
 
 </body>
 

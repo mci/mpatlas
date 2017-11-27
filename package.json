@@ -43,6 +43,7 @@
       "jquery-ui": "npm:jquery-ui@^1.12.1",
       "jquery-ui-bundle": "npm:jquery-ui-bundle@^1.12.1",
       "jquery-ui-dist": "npm:jquery-ui-dist@^1.12.1",
+      "jquery.cookie": "github:carhartl/jquery-cookie@^1.4.1",
       "jqueryui": "npm:jqueryui@^1.11.1",
       "leaflet": "npm:leaflet@0.7.7",
       "leaflet.vectorgrid": "npm:leaflet.vectorgrid@^1.2.0",
