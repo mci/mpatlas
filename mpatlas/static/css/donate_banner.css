@@ -1,0 +1,162 @@
+#slidebanner.old {
+    position: absolute;
+    top: -1000px; /* hide this far far away, use jquery to .hide(), set top: 0 and then slideDown() */
+    /*z-index: 9999;*/
+    display: block;
+    height: 247px;
+    max-width: 100%;
+    background: #2256a0 url('../images/donate/banner_humpback.jpg') no-repeat scroll bottom center;
+    background-size: contain;
+    border-bottom: 1px solid #00101c;
+    /*-moz-box-shadow: 0px 2px 5px #557;*/
+    /*-webkit-box-shadow: 0px 2px 5px #557;*/
+    /*box-shadow: 0px 2px 5px #557;*/
+}
+
+#slidebanner {
+    position: relative;
+    top: 0; /* hide this far far away, use jquery to .hide(), set top: 0 and then slideDown() */
+    /*z-index: 9999;*/
+    display: block;
+    height: auto;
+    max-width: 100%;
+    border-bottom: 1px solid #00101c;
+    background: #2256a0;
+    /*-moz-box-shadow: 0px 2px 5px #557;*/
+    /*-webkit-box-shadow: 0px 2px 5px #557;*/
+    /*box-shadow: 0px 2px 5px #557;*/
+}
+
+#slidebanner .bannerimg {
+	max-width: 1134px;
+    position: relative;
+    background: url(../images/donate/banner_humpback.jpg) no-repeat scroll bottom center;
+    background-size: contain;
+    margin: 0 auto 0 auto;
+}
+
+#slidebanner .bannerimg:before {
+    content: "";
+    display: block;
+    padding-top: 21%;
+}
+
+#slidebanner .slidehide {
+    position: absolute;
+    display: block;
+    right: 20px;
+    top: 10px;
+    width: 21px;
+    height: 35px;
+    opacity: 0.4;
+    background: url('../images/donate/banner_hider.png') no-repeat;
+}
+
+#slidebanner .slidehide:hover {
+    opacity: 0.8;
+}
+
+#slidebanner.small .slidehide {
+	display: none;
+}
+
+#slidebanner.humpback-gt {
+	background: #2256a0;
+}
+#slidebanner.humpback-gt .bannerimg {
+	max-width: 1134px;
+	background-image: url('../images/donate/banner_humpback_gt.jpg');
+}
+#slidebanner.humpback-gt .bannerimg:before {
+	padding-top: 21%;
+}
+#slidebanner.small .bannerimg, #slidebanner.small.humpback-gt .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_humpback_gt_sm.jpg');
+}
+
+#slidebanner.humpback {
+	background: #2256a0;
+}
+#slidebanner.humpback .bannerimg {
+	max-width: 1134px;
+	background-image: url('../images/donate/banner_humpback.jpg');
+}
+#slidebanner.humpback .bannerimg:before {
+	padding-top: 21%;
+}
+#slidebanner.small .bannerimg, #slidebanner.small.humpback .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_humpback_sm.jpg');
+}
+
+#slidebanner.angelfish {
+	background: #21499c;
+}
+#slidebanner.angelfish .bannerimg {
+	max-width: 869px;
+	background-image: url('../images/donate/banner_angelfish.jpg');
+}
+#slidebanner.angelfish .bannerimg:before {
+	padding-top: 28%;
+}
+#slidebanner.small.angelfish .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_angelfish_sm.jpg');
+}
+
+#slidebanner.turtle {
+	background: #9c9686;
+}
+#slidebanner.turtle .bannerimg {
+	max-width: 1038px;
+	background-image: url('../images/donate/banner_turtle.jpg');
+}
+#slidebanner.turtle .bannerimg:before {
+	padding-top: 23%;
+}
+#slidebanner.small.turtle .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_turtle_sm.jpg');
+}
+
+#slidebanner.manatee {
+	background: #1b7f7f;
+	background: -moz-linear-gradient(left, #65f7d3 0%, #65f7d3 49%, #1b7f7f 51%, #1b7f7f 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #65f7d3 0%,#65f7d3 49%,#1b7f7f 51%,#1b7f7f 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #65f7d3 0%,#65f7d3 49%,#1b7f7f 51%,#1b7f7f 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#65f7d3', endColorstr='#1b7f7f',GradientType=1 ); /* IE6-9 */
+}
+#slidebanner.manatee .bannerimg {
+	max-width: 1072px;
+	background-image: url('../images/donate/banner_manatee.jpg');
+}
+#slidebanner.manatee .bannerimg:before {
+	padding-top: 23%;
+}
+#slidebanner.small.manatee .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_manatee_sm.jpg');
+}
+
+#slidebanner.otter {
+	background: #3a75cc;
+}
+#slidebanner.otter .bannerimg {
+	max-width: 1171px;
+	background-image: url('../images/donate/banner_otter.jpg');
+}
+#slidebanner.otter .bannerimg:before {
+	padding-top: 21%;
+}
+#slidebanner.small.otter .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_otter_sm.jpg');
+}
+
+#slidebanner.small .bannerimg {
+	max-width: 1000px;
+}
+#slidebanner.small .bannerimg:before {
+	padding-top: 5%;
+}
