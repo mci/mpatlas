@@ -65,14 +65,14 @@
 }
 #slidebanner.humpback-gt .bannerimg {
 	max-width: 1134px;
-	background-image: url('../images/donate/banner_humpback_gt.jpg');
+	background-image: url('../images/donate/banner_humpback_gw.jpg');
 }
 #slidebanner.humpback-gt .bannerimg:before {
 	padding-top: 21%;
 }
 #slidebanner.small .bannerimg, #slidebanner.small.humpback-gt .bannerimg {
 	max-width: 1000px;
-	background-image: url('../images/donate/banner_humpback_gt_sm.jpg');
+	background-image: url('../images/donate/banner_humpback_gw_sm.jpg');
 }
 
 #slidebanner.humpback {
