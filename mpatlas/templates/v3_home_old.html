@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load cms_tags sekizai_tags i18n %}
+
+{% block title %}Home{% endblock %}
+
+{% block base_head_extra %}
+
+<script type="text/javascript">
+    System.import('{% static "js" %}/progresschart').then(function(ProgressChart) {
+        $(function() {
+            var progresschart = new ProgressChart.ProgressChart();
+            progresschart.makeChart();
+        });
+    });
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet">
+
+<style>
+  .doughnut-legend {
+    list-style: none;
+    padding-left: 8px;
+  }
+  .doughnut-legend li {
+    display: block;
+    padding-left: 30px;
+    position: relative;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    padding: 2px 8px 2px 28px;
+    font-size: 14px;
+    cursor: default;
+    -webkit-transition: background-color 200ms ease-in-out;
+    -moz-transition: background-color 200ms ease-in-out;
+    -o-transition: background-color 200ms ease-in-out;
+    transition: background-color 200ms ease-in-out;
+  }
+  .doughnut-legend li span {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    border-radius: 5px;
+  }
+</style>
+
+{% block base_head_extra_extra %}{% endblock %}
+
+{% endblock %}
+
+{% block base_fblike %}
+    <div style="position: absolute; right:90px; top:0px;">
+        <div style="float:left; margin-right:10px;">
+            <a href="https://twitter.com/MPAtlas" style="margin-right:10px;" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @MPAtlas</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </div>
+        <div style="float:left; width:110px;">
+            <fb:like send="false" layout="button_count" width="110" show_faces="false"></fb:like>
+        </div>
+    </div>
+{% endblock %}
+
+{% block base_prebody_content %}
+{% endblock %}
+{% block base_body_content %}
+    <div style="padding-top:12px;"></div>
+    <div class="row featurette" style="margin-top:24px;">
+      <div class="col-md-7" style="">
+        <div id="feature-mpastats" class="featurette bg-ltgray">
+          <div>
+            <h1 style="font-size:40px; margin-bottom:0; margin-top:0;">How much of our ocean is protected?</h1>
+
+            <!--
+            <canvas id="radialChart" width="200" height="200"></canvas>
+
+            <ul id="radialLegend" class="doughnut-legend" style="display:inline-block; position:absolute; left:200px;"></ul>
+            -->
+
+            
+            <div id="nvradialchart" style="float:left; width:300px; height:300px; margin-bottom:-120px;">
+              <svg style="width: 100%; height:100%;"></svg>
+            </div>
+
+            {% placeholder home_protected_content %}
+            
+            {% placeholder home_promise_content %}
+          </div>
+        </div>
+
+        <div id="feature-whympa" class="featurette bg-ltgray">
+          <div>
+            <h2 class="featurette-heading">Why Marine Protected Areas?</h2>
+            <p style="float:right;">
+              <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/feature_palmyra_sm.jpg" alt="Why MPAs?">
+            </p>
+            <p style="font-size:1.4em;">
+              Marine protected areas are essential to safeguard biodiversity and to sustain vibrant seas.
+            </p>
+            <p style="font-size:1.4em;">
+              Marine protected areas can increase biomass and biodiversity in tropical and temperate ecosystems, as well as serve as insurance policies against the impacts of fishing and other destructive activities. If managed properly, they are an effective way of protecting marine ecosystems along with their cultural and historical heritage for us and future generations. 
+            </p>
+            <p style="margin-top:1.5em;">
+              <a class="btn btn-callout" href="/learn/">Learn Why Marine Protected Areas Work</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-5">
+        {% placeholder home_beforetwitter_content %}
+        <!--<h2 class="featurette-heading"><span class="text-muted">@MPAtlas Live Tweets</span></h2>-->
+        <p style="font-size:1.4em;">
+          <a class="twitter-timeline" href="https://twitter.com/MPAtlas" data-widget-id="388790833115189248">Tweets by @MPAtlas</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        </p>
+        <div style="font-size:0.8em;">
+        {% placeholder home_aftertwitter_content %}
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div style="position:relative; padding-top:0px; z-index:1;">
+    	<div style="background: url('/static/images/splash/splash_fish_coral.png');width:960px;height:251px;  position:relative; z-index:100;"></div>
+        <div style="background: #000 url('/static/images/splash/splash_bar_coral.jpg') no-repeat; padding-top:30px; margin-top:-13px; min-height:100px; position:relative; z-index:1;">
+            <div style="width:572px; background-color:#fff; background-color: rgba(255,255,255,0.85); margin: 0 auto;">
+                <a href="#feature-explore">
+                    <div style="float:left; width:190px; min-height: 130px; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Explore</h4>
+                        <p style="font-size:13px;">the ocean's parks and refuges</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <a href="#feature-analyze">
+                    <div style="float:left; width:190px; min-height: 130px; border-left: 1px solid #bbb; border-right: 1px solid #bbb; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Analyze</h4>
+                        <p style="font-size:13px;">marine protection by country or ecoregion</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <a href="/campaign/">
+                    <div style="float:left; width:190px; min-height: 130px; padding:10px; color:black;">
+                        <h4 style="text-align:center; font-family: 'Yanone Kaffeesatz', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:24px;">Track</h4>
+                        <p style="font-size:13px;">the latest MPA campaigns and announcements</p>
+                        <img style="margin-left:14px;" src="{{ STATIC_URL }}images/splash/hero_arrow_down.png" />
+                    </div>
+                </a>
+                <div class="clear"></div>
+            </div>
+        </div>
+    	<div class="clear"></div>
+    </div>
+    -->
+
+    <!--
+    <div class="clearfix" style="margin-top: 10px;">
+        <img style="float:left;" src="{{ STATIC_URL }}images/splash/hammerheads_sm.png" style="width:364px; height:202px;" />
+        <div style="float:left; max-width: 358px;">
+            <img src="{{ STATIC_URL }}images/splash/just_released.png" style="width:280px; height:65px;" />
+            <h4 style="margin-left:20px;"><a href="/campaign/">MPA Campaign Tracker</a></h4>
+            <ul style="font-size:1.4em;">
+                <li>Learn about conservation efforts
+                currently underway</li>
+                <li>Find out how you can get involved</li>
+            </ul>
+            <a class="btn btn-callout btn-info" style="margin-left: 24px;" href="/campaign/">Share your conservation success story</a>
+        </div>
+    </div>
+    -->
+
+    <hr class="featurette-divider">
+
+    <div class="">
+
+      {% placeholder home_content %}
+
+      <div id="feature-explore" class="row featurette">
+        <div class="col-md-5">
+          <a href="/explore/"><img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/explore_feature.png" alt="Explore MPAs"></a>
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Explore Earth's Marine Protected Areas</h2>
+          <ul style="font-size:1.4em;">
+            <li>What is protected where?</li>
+            <li>Find out more about your favorite marine parks and refuges.</li>
+            <li>Determine management jurisdiction and regulations.</li>
+          </ul>
+          <a class="btn btn-callout" style="margin-left: 24px; margin-top:1.5em;" href="/explore/">Start Exploring</a>
+          <div style="float: right; margin-top:1.5em;">
+            <form name="mpasearch-home" class="mpa-searchform form-inline" method="get" action="/mpa/sites/?">
+              <fieldset class="search">
+                <div class="input-group" style="width:190px;">
+                    <input type="text" class="form-control mpa-searchbox" name="q" data-placeholder="Search for an MPA" placeholder="Search for an MPA" value="" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info" type="button">
+                            <span class="icon-search"></span>
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div id="feature-analyze" class="row featurette bg-ltgray">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Analyze protection levels.</h2>
+          <p style="font-size:1.4em;">Marine Protected Area statistics by political or ecological dimensions.</p>
+          <p style="font-size:1.4em; margin-top:1.5em;">
+            <a class="btn btn-callout" href="/explore/?analyze=nation">By Nation</a>
+            <a class="btn btn-callout" disabled style="margin-left: 50px;" href="/explore/?analyze=ecoregion">By Biogeography (coming)</a>
+          </p>
+        </div>
+        <div class="col-md-5">
+          <a href="/explore/?analyze=nation"><img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/homepage/analyze_feature.png" alt="Analyze MPA Protection"></a>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+
+    </div><!-- /.container -->
+
+
+{% endblock %}
+
+{% block base_body_extra %}
+
+{% endblock %}
+
+{% block base_footer_content %}
+
+{% endblock %}
+
+{% block bodyend_js %}
+
+{% endblock %}
