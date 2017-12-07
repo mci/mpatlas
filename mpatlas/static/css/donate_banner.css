@@ -60,6 +60,21 @@
 	display: none;
 }
 
+#slidebanner.humpback-holiday {
+	background: #2256a0;
+}
+#slidebanner.humpback-holiday .bannerimg {
+	max-width: 1134px;
+	background-image: url('../images/donate/banner_humpback_holiday.jpg');
+}
+#slidebanner.humpback-gt .bannerimg:before {
+	padding-top: 21%;
+}
+#slidebanner.small .bannerimg, #slidebanner.small.humpback-holiday .bannerimg {
+	max-width: 1000px;
+	background-image: url('../images/donate/banner_humpback_holiday_sm.jpg');
+}
+
 #slidebanner.humpback-gt {
 	background: #2256a0;
 }
