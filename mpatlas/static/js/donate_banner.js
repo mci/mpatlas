@@ -19,7 +19,7 @@ define([
 
     var set_random_banner = function () {
         //var bannerclasses = ["humpback", "angelfish", "turtle", "manatee", "otter"];
-        var bannerclasses = ["humpback-gt"];
+        var bannerclasses = ["humpback-holiday"];
         var randomclass = bannerclasses[Math.floor(Math.random() * bannerclasses.length)];
         $('#slidebanner').removeClass(bannerclasses.join(' ')).addClass(randomclass);
     };
