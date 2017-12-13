@@ -43,6 +43,8 @@ urlpatterns = [
     url(r'^explore/$', RedirectView.as_view(url='/map/mpas/', permanent=False)),
     # url(r'^learn/notify/', get_notify_pattern()),
     # url(r'^learn/mpapedia/', get_wiki_pattern()),
+
+    url(r'^en-us/(?P<extrapath>.*)$', RedirectView.as_view(url='/%(extrapath)s', permanent=False)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
