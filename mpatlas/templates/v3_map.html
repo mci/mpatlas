@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load cms_tags sekizai_tags i18n humanize %}
+{% load mpastats cache %}
 
 {% block title %}Explore{% endblock %}
 
@@ -51,10 +52,12 @@
 
 {% block base_body_content %}
 <div id="leafletmap" style="position:absolute; top:0; bottom:0; left:0; right:0; z-index:0;"></div>
+{% cache 120 statsbar %}
+{% globalcoverage as mpastats %}
 <div id="stats_overlay" class="hidden-xs">
 	<div>
 		<div class="stats_header medium">All Marine Protected Areas</div>
-		<div class="heading bold" style="font-size:40px; line-height:1em; color:#4398d1;">3.65<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#4398d1;">{{ mpastats.global_mpa|floatformat:2 }}<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 
 		<!--
@@ -67,13 +70,13 @@
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Strongly Protected Reserves</div>
-		<div class="heading bold" style="font-size:40px; line-height:1em; color:#09c478;">1.68<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#09c478;">{{ mpastats.global_strong|floatformat:2 }}<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 	</div>
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Designated but Unimplemented MPAs</div>
-		<div class="heading bold" style="font-size:40px; line-height:1em; color:#aaa;">+1.6<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#aaa;">+{{ mpastats.global_unimplemented|floatformat:1 }}<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 
 		<!--
@@ -84,7 +87,7 @@
 
 	<div style="margin-top:10px; padding-top:10px; border-top:1px solid #666;">
 		<div class="stats_header medium">Proposed and Committed MPAs</div>
-		<div class="heading bold" style="font-size:40px; line-height:1em; color:#aaa;">+2.15<span style="font-size:0.75em;">%<br /></span></div>
+		<div class="heading bold" style="font-size:40px; line-height:1em; color:#aaa;">+{{ mpastats.global_proposed|floatformat:1 }}<span style="font-size:0.75em;">%<br /></span></div>
 		<div class="heading" style="font-size:18px; line-height:18px; color:#fff;">of global ocean</div>
 
 		<!--
@@ -105,6 +108,7 @@
 	<p id="stats_mpas_current_filter" style="display:none;">&nbsp;</p>
 
 </div>
+{% endcache %}
 
 <div id='body_list_full'>
 	<div id="list-bg"></div>
