@@ -8,14 +8,14 @@ define([
 function ($, Backbone, d3, nvd3) {
     radialdata = [
     {
-        value: 0.0176,
+        value: 0.0165,
         color: "#23acc4",
-        label: "Other MPAs 1.8%"
+        label: "Other MPAs 1.7%"
     },
     {
-        value: 0.0182,
+        value: 0.0200,
         color: "#46BFBD",
-        label: "Strong Reserves 1.8%"
+        label: "Strong Reserves 2.0%"
     },
     {
         value: 0.0164,
@@ -23,12 +23,12 @@ function ($, Backbone, d3, nvd3) {
         label: "Pending MPAs 1.6%"
     },
     {
-        value: 0.0215,
+        value: 0.0210,
         color: "#bedbda",
-        label: "Proposed MPAs 2.2%"
+        label: "Proposed MPAs 2.1%"
     },
     {
-        value: 0.0263,
+        value: 0.0261,
         color:"#ccc",
         label: "Unprotected 92.6%"
     }
