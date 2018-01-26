@@ -5,6 +5,7 @@ import sys, json, time
 from carto.auth import APIKeyAuthClient
 from carto.sql import SQLClient, CartoException
 from mpa.models import Mpa
+from campaign.models import Campaign
 from django.db import connections, connection
 from psycopg2.extensions import adapt, AsIs
 from django.contrib.gis import geos
@@ -33,6 +34,12 @@ fields = []
 
 # default queryset to use for syncing from mpatlas to Carto
 mpas = Mpa.objects.exclude(verification_state='Rejected as MPA').exclude(geom__isnull=True).order_by('-mpa_id').only('mpa_id')
+
+def hex_or_none(geom):
+    try:
+        return geom.hexewkb
+    except:
+        return None
 
 def adaptParam(p):
     '''Convert and escape python objects for use in Postgresql SQL statements.
@@ -297,3 +304,177 @@ fields = [
 ]
 
 remote_fields = fields + ['categories']
+
+
+# default queryset to use for syncing from mpatlas to Carto
+campaigns = Campaign.objects.order_by('-id').only('id')
+
+# fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
+# via a .values(*fields) call.  Update this for new columns.
+campaign_fields = []
+
+def updateCampaignSQL(c):
+    '''Returns a Postgresql SQL statement that will update or insert an Mpa record
+       from the MPAtlas database into the mpatlas table on Carto.  The Carto
+       mpatlas table columns are not a one-to-one match with mpa_mpa columns.
+    '''
+    if not isinstance(c, Campaign):
+        c = Campaign.objects.get(pk=c)
+    try:
+        camdict = Campaign.objects.filter(pk=c.id).values(*campaign_fields).first()
+        camdict['categories'] = '{' + ', '.join(c.categories.names()) + '}'
+        camdict['mpas'] = '{' + ', '.join([str(l) for l in c.mpas.values_list('pk', flat=True)] ) + '}'
+        the_geom = c.geom
+        if c.is_point:
+            the_geom = c.point_geom
+        lookup = {'id': c.id, 'the_geom': adaptParam(hex_or_none(the_geom)), 'geom': adaptParam(hex_or_none(c.geom)), 'point_geom': adaptParam(hex_or_none(c.point_geom)), 'columns': ', '.join(camdict.keys()), 'values': ', '.join([adaptParam(v) for v in camdict.values()])}
+        upsert = '''
+            UPDATE campaign SET (the_geom, geom, point_geom, %(columns)s) = (%(the_geom)s::geometry, %(geom)s::geometry, %(point_geom)s::geometry, %(values)s) WHERE id=%(id)s;
+                INSERT INTO campaign (the_geom, geom, point_geom, %(columns)s)
+                    SELECT %(the_geom)s::geometry, %(geom)s::geometry, %(point_geom)s::geometry, %(values)s
+                    WHERE NOT EXISTS (SELECT 1 FROM campaign WHERE id=%(id)s);
+        ''' % (lookup)
+        return upsert
+    except Exception as e:
+        print('ERROR processing campaign %s: ' % c.id, e)
+        raise(e)
+
+def updateCampaign(c):
+    '''Executes Campaign update/insert statements using the Carto API via the carto module.
+       Returns mpa.mpa_id or None if error'''
+    if not isinstance(c, Campaign):
+        c = Campaign.objects.get(pk=c)
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    try:
+        sql.send(updateCampaignSQL(c))
+        return c.pk
+    except CartoException as e:
+        print('Carto Error for campaign id %s:' % c.pk, e)
+    return None
+
+def updateAllCampaigns(cams=campaigns, step=10, limit=None):
+    '''Execute bulk Campaign update/insert statements using the Carto API via the carto module.
+       mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       step = number of Mpas to update per http transaction
+       limit = only process a subset of records, useful for testing
+       Returns list of mpa.mpa_ids that were not processed due to errors, empty list if no errors
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    numcams = cams.count()
+    if limit:
+        nummcams = min(limit, numcams)
+    print('Processing %s of %s campaign records at a time' % (step, numcams))
+    r = list(range(0,numcams+2,step))
+    if r and r[-1] < numcams:
+        r.append(numcams)
+    error_ids = []
+    start = time.time()
+    for i in range(0,len(r)-1):
+        r0 = r[i]
+        r1 = r[i+1]
+        print('Records [%s - %s]' % (r0, r1-1))
+        step_ids = []
+        upsert = ''
+        for c in cams[r0:r1]:
+            try:
+                upsert += updateCampaignSQL(c)
+                step_ids.append(c.pk)
+            except:
+                error_ids.append(c.pk)
+                print('Skipping Campaign', c.pk)
+        # Now update this batch of records in Carto
+        try:
+            sql.send(upsert)
+        except CartoException as e:
+            print('Carto Error for campaign ids %s:' % step_ids, e)
+            print('Trying single updates.')
+            for cam_id in step_ids:
+                try:
+                    success = updateCampaign(cam_id)
+                    if not success:
+                        raise CartoException
+                except CartoException as e:
+                    error_ids.append(cam_id)
+                    print('Carto Error for campaign id %s:' % cam_id, e)
+    end = time.time()
+    print('TOTAL', end - start, 'sec elapsed')
+    return error_ids
+
+def purgeCartoCampaigns(cams=campaigns, dryrun=False):
+    '''Execute Campaign remove statements using the Carto API via the carto module for
+       mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
+       mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       dryrun = [False] if true, just return list of mpa_ids to be purged but don't run SQL.
+       Returns list of mpa.mpa_ids that were removed, empty list if none removed.
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    nummpas = cams.count()
+    local_ids = cams.values_list('id', flat=True)
+    carto_idsql = '''
+        SELECT id FROM campaign ORDER BY id;
+    '''
+    try:
+        result = sql.send(carto_idsql)
+    except CartoException as e:
+        print('Carto Error for getting campaign ids', e)
+    carto_ids = [i['id'] for i in result['rows']]
+    missing = list(set(carto_ids) - set(local_ids))
+    missing.sort()
+    if missing:
+        deletesql = '''
+            DELETE FROM campaign WHERE id IN %(missing)s;
+        ''' % ({'missing': adaptParam(tuple(missing))})
+        if not dryrun:
+            try:
+                sql.send(deletesql)
+            except CartoException as e:
+                print('Carto Error deleting %s campaigns:' % len(missing), e)
+    return missing
+
+def addMissingCampaigns(cams=mpas, dryrun=False):
+    '''Execute Campaign remove statements using the Carto API via the carto module for
+       mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
+       mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       dryrun = [False] if true, just return list of mpa_ids to be purged but don't run SQL.
+       Returns list of mpa.mpa_ids that were removed, empty list if none removed.
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    numcams = cams.count()
+    local_ids = cams.values_list('id', flat=True)
+    carto_idsql = '''
+        SELECT id FROM campaign ORDER BY id;
+    '''
+    try:
+        result = sql.send(carto_idsql)
+    except CartoException as e:
+        print('Carto Error for getting campaign ids', e)
+    carto_ids = [i['id'] for i in result['rows']]
+    missing = list(set(local_ids) - set(carto_ids))
+    missing.sort()
+    if missing:
+        addcams = cams.filter(id__in = missing)
+        if not dryrun:
+            updateAllCampaigns(addcams)
+    return missing
+
+campaign_fields = [
+    'id',
+    'name',
+    'slug',
+    #'categories',
+    'country',
+    'sub_location',
+    'summary',
+    'is_point',
+    'start_year',
+    'active',
+    # 'mpas',
+    #'point_geom',
+    #'geom',
+]
+
+remote_campaign_fields = campaign_fields + ['categories'] + ['mpas']

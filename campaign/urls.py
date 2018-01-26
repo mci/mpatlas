@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.views.generic import TemplateView, DetailView, ListView
-from campaign.views import JsonListView, get_campaign_pointgeom_json
+from campaign.views import JsonListView, get_campaign_pointgeom_json, edit_campaign_geom
 
 from campaign.models import Campaign, Initiative
 
@@ -51,6 +51,8 @@ urlpatterns = [
             template_name='campaign/Campaign_detail.html'),
         name='campaign-info'),
     url(r'^(?P<pk>\d+)/point/$', get_campaign_pointgeom_json, name='campaign-point-geojson'),
+
+    url(r'^(?P<pk_or_slug>[\d\w-]+)/edit/geo/$', edit_campaign_geom, name='campaign-editgeom'),
     
     url(r'^initiative/(?P<pk>\d+)/$',
         DetailView.as_view(
