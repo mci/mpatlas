@@ -1,0 +1,11 @@
+{
+	"name": "{{ country.name }}",
+	"iso3code": "{{ country.iso3code }}",
+	"id": "{{ nation.pk }}",
+	"marine_area": "{{ country.marine_area }}",
+	"mpa_area": "{{ country.mpa_area }}",
+	"mpa_percent": "{{ country.mpa_percent }}",
+	"notake_area": "{{ country.notake_area }}",
+	"notake_percent": "{{ country.notake_percent }}",
+	"url": "{{ country.get_absolute_url }}"	
+}

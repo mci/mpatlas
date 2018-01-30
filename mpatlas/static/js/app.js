@@ -41,7 +41,7 @@ define(
 			domain: 'http://dev.mpatlas.org/',
 			*/
 			
-			exploreModes: ['mpas', 'nation', 'meow', 'fao'],
+			exploreModes: ['mpas', 'country', 'meow', 'fao'],
 			currentMode: 'mpas',
 			hoverdelay: 250,
 			hoverdelay_click: 3500,			
@@ -118,7 +118,7 @@ define(
 				this.layers.push(lyr);
 				*/
 	
-				// EEZs / Nations		
+				// EEZs / Countries		
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
 					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74', attribution: 'EEZs <a href="http://marineregions.org">marineregions.org</a>'}
@@ -613,7 +613,7 @@ define(
     							    //clearTimeout(maptip.hovercleartimer);
     								break;
 	
-    							case 'nation':
+    							case 'country':
     							case 'meow':
     							case 'fao':
     								//$('#maptip-content').html('Searching for Region...');
@@ -665,7 +665,7 @@ define(
 									load_mpa_maptip(mapevent);
 								}
 								break;
-							case 'nation':
+							case 'country':
 							case 'meow':
 							case 'fao':
 							    //clearTimeout(maptip.hovercleartimer);
