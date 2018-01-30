@@ -24,9 +24,9 @@
     </div>
     
     {% if country_list %}
-        <ul>
+        <ul class="row" style="list-style: none; margin:0; padding:0;">
         {% for country in country_list %}
-            <li style="padding-bottom:3px;"><a href="{{ country.get_absolute_url }}" style="text-decoration:none;"><span style="font-size:1.2em;">{{ country.name }}</span> {% if country.iso3code %}<em>({{ country.iso3code }})</em>{% endif %}</a> {{country.get_absolute_url}}</li>
+            <li class="col-xs-6 col-sm-4 col-md-3" style="min-height:5em; border:1px solid #ccc; padding: 12px;"><a href="{{ country.get_absolute_url }}" style="text-decoration:none;"><span style="font-size:1.2em;">{{ country.name }}</span> {% if country.iso3code %}<em>({{ country.iso3code }})</em>{% endif %}</a></li>
         {% endfor %}
         </ul>
     
