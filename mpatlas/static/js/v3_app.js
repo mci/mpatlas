@@ -41,7 +41,7 @@ define(
 			domain: 'http://dev.mpatlas.org/',
 			*/
 			
-			exploreModes: ['mpas', 'nation', 'meow', 'fao'],
+			exploreModes: ['mpas', 'country', 'meow', 'fao'],
 			currentMode: 'mpas',
 			hoverdelay: 250,
 			hoverdelay_click: 3500,			
@@ -118,7 +118,7 @@ define(
 				this.layers.push(lyr);
 				*/
 	
-				// EEZs / Nations		
+				// EEZs / Countries		
 				lyr = new L.TileLayer(
 					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
 					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74', attribution: 'EEZs <a href="http://marineregions.org">marineregions.org</a>'}
@@ -515,12 +515,12 @@ define(
 						    }
 							mpatlas.featuredata = data;
 							var mpahtml = '';
-							mpahtml += '<span style="font-weight:bold;">Click to explore this region:</span>';
+							mpahtml += '<span style="font-weight:bold;">Click to explore this ' + mpatlas.currentMode + ':</span>';
 							if (data.regions.length > 0) {
 								var region = data.regions[0]; // Just report one region at a time
 								//mpahtml += '<a class="maptip_mpalink" href="/region/' + mpatlas.currentMode + '/' + region.id + '">';
 								mpahtml += '<a class="maptip_mpalink" href="'+ region.url +'">';
-								mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
+								mpahtml += '<span style="float:right; margin-left:3px; font-style:italic; color:#d0508c;">(more info)</span><h5>' + region.name + '</h5></a>';
 								mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
 								mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
 								mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
@@ -615,7 +615,7 @@ define(
     							    //clearTimeout(maptip.hovercleartimer);
     								break;
 	
-    							case 'nation':
+    							case 'country':
     							case 'meow':
     							case 'fao':
     								//$('#maptip-content').html('Searching for Region...');
@@ -667,7 +667,7 @@ define(
 									load_mpa_maptip(mapevent);
 								}
 								break;
-							case 'nation':
+							case 'country':
 							case 'meow':
 							case 'fao':
 							    //clearTimeout(maptip.hovercleartimer);

@@ -13,7 +13,18 @@ from django.contrib.gis.measure import Distance
 
 from spatialdata.models import Eez, Nation
 
-class EezListView(MpaListView):    
+nations_nogeom = Nation.objects.all().defer(*Nation.get_geom_fields())
+
+class EezListView(ListView):
+    def get_paginate_by(self, queryset):
+        try:
+            paginate_by = int(self.request.GET.get('paginate_by'))
+            if paginate_by > 0:
+                return paginate_by
+        except:
+            pass
+        return self.paginate_by
+
     def get_queryset(self):
         try:
             q = self.request.GET.get('q')
@@ -57,7 +68,7 @@ def get_geom_json(request, model, pk, simplified=True, webmercator=False):
     obj = model.objects.geojson(field_name=geomfield).defer(*model.get_geom_fields()).get(pk=pk)
     return HttpResponse(obj.geojson, content_type='application/json; charset=utf-8')
 
-def get_nation_geom_json(request, iso3code, simplified=True, webmercator=False):
+def get_country_geom_json(request, iso3code, simplified=True, webmercator=False):
     try:
         simplified = (not request.GET['simplified'].upper() == 'FALSE')
     except:
@@ -172,7 +183,7 @@ def region_lookup_point(request, region):
             'region_list': region_list,
         }, content_type='application/json; charset=utf-8')
 
-def nation_lookup_point_old(request, region):
+def country_lookup_point_old(request, region):
     """Find nearby polygons with a point and search radius.
     Three lookup methods are supported:
         webmercator: radius (in km) is applied to search buffer in
@@ -244,9 +255,9 @@ def nation_lookup_point_old(request, region):
             region_list = region.objects.filter(geog__intersects=point).defer(*region.get_geom_fields())
             search = point
         search.transform(4326)
-        nation_list = Nation.objects.filter(pk__in=region_list.values_list('nation_id', flat=True).distinct())
+        country_list = Nation.objects.filter(pk__in=region_list.values_list('id', flat=True).distinct())
         return render(request, 'spatialdata/regionlookup.json', {
             'search': search.coords,
-            'region_list': nation_list,
+            'region_list': country_list,
         }, content_type='application/json; charset=utf-8')
 

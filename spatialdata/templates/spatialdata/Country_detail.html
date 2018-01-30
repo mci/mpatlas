@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block title %}{{ nation.name }}{% endblock %}
+{% block title %}{{ country.name }}{% endblock %}
 
 {% block base_head_extra %}
 
@@ -61,12 +61,12 @@
     ], function(Prep, SiteDetail) {
         $(function() {
             Prep.preparePage();
-            var site_id = {{ nation.pk }},
-                feature_url = '{% url 'nation-geojson' nation.iso3code %}?simplified=true',
-                is_point = {% if nation.is_point %}true{% else %}false{% endif %},
-                point_within = [{{ nation.point_within.coords.0 }},{{ nation.point_within.coords.1 }}],
-                bbox = [[{{ nation.bbox_lowerleft.coords.0 }},{{ nation.bbox_lowerleft.coords.1 }}], [{{ nation.bbox_upperright.coords.0 }},{{ nation.bbox_upperright.coords.1 }}]];
-            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ nation.pk }}, feature_url, is_point, point_within, bbox);
+            var site_id = {{ country.pk }},
+                feature_url = '{% url 'country-geojson' country.iso3code %}?simplified=true',
+                is_point = {% if country.is_point %}true{% else %}false{% endif %},
+                point_within = [],
+                bbox = [];
+            window['sitedetail'] = new SiteDetail.SiteDetail($('#leafletmap'), {{ country.pk }}, feature_url, is_point, point_within, bbox);
         });
     });
 
@@ -83,23 +83,23 @@
         <div style="border:1px solid black; border-radius:8px; padding:8px; margin-bottom:8px; background-color:#3C6289; color:white;">
             <span style="text-transform:uppercase;">Total Marine Estate:</span>
                 <div style="margin-left:12px;">
-                {{ nation.marine_area|floatformat:1|intcomma }} km²<br /><em>(Exclusive Economic Zone including territories)</em>
+                {{ country.marine_area|floatformat:1|intcomma }} km²<br /><em>(Exclusive Economic Zone including territories)</em>
                 </div>
             <br />
             <span style="text-transform:uppercase;">Marine Protected Area Coverage:</span>
                 <div style="margin-left:12px;">
-                {{ nation.mpa_percent|floatformat:2 }}% in {{ nation.mpas.count|intcomma }} MPAs
+                {{ country.mpa_percent|floatformat:2 }}% ({{ country.mpa_area|floatformat:1|intcomma }} km<sup>2</sup>) in {{ country.mpas.count|intcomma }} MPAs
                 </div>
                 <div style="margin-left:12px;">
-                {% if nation.notake_percent %}{{ nation.notake_percent|floatformat:2 }}{% else %}? {% endif %}% in No-Take Reserves
+                {% if country.notake_percent %}{{ country.notake_percent|floatformat:2 }} ({{ country.mpa_area|floatformat:1|intcomma }} km<sup>2</sup>){% else %}? {% endif %}% in No-Take Reserves
                 </div>
         </div>
 	    
 	    <div class="sidebar_item_title">National MPA Contacts &amp; Resources</div>
     	<div class="sidebar_item_content">
-    	    {% if nation.mpa_agency %}
+    	    {% if country.mpa_agency %}
                 <p>
-                    {{ nation.mpa_agency|safe }}
+                    {{ country.mpa_agency|safe }}
                 </p>
             {% endif %}
     	</div>
@@ -109,33 +109,31 @@
     <div id="rightcol" style="float:right; width: 66%;">
         <div style="padding: 8px;">
             <p class="heading clear" style="margin:0px; padding:0; font-size:32px; line-height:38px; margin-bottom:0px; color:#de744a;">
-                {{ nation.name }} <span style="font-size:0.6em;">({{ nation.iso3code }})</span>
-                <span style="font-size:20px;">{% if nation.designation_eng %}{{ nation.designation_eng }} {% endif %}{% if nation.designation_eng != nation.designation %}({{ nation.designation }}){% endif %}</span>
+                {{ country.name }} <span style="font-size:0.6em;">({{ country.iso3code }})</span>
             </p>
-            <h4 style="color:#666; margin-bottom:8px; padding-top:0; margin-top:0;">{{ nation.country }}{% if nation.sub_location %}: <span style="font-size:.9em;">{{ nation.sub_location }}</span>{% endif %}</h4>
             
             <div class="sidebar_item_title">Country Summary</div>
         	<div class="sidebar_item_content">
-        	    {% if nation.summary %}
+        	    {% if country.summary %}
                     <p>
-                        {{ nation.summary|safe }}
+                        {{ country.summary|safe }}
                     </p>
                 {% endif %}
-                {% if nation.wikiarticle %}
+                {% if country.wikiarticle %}
                     <p>
-                        {{ nation.wikiarticle.title }}
+                        {{ country.wikiarticle.title }}
                         <br />
-                        from wikipedia: <a href="{{ nation.wikiarticle.url|safe }}">{{ nation.wikiarticle.url|safe }}</a>
+                        from wikipedia: <a href="{{ country.wikiarticle.url|safe }}">{{ country.wikiarticle.url|safe }}</a>
                     </p>
-                        {{ nation.wikiarticle.summary|safe }}
+                        {{ country.wikiarticle.summary|safe }}
                 {% endif %}
         	</div>
         	
-        	<div class="sidebar_item_title">Marine Protected Areas in {{ nation.name }}</div>
+        	<div class="sidebar_item_title">Marine Protected Areas in {{ country.name }}</div>
         	<div class="sidebar_item_content">
-        	    <p style="font-style:italic">{{ nation.mpas.count }} MPAs:</p>
+        	    <p style="font-style:italic">{{ country.mpas.count }} MPAs:</p>
         	    <p>
-        	    {% for mpa in nation.mpas %}
+        	    {% for mpa in country.mpas %}
         	        <a class="normal" href="{% url 'mpa-siteinfo' mpa.pk %}">
         	            <span style="font-size:1.1em; font-style:normal;">{{ mpa.name }}</span> {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
         	        </a>
@@ -144,11 +142,11 @@
         	    </p>
         	</div>
 
-            <div class="sidebar_item_title">Other Marine Managed Areas in {{ nation.name }}</div>
+            <div class="sidebar_item_title">Other Marine Managed Areas in {{ country.name }}</div>
             <div class="sidebar_item_content">
-                <p style="font-style:italic">{{ nation.others.count }} Marine Managed Areas:</p>
+                <p style="font-style:italic">{{ country.others.count }} Marine Managed Areas:</p>
                 <p>
-                {% for mpa in nation.others %}
+                {% for mpa in country.others %}
                     <a class="normal" href="{% url 'mpa-siteinfo' mpa.pk %}">
                         <span style="font-size:1.1em; font-style:normal;">{{ mpa.name }}</span> {% if mpa.designation_eng %}{{ mpa.designation_eng }} {% endif %}{% if mpa.designation_eng != mpa.designation %}({{ mpa.designation }}){% endif %}
                     </a>

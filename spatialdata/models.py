@@ -44,9 +44,13 @@ class Nation(models.Model):
         from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
         return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code, is_mpa=False).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
 
-    @models.permalink
+    # @models.permalink
     def get_absolute_url(self):
-        return ('nation-info', (), { 'iso3code': self.iso3code })
+        from django.core.urlresolvers import reverse
+        try:
+            return reverse('country-info', args=[self.iso3code])
+        except:
+            return reverse('country-info-pk', args=[str(self.pk)])
 
     @classmethod
     def get_geom_fields(cls):

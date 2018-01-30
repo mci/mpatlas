@@ -1,0 +1,17 @@
+{
+    "total_count": {% if paginator %}{{ paginator.count }}{% else %}{{ country_list|length }}{% endif %},
+    "total_pages": {% if paginator %}{{ paginator.num_pages }}{% else %}1{% endif %},
+    "current_page": {% if page_obj %}{{ page_obj.number }}{% else %}1{% endif %},
+    "countries": [{% for country in country_list %}
+        {
+            "name": "{{ country.name }}",
+            "iso3code": "{{ country.iso3code }}", 
+            "marine_area": "{{ country.marine_area }}",
+            "mpa_area": "{{ country.mpa_area }}",
+            "mpa_percent": "{{ country.mpa_percent }}",
+            "notake_area": "{{ country.notake_area }}",
+            "notake_percent": "{{ country.notake_percent }}",
+            "url": "{{ country.get_absolute_url }}"
+        }{% if not forloop.last %},{% endif %}{% endfor %}
+    ]
+}
