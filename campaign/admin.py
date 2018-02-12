@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis import admin as geoadmin
-from .models import Campaign, Initiative
+from .models import Campaign, Initiative, Organization
 from django.utils.html import strip_tags
 
 class CampaignAdmin(geoadmin.OSMGeoAdmin):
@@ -48,5 +48,12 @@ class InitiativeAdmin(geoadmin.OSMGeoAdmin):
     # summary_excerpt.admin_order_field = 'summary'
     summary_excerpt.short_description = 'Summary (excerpt)'
 
+class OrganizationAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ('name', 'nickname', 'website', 'social_handles')
+    search_fields = ['name', 'nickname', 'website', 'social_handles', 'summary']
+    ordering = ('name',)
+
 admin.site.register(Campaign, CampaignAdmin)
 admin.site.register(Initiative, InitiativeAdmin)
+admin.site.register(Organization, OrganizationAdmin)
