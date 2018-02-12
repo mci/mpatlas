@@ -18,7 +18,6 @@ admin.autodiscover()
 def i18n_javascript(request):
     return admin.site.i18n_javascript(request)
 
-
 urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^users/', include('accounts.urls')),

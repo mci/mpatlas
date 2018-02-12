@@ -3,6 +3,7 @@ from django.db import models
 from django_countries.fields import CountryField
 from django.db.models.signals import post_save
 from django.contrib import auth
+from django.utils.encoding import python_2_unicode_compatible
 
 TITLE_CHOICES = (
     ('--', ''),
@@ -13,6 +14,7 @@ TITLE_CHOICES = (
     ('Dr', 'Dr'),
 )
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
@@ -22,7 +24,7 @@ class UserProfile(models.Model):
     affiliation = models.CharField('organization', max_length=300, blank=True)
     country = CountryField()
     
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s %s' % (self.user.username, self.user.first_name, self.user.last_name)
 
 def create_user_profile(sender, instance, created, **kwargs):

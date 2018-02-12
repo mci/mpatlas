@@ -2,7 +2,9 @@ from django.contrib.gis.db import models
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from django.db import connection, transaction
+from django.utils.encoding import python_2_unicode_compatible
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Nation(models.Model):
     name = models.CharField(max_length=240)
     #iso3code = models.ForeignKey(country_iso)
@@ -29,7 +31,7 @@ class Nation(models.Model):
 
     objects = models.GeoManager()
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
     @property
@@ -56,6 +58,7 @@ class Nation(models.Model):
     def get_geom_fields(cls):
         return ('geog', 'geom', 'geom_smerc', 'simple_geog', 'simple_geom', 'simple_geom_smerc')
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Eez(models.Model):
     # Regular fields corresponding to attributes in shpfile  
     eez = models.CharField(max_length=200)
@@ -86,7 +89,7 @@ class Eez(models.Model):
     objects = models.GeoManager()
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.eez
     
     @models.permalink
@@ -111,6 +114,7 @@ class EezMembership(models.Model):
     area_in_eez = models.FloatField('mpa area in eez (m2)', null=True)
 
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Meow(models.Model):
     ecoregion_code = models.FloatField()
     ecoregion = models.CharField(max_length=50)
@@ -135,7 +139,7 @@ class Meow(models.Model):
     objects = models.GeoManager()
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.realm + '_' + self.province + '_' + self.ecoregion
     
     @models.permalink
