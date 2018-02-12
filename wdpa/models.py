@@ -1,7 +1,9 @@
 from django.contrib.gis.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.gis.measure import Distance
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class WdpaAbstract(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile
     wdpaid = models.IntegerField()
@@ -31,7 +33,7 @@ class WdpaAbstract(models.Model):
         abstract = True
 
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
     @classmethod
