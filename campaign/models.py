@@ -8,21 +8,22 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
 from uuslug import uuslug, slugify
+import datetime
 
 # import reversion
 from reversion import revisions as reversion
 from reversion.models import Revision
 
 from mpa.models import Mpa
-
+from filer.fields.image import FilerImageField
 from taggit.managers import TaggableManager
 from category.models import TaggedItem
 
-import datetime
 
 # fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
 # via a .values(*fields) call.  Update this for new columns.
@@ -30,6 +31,7 @@ campaign_export_fields = []
 
 YEAR_CHOICES = [(None, None)] + [(r,r) for r in range(1990, datetime.date.today().year+1)]
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Campaign(models.Model):
     # ID / Name
     id = models.AutoField('Campaign id', primary_key=True, editable=False)
@@ -44,7 +46,14 @@ class Campaign(models.Model):
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Summary Info
+    logo = FilerImageField(verbose_name='Campaign Logo', related_name='campaign_logos', blank=True, null=True)
     summary = RichTextField('Campaign Description', null=True, blank=True)
+
+    # Associated Organizations
+    organizations = models.ManyToManyField('Organization')
+
+    # Associated MPAs
+    mpas = models.ManyToManyField(Mpa, blank=True)
 
     # Point location, used when we don't have polygon boundaries
     is_point = models.BooleanField(default=False)
@@ -64,7 +73,7 @@ class Campaign(models.Model):
     # Associated MPAs
     mpas = models.ManyToManyField(Mpa, blank=True)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -120,7 +129,14 @@ class Campaign(models.Model):
 
     def save(self, *args, **kwargs):
         # self.slug = uuslug(self.name, instance=self, separator="_") # optional non-dash separator
-        self.slug = uuslug(self.name, instance=self)
+        if not self.slug:
+            # set slug from name only if slug is empty
+            self.slug = uuslug(self.name, instance=self)
+        else:
+            # set slug from what was given in slug field
+            # if slug previously set and unique, just return the same slug
+            # if slug is not unique, append integer (e.g. '-1')
+            self.slug = uuslug(self.slug, instance=self)
         super(Campaign, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=Campaign)
@@ -153,7 +169,7 @@ def campaign_post_delete(sender, instance, *args, **kwargs):
         pass # let this fail silently, maybe Carto is unreachable
 
 
-
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Initiative(models.Model):
     # ID / Name
     id = models.AutoField('Initiative id', primary_key=True, editable=False)
@@ -161,12 +177,16 @@ class Initiative(models.Model):
     slug = models.SlugField(max_length=254, unique=True, blank=True, editable=True)
 
     # Summary Info
+    logo = FilerImageField(verbose_name='Initiative Logo', related_name='initiative_logos', blank=True, null=True)
     summary = RichTextField('Initiative Description', null=True, blank=True)
 
     # Associated Campaigns
     campaigns = models.ManyToManyField(Campaign)
 
-    def __unicode__(self):
+    # Associated Organizations
+    organizations = models.ManyToManyField('Organization')
+
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -175,9 +195,49 @@ class Initiative(models.Model):
 
     def save(self, *args, **kwargs):
         # self.slug = uuslug(self.name, instance=self, separator="_") # optional non-dash separator
-        self.slug = uuslug(self.name, instance=self)
+        if not self.slug:
+            # set slug from name only if slug is empty
+            self.slug = uuslug(self.name, instance=self)
+        else:
+            # set slug from what was given in slug field
+            # if slug previously set and unique, just return the same slug
+            # if slug is not unique, append integer (e.g. '-1')
+            self.slug = uuslug(self.slug, instance=self)
         super(Initiative, self).save(*args, **kwargs)
 
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Organization(models.Model):
+    # ID / Name
+    id = models.AutoField('Organization id', primary_key=True, editable=False)
+    name = models.CharField('Name', max_length=254)
+    nickname = models.CharField('Nickname or Acronym', max_length=254)
+    slug = models.SlugField(max_length=254, unique=True, blank=True, editable=True)
+
+    # Summary Info
+    logo = FilerImageField(verbose_name='Organization Logo', related_name='organization_logos', blank=True, null=True)
+    website = models.URLField('Website', max_length=254, blank=True)
+    social_handles = models.CharField('Social Media Handles', max_length=254, blank=True)
+    summary = RichTextField('Organization Description', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('org-info', args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        # self.slug = uuslug(self.name, instance=self, separator="_") # optional non-dash separator
+        if not self.slug:
+            # set slug from name only if slug is empty
+            self.slug = uuslug(self.name, instance=self)
+        else:
+            # set slug from what was given in slug field
+            # if slug previously set and unique, just return the same slug
+            # if slug is not unique, append integer (e.g. '-1')
+            self.slug = uuslug(self.slug, instance=self)
+        super(Organization, self).save(*args, **kwargs)
 
 campaign_export_fields = [
     'id',
