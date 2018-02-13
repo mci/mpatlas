@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 from uuslug import uuslug, slugify
 
 from taggit.managers import TaggableManager
@@ -7,6 +8,7 @@ from taggit.models import TagBase, GenericTaggedItemBase, TaggedItemBase
 
 from ckeditor.fields import RichTextField
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Category(TagBase):
     # name and slug provided by TagBase
 
@@ -14,7 +16,7 @@ class Category(TagBase):
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def slugify(self, tag, i=None):
@@ -38,13 +40,13 @@ class TaggedItem(GenericTaggedItemBase):
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
 
-
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Details(models.Model):
     category = models.OneToOneField('Category', on_delete=models.CASCADE)
     summary = RichTextField('Short Summary', null=True, blank=True)
     description = RichTextField('Description', null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.category.name + ' details'
 
     class Meta:

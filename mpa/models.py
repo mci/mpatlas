@@ -9,6 +9,7 @@ from django.contrib.gis import geos, gdal
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
+from django.utils.encoding import python_2_unicode_compatible
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
@@ -147,7 +148,7 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
     ('Low', 'Low'),
 )
 
-
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Mpa(models.Model):
     # ID / Name
     mpa_id = models.AutoField('MPA id', primary_key=True, editable=False)
@@ -275,7 +276,7 @@ class Mpa(models.Model):
     bbox_upperright = models.PointField(srid=4326, null=True, blank=True, editable=False)
 
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -462,6 +463,7 @@ def mpa_post_delete(sender, instance, *args, **kwargs):
         pass # let this fail silently, maybe Carto is unreachable
 
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class WikiArticle(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
@@ -469,7 +471,7 @@ class WikiArticle(models.Model):
     summary =  RichTextField('MPA Site Description from Wikipedia', null=True, blank=True)
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.summary[0:20] + '...'
     
     def save(self, *args, **kwargs):
@@ -478,6 +480,7 @@ class WikiArticle(models.Model):
         super(WikiArticle, self).save(*args, **kwargs)
 
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Contact(models.Model):
     agency = models.CharField(max_length=500)
     url = models.URLField(max_length=500, null=True, blank=True)
@@ -487,9 +490,10 @@ class Contact(models.Model):
     logo = FilerImageField(null=True, blank=True, related_name="contact_logos")
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return 'Contact: %s' % (self.agency)
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class DataSource(models.Model):
     name = models.CharField('Data Source Name', max_length=500)
     version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
@@ -497,7 +501,7 @@ class DataSource(models.Model):
     logo = FilerImageField(null=True, blank=True, related_name="datasource_logos")
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return 'Data Source: %s - %s' % (self.name, self.version)
 
 
@@ -521,6 +525,7 @@ CANDIDATE_SCOPE_CHOICES = (
 )
 
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class CandidateInfo(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     summary = RichTextField('Candidate MPA Summary Description', null=True, blank=True)
@@ -542,10 +547,11 @@ class CandidateInfo(models.Model):
     references = models.CharField(max_length=1000, null=True, blank=True)
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return 'Candidate Info: %s' % (self.mpa.name)
 
 
+@python_2_unicode_compatible  # only if you need to support Python 2
 class MpaCandidate(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
     name = models.CharField(max_length=56)
@@ -557,7 +563,7 @@ class MpaCandidate(models.Model):
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
     
     # Returns the string representation of the model.
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
     @classmethod
