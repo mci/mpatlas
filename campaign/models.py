@@ -63,9 +63,6 @@ class Campaign(models.Model):
 
     # Associated MPAs
     mpas = models.ManyToManyField(Mpa, blank=True)
-
-    # Overriding the default manager with a GeoManager instance
-    objects = models.GeoManager()
     
     def __unicode__(self):
         return self.name

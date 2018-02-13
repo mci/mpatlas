@@ -15,7 +15,7 @@ TITLE_CHOICES = (
 
 class UserProfile(models.Model):
     # This field is required.
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # Other fields here
     title = models.CharField(max_length=200, default='', choices=TITLE_CHOICES)

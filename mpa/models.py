@@ -204,11 +204,11 @@ class Mpa(models.Model):
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
     
     # Contact
-    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True)
+    contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True, on_delete=models.SET_NULL)
     other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', blank=True)
 
     # Data Source
-    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True)
+    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True, on_delete=models.SET_NULL)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
@@ -273,9 +273,6 @@ class Mpa(models.Model):
     # assume longitude range is < 180 degrees, bbox can cross dateline
     bbox_lowerleft = models.PointField(srid=4326, null=True, blank=True, editable=False)
     bbox_upperright = models.PointField(srid=4326, null=True, blank=True, editable=False)
-    
-    # Overriding the default manager with a GeoManager instance
-    objects = models.GeoManager()
 
     # Returns the string representation of the model.
     def __unicode__(self):
@@ -466,7 +463,7 @@ def mpa_post_delete(sender, instance, *args, **kwargs):
 
 
 class WikiArticle(models.Model):
-    mpa = models.OneToOneField(Mpa, primary_key=True)
+    mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
     title = models.CharField(max_length=500, null=True, blank=True)
     summary =  RichTextField('MPA Site Description from Wikipedia', null=True, blank=True)
@@ -505,7 +502,7 @@ class DataSource(models.Model):
 
 
 class VersionMetadata(models.Model):
-    revision = models.OneToOneField(Revision)  # This is required
+    revision = models.OneToOneField(Revision, on_delete=models.CASCADE)  # This is required
     comment = models.TextField(blank=True)
     reference = models.TextField(blank=True)
 
@@ -525,7 +522,7 @@ CANDIDATE_SCOPE_CHOICES = (
 
 
 class CandidateInfo(models.Model):
-    mpa = models.OneToOneField(Mpa, primary_key=True)
+    mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     summary = RichTextField('Candidate MPA Summary Description', null=True, blank=True)
     
     source = models.CharField(max_length=1000, null=True, blank=True)
@@ -558,7 +555,6 @@ class MpaCandidate(models.Model):
     geom_smerc = models.MultiPointField(srid=3857, null=True)
     geom = models.MultiPointField(srid=4326, null=True)
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
-    objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __unicode__(self):

@@ -25,8 +25,6 @@ class WdpaAbstract(models.Model):
     mang_plan = models.CharField(max_length=254)
     metadataid = models.IntegerField()
 
-    objects = models.GeoManager()
-
     class Meta:
         abstract = True
 

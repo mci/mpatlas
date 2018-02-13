@@ -447,7 +447,7 @@ INSTALLED_APPS = (
     'cmsplugin_filer_video',
 
     # 'djangocms_file',
-    'djangocms_flash',
+    # 'djangocms_flash',
     'djangocms_googlemap',
     'djangocms_inherit',
     # 'djangocms_picture',

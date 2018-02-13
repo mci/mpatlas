@@ -5,6 +5,7 @@ from django.views.generic import RedirectView
 # from wiki.urls import get_pattern as get_wiki_pattern
 # from django_notify.urls import get_pattern as get_notify_pattern
 from django.views.decorators.cache import cache_page, never_cache
+from django import VERSION as DJANGO_VERSION
 
 from .views import MapView
 
@@ -17,7 +18,6 @@ admin.autodiscover()
 
 def i18n_javascript(request):
     return admin.site.i18n_javascript(request)
-
 
 urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
@@ -54,7 +54,7 @@ urlpatterns += i18n_patterns(
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/jsi18n/', i18n_javascript),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls) if DJANGO_VERSION <= (2,0) else admin.site.urls),
 
     url(r'^', include('cms.urls')),
 
