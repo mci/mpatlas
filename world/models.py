@@ -17,7 +17,6 @@ class WorldBorder(models.Model):
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
     mpoly = models.MultiPolygonField()
-    objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __unicode__(self):

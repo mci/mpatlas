@@ -31,7 +31,8 @@ class Category(TagBase):
 class TaggedItem(GenericTaggedItemBase):
     # Here is where you provide your custom Tag class.
     tag = models.ForeignKey(Category,
-                            related_name="%(app_label)s_%(class)s_items")
+        on_delete=models.CASCADE,
+        related_name="%(app_label)s_%(class)s_items")
     
     class Meta:
         verbose_name = _("Tagged Item")
@@ -39,7 +40,7 @@ class TaggedItem(GenericTaggedItemBase):
 
 
 class Details(models.Model):
-    category = models.OneToOneField('Category')
+    category = models.OneToOneField('Category', on_delete=models.CASCADE)
     summary = RichTextField('Short Summary', null=True, blank=True)
     description = RichTextField('Description', null=True, blank=True)
 
