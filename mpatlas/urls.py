@@ -11,6 +11,7 @@ from .views import MapView
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve as static_serve
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib.gis import admin
@@ -48,6 +49,8 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 urlpatterns += i18n_patterns(
     # Uncomment the admin/doc line below to enable admin documentation:

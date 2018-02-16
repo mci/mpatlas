@@ -35,8 +35,8 @@
 
     {% block base_head_init %}
         <!-- <script src="https://jspm.io/system@0.19.js"></script> -->
-        <script src='{% static "" %}/jspm_packages/system.js'></script>
-        <script src='{% static "" %}/config.js'></script>
+        <script src="{% static 'jspm_packages/system.js' %}"></script>
+        <script src="{% static 'config.js' %}"></script>
         <script type="text/javascript">
             SystemJS.config({
                 map: {

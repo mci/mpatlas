@@ -6,6 +6,7 @@ from django.views.generic import ListView
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
+from django.contrib.gis.db.models.functions import AsGeoJSON
 
 # import reversion
 from reversion import revisions as reversion
@@ -20,7 +21,7 @@ from campaign.forms import CampaignGeomForm
 
 def get_campaign_pointgeom_json(request, pk, simplified=True, webmercator=False):
     geomfield = 'point_geom'
-    campaign = Campaign.objects.geojson(field_name=geomfield).get(pk=pk)
+    campaign = Campaign.objects.annotate(geojson=AsGeoJSON(geomfield)).get(pk=pk)
     return HttpResponse(campaign.geojson, content_type='application/json; charset=utf-8')
 
 class JsonListView(ListView):
