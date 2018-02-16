@@ -421,7 +421,8 @@ INSTALLED_APPS = [
     'reversion',
 
     'djangocms_attributes_field',
-    # 'aldryn_style',  # use djangocms_style instead
+    # use djangocms_style instead, but we need to migrate first, used by map gallery
+    'aldryn_style',  ### MIGRATE TO djangocms_style ###
     'aldryn_bootstrap3',
 
     'bootstrap_layout', # this is our mpatlas/mci custom plugin
@@ -442,7 +443,7 @@ INSTALLED_APPS = [
     'djangocms_video', #
     'djangocms_link',
     'djangocms_snippet', # maybe use this instead of cmsplugin_plaintext if possible
-    'djangocms_style', # NEW get rid of aldryn_style
+    # 'djangocms_style', # NEW get rid of aldryn_style
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
 
     # No official support, community only
