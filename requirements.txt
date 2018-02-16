@@ -50,8 +50,8 @@ django-ckeditor
 django-tinymce
 
 # Django-Filer
-#django-filer
-git+https://github.com/mci/django-filer.git#egg=django-filer
+django-filer
+#git+https://github.com/mci/django-filer.git#egg=django-filer
 
 # DjangoCMS
 django-cms
