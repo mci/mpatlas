@@ -28,8 +28,6 @@ class Nation(models.Model):
     simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
     simple_geom = models.MultiPolygonField(srid=4326, null=True)
     simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
-
-    objects = models.GeoManager()
     
     def __str__(self):
         return self.name
@@ -65,7 +63,7 @@ class Eez(models.Model):
     country = models.CharField(max_length=100)
     objectid = models.IntegerField()
     sovereign = models.CharField(max_length=100)
-    nation = models.ForeignKey(Nation, null=True, default=None)
+    nation = models.ForeignKey(Nation, null=True, default=None, on_delete=models.SET_NULL)
     remarks = models.CharField(max_length=150)
     sov_id = models.IntegerField()
     iso_3digit = models.CharField(max_length=50)
@@ -85,8 +83,6 @@ class Eez(models.Model):
     simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
     simple_geom = models.MultiPolygonField(srid=4326, null=True)
     simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
-    
-    objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __str__(self):
@@ -109,8 +105,8 @@ class Eez(models.Model):
         return ('geog', 'geom', 'geom_smerc', 'simple_geog', 'simple_geom', 'simple_geom_smerc')
 
 class EezMembership(models.Model):
-    eez = models.ForeignKey(Eez)
-    mpa = models.ForeignKey('mpa.Mpa')
+    eez = models.ForeignKey(Eez, on_delete=models.CASCADE)
+    mpa = models.ForeignKey('mpa.Mpa', on_delete=models.CASCADE)
     area_in_eez = models.FloatField('mpa area in eez (m2)', null=True)
 
 
@@ -135,8 +131,6 @@ class Meow(models.Model):
     simple_geom_smerc = models.MultiPolygonField(srid=3857, null=True)
     simple_geom = models.MultiPolygonField(srid=4326, null=True)
     simple_geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
-    
-    objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __str__(self):

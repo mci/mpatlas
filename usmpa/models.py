@@ -38,7 +38,6 @@ class USMpaPolygon(models.Model):
     geom_smerc = models.MultiPolygonField(srid=900913, null=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
     geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
-    objects = models.GeoManager()
     
     # Returns the string representation of the model.
     def __str__(self):
