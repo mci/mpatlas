@@ -166,7 +166,7 @@ LOGIN_URL = '/users/login/'
 ## SOCIAL_AUTH_DEFAULT_USERNAME = 'mpatlas_socialauth_user'
 # END Social_Auth settings
 
-MIDDLEWARE = (
+MIDDLEWARE = [
     # Uncomment to enable caching with memcached
     'django.middleware.cache.UpdateCacheMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -188,7 +188,7 @@ MIDDLEWARE = (
 
     # Uncomment to enable caching with memcached
     'django.middleware.cache.FetchFromCacheMiddleware',
-)
+]
 
 ROOT_URLCONF = 'mpatlas.urls'
 
@@ -276,7 +276,7 @@ TEXT_HTML_SANITIZE = False
 CKEDITOR_SETTINGS = {
     'language': '{{ language }}',
     'toolbar': 'CMS',
-    'skin': 'moono',
+    # 'skin': 'moono-lisa', # This will default to moono-lisa in ckeditor>=4.6
     'toolbarCanCollapse': False,
     'toolbar_CMS': [
         ['Undo', 'Redo'],
@@ -383,7 +383,7 @@ THUMBNAIL_PROCESSORS = (
 THUMBNAIL_HIGH_RESOLUTION = True # for retina support
 
 # django-filer and ckeditor integration
-TEXT_SAVE_IMAGE_FUNCTION='cmsplugin_filer_image.integrations.ckeditor.create_image_plugin'
+# TEXT_SAVE_IMAGE_FUNCTION='cmsplugin_filer_image.integrations.ckeditor.create_image_plugin'
 
 FILER_IS_PUBLIC_DEFAULT = True
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
@@ -396,16 +396,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.messages', # to enable messages framework (see :ref:`Enable messages <enable-messages>`)
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     # 'staticfiles',
 
-    # 'debug_toolbar',
+    # 'debug_toolbar', # not in production
     
     'django_extensions',
     # 'storages',
-    # 'south',  # Only needed for Django < 1.7
     'django.contrib.gis',
     'django.contrib.postgres', # postgresql full text search extensions
     'corsheaders',
@@ -414,50 +413,43 @@ INSTALLED_APPS = [
     'easy_thumbnails',
 
     'cms',  # django CMS itself
-    'mptt',  # utilities for implementing a tree
+    'mptt',  # used by filer, cms now uses treebeard
     'treebeard',
-    'menus',  # helper for model independent hierarchical website navigation
+    'menus',  # cms hierarchical website navigation
     'sekizai',  # for javascript and css management
     'djangocms_history',
     'reversion',
 
     'djangocms_attributes_field',
-    
-    # 'sorl.thumbnail',
-    # 'django_notify',
-    # 'wiki',
-    # 'wiki.plugins.attachments',
-    # 'wiki.plugins.notifications',
-    # 'wiki.plugins.images',
-    # 'wiki.plugins.macros',
-    # 'wiki.plugins.links',
-    # 'wiki.plugins.help',
-    # # 'wiki.plugins.haystack',
-
-    'aldryn_style',
+    # 'aldryn_style',  # use djangocms_style instead
     'aldryn_bootstrap3',
 
-    'bootstrap_layout',
+    'bootstrap_layout', # this is our mpatlas/mci custom plugin
 
+    # These are replaced by djangocms_file, picture, etc.
+    # We need to convert all instances to the other plugins.
     'cmsplugin_filer_file',
-    'cmsplugin_filer_folder',
-    'cmsplugin_filer_link',
+    'cmsplugin_filer_folder', # no djangocms version for this, keep filer version
+    # 'cmsplugin_filer_link',
     'cmsplugin_filer_image',
     'cmsplugin_filer_teaser',
     'cmsplugin_filer_video',
 
-    # 'djangocms_file',
-    # 'djangocms_flash',
+    'djangocms_file', #
     'djangocms_googlemap',
-    'djangocms_inherit',
-    # 'djangocms_picture',
-    'djangocms_teaser',
-    # 'djangocms_video',
+    'djangocms_picture', #
+    'djangocms_audio', # NEW
+    'djangocms_video', #
     'djangocms_link',
-    'djangocms_snippet',
+    'djangocms_snippet', # maybe use this instead of cmsplugin_plaintext if possible
+    'djangocms_style', # NEW get rid of aldryn_style
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
 
-    # Plaintext Plugin
+    # No official support, community only
+    'djangocms_teaser',
+    'djangocms_inherit',
+
+    # Plaintext Plugin, from our mci github repo
     'cmsplugin_plaintext',
 
     #'tinymce',

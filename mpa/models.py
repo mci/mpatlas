@@ -499,7 +499,7 @@ class DataSource(models.Model):
     version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
     url = models.URLField('Data Source URL', max_length=500, null=True, blank=True)
     logo = FilerImageField(null=True, blank=True, related_name="datasource_logos")
-    
+        
     # Returns the string representation of the model.
     def __str__(self):
         return 'Data Source: %s - %s' % (self.name, self.version)
