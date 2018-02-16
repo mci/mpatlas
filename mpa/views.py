@@ -17,6 +17,7 @@ from functools import reduce
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
+from django.contrib.gis.db.models.functions import AsGeoJSON
 
 from mpa.models import Mpa, MpaCandidate
 from mpa.forms import MpaForm, MpaGeomForm
@@ -271,10 +272,10 @@ def get_mpa_geom_json(request, pk, simplified=True, webmercator=False):
     geomfield = sgeomfield = 'geom'
     if (webmercator):
         geomfield = 'geom_smerc'
-    mpaq = Mpa.objects.geojson(field_name=geomfield).geojson(field_name='point_within', model_att='geojson_point').defer(*Mpa.get_geom_fields())
+    mpaq = Mpa.objects.annotate(geojson=AsGeoJSON(geomfield)).annotate(geojson_point=AsGeoJSON('point_within')).defer(*Mpa.get_geom_fields())
     if simplified:
         sgeomfield = 'simple_' + geomfield
-        mpaq = mpaq.geojson(field_name=sgeomfield, model_att='geojson_simple')
+        mpaq = mpaq.annotate(geojson_simple=AsGeoJSON(sgeomfield))
     mpa = mpaq.get(pk=pk)
     if mpa.is_point:
         geojson = mpa.geojson_point

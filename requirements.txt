@@ -15,6 +15,7 @@ eventlet
 gevent
 greenlet
 gunicorn
+whitenoise
 
 # Database
 psycogreen
@@ -39,15 +40,18 @@ python-slugify
 django-uuslug
 django-taggit
 django-cors-headers
-django-reversion<2.0
+django-reversion>=2.0
 django-select2
+django-mptt >= 0.9
+django-polymorphic>=2.0 # old django-filer wants 1.3, but 2.0 supports Django2.0
 
 # Rich Text Editors
 django-ckeditor
 django-tinymce
 
 # Django-Filer
-django-filer
+#django-filer
+git+https://github.com/mci/django-filer.git#egg=django-filer
 
 # DjangoCMS
 django-cms
@@ -59,17 +63,20 @@ djangocms-attributes-field
 #aldryn-bootstrap3
 git+https://github.com/russmo/aldryn-bootstrap3.git#egg=aldryn-bootstrap3
 aldryn-style
-djangocms-text-ckeditor
+#djangocms-text-ckeditor
+git+https://github.com/divio/djangocms-text-ckeditor.git#egg=djangocms_text_ckeditor # github more recent that pypi
 git+https://github.com/russmo/cmsplugin-plaintext.git#egg=cmsplugin_plaintext_djangocms3
 djangocms-file
-djangocms-flash
 djangocms-googlemap
-djangocms-inherit
 djangocms-link
 djangocms-picture
-djangocms-snippet
-djangocms-teaser
+djangocms-audio
 djangocms-video
+djangocms-snippet
+djangocms-style
+djangocms-teaser
+
+djangocms-inherit
 cmsplugin-filer
 
 # Images

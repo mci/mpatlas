@@ -70,8 +70,8 @@ class Campaign(models.Model):
     start_year = models.IntegerField(_('Start Year'), choices=YEAR_CHOICES, null=True, blank=True)
     active = models.BooleanField(default=True)
 
-    # Overriding the default manager with a GeoManager instance
-    objects = models.GeoManager()
+    # Associated MPAs
+    mpas = models.ManyToManyField(Mpa, blank=True)
     
     def __str__(self):
         return self.name
