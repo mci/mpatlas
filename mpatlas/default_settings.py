@@ -443,7 +443,7 @@ INSTALLED_APPS = [
     'djangocms_video', #
     'djangocms_link',
     'djangocms_snippet', # maybe use this instead of cmsplugin_plaintext if possible
-    # 'djangocms_style', # NEW get rid of aldryn_style
+    'djangocms_style', # NEW get rid of aldryn_style
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
 
     # No official support, community only
