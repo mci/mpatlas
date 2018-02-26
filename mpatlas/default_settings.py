@@ -422,7 +422,7 @@ INSTALLED_APPS = [
 
     'djangocms_attributes_field',
     # use djangocms_style instead, but we need to migrate first, used by map gallery
-    'aldryn_style',  ### MIGRATE TO djangocms_style ###
+    # 'aldryn_style',  ### MIGRATE TO djangocms_style ###
     'aldryn_bootstrap3',
 
     'bootstrap_layout', # this is our mpatlas/mci custom plugin
@@ -432,7 +432,7 @@ INSTALLED_APPS = [
     'cmsplugin_filer_file',
     'cmsplugin_filer_folder', # no djangocms version for this, keep filer version
     # 'cmsplugin_filer_link',
-    'cmsplugin_filer_image',
+    # 'cmsplugin_filer_image',
     'cmsplugin_filer_teaser',
     'cmsplugin_filer_video',
 
