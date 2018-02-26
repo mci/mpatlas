@@ -433,8 +433,8 @@ INSTALLED_APPS = [
     'cmsplugin_filer_folder', # no djangocms version for this, keep filer version
     # 'cmsplugin_filer_link',
     # 'cmsplugin_filer_image',
-    'cmsplugin_filer_teaser',
-    'cmsplugin_filer_video',
+    # 'cmsplugin_filer_teaser',
+    # 'cmsplugin_filer_video',
 
     'djangocms_file', #
     'djangocms_googlemap',
