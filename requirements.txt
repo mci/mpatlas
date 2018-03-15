@@ -62,6 +62,7 @@ djangocms-attributes-field
 # DjangoCMS Plugins
 #aldryn-bootstrap3
 git+https://github.com/russmo/aldryn-bootstrap3.git#egg=aldryn-bootstrap3
+djangocms-layouttools # pypi version pushed from mci github
 aldryn-style
 #djangocms-text-ckeditor
 git+https://github.com/divio/djangocms-text-ckeditor.git#egg=djangocms_text_ckeditor # github more recent that pypi
