@@ -270,6 +270,12 @@ ALDRYN_STYLE_CLASS_NAMES = (
     ('container-fluid', _('bootstrap fluid container')),
 )
 
+DJANGOCMS_STYLE_TAGS = [
+    'div', 'article', 'section', 'header', 'footer', 'aside',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'figure', 'figcaption',
+    'ul', 'li', 'span', 'p',
+]
+
 # These settings override djangocms_text_ckeditor toolbar settings
 # Disable server-side html sanitization via html5lib, it's removing too much right now
 TEXT_HTML_SANITIZE = False
@@ -425,7 +431,7 @@ INSTALLED_APPS = [
     # 'aldryn_style',  ### MIGRATE TO djangocms_style ###
     'aldryn_bootstrap3',
 
-    'bootstrap_layout', # this is our mpatlas/mci custom plugin
+    'djangocms_layouttools',
 
     # These are replaced by djangocms_file, picture, etc.
     # We need to convert all instances to the other plugins.
