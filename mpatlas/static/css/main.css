@@ -46,11 +46,11 @@ img {
     border: none;
 }
 
-.right {
-    float: right;
+.right, .align-right {
+    float: right !important;
 }
-.left {
-    float: left;
+.left, .align-left {
+    float: left !important;
 }
 
 .btn-callout, .btn.btn-callout {
