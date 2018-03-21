@@ -8,12 +8,11 @@
   clear: both;
 }
 
-.left {
-	float: left;
+.right, .align-right {
+    float: right !important;
 }
-
-.right {
-	float: right;
+.left, .align-left {
+    float: left !important;
 }
 
 .pagetopper {
