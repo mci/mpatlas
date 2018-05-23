@@ -18,8 +18,7 @@ define([
     };
 
     var set_random_banner = function () {
-        //var bannerclasses = ["humpback", "angelfish", "turtle", "manatee", "otter"];
-        var bannerclasses = ["humpback-holiday"];
+        var bannerclasses = ["humpback-j4", "angelfish-j4", "turtle-j4", "manatee-j4", "otter-j4"];
         var randomclass = bannerclasses[Math.floor(Math.random() * bannerclasses.length)];
         $('#slidebanner').removeClass(bannerclasses.join(' ')).addClass(randomclass);
     };
