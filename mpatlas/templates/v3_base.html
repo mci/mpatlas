@@ -29,7 +29,7 @@
     <script src="https://use.fontawesome.com/0dff6e1566.js"></script>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="{% static 'css/v3_main.css' %}">
-    <link href="https://marine-conservation.org/media/static/css/slidebanner.css?v=1.34" media="screen" rel="stylesheet" type="text/css" />
+    <link href="https://marine-conservation.org/media/static/css/slidebanner.css?v=1.36" media="screen" rel="stylesheet" type="text/css" />
 
     <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
 
@@ -63,6 +63,7 @@
             });
             System.import('{% static "js" %}/donate_banner').then(function(donateBanner) {
                 $(function() {
+                    // donateBanner.ready_banner();
                     donateBanner.show_donate_banner();
                 });
             });
