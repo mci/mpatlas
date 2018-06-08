@@ -1,4 +1,5 @@
 (function (root, factory) {
+    // Universal module loader for AMD, CommonJS, and browser <script>
     if (typeof define === "function" && define.amd) {
         define(['jquery', 'jquery.cookie'], factory);
     } else if (typeof module === "object" && module.exports) {
@@ -9,7 +10,7 @@
         root.donate_banner = factory(root.jQuery);
     }
 })(this, function($){
-    var donatecookiename = 'mpatlas_saw_donate_30min';
+    var donatecookiename = 'mci_saw_donate_30min';
     var setdonatecookie = function() {
         // set session cookie
         var expdate = new Date();
@@ -24,7 +25,8 @@
     };
 
     var set_random_banner = function() {
-        var bannerclasses = ["humpback-j4", "angelfish-j4", "turtle-j4", "manatee-j4", "otter-j4"];
+        // var bannerclasses = ["humpback-j4", "angelfish-j4", "turtle-j4", "manatee-j4", "otter-j4"];
+        var bannerclasses = ["otter-j4-triple"];
         var randomclass = bannerclasses[Math.floor(Math.random() * bannerclasses.length)];
         $('#slidebanner').removeClass(bannerclasses.join(' ')).addClass(randomclass);
     };
