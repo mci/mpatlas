@@ -61,7 +61,7 @@
                     //console.log(mpatlas.history.get('seensplash'));
                 });
             });
-            System.import('{% static "js" %}/donate_banner').then(function(donateBanner) {
+            System.import('https://cors-anywhere.herokuapp.com/https://marine-conservation.org/media/static/js/donate_banner').then(function(donateBanner) {
                 $(function() {
                     // donateBanner.ready_banner();
                     donateBanner.show_donate_banner();
