@@ -19,6 +19,8 @@ except ImportError:
 # CartoDB API Key, set this in local settings
 CARTO_API_KEY ='1234'
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640 # 15MB
+
 # Use safelogging from https://github.com/litchfield/django-safelogging
 # Rate limits error log emails and suppresses disallowed hosts warnings
 try:
