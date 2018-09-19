@@ -175,6 +175,10 @@ class Mpa(models.Model):
     verification_reason = models.CharField('Verification Reason', max_length=1000, null=True, blank=True)
     verified_by = models.CharField('Verified By', max_length=100, null=True, blank=True)
     verified_date = models.DateField('Date Verified', null=True, blank=True)
+
+    # Modification History
+    created_date = models.DateTimeField('Creation Date', help_text='Date and time record created', auto_now_add=True)
+    modified_date = models.DateTimeField('Modification Date', help_text='Date and time of last record save', auto_now=True)
     
     # Designation
     designation = models.CharField('Designation', max_length=254, null=True, blank=True)
