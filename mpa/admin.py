@@ -24,6 +24,11 @@ def get_fields_missing_from_fieldsets(fieldsets, fields):
 
 # class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
 class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
+    # Exclude create/modify datetime fields from revisions
+    def reversion_register(self, model, **options):
+        options['exclude'] = ('created_date', 'modified_date',)
+        super(MpaAdmin, self).reversion_register(model, **options)
+
     change_list_template = "mpa/admin_change_list.html"
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     # list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')

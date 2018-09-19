@@ -4,7 +4,7 @@ setuptools
 wheel
 
 # Versioning Tools
-mercurial
+mercurial; python_version < '3.0' # only available on Python2
 
 # DJANGO itself
 Django<2
@@ -19,7 +19,7 @@ whitenoise
 
 # Database
 psycogreen
-psycopg2
+psycopg2-binary
 SQLAlchemy
 pysqlite; python_version < '3.0' # only needed on Python2, use sqlite3 in Python3 library
 
@@ -109,7 +109,7 @@ boto
 python-geoip
 python-geoip-geolite2
 pygeoip
-GeoIP
+geoip2
 
 # Automation
 Fabric
@@ -130,7 +130,7 @@ Markdown
 ndg-httpsclient
 oauth2
 path.py
-pycrypto
+pycryptodome
 pyenchant
 Pygments
 python-memcached
