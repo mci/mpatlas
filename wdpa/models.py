@@ -4,28 +4,57 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.gis.measure import Distance
 
 @python_2_unicode_compatible  # only if you need to support Python 2
+class WdpaSource(models.Model):
+    metadataid = models.IntegerField()
+    data_title = models.CharField(max_length=255)
+    resp_party = models.CharField(max_length=255)
+    verifier = models.CharField(max_length=259)
+    year = models.CharField(max_length=255)
+    update_yr = models.CharField(max_length=255)
+    language = models.CharField(max_length=255)
+    char_set = models.CharField(max_length=255)
+    ref_system = models.CharField(max_length=255)
+    scale = models.CharField(max_length=255)
+    lineage = models.CharField(max_length=264)
+    citation = models.CharField(max_length=261)
+    disclaimer = models.CharField(max_length=264)
+
+
+@python_2_unicode_compatible  # only if you need to support Python 2
 class WdpaAbstract(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile
-    wdpaid = models.IntegerField()
-    wdpa_pid = models.IntegerField()
-    name = models.CharField(max_length=254)
-    orig_name = models.CharField(max_length=254)
-    country = models.CharField(max_length=20)
-    sub_loc = models.CharField(max_length=100)
-    desig = models.CharField(max_length=254)
-    desig_eng = models.CharField(max_length=254)
-    desig_type = models.CharField(max_length=20)
-    iucn_cat = models.CharField(max_length=20)
-    int_crit = models.CharField(max_length=100)
-    marine = models.CharField(max_length=20)
+    wdpaid = models.FloatField()  # this comes in as float, should we convert to int? No records have 0.X decimal values
+    wdpa_pid = models.CharField(max_length=52, blank=True)
+    
+    pa_def = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=254, blank=True)
+    orig_name = models.CharField(max_length=254, blank=True)
+    desig = models.CharField(max_length=254, blank=True)
+    desig_eng = models.CharField(max_length=254, blank=True)
+    desig_type = models.CharField(max_length=20, blank=True)
+    iucn_cat = models.CharField(max_length=20, blank=True)
+    int_crit = models.CharField(max_length=100, blank=True)
+    marine = models.CharField(max_length=20, blank=True)
+    no_take = models.CharField(max_length=50, blank=True)
+    no_tk_area = models.FloatField(null=True)
     rep_m_area = models.FloatField(null=True)
     rep_area = models.FloatField(null=True)
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, blank=True)
     status_yr = models.IntegerField(null=True)
-    gov_type = models.CharField(max_length=254)
-    mang_auth = models.CharField(max_length=254)
-    mang_plan = models.CharField(max_length=254)
+    gov_type = models.CharField(max_length=254, blank=True)
+    own_type = models.CharField(max_length=254, blank=True)
+    mang_auth = models.CharField(max_length=254, blank=True)
+    mang_plan = models.CharField(max_length=254, blank=True)
+    parent_iso3 = models.CharField(max_length=50, blank=True)
+    iso3 = models.CharField(max_length=50)
+    sub_loc = models.CharField(max_length=100, blank=True)
+    verif = models.CharField(max_length=20, blank=True)
     metadataid = models.IntegerField()
+
+    gis_area = models.FloatField(null=True)
+    gis_m_area = models.FloatField(null=True)
+    shape_length = models.FloatField(default=0)
+    shape_area = models.FloatField(default=0)
 
     class Meta:
         abstract = True
@@ -77,18 +106,31 @@ class WdpaAbstract(models.Model):
     def myfieldslist(self):
         return sorted(self.myfields.items())
 
+
+class Wdpa2018Poly(WdpaAbstract):
+    geom = models.MultiPolygonField()
+
+    # GeoDjango-specific: a geometry field (MultiPolygonField), and
+    # overriding the default manager with a GeoManager instance.
+    geom_smerc = models.MultiPolygonField(srid=900913, null=True)
+    geom = models.MultiPolygonField(srid=4326, null=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+
+    # Calculated geometry fields
+    point_within = models.PointField(srid=4326, null=True)
+    point_within_geojson = models.TextField(null=True)
+    bbox = models.PolygonField(srid=4326, null=True)
+    bbox_geojson = models.TextField(null=True)
+
+class Wdpa2018Point(WdpaAbstract):
+    geom = models.MultiPointField()
+
+
+# Older Models
+
 class Wdpa2014Polygon(WdpaAbstract):
     updateme = models.BooleanField(default=False)
     new = models.BooleanField(default=False)
-
-    no_take = models.CharField(max_length=50)
-    no_tk_area = models.FloatField()
-    parent_iso3 = models.CharField(max_length=100)
-
-    gis_area = models.FloatField(null=True)
-    gis_m_area = models.FloatField(null=True)
-    shape_leng = models.FloatField(default=0)
-    shape_area = models.FloatField(default=0)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
@@ -118,15 +160,6 @@ class Wdpa2014Point(WdpaAbstract):
     updateme = models.BooleanField(default=False)
     new = models.BooleanField(default=False)
 
-    no_take = models.CharField(max_length=50)
-    no_tk_area = models.FloatField()
-    parent_iso3 = models.CharField(max_length=100)
-
-    gis_area = models.FloatField(null=True)
-    gis_m_area = models.FloatField(null=True)
-    shape_leng = models.FloatField(default=0)
-    shape_area = models.FloatField(default=0)
-
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
     geom_smerc = models.MultiPointField(srid=900913, null=True)
@@ -137,9 +170,7 @@ class Wdpa2014Point(WdpaAbstract):
 class WdpaPolygon(WdpaAbstract):
     objectid = models.IntegerField()
 
-    gis_area = models.FloatField(null=True)
     gis_area_2 = models.FloatField(default=0)
-    gis_m_area = models.FloatField(null=True)
     difference = models.FloatField(default=0)
     area_notes = models.CharField(max_length=250)
     shape_leng = models.FloatField(default=0)
@@ -179,6 +210,63 @@ class WdpaPoint(WdpaAbstract):
     geom = models.MultiPointField(srid=4326, null=True)
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
 
+
+# Auto-generated `LayerMapping` dictionary for WDPA_Current model
+wdpa2018point_mapping = {
+    'wdpaid' : 'WDPAID',
+    'wdpa_pid' : 'WDPA_PID',
+    'pa_def' : 'PA_DEF',
+    'name' : 'NAME',
+    'orig_name' : 'ORIG_NAME',
+    'desig' : 'DESIG',
+    'desig_eng' : 'DESIG_ENG',
+    'desig_type' : 'DESIG_TYPE',
+    'iucn_cat' : 'IUCN_CAT',
+    'int_crit' : 'INT_CRIT',
+    'marine' : 'MARINE',
+    'rep_m_area' : 'REP_M_AREA',
+    'rep_area' : 'REP_AREA',
+    'no_take' : 'NO_TAKE',
+    'no_tk_area' : 'NO_TK_AREA',
+    'status' : 'STATUS',
+    'status_yr' : 'STATUS_YR',
+    'gov_type' : 'GOV_TYPE',
+    'own_type' : 'OWN_TYPE',
+    'mang_auth' : 'MANG_AUTH',
+    'mang_plan' : 'MANG_PLAN',
+    'verif' : 'VERIF',
+    'metadataid' : 'METADATAID',
+    'sub_loc' : 'SUB_LOC',
+    'parent_iso3' : 'PARENT_ISO3',
+    'iso3' : 'ISO3',
+    'geom' : 'MULTIPOINT',
+}
+
+
+wdpa2018poly_mapping = wdpa2018point_mapping.copy()
+wdpa2018poly_mapping.update({
+    'gis_m_area' : 'GIS_M_AREA',
+    'gis_area' : 'GIS_AREA',
+    'shape_length' : 'Shape_Length',
+    'shape_area' : 'Shape_Area',
+    'geom' : 'MULTIPOLYGON',
+})
+
+wdpasource_mapping = {
+    'metadataid' : 'METADATAID',
+    'data_title' : 'DATA_TITLE',
+    'resp_party' : 'RESP_PARTY',
+    'verifier' : 'VERIFIER',
+    'year' : 'YEAR',
+    'update_yr' : 'UPDATE_YR',
+    'language' : 'LANGUAGE',
+    'char_set' : 'CHAR_SET',
+    'ref_system' : 'REF_SYSTEM',
+    'scale' : 'SCALE',
+    'lineage' : 'LINEAGE',
+    'citation' : 'CITATION',
+    'disclaimer' : 'DISCLAIMER',
+}
 
 # Auto-generated `LayerMapping` dictionary for WdpaPolygon model
 wdpa2014polygon_mapping = {

@@ -41,6 +41,12 @@ VERIFY_CHOICES = (
     ('Externally Verified', 'Externally Verified'),
 )
 
+VERIFY_WDPA_CHOICES = (
+    ('Not Reported', 'Not Reported'),
+    ('State Verified', 'State Verified'),
+    ('Expert Verified', 'Expert Verified'),
+)
+
 MPA_TYPE_CHOICES = (
     ('Marine Protected Area', 'Marine Protected Area'),
     ('(Non-MPA) Fisheries Management Zone', '(Non-MPA) Fisheries Management Zone'),
@@ -61,6 +67,18 @@ IUCN_CAT_CHOICES = (
     ('IV', 'IV'),
     ('V', 'V'),
     ('VI', 'VI'),
+)
+ 
+OWN_TYPE_CHOICES = (
+    ('State', 'State'),
+    ('Communal', 'Communal'),
+    ('Individual landowners', 'Individual landowners'),
+    ('For-profit organisations', 'For-profit organisations'),
+    ('Non-profit organisations', 'Non-profit organisations'),
+    ('Joint ownership', 'Joint ownership'),
+    ('Multiple ownership', 'Multiple ownership'),
+    ('Contested', 'Contested'),
+    ('Not Reported', 'Not Reported'),
 )
 
 STATUS_CHOICES = (
@@ -151,9 +169,10 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Mpa(models.Model):
     # ID / Name
-    mpa_id = models.AutoField('MPA id', primary_key=True, editable=False)
-    wdpa_id = models.IntegerField('WDPA id', null=True, blank=True, help_text='WDPA ID code. You probably should not be changing this.')
-    usmpa_id = models.CharField('US MPA id', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
+    mpa_id = models.AutoField('MPA ID', primary_key=True, editable=False)
+    wdpa_id = models.IntegerField('WDPA ID', null=True, blank=True, help_text='WDPA ID code. You probably should not be changing this.')
+    wdpa_pid = models.CharField('WDPA Parcel ID', max_length=52, null=True, blank=True, help_text='WDPA Parcel ID code in form wdpaid_X. You probably should not be changing this.')
+    usmpa_id = models.CharField('US MPA ID', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
     other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True, help_text='ID codes used by other groups to identify this area, e.g., TNC Caribbean or Coral Triangle Atlas ids.')
     name = models.CharField('Name', max_length=254, help_text='Protected area name not including designation title')
     long_name = models.CharField(max_length=254, blank=True) # name + designation
@@ -170,11 +189,17 @@ class Mpa(models.Model):
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Verification State
-    is_mpa = models.BooleanField(default=True)
+    is_mpa = models.BooleanField('MPAtlas MPA Definition', default=True)
+    pa_def = models.BooleanField('Protected Area Definition', default=True)
     verification_state = models.CharField('Verification State', max_length=100, default='Unverified', choices=VERIFY_CHOICES)
     verification_reason = models.CharField('Verification Reason', max_length=1000, null=True, blank=True)
     verified_by = models.CharField('Verified By', max_length=100, null=True, blank=True)
     verified_date = models.DateField('Date Verified', null=True, blank=True)
+    verify_wdpa = models.CharField('Verification by WDPA', max_length=20, null=True, blank=True, default='Not Reported', choices=VERIFY_WDPA_CHOICES)
+
+    # Data Source
+    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True, on_delete=models.SET_NULL)
+    wdpa_metadataid = models.IntegerField('WDPA Source Metadata ID', null=True)
 
     # Modification History
     created_date = models.DateTimeField('Creation Date', help_text='Date and time record created', auto_now_add=True)
@@ -204,6 +229,7 @@ class Mpa(models.Model):
     
     # Management details
     gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True) # = US gov_level
+    own_type = models.CharField('Ownership Type', max_length=254, null=True, blank=True, choices=OWN_TYPE_CHOICES, default='State') # WDPA OWN_TYPE
     mgmt_auth = models.CharField('Management Authority', max_length=254, null=True, blank=True)
     mgmt_plan_type = models.CharField('Management Plan Type', max_length=254, null=True, blank=True)
     mgmt_plan_ref = models.CharField('Management Plan Reference', max_length=254, null=True, blank=True)
@@ -211,9 +237,6 @@ class Mpa(models.Model):
     # Contact
     contact = models.ForeignKey('Contact', related_name='mpa_main_set', verbose_name='Main Contact', null=True, blank=True, on_delete=models.SET_NULL)
     other_contacts = models.ManyToManyField('Contact', verbose_name='Other Contacts', blank=True)
-
-    # Data Source
-    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True, on_delete=models.SET_NULL)
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')

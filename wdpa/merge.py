@@ -180,7 +180,8 @@ def updateMpaFromWdpa(wpoly, mpa, poly=True):
             mpa.is_point = False
     mpa.name = wpoly.name
     mpa.wdpa_id = wpoly.wdpaid
-    mpa.country = wpoly.country
+    mpa.wdpa_pid = wpoly.wdpa_pid
+    mpa.country = wpoly.iso3
     mpa.sovereign = wpoly.parent_iso3 # add this to mpa model!!!
     mpa.sub_location = wpoly.sub_loc
     mpa.designation = wpoly.desig
@@ -198,6 +199,10 @@ def updateMpaFromWdpa(wpoly, mpa, poly=True):
     mpa.mgmt_plan_ref = wpoly.mang_plan
     mpa.no_take = wpoly.no_take
     mpa.no_take_area = wpoly.no_tk_area
+
+    mpa.pa_def = wpoly.pa_def
+    mpa.own_type = wpoly.own_type
+    mpa.verify_wdpa = wpoly.verif
 
     if poly:
         mpa.calc_m_area = wpoly.gis_m_area
