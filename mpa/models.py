@@ -107,6 +107,7 @@ NO_TAKE_CHOICES = (
     ('Part','Part'),
     ('All','All'),
     ('Not Reported','Not Reported'),
+    ('Not Applicable','Not Applicable'),
 )
 
 PROTECTION_LEVEL_CHOICES = (
@@ -166,6 +167,12 @@ CONSERVATION_EFFECTIVENESS_CHOICES = (
     ('Low', 'Low'),
 )
 
+MARINE_CHOICES = (
+    (0, '0 - Not Marine/Unknown'),
+    (1, '1 - Coastal/Part Marine'),
+    (2, '2 - Full Marine'),
+)
+
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Mpa(models.Model):
     # ID / Name
@@ -175,6 +182,7 @@ class Mpa(models.Model):
     usmpa_id = models.CharField('US MPA ID', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
     other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True, help_text='ID codes used by other groups to identify this area, e.g., TNC Caribbean or Coral Triangle Atlas ids.')
     name = models.CharField('Name', max_length=254, help_text='Protected area name not including designation title')
+    orig_name = models.CharField('Original Name', max_length=254, blank=True, default='', help_text='Protected area original name not including designation title')
     long_name = models.CharField(max_length=254, blank=True) # name + designation
     short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
     slug = models.CharField(max_length=254, blank=True)
@@ -211,9 +219,11 @@ class Mpa(models.Model):
     designation_type = models.CharField('Designation Type', max_length=20, null=True, blank=True, choices=DESIG_TYPE_CHOICES)
     iucn_category = models.CharField('IUCN Category', max_length=20, null=True, blank=True, choices=IUCN_CAT_CHOICES)
     int_criteria = models.CharField('International Criteria', max_length=100, null=True, blank=True)
-    marine = models.NullBooleanField('Marine (field from WDPA)', null=True, blank=True, default=True, editable=False)
+    marine = models.IntegerField('Marine (field from WDPA)', null=True, default=0, choices=MARINE_CHOICES)
     status = models.CharField('Status', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
     status_year = models.IntegerField('Status Year', null=True, blank=True)
+    status_mpatlas = models.CharField('Status (mpatlas value)', max_length=100, null=True, blank=True, choices=STATUS_CHOICES, default='Designated')
+    status_year_mpatlas = models.IntegerField('Status Year (mpatlas value)', null=True, blank=True)
 
     # Implementation
     implemented = models.BooleanField('Implemented?', help_text='MPA is designated and implemented with regulations enforced', blank=True, default=True)
@@ -226,6 +236,13 @@ class Mpa(models.Model):
     calc_m_area = models.FloatField('Calculated Marine Area km²', null=True, blank=True)
     rep_area = models.FloatField('Reported Area km²', null=True, blank=True)
     calc_area = models.FloatField('Calculated Area km²', null=True, blank=True)
+
+    no_take_wdpa = models.CharField('No Take (wdpa value)', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
+    no_take_area_wdpa = models.FloatField('No Take Area km² (wdpa value)', null=True, blank=True)
+    no_take_mpatlas = models.CharField('No Take (mpatlas value)', max_length=100, choices=NO_TAKE_CHOICES, default='Not Reported')
+    no_take_area_mpatlas = models.FloatField('No Take Area km² (mpatlas value)', null=True, blank=True)
+    calc_m_area_mpatlas = models.FloatField('Calculated Marine Area km² (mpatlas value)', null=True, blank=True)
+    calc_area_mpatlas = models.FloatField('Calculated Area km² (mpatlas value)', null=True, blank=True)
     
     # Management details
     gov_type = models.CharField('Governance Type', max_length=254, null=True, blank=True) # = US gov_level
