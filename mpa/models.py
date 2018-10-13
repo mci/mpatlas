@@ -207,7 +207,7 @@ class Mpa(models.Model):
 
     # Data Source
     datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True, on_delete=models.SET_NULL)
-    wdpa_metadataid = models.IntegerField('WDPA Source Metadata ID', null=True)
+    wdpa_metadataid = models.IntegerField('WDPA Source Metadata ID', null=True, blank=True, editable=False)
 
     # Modification History
     created_date = models.DateTimeField('Creation Date', help_text='Date and time record created', auto_now_add=True)
@@ -345,12 +345,12 @@ class Mpa(models.Model):
     def my_fields_list(self):
         return list(self.my_fields.items())
     
-    display_field_names = ('designation', 'designation_type', 'status', 'gov_type',
-        'no_take', 'no_take_area', 'rep_m_area', 'fishing', 'fishing_info',
-        'access', 'constancy', 'permanence', 'protection_focus',
-        'primary_conservation_focus', 'secondary_conservation_focus', 'tertiary_conservation_focus',
-        'mgmt_auth', 'mgmt_plan_type', 'mgmt_plan_ref', 'iucn_category', 'int_criteria',
-        'mpa_id', 'wdpa_notes', 'notes')
+    display_field_names = ('name', 'orig_name', 'designation', 'designation_eng', 'designation_type',
+        'status', 'status_year', 'is_mpa', 'implemented', 'mpa_id', 'wdpa_id', 'wdpa_pid',
+        'iucn_category', 'no_take', 'no_take_area', 'rep_m_area', 'rep_area', 'fishing', 'fishing_info',
+        'access', 'constancy', 'permanence',
+        'gov_type', 'mgmt_auth', 'own_type', 'mgmt_plan_type', 'mgmt_plan_ref',  'int_criteria',
+    )
     
     @property
     def display_fields(self):
