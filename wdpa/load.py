@@ -37,7 +37,7 @@ def run_poly2018(source=wdpa_201810_gdb, strict=True, verbose=True, **kwargs):
 
 def run_source2018(source=wdpa_201810_gdb):
     ds = DataSource(source)
-    src = ds[identify_layers()['source']]
+    src = ds[identify_layers(source=source)['source']]
     print('Importing', len(src), 'records from Source table')
     for feat in src:
         obj,created = WdpaSource.objects.get_or_create(metadataid=feat.get('METADATAID'))
