@@ -27,16 +27,16 @@ def clear_wdpa_tables():
     Wdpa2018Point.objects.all().delete()
     Wdpa2018Poly.objects.all().delete()
 
-def run_point2018(strict=True, verbose=True, **kwargs):
-    lm_point = LayerMapping(Wdpa2018Point, wdpa_201810_gdb, wdpa2018point_mapping, layer=identify_layers()['point'], transform=False, encoding='utf-8')
+def run_point2018(source=wdpa_201810_gdb, strict=True, verbose=True, **kwargs):
+    lm_point = LayerMapping(Wdpa2018Point, source, wdpa2018point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
     lm_point.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_poly2018(strict=True, verbose=True, **kwargs):
-    lm_poly = LayerMapping(Wdpa2018Poly, wdpa_201810_gdb, wdpa2018poly_mapping, layer=identify_layers()['poly'], transform=False, encoding='utf-8')
+def run_poly2018(source=wdpa_201810_gdb, strict=True, verbose=True, **kwargs):
+    lm_poly = LayerMapping(Wdpa2018Poly, source, wdpa2018poly_mapping, layer=identify_layers(source=source)['poly'], transform=False, encoding='utf-8')
     lm_poly.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_source2018():
-    ds = DataSource(wdpa_201810_gdb)
+def run_source2018(source=wdpa_201810_gdb):
+    ds = DataSource(source)
     src = ds[identify_layers()['source']]
     print('Importing', len(src), 'records from Source table')
     for feat in src:
