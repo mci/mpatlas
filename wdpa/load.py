@@ -10,19 +10,34 @@ wdpapoint_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wd
 wdpa2014gdb = os.path.abspath('/Users/russmo/Documents/MPAtlas/WDPA_Oct2014_Public/WDPA_Oct2014_Public.gdb')
 
 wdpa_201809_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Sept2018_Public/WDPA_Sept_2018_Public/WDPA_Sept2018_Public.gdb')
+wdpa_201810_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Oct2018_Public//WDPA_Oct2018_Public.gdb')
 
+def identify_layers(source=wdpa_201810_gdb):
+    ds = DataSource(source)
+    layers = {'point': None, 'poly': None, 'source': None}
+    for lyrid in range(0, len(ds)):
+        for key in layers.keys():
+            if ds[lyrid].name.find(key) > -1:
+                layers[key] = lyrid
+                break
+    return(layers)
+
+def clear_wdpa_tables():
+    WdpaSource.objects.all().delete()
+    Wdpa2018Point.objects.all().delete()
+    Wdpa2018Poly.objects.all().delete()
 
 def run_point2018(strict=True, verbose=True, **kwargs):
-    lm_point = LayerMapping(Wdpa2018Point, wdpa_201809_gdb, wdpa2018point_mapping, layer=0, transform=False, encoding='utf-8')
+    lm_point = LayerMapping(Wdpa2018Point, wdpa_201810_gdb, wdpa2018point_mapping, layer=identify_layers()['point'], transform=False, encoding='utf-8')
     lm_point.save(strict=strict, verbose=verbose, **kwargs)
 
 def run_poly2018(strict=True, verbose=True, **kwargs):
-    lm_poly = LayerMapping(Wdpa2018Poly, wdpa_201809_gdb, wdpa2018poly_mapping, layer=1, transform=False, encoding='utf-8')
+    lm_poly = LayerMapping(Wdpa2018Poly, wdpa_201810_gdb, wdpa2018poly_mapping, layer=identify_layers()['poly'], transform=False, encoding='utf-8')
     lm_poly.save(strict=strict, verbose=verbose, **kwargs)
 
 def run_source2018():
-    ds = DataSource(wdpa_201809_gdb)
-    src = ds[2]
+    ds = DataSource(wdpa_201810_gdb)
+    src = ds[identify_layers()['source']]
     print('Importing', len(src), 'records from Source table')
     for feat in src:
         obj,created = WdpaSource.objects.get_or_create(metadataid=feat.get('METADATAID'))
