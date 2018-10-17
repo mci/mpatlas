@@ -7,13 +7,15 @@ from mpa import admin as mpa_admin # needed to kick in reversion registration
 from django.contrib.auth import get_user_model
 
 from django.db import connection, transaction
-from django.db.models import Q
+from django.db.models import Q, F, Func
 import reversion
 from reversion.models import Revision, Version
 
 from django.contrib.gis import geos
+from django.contrib.gis.db.models.functions import Area
 
 import json
+import copy
 
 ####
 # USAGE
@@ -36,33 +38,36 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 
 # Just go through CEA focus countries first, excluding USA
 # mpaset = mpas_all_nogeom.filter(
-#     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IND') | 
+#     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
 #     Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
-#     Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IND') |
+#     Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
 #     Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
 # )
 
 # wdpa_filter = (
-#     Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IND') | 
+#     Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
 #     Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
-#     Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IND') |
+#     Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
 #     Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
 # )
 
 mpaset = mpas_all_nogeom.filter(
-    Q(country__icontains='IDN') | Q(sovereign__icontains='IDN')
+    Q(country__icontains='AUS') | Q(sovereign__icontains='AUS')
 )
 
 wdpa_filter = (
-    Q(iso3__icontains='IDN') | Q(parent_iso3__icontains='IDN')
+    Q(iso3__icontains='AUS') | Q(parent_iso3__icontains='AUS')
 )
 
-def getRemoveWdpaList(verbose=False):
+def getRemoveWdpaList(verbose=False, logfile=None):
     ####
     # Remove mpa records where the latest 2018 WDPA has removed that wdpaid number
     count = 0
     wdpa2remove = []
-    mpa_wdpaid_list = mpaset.filter(wdpa_id__isnull=False).order_by('wdpa_id').values_list('wdpa_id', flat=True)
+    if logfile:
+        log = open(logfile, 'w', buffering=1)
+        log.write('{\n')
+    mpa_wdpaid_list = mpaset.filter(wdpa_id__isnull=False, wdpa_id__gt=0).order_by('wdpa_id').values_list('wdpa_id', flat=True)
     poly_wdpa2018_list = Wdpa2018Poly.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
     point_wdpa2018_list = Wdpa2018Point.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
     wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
@@ -73,6 +78,29 @@ def getRemoveWdpaList(verbose=False):
             wdpa2remove.append(wdpaid)
             if verbose:
                 print(wdpaid, ':', count, 'processed')
+            if logfile:
+                for m in mpaset.filter(wdpa_id=wdpaid):
+                    summary = {
+                        'mpa_id': m.mpa_id,
+                        'country': m.country,
+                        'sovereign': m.sovereign,
+                        'name': m.name,
+                        'designation': m.designation,
+                        'designation_eng': m.designation_eng,
+                        'status': m.status,
+                        'no_take': m.no_take,
+                        'no_take_area': m.no_take_area,
+                        'is_mpa': m.is_mpa,
+                        'implemented': m.implemented,
+                        'verification_state': m.verification_state
+                    }
+                    log.write('"%s": ' % wdpaid)
+                    json.dump(summary, log, indent=4, ensure_ascii=False)
+                    log.write(',\n')
+                    log.flush()
+    if logfile:
+        log.write('\n}\n')
+        log.close()
     return wdpa2remove
 
 def removeMpasByWdpaId(remove_ids):
@@ -225,14 +253,18 @@ def updateMpasFromWdpaList(ids=[]):
     updateMpasFromWdpaQueryset(qs=polys, poly=True)
 
 
-def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, dryrun=False):
+def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None, dryrun=False):
     if qs is None:
         qs = Wdpa2018Poly.objects.all().defer(*Wdpa2018Poly.get_geom_fields()).order_by('wdpa_pid')
     total = max(qs.count(), Mpa.objects.filter(wdpa_pid__in=qs.values_list('wdpa_pid', flat=True).distinct()).count())
     count = 0
+    diffcount = 0
     if logfile:
         log = open(logfile, 'w', buffering=1)
         log.write('{\n')
+    if geologfile:
+        geolog = open(geologfile, 'w', buffering=1)
+        geolog.write('{\n')
     for wpoly in qs:
         # mpa, created = Mpa.objects.get_or_create(wdpa_id=wpoly.wdpaid)
         created = False
@@ -249,18 +281,51 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, dryrun=False):
             count += 1
             print('%s/%s' % (count, total), 'adding/updating wdpa_pid', wpoly.wdpa_pid, 'with mpa_id', mpa.mpa_id)
             diff = {}
+            diff_nogeom = {}
             if not created:
                 diff = diffMpaWdpa(mpa, wpoly, poly)
             if diff:
+                diffcount += 1
                 geominfo = ''
+                diff_nogeom = copy.deepcopy(diff)
+                try:
+                    del(diff_nogeom['mpa']['geom'])
+                    del(diff_nogeom['wdpa']['geom'])
+                except:
+                    pass
                 if 'geom' in diff['mpa']:
                     geominfo = ' and GEOM diff'
+                    # Calculate area in sq km, by casting to geography first
+                    try:
+                        m_area_qs = mpas.filter(mpa_id=mpa.mpa_id).annotate(geog_area=Area( Func(F('geom'), function='geography', template='%(expressions)s::%(function)s') ))
+                        m_area = m_area_qs.values_list('geog_area', flat=True)[0].sq_km
+                    except:
+                        m_area = 0
+                        raise
+                    try:
+                        w_area_qs = qs.filter(wdpa_pid=wpoly.wdpa_pid).annotate(geog_area=Area( Func(F('geom'), function='geography', template='%(expressions)s::%(function)s') ))
+                        w_area = w_area_qs.values_list('geog_area', flat=True)[0].sq_km
+                    except:
+                        w_area=0
+                        raise
+                    diff_nogeom['mpa']['geom_area_sqkm'] = m_area
+                    diff_nogeom['wdpa']['geom_area_sqkm'] = w_area
+                    diff_nogeom['mpa']['geom_area_sqkm_diff'] = abs(m_area - w_area)
+                    diff_nogeom['wdpa']['geom_area_sqkm_diff'] = abs(m_area - w_area)
+                    if geologfile:
+                        if diffcount > 1:
+                            geolog.write(',\n')
+                        geolog.write('"%s": ' % wpoly.wdpa_pid)
+                        json.dump(diff, geolog, indent=4, ensure_ascii=False)
+                        geolog.flush()
                 print('    PID:', wpoly.wdpa_pid, 'has %s field diffs %s' % (len(diff['mpa']), geominfo) )
                 if logfile:
+                    if diffcount > 1:
+                        log.write(',\n')
                     log.write('"%s": ' % wpoly.wdpa_pid)
-                    json.dump(diff, log, indent=4, ensure_ascii=False)
-                    log.write(',\n')
+                    json.dump(diff_nogeom, log, indent=4, ensure_ascii=False)
                     log.flush()
+
             # update record and create a revision so we can roll back if needed
             if not dryrun:
                 with transaction.atomic(), reversion.create_revision():
@@ -275,6 +340,9 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, dryrun=False):
     if logfile:
         log.write('\n}\n')
         log.close()
+    if geologfile:
+        geolog.write('\n}\n')
+        geolog.close()
     return True
 
 
