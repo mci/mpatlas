@@ -199,6 +199,8 @@ def getAddWdpaPidList(verbose=False):
     # newpoints.update(new=True, updateme=True)
     return wdpa2add
 
+
+# This uses WDPA 2012 vs 2014!!! UPDATE code to 2018!
 def getUpdateWdpaList():
     ####
     # Find WDPA records that have updated fields
@@ -411,6 +413,13 @@ def updateMpaFromWdpa(wpoly, mpa, poly=True):
     mpa.pa_def = wpoly.pa_def
     mpa.own_type = wpoly.own_type
     mpa.verify_wdpa = wpoly.verif
+
+    if wpoly.marine == 0:
+        if mpa.verification_state not in ('Internally Verified', 'Externally Verified'):
+            # Keep original MPAtlas is_mpa value if verified,
+            # otherwise set to is_mpa=False
+            mpa.is_mpa = False;
+            mpa.notes = mpa.notes + '\nSetting marine=0 and is_mpa=False because site is unverified.'
 
     if poly:
         newgeom = wpoly.geom.clone()
