@@ -59,20 +59,28 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 #     Q(iso3__icontains='AUS') | Q(parent_iso3__icontains='AUS')
 # )
 
+# mpaset = mpas_all_nogeom.filter(
+#     Q(country__icontains='FRA') | Q(sovereign__icontains='FRA')
+#     | Q(country__icontains='ATF') | Q(country__icontains='BLM') | Q(country__icontains='GLP')
+#     | Q(country__icontains='GUF') | Q(country__icontains='MAF') | Q(country__icontains='MTQ')
+#     | Q(country__icontains='MYT') | Q(country__icontains='NCL') | Q(country__icontains='PYF')
+#     | Q(country__icontains='REU') | Q(country__icontains='SHN') | Q(country__icontains='SYC')
+# )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='FRA') | Q(parent_iso3__icontains='FRA')
+#     | Q(iso3__icontains='ATF') | Q(iso3__icontains='BLM') | Q(iso3__icontains='GLP')
+#     | Q(iso3__icontains='GUF') | Q(iso3__icontains='MAF') | Q(iso3__icontains='MTQ')
+#     | Q(iso3__icontains='MYT') | Q(iso3__icontains='NCL') | Q(iso3__icontains='PYF')
+#     | Q(iso3__icontains='REU') | Q(iso3__icontains='SHN') | Q(iso3__icontains='SYC')
+# )
+
 mpaset = mpas_all_nogeom.filter(
-    Q(country__icontains='FRA') | Q(sovereign__icontains='FRA')
-    | Q(country__icontains='ATF') | Q(country__icontains='BLM') | Q(country__icontains='GLP')
-    | Q(country__icontains='GUF') | Q(country__icontains='MAF') | Q(country__icontains='MTQ')
-    | Q(country__icontains='MYT') | Q(country__icontains='NCL') | Q(country__icontains='PYF')
-    | Q(country__icontains='REU') | Q(country__icontains='SHN') | Q(country__icontains='SYC')
+    Q(country__icontains='ZAF') | Q(sovereign__icontains='ZAF')
 )
 
 wdpa_filter = (
-    Q(iso3__icontains='FRA') | Q(parent_iso3__icontains='FRA')
-    | Q(iso3__icontains='ATF') | Q(iso3__icontains='BLM') | Q(iso3__icontains='GLP')
-    | Q(iso3__icontains='GUF') | Q(iso3__icontains='MAF') | Q(iso3__icontains='MTQ')
-    | Q(iso3__icontains='MYT') | Q(iso3__icontains='NCL') | Q(iso3__icontains='PYF')
-    | Q(iso3__icontains='REU') | Q(iso3__icontains='SHN') | Q(iso3__icontains='SYC')
+    Q(iso3__icontains='ZAF') | Q(parent_iso3__icontains='ZAF')
 )
 
 def getRemoveWdpaList(verbose=False, logfile=None):
