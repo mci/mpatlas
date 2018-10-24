@@ -75,12 +75,20 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 #     | Q(iso3__icontains='REU') | Q(iso3__icontains='SHN') | Q(iso3__icontains='SYC')
 # )
 
+# mpaset = mpas_all_nogeom.filter(
+#     Q(country__icontains='ZAF') | Q(sovereign__icontains='ZAF')
+# )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='ZAF') | Q(parent_iso3__icontains='ZAF')
+# )
+
 mpaset = mpas_all_nogeom.filter(
-    Q(country__icontains='ZAF') | Q(sovereign__icontains='ZAF')
+    Q(country__icontains='CAN') | Q(sovereign__icontains='CAN')
 )
 
 wdpa_filter = (
-    Q(iso3__icontains='ZAF') | Q(parent_iso3__icontains='ZAF')
+    Q(iso3__icontains='CAN') | Q(parent_iso3__icontains='CAN')
 )
 
 def getRemoveWdpaList(verbose=False, logfile=None):
