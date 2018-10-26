@@ -93,7 +93,7 @@ def adaptParam(p):
             pass
     return a
 
-def updateMpaSQL(m):
+def updateMpaSQL(m, simple_threshold=0):
     '''Returns a Postgresql SQL statement that will update or insert an Mpa record
        from the MPAtlas database into the mpatlas table on Carto.  The Carto
        mpatlas table columns are not a one-to-one match with mpa_mpa columns.
@@ -104,6 +104,8 @@ def updateMpaSQL(m):
         mpadict = Mpa.objects.filter(pk=m.mpa_id).values(*fields).first()
         mpadict['categories'] = '{' + ', '.join(m.categories.names()) + '}'
         lookup = {'mpa_id': m.mpa_id, 'geom': adaptParam(m.geom.hexewkb), 'columns': ', '.join(mpadict.keys()), 'values': ', '.join([adaptParam(v) for v in mpadict.values()])}
+        if simple_threshold > 0 and m.geom.num_coords >= simple_threshold:
+            lookup['geom'] = adaptParam(m.simple_geom.hexewkb)
         upsert = '''
             UPDATE mpatlas SET (the_geom, %(columns)s) = (%(geom)s::geometry, %(values)s) WHERE mpa_id=%(mpa_id)s;
                 INSERT INTO mpatlas (the_geom, %(columns)s)
@@ -115,7 +117,7 @@ def updateMpaSQL(m):
         print('ERROR processing mpa %s: ' % m.mpa_id, e)
         raise(e)
 
-def updateMpa(m):
+def updateMpa(m, simple_threshold=0):
     '''Executes Mpa update/insert statements using the Carto API via the carto module.
        Returns mpa.mpa_id or None if error'''
     if not isinstance(m, Mpa):
@@ -123,15 +125,18 @@ def updateMpa(m):
     auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
     sql = SQLClient(auth_client)
     try:
-        sql.send(updateMpaSQL(m))
+        sql.send(updateMpaSQL(m, simple_threshold=simple_threshold))
         return m.pk
     except CartoException as e:
         print('Carto Error for mpa_id %s:' % m.pk, e)
     return None
 
-def updateAllMpas(mpas=mpas, step=10, limit=None):
+def updateAllMpas(mpas=mpas, simple_threshold=0, step=10, limit=None):
     '''Execute bulk Mpa update/insert statements using the Carto API via the carto module.
        mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       simple_threshold = number of vertices a feature must contain in order to send
+           simplified geometry to Carto to save disk space.
+           [0 = never send simplified geometries, 1 = always send simplified geometries]
        step = number of Mpas to update per http transaction
        limit = only process a subset of records, useful for testing
        Returns list of mpa.mpa_ids that were not processed due to errors, empty list if no errors
@@ -155,7 +160,7 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
         upsert = ''
         for m in mpas[r0:r1]:
             try:
-                upsert += updateMpaSQL(m)
+                upsert += updateMpaSQL(m, simple_threshold=simple_threshold)
                 step_ids.append(m.pk)
             except:
                 error_ids.append(m.pk)
@@ -168,7 +173,7 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
             print('Trying single updates.')
             for mpa_id in step_ids:
                 try:
-                    success = updateMpa(mpa_id)
+                    success = updateMpa(mpa_id, simple_threshold=simple_threshold)
                     if not success:
                         raise CartoException
                 except CartoException as e:
@@ -177,6 +182,27 @@ def updateAllMpas(mpas=mpas, step=10, limit=None):
     end = time.time()
     print('TOTAL', end - start, 'sec elapsed')
     return error_ids
+
+def removeCartoMpas(mpas=mpas, dryrun=False):
+    '''Execute Mpa remove statements using the Carto API via the carto module.
+       mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
+       dryrun = [False] if true, just return list of mpa_ids to be removed but don't run SQL.
+       Returns list of mpa.mpa_ids that were removed, empty list if none removed.
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    nummpas = mpas.count()
+    local_ids = mpas.values_list('mpa_id', flat=True)
+    if local_ids:
+        deletesql = '''
+            DELETE FROM mpatlas WHERE mpa_id IN %(local_ids)s;
+        ''' % ({'local_ids': adaptParam(tuple(local_ids))})
+        if not dryrun:
+            try:
+                sql.send(deletesql)
+            except CartoException as e:
+                print('Carto Error deleting %s mpas:' % len(local_ids), e)
+    return local_ids
 
 def purgeCartoMpas(mpas=mpas, dryrun=False):
     '''Execute Mpa remove statements using the Carto API via the carto module for
@@ -210,7 +236,7 @@ def purgeCartoMpas(mpas=mpas, dryrun=False):
                 print('Carto Error deleting %s mpas:' % len(missing), e)
     return missing
 
-def addMissingMpas(mpas=mpas, dryrun=False):
+def addMissingMpas(mpas=mpas, simple_threshold=0, dryrun=False):
     '''Execute Mpa remove statements using the Carto API via the carto module for
        mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
        mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
@@ -234,7 +260,7 @@ def addMissingMpas(mpas=mpas, dryrun=False):
     if missing:
         addmpas = mpas.filter(mpa_id__in = missing)
         if not dryrun:
-            updateAllMpas(addmpas)
+            updateAllMpas(addmpas, simple_threshold=simple_threshold)
     return missing
 
 fields = [
