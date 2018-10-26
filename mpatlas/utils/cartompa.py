@@ -236,7 +236,7 @@ def purgeCartoMpas(mpas=mpas, dryrun=False):
                 print('Carto Error deleting %s mpas:' % len(missing), e)
     return missing
 
-def truncateCartoMpas():
+def truncateCartoMpas(dryrun=False):
     '''Execute truncate statements using the Carto API via the carto module for
        to clear out all records in table.
        dryrun = [False] if true, just number of records to be purged but don't run SQL.
