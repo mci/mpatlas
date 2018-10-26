@@ -83,12 +83,30 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 #     Q(iso3__icontains='ZAF') | Q(parent_iso3__icontains='ZAF')
 # )
 
+# mpaset = mpas_all_nogeom.filter(
+#     Q(country__icontains='CAN') | Q(sovereign__icontains='CAN')
+# )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='CAN') | Q(parent_iso3__icontains='CAN')
+# )
+
 mpaset = mpas_all_nogeom.filter(
-    Q(country__icontains='CAN') | Q(sovereign__icontains='CAN')
+    Q(country__icontains='GBR') | Q(sovereign__icontains='GBR')
+    | Q(country__icontains='AIA') | Q(country__icontains='BMU') | Q(country__icontains='CYM')
+    | Q(country__icontains='FLK') | Q(country__icontains='GIB') | Q(country__icontains='IMN')
+    | Q(country__icontains='IOT') | Q(country__icontains='JEY') | Q(country__icontains='MSR')
+    | Q(country__icontains='PCN') | Q(country__icontains='SGS') | Q(country__icontains='SHN')
+    | Q(country__icontains='TCA') | Q(country__icontains='VGB')
 )
 
 wdpa_filter = (
-    Q(iso3__icontains='CAN') | Q(parent_iso3__icontains='CAN')
+    Q(iso3__icontains='GBR') | Q(parent_iso3__icontains='GBR')
+    | Q(iso3__icontains='AIA') | Q(iso3__icontains='BMU') | Q(iso3__icontains='CYM')
+    | Q(iso3__icontains='FLK') | Q(iso3__icontains='GIB') | Q(iso3__icontains='IMN')
+    | Q(iso3__icontains='IOT') | Q(iso3__icontains='JEY') | Q(iso3__icontains='MSR')
+    | Q(iso3__icontains='PCN') | Q(iso3__icontains='SGS') | Q(iso3__icontains='SHN')
+    | Q(iso3__icontains='TCA') | Q(iso3__icontains='VGB')
 )
 
 def getRemoveWdpaList(verbose=False, logfile=None):
