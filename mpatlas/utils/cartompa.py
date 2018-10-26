@@ -93,7 +93,7 @@ def adaptParam(p):
             pass
     return a
 
-def updateMpaSQL(m, simple_threshold=0):
+def updateMpaSQL(m, simple_threshold=0, simple_tolerance=0.0001):
     '''Returns a Postgresql SQL statement that will update or insert an Mpa record
        from the MPAtlas database into the mpatlas table on Carto.  The Carto
        mpatlas table columns are not a one-to-one match with mpa_mpa columns.
@@ -105,7 +105,8 @@ def updateMpaSQL(m, simple_threshold=0):
         mpadict['categories'] = '{' + ', '.join(m.categories.names()) + '}'
         lookup = {'mpa_id': m.mpa_id, 'geom': adaptParam(m.geom.hexewkb), 'columns': ', '.join(mpadict.keys()), 'values': ', '.join([adaptParam(v) for v in mpadict.values()])}
         if simple_threshold > 0 and m.geom.num_coords >= simple_threshold:
-            lookup['geom'] = adaptParam(m.simple_geom.hexewkb)
+            # lookup['geom'] = adaptParam(m.simple_geom.hexewkb)
+            lookup['geom'] = adaptParam(m.geom.simplify(simple_tolerance).hexewkb)
         upsert = '''
             UPDATE mpatlas SET (the_geom, %(columns)s) = (%(geom)s::geometry, %(values)s) WHERE mpa_id=%(mpa_id)s;
                 INSERT INTO mpatlas (the_geom, %(columns)s)
@@ -117,7 +118,7 @@ def updateMpaSQL(m, simple_threshold=0):
         print('ERROR processing mpa %s: ' % m.mpa_id, e)
         raise(e)
 
-def updateMpa(m, simple_threshold=0):
+def updateMpa(m, simple_threshold=0, simple_tolerance=0.0001):
     '''Executes Mpa update/insert statements using the Carto API via the carto module.
        Returns mpa.mpa_id or None if error'''
     if not isinstance(m, Mpa):
@@ -125,18 +126,19 @@ def updateMpa(m, simple_threshold=0):
     auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
     sql = SQLClient(auth_client)
     try:
-        sql.send(updateMpaSQL(m, simple_threshold=simple_threshold))
+        sql.send(updateMpaSQL(m, simple_threshold=simple_threshold, simple_tolerance=simple_tolerance))
         return m.pk
     except CartoException as e:
         print('Carto Error for mpa_id %s:' % m.pk, e)
     return None
 
-def updateAllMpas(mpas=mpas, simple_threshold=0, step=10, limit=None):
+def updateAllMpas(mpas=mpas, simple_threshold=0, simple_tolerance=0.0001, step=10, limit=None):
     '''Execute bulk Mpa update/insert statements using the Carto API via the carto module.
        mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
        simple_threshold = number of vertices a feature must contain in order to send
            simplified geometry to Carto to save disk space.
            [0 = never send simplified geometries, 1 = always send simplified geometries]
+       simple_tolerance = Douglas-Peucker simplification tolerance
        step = number of Mpas to update per http transaction
        limit = only process a subset of records, useful for testing
        Returns list of mpa.mpa_ids that were not processed due to errors, empty list if no errors
@@ -160,7 +162,7 @@ def updateAllMpas(mpas=mpas, simple_threshold=0, step=10, limit=None):
         upsert = ''
         for m in mpas[r0:r1]:
             try:
-                upsert += updateMpaSQL(m, simple_threshold=simple_threshold)
+                upsert += updateMpaSQL(m, simple_threshold=simple_threshold, simple_tolerance=simple_tolerance)
                 step_ids.append(m.pk)
             except:
                 error_ids.append(m.pk)
@@ -173,7 +175,7 @@ def updateAllMpas(mpas=mpas, simple_threshold=0, step=10, limit=None):
             print('Trying single updates.')
             for mpa_id in step_ids:
                 try:
-                    success = updateMpa(mpa_id, simple_threshold=simple_threshold)
+                    success = updateMpa(mpa_id, simple_threshold=simple_threshold, simple_tolerance=simple_tolerance)
                     if not success:
                         raise CartoException
                 except CartoException as e:
