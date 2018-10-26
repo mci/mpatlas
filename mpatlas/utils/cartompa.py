@@ -236,6 +236,34 @@ def purgeCartoMpas(mpas=mpas, dryrun=False):
                 print('Carto Error deleting %s mpas:' % len(missing), e)
     return missing
 
+def truncateCartoMpas():
+    '''Execute truncate statements using the Carto API via the carto module for
+       to clear out all records in table.
+       dryrun = [False] if true, just number of records to be purged but don't run SQL.
+       Returns list of mpa.mpa_ids that were removed, empty list if none removed.
+    '''
+    auth_client = APIKeyAuthClient(api_key=API_KEY, base_url=USR_BASE_URL)
+    sql = SQLClient(auth_client)
+    nummpas = mpas.count()
+    local_ids = mpas.values_list('mpa_id', flat=True)
+    carto_idsql = '''
+        SELECT mpa_id FROM mpatlas ORDER BY mpa_id;
+    '''
+    try:
+        result = sql.send(carto_idsql)
+    except CartoException as e:
+        print('Carto Error for getting mpa_ids', e)
+    carto_ids = [i['mpa_id'] for i in result['rows']]
+    truncateql = '''
+        TRUNCATE TABLE mpatlas;
+    '''
+    if not dryrun:
+        try:
+            sql.send(truncatesql)
+        except CartoException as e:
+            print('Carto Error truncating %s mpas:' % len(carto_ids), e)
+    return carto_ids
+
 def addMissingMpas(mpas=mpas, simple_threshold=0, dryrun=False):
     '''Execute Mpa remove statements using the Carto API via the carto module for
        mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
