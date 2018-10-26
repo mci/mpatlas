@@ -136,7 +136,7 @@ def updateMpa(m, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance=SIMPLE_TOLE
         print('Carto Error for mpa_id %s:' % m.pk, e)
     return None
 
-def updateAllMpas(mpas=mpas, simple_threshold=0, simple_tolerance=0.0001, step=10, limit=None):
+def updateAllMpas(mpas=mpas, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance=SIMPLE_TOLERANCE, step=10, limit=None):
     '''Execute bulk Mpa update/insert statements using the Carto API via the carto module.
        mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
        simple_threshold = number of vertices a feature must contain in order to send
@@ -153,6 +153,7 @@ def updateAllMpas(mpas=mpas, simple_threshold=0, simple_tolerance=0.0001, step=1
     if limit:
         nummpas = min(limit, nummpas)
     print('Processing %s of %s mpa records at a time' % (step, nummpas))
+    print('Simplify threshold: %s points, Simplify tolerance: %s' % (step, nummpas))
     r = list(range(0,nummpas+2,step))
     if r and r[-1] < nummpas:
         r.append(nummpas)
