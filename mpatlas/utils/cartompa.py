@@ -28,6 +28,10 @@ carto_domain = 'mpatlas'
 USERNAME="mpatlas"
 USR_BASE_URL = "https://{user}.carto.com/".format(user=USERNAME)
 
+# Simplification settings for large/complex geometries
+SIMPLE_THRESHOLD = getattr(settings, "CARTO_SIMPLE_THRESHOLD", 100000)
+SIMPLE_TOLERANCE = getattr(settings, "CARTO_SIMPLE_TOLERANCE", 0.0001)
+
 # fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
 # via a .values(*fields) call.  Update this for new columns.
 fields = []
@@ -93,7 +97,7 @@ def adaptParam(p):
             pass
     return a
 
-def updateMpaSQL(m, simple_threshold=0, simple_tolerance=0.0001):
+def updateMpaSQL(m, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance=SIMPLE_TOLERANCE):
     '''Returns a Postgresql SQL statement that will update or insert an Mpa record
        from the MPAtlas database into the mpatlas table on Carto.  The Carto
        mpatlas table columns are not a one-to-one match with mpa_mpa columns.
@@ -118,7 +122,7 @@ def updateMpaSQL(m, simple_threshold=0, simple_tolerance=0.0001):
         print('ERROR processing mpa %s: ' % m.mpa_id, e)
         raise(e)
 
-def updateMpa(m, simple_threshold=0, simple_tolerance=0.0001):
+def updateMpa(m, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance=SIMPLE_TOLERANCE):
     '''Executes Mpa update/insert statements using the Carto API via the carto module.
        Returns mpa.mpa_id or None if error'''
     if not isinstance(m, Mpa):
@@ -266,7 +270,7 @@ def truncateCartoMpas(dryrun=False):
             print('Carto Error truncating %s mpas:' % len(carto_ids), e)
     return carto_ids
 
-def addMissingMpas(mpas=mpas, simple_threshold=0, dryrun=False):
+def addMissingMpas(mpas=mpas, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance=SIMPLE_TOLERANCE, dryrun=False):
     '''Execute Mpa remove statements using the Carto API via the carto module for
        mpas in the Carto mpatlas table that are not found in the passed mpas queryset.
        mpas = Mpa queryset [default is all non-rejected MPAs with geom boundaries]
@@ -290,7 +294,7 @@ def addMissingMpas(mpas=mpas, simple_threshold=0, dryrun=False):
     if missing:
         addmpas = mpas.filter(mpa_id__in = missing)
         if not dryrun:
-            updateAllMpas(addmpas, simple_threshold=simple_threshold)
+            updateAllMpas(addmpas, simple_threshold=simple_threshold, simple_tolerance=simple_tolerance)
     return missing
 
 fields = [
