@@ -254,7 +254,7 @@ def truncateCartoMpas(dryrun=False):
     except CartoException as e:
         print('Carto Error for getting mpa_ids', e)
     carto_ids = [i['mpa_id'] for i in result['rows']]
-    truncateql = '''
+    truncatesql = '''
         TRUNCATE TABLE mpatlas;
     '''
     if not dryrun:
