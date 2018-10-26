@@ -153,7 +153,7 @@ def updateAllMpas(mpas=mpas, simple_threshold=SIMPLE_THRESHOLD, simple_tolerance
     if limit:
         nummpas = min(limit, nummpas)
     print('Processing %s of %s mpa records at a time' % (step, nummpas))
-    print('Simplify threshold: %s points, Simplify tolerance: %s' % (step, nummpas))
+    print('Simplify threshold: %s points, Simplify tolerance: %s' % (simple_threshold, simple_tolerance))
     r = list(range(0,nummpas+2,step))
     if r and r[-1] < nummpas:
         r.append(nummpas)
