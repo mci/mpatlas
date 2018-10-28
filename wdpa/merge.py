@@ -91,22 +91,82 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 #     Q(iso3__icontains='CAN') | Q(parent_iso3__icontains='CAN')
 # )
 
-mpaset = mpas_all_nogeom.filter(
-    Q(country__icontains='GBR') | Q(sovereign__icontains='GBR')
-    | Q(country__icontains='AIA') | Q(country__icontains='BMU') | Q(country__icontains='CYM')
-    | Q(country__icontains='FLK') | Q(country__icontains='GIB') | Q(country__icontains='IMN')
-    | Q(country__icontains='IOT') | Q(country__icontains='JEY') | Q(country__icontains='MSR')
-    | Q(country__icontains='PCN') | Q(country__icontains='SGS') | Q(country__icontains='SHN')
-    | Q(country__icontains='TCA') | Q(country__icontains='VGB')
-)
+# mpaset = mpas_all_nogeom.filter(
+#     Q(country__icontains='GBR') | Q(sovereign__icontains='GBR')
+#     | Q(country__icontains='AIA') | Q(country__icontains='BMU') | Q(country__icontains='CYM')
+#     | Q(country__icontains='FLK') | Q(country__icontains='GIB') | Q(country__icontains='IMN')
+#     | Q(country__icontains='IOT') | Q(country__icontains='JEY') | Q(country__icontains='MSR')
+#     | Q(country__icontains='PCN') | Q(country__icontains='SGS') | Q(country__icontains='SHN')
+#     | Q(country__icontains='TCA') | Q(country__icontains='VGB')
+# )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='GBR') | Q(parent_iso3__icontains='GBR')
+#     | Q(iso3__icontains='AIA') | Q(iso3__icontains='BMU') | Q(iso3__icontains='CYM')
+#     | Q(iso3__icontains='FLK') | Q(iso3__icontains='GIB') | Q(iso3__icontains='IMN')
+#     | Q(iso3__icontains='IOT') | Q(iso3__icontains='JEY') | Q(iso3__icontains='MSR')
+#     | Q(iso3__icontains='PCN') | Q(iso3__icontains='SGS') | Q(iso3__icontains='SHN')
+#     | Q(iso3__icontains='TCA') | Q(iso3__icontains='VGB')
+# )
+
+mpaset = mpas_all_nogeom.exclude(
+        Q(country__icontains='USA') | Q(sovereign__icontains='USA') |
+        Q(country__icontains='UMI') | Q(sovereign__icontains='UMI') |
+        Q(country__icontains='VIR') | Q(sovereign__icontains='VIR') |
+        Q(country__icontains='PRI') | Q(sovereign__icontains='PRI') |
+        Q(country__icontains='ASM') | Q(sovereign__icontains='ASM') |
+        Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
+        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
+    ).exclude(
+        Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
+        Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
+        Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
+        Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
+    ).exclude(
+        Q(country__icontains='FRA') | Q(sovereign__icontains='FRA') |
+        Q(country__icontains='ATF') | Q(country__icontains='BLM') | Q(country__icontains='GLP') |
+        Q(country__icontains='GUF') | Q(country__icontains='MAF') | Q(country__icontains='MTQ') |
+        Q(country__icontains='MYT') | Q(country__icontains='NCL') | Q(country__icontains='PYF') |
+        Q(country__icontains='REU') | Q(country__icontains='SHN') | Q(country__icontains='SYC')
+    ).exclude(
+        Q(country__icontains='AUS') | Q(sovereign__icontains='AUS') |
+        Q(country__icontains='ZAF') | Q(sovereign__icontains='ZAF') |
+        Q(country__icontains='CAN') | Q(sovereign__icontains='CAN')
+    ).exclude(
+        Q(country__icontains='GBR') | Q(sovereign__icontains='GBR') |
+        Q(country__icontains='AIA') | Q(country__icontains='BMU') | Q(country__icontains='CYM') |
+        Q(country__icontains='FLK') | Q(country__icontains='GIB') | Q(country__icontains='IMN') |
+        Q(country__icontains='IOT') | Q(country__icontains='JEY') | Q(country__icontains='MSR') |
+        Q(country__icontains='PCN') | Q(country__icontains='SGS') | Q(country__icontains='SHN') |
+        Q(country__icontains='TCA') | Q(country__icontains='VGB')
+    )
 
 wdpa_filter = (
-    Q(iso3__icontains='GBR') | Q(parent_iso3__icontains='GBR')
-    | Q(iso3__icontains='AIA') | Q(iso3__icontains='BMU') | Q(iso3__icontains='CYM')
-    | Q(iso3__icontains='FLK') | Q(iso3__icontains='GIB') | Q(iso3__icontains='IMN')
-    | Q(iso3__icontains='IOT') | Q(iso3__icontains='JEY') | Q(iso3__icontains='MSR')
-    | Q(iso3__icontains='PCN') | Q(iso3__icontains='SGS') | Q(iso3__icontains='SHN')
-    | Q(iso3__icontains='TCA') | Q(iso3__icontains='VGB')
+    Q(iso3__icontains='USA') | Q(parent_iso3__icontains='USA') |
+    Q(iso3__icontains='UMI') | Q(parent_iso3__icontains='UMI') |
+    Q(iso3__icontains='VIR') | Q(parent_iso3__icontains='VIR') |
+    Q(iso3__icontains='PRI') | Q(parent_iso3__icontains='PRI') |
+    Q(iso3__icontains='ASM') | Q(parent_iso3__icontains='ASM') |
+    Q(iso3__icontains='GUM') | Q(parent_iso3__icontains='GUM') |
+    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP') |
+    Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
+    Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
+    Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
+    Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN') |
+    Q(iso3__icontains='FRA') | Q(parent_iso3__icontains='FRA') |
+    Q(iso3__icontains='ATF') | Q(iso3__icontains='BLM') | Q(iso3__icontains='GLP') |
+    Q(iso3__icontains='GUF') | Q(iso3__icontains='MAF') | Q(iso3__icontains='MTQ') |
+    Q(iso3__icontains='MYT') | Q(iso3__icontains='NCL') | Q(iso3__icontains='PYF') |
+    Q(iso3__icontains='REU') | Q(iso3__icontains='SHN') | Q(iso3__icontains='SYC') |
+    Q(iso3__icontains='AUS') | Q(parent_iso3__icontains='AUS') |
+    Q(iso3__icontains='ZAF') | Q(parent_iso3__icontains='ZAF') |
+    Q(iso3__icontains='CAN') | Q(parent_iso3__icontains='CAN') |
+    Q(iso3__icontains='GBR') | Q(parent_iso3__icontains='GBR') |
+    Q(iso3__icontains='AIA') | Q(iso3__icontains='BMU') | Q(iso3__icontains='CYM') |
+    Q(iso3__icontains='FLK') | Q(iso3__icontains='GIB') | Q(iso3__icontains='IMN') |
+    Q(iso3__icontains='IOT') | Q(iso3__icontains='JEY') | Q(iso3__icontains='MSR') |
+    Q(iso3__icontains='PCN') | Q(iso3__icontains='SGS') | Q(iso3__icontains='SHN') |
+    Q(iso3__icontains='TCA') | Q(iso3__icontains='VGB')
 )
 
 def getRemoveWdpaList(verbose=False, logfile=None):
@@ -154,10 +214,9 @@ def getRemoveWdpaList(verbose=False, logfile=None):
     return wdpa2remove
 
 def removeMpasByWdpaId(remove_ids):
-    for wdpaid in remove_ids:
-        # now delete existing Mpa records for Wdpa sites that no longer exist
-        stale_mpas = removeUsaFromQuerySet(Mpa.objects.filter(wdpa_id__in = remove_ids))
-        stale_mpas.delete()
+    # now delete existing Mpa records for Wdpa sites that no longer exist
+    stale_mpas = removeUsaFromQuerySet(Mpa.objects.filter(wdpa_id__in = remove_ids))
+    stale_mpas.delete()
 
 def getAddWdpaList(verbose=False):
     ####
@@ -277,7 +336,7 @@ def diffMpaWdpa(mpa, wdpa, poly=True):
         'no_take': 'no_take',
         'no_take_area': 'no_tk_area',
     }
-    diff = {'mpa_id': mpa.mpa_id, 'mpa': {}, 'wdpa': {}}
+    diff = {'mpa_id': mpa.mpa_id, 'country': wdpa.iso3 , 'sovereign': wdpa.parent_iso3 , 'mpa': {}, 'wdpa': {}}
     for mf, wf in fieldmap.items():
         mpaval = getattr(mpa, mf)
         wdpaval = getattr(wdpa, wf)
@@ -318,6 +377,14 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
         geolog = open(geologfile, 'w', buffering=1)
         geolog.write('{\n')
     for wpoly in qs:
+        if logfile:
+            if count > 0:
+                log.write(',\n')
+            log.write('"%s": {' % wpoly.wdpa_pid)
+        if geologfile:
+            if count > 0:
+                geolog.write(',\n')
+            geolog.write('"%s": {' % wpoly.wdpa_pid)
         # mpa, created = Mpa.objects.get_or_create(wdpa_id=wpoly.wdpaid)
         created = False
         mpas = Mpa.objects.filter(wdpa_pid=wpoly.wdpa_pid)
@@ -329,6 +396,7 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
             if mpas[0].country in UsaCodes or wpoly.iso3 in UsaCodes:
                 print('USA: not processing', wpoly.wdpa_pid)
                 continue
+        mpadiffcount = 0
         for mpa in mpas:
             count += 1
             print('%s/%s' % (count, total), 'adding/updating wdpa_pid', wpoly.wdpa_pid, 'with mpa_id', mpa.mpa_id)
@@ -338,6 +406,7 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
                 diff = diffMpaWdpa(mpa, wpoly, poly)
             if diff:
                 diffcount += 1
+                mpadiffcount += 1
                 geominfo = ''
                 diff_nogeom = copy.deepcopy(diff)
                 try:
@@ -363,16 +432,16 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
                     diff_nogeom['mpa']['geom_area_sqkm_diff'] = abs(m_area - w_area)
                     diff_nogeom['wdpa']['geom_area_sqkm_diff'] = abs(m_area - w_area)
                     if geologfile:
-                        if diffcount > 1:
-                            geolog.write(',\n')
-                        geolog.write('"%s": ' % wpoly.wdpa_pid)
+                        if mpadiffcount > 1:
+                            geolog.write(',')
+                        geolog.write('\n    "%s": ' % mpa.mpa_id)
                         json.dump(diff, geolog, indent=4, ensure_ascii=False)
                         geolog.flush()
                 print('    PID:', wpoly.wdpa_pid, 'has %s field diffs %s' % (len(diff['mpa']), geominfo) )
                 if logfile:
-                    if diffcount > 1:
-                        log.write(',\n')
-                    log.write('"%s": ' % wpoly.wdpa_pid)
+                    if mpadiffcount > 1:
+                        log.write(',')
+                    log.write('\n    "%s": ' % mpa.mpa_id)
                     json.dump(diff_nogeom, log, indent=4, ensure_ascii=False)
                     log.flush()
 
@@ -387,6 +456,10 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
                     user = User.objects.get(username='russmo')
                     reversion.set_user(user)
                     reversion.add_meta(VersionMetadata, comment=comment, reference=reference)
+        if logfile:
+            log.write('\n}')
+        if geologfile:
+            geolog.write('\n}')
     if logfile:
         log.write('\n}\n')
         log.close()
