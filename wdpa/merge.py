@@ -142,6 +142,10 @@ mpaset = mpas_all_nogeom.exclude(
     )
 
 wdpa_filter = (
+    Q()
+)
+
+wdpa_exclude = (
     Q(iso3__icontains='USA') | Q(parent_iso3__icontains='USA') |
     Q(iso3__icontains='UMI') | Q(parent_iso3__icontains='UMI') |
     Q(iso3__icontains='VIR') | Q(parent_iso3__icontains='VIR') |
@@ -215,7 +219,7 @@ def getRemoveWdpaList(verbose=False, logfile=None):
 
 def removeMpasByWdpaId(remove_ids):
     # now delete existing Mpa records for Wdpa sites that no longer exist
-    stale_mpas = removeUsaFromQuerySet(Mpa.objects.filter(wdpa_id__in = remove_ids))
+    stale_mpas = removeUsaFromQuerySet(Mpa.objects.filter(wdpa_id__in=remove_ids))
     stale_mpas.delete()
 
 def getAddWdpaList(verbose=False):
@@ -223,8 +227,8 @@ def getAddWdpaList(verbose=False):
     # Mark new WDPA 2018 records for direct import, no merge necessary
     count = 0
     wdpa2add = []
-    poly_wdpa2018_list = Wdpa2018Poly.objects.filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
-    point_wdpa2018_list = Wdpa2018Point.objects.filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    poly_wdpa2018_list = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    point_wdpa2018_list = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
     wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
     
     poly_wdpa2014_list = Wdpa2014Polygon.objects.filter(marine='1').order_by('wdpaid').values_list('wdpaid', flat=True)
@@ -248,8 +252,8 @@ def getAddWdpaPidList(verbose=False):
     # Mark WDPA 2018 records with new PIDs
     count = 0
     wdpa2add = []
-    poly_wdpa2018_list = Wdpa2018Poly.objects.filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
-    point_wdpa2018_list = Wdpa2018Point.objects.filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
+    poly_wdpa2018_list = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
+    point_wdpa2018_list = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
     wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
     
     poly_wdpa2014_list = Wdpa2014Polygon.objects.filter(marine='1').order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
@@ -257,11 +261,11 @@ def getAddWdpaPidList(verbose=False):
     wdpa2014_list = list(set(list(poly_wdpa2014_list) + list(point_wdpa2014_list)))
     for wdpa_pid in wdpa2018_list:
         try:
-            w = Wdpa2018Poly.objects.filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).defer(*Wdpa2014Polygon.get_geom_fields()).first()
+            w = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).defer(*Wdpa2014Polygon.get_geom_fields()).first()
             if str(int(w.wdpaid)) == w.wdpa_pid:
                 continue # we don't need this when id and pid are equal
         except:
-            w = Wdpa2018Point.objects.filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).first()
+            w = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).first()
             if str(int(w.wdpaid)) == w.wdpa_pid:
                 continue # we don't need this when id and pid are equal
         count += 1
@@ -284,8 +288,8 @@ def getUpdateWdpaList():
     count = 0
     wdpa2update = []
     querysets = (
-        Wdpa2014Polygon.objects.filter(wdpa_filter).defer(*Wdpa2014Polygon.get_geom_fields()).filter(marine='1', new=False),
-        Wdpa2014Point.objects.filter(wdpa_filter).defer(*Wdpa2014Point.get_geom_fields()).filter(marine='1', new=False)
+        Wdpa2014Polygon.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*Wdpa2014Polygon.get_geom_fields()).filter(marine='1', new=False),
+        Wdpa2014Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*Wdpa2014Point.get_geom_fields()).filter(marine='1', new=False)
     )
     for q in querysets: 
         for w in q:
