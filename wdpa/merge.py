@@ -250,30 +250,31 @@ def getAddWdpaList(verbose=False):
 def getAddWdpaPidList(verbose=False):
     ####
     # Mark WDPA 2018 records with new PIDs
-    count = 0
     wdpa2add = []
-    poly_wdpa2018_list = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
-    point_wdpa2018_list = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
-    wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
-    
     poly_wdpa2014_list = Wdpa2014Polygon.objects.filter(marine='1').order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
     point_wdpa2014_list = Wdpa2014Point.objects.filter(marine='1').order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
     wdpa2014_list = list(set(list(poly_wdpa2014_list) + list(point_wdpa2014_list)))
-    for wdpa_pid in wdpa2018_list:
-        try:
-            w = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).defer(*Wdpa2014Polygon.get_geom_fields()).first()
-            if str(int(w.wdpaid)) == w.wdpa_pid:
-                continue # we don't need this when id and pid are equal
-        except:
-            w = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2'), wdpa_pid=wdpa_pid).first()
-            if str(int(w.wdpaid)) == w.wdpa_pid:
-                continue # we don't need this when id and pid are equal
-        count += 1
-        if wdpa_pid not in wdpa2014_list:
-            # old record doesn't exist
-            wdpa2add.append(wdpa_pid)
-            if verbose:
-                print(wdpa_pid, ':', count, 'processed')
+    wpolys = Wdpa2018Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
+            marine__in=('1','2'),
+        ).filter(
+            Q(wdpa_pid=Func(F('wdpaid'), function='INTEGER', template='(%(expressions)s::%(function)s)::text'))
+        ).exclude(
+            wdpa_pid__in=wdpa2014_list
+        ).values_list('wdpa_pid', flat=True)
+    wpoints = Wdpa2018Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
+            marine__in=('1','2'),
+        ).filter(
+            Q(wdpa_pid=Func(F('wdpaid'), function='INTEGER', template='(%(expressions)s::%(function)s)::text'))
+        ).exclude(
+            wdpa_pid__in=wdpa2014_list
+        ).only('wdpa_pid').values_list('wdpa_pid', flat=True)
+    wdpa2add = wdpa2add + list(set(list(wpolys) + list(wpoints)))
+    if verbose:
+        print("%s wdpa_pid's processed" % (len(wdpa2add)))
+        count = 0
+        for a in wdpa2add:
+            count += 1
+            print(a, ':', count, 'processed')
     newpolys = Wdpa2018Poly.objects.filter(wdpa_pid__in=wdpa2add)
     newpoints = Wdpa2018Point.objects.filter(wdpa_pid__in=wdpa2add)
     # newpolys.update(new=True, updateme=True)
