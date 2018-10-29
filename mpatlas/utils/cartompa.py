@@ -305,6 +305,7 @@ fields = [
     'designation',
     'designation_eng',
     'designation_type',
+    'glores_status',
     'access',
     'access_citation',
     'access_info',
