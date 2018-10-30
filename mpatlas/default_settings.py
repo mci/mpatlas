@@ -280,12 +280,17 @@ DJANGOCMS_STYLE_TAGS = [
 
 # These settings override djangocms_text_ckeditor toolbar settings
 # Disable server-side html sanitization via html5lib, it's removing too much right now
+TEXT_ADDITIONAL_TAGS = ('iframe', 'script',)
+# TEXT_ADDITIONAL_ATTRIBUTES = ('scrolling', 'allowfullscreen', 'frameborder')
 TEXT_HTML_SANITIZE = False
 CKEDITOR_SETTINGS = {
     'language': '{{ language }}',
     'toolbar': 'CMS',
     # 'skin': 'moono-lisa', # This will default to moono-lisa in ckeditor>=4.6
     'toolbarCanCollapse': False,
+    'allowedContent': True,
+    'basicEntities': False,
+    'entities': False,
     'toolbar_CMS': [
         ['Undo', 'Redo'],
         ['cmsplugins', '-', 'ShowBlocks'],
@@ -336,11 +341,17 @@ CKEDITOR_CONFIGS = {
         'removePlugins': 'stylesheetparser',
         'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
         'contentsCss': ['/static/css/main.css'],
+        'allowedContent': True,
+        'basicEntities': False,
+        'entities': False,
     },
     'awesome_ckeditor': {
         'toolbar': 'Basic',
         'stylesSet': 'default:/static/js/addons/ckeditor.wysiwyg.js',
         'contentsCss': ['/static/css/main.css'],
+        'allowedContent': True,
+        'basicEntities': False,
+        'entities': False,
     },
 }
 
