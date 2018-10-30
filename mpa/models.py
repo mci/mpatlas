@@ -210,8 +210,8 @@ class Mpa(models.Model):
     wdpa_metadataid = models.IntegerField('WDPA Source Metadata ID', null=True, blank=True, editable=False)
 
     # Modification History
-    created_date = models.DateTimeField('Creation Date', help_text='Date and time record created', auto_now_add=True)
-    modified_date = models.DateTimeField('Modification Date', help_text='Date and time of last record save', auto_now=True)
+    created_date = models.DateTimeField('Creation Date', help_text='Date and time record created', auto_now_add=True, null=True)
+    modified_date = models.DateTimeField('Modification Date', help_text='Date and time of last record save', auto_now=True, null=True)
     
     # Designation
     designation = models.CharField('Designation', max_length=254, null=True, blank=True)
