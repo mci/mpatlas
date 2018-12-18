@@ -88,10 +88,19 @@
             <br />
             <span style="text-transform:uppercase;">Marine Protected Area Coverage:</span>
                 <div style="margin-left:12px;">
-                {{ country.mpa_percent|floatformat:2 }}% ({{ country.mpa_area|floatformat:1|intcomma }} km<sup>2</sup>) in {{ country.mpas.count|intcomma }} MPAs
+                {{ country.mpas.count|intcomma }} MPAs
                 </div>
                 <div style="margin-left:12px;">
-                {% if country.notake_percent %}{{ country.notake_percent|floatformat:2 }} ({{ country.notake_area|floatformat:1|intcomma }} km<sup>2</sup>){% else %}? {% endif %}% in No-Take Reserves
+                Implemented MPAs: {{ country.implemented_mpa_percent|floatformat:2 }}% ({{ country.implemented_mpa_area|floatformat:1|intcomma }} km<sup>2</sup>)
+                </div>
+                <div style="margin-left:12px;">
+                Unimplemented MPAs: {{ country.unimplemented_mpa_percent|floatformat:2 }}% ({{ country.unimplemented_mpa_area|floatformat:1|intcomma }} km<sup>2</sup>)
+                </div>
+                <div style="margin-left:12px;">
+                Implemented Highly Protected Reserves: {{ country.implemented_highmpa_percent|floatformat:2 }} ({{ country.implemented_highmpa_area|floatformat:1|intcomma }} km<sup>2</sup>)
+                </div>
+                <div style="margin-left:12px;">
+                Unimplemented Highly Protected Reserves: {{ country.implemented_highmpa_percent|floatformat:2 }} ({{ country.implemented_highmpa_area|floatformat:1|intcomma }} km<sup>2</sup>)
                 </div>
         </div>
 	    
