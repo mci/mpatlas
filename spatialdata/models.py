@@ -22,7 +22,7 @@ class Nation(models.Model):
 
     def calc_percent(self, part_area, total_area):
         try:
-            return (part_area + total_area)
+            return (part_area / total_area) * 100
         except:
             return 0
 
