@@ -14,11 +14,40 @@ class Nation(models.Model):
     mpa_agency = RichTextField('National Marine Protected Area Agency', null=True, blank=True)
 
     marine_area = models.FloatField(null=True, blank=True)
-    mpa_area = models.FloatField(null=True, blank=True)
-    mpa_percent = models.FloatField(null=True, blank=True)
-    notake_area = models.FloatField(null=True, blank=True)
-    notake_percent = models.FloatField(null=True, blank=True)
-
+    
+    # All MPAs
+    implemented_mpa_area = models.FloatField('Implemented MPA Area', null=True, blank=True)
+    unimplemented_mpa_area = models.FloatField('Unimplemented MPA Area', null=True, blank=True)
+    proposed_mpa_area = models.FloatField('Known Proposed MPA Area', null=True, blank=True)
+    @property
+    def designated_mpa_area(self):
+        return (self.implemented_mpa_area + self.unimplemented_mpa_area)
+    @property
+    def designated_mpa_percent(self):
+        return self.designated_mpa_area / marine_area
+    
+    # Highly Protected MPAs
+    implemented_highmpa_area = models.FloatField('Implemented Highly Protected MPA Area', null=True, blank=True)
+    unimplemented_highmpa_area = models.FloatField('Unimplemented Highly Protected MPA Area', null=True, blank=True)
+    proposed_highmpa_area = models.FloatField('Known Proposed Highly Protected MPA Area', null=True, blank=True)
+    @property
+    def designated_highmpa_area(self):
+        return (self.implemented_highmpa_area + self.unimplemented_highmpa_area)
+    @property
+    def designated_highmpa_percent(self):
+        return self.designated_highmpa_area / marine_area
+    
+    # Fully Protected No-Take Reserves
+    implemented_notake_area = models.FloatField('Implemented No-Take Reserve Area', null=True, blank=True)
+    unimplemented_notake_area = models.FloatField('Unimplemented No-Take Reserve Area', null=True, blank=True)
+    proposed_notake_area = models.FloatField('Known Proposed No-Take Reserve Area', null=True, blank=True)
+    @property
+    def designated_notake_area(self):
+        return (self.implemented_notake_area + self.unimplemented_notake_area)
+    @property
+    def designated_notake_percent(self):
+        return self.designated_notake_area / marine_area
+    
     # GeoDjango-specific: a geometry field (MultiPolygonField), and
     # overriding the default manager with a GeoManager instance.
     geom_smerc = models.MultiPolygonField(srid=3857, null=True)
