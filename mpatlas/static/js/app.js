@@ -525,8 +525,9 @@ define(
 								mpahtml += '<span style="float:right; margin-left:3px; font-style:italic;">(' + region.country + ')</span>' + region.name + '</a>';
 								mpahtml += '<span style="font-size:11px;">Total Marine Area: <strong>' + region.area_km2 + ' km2</strong>';
 								mpahtml += '<br /># of MPAs: <strong>' + region.mpas + '</strong>';
-								mpahtml += '<br />Total Marine Area in MPAs: <strong>' + region.percent_in_mpas + '%</strong>';
-								mpahtml += '<br />Total Marine Area No Take: <strong>' + region.percent_no_take + '%</strong></span>';
+								mpahtml += '<br />All MPAs: <strong>' + region.implemented_mpa_percent + '%</strong> Implemented, <strong>' + region.unimplemented_mpa_percent + '%</strong> Pending';
+								mpahtml += '<br />Highly Protected MPAs: <strong>' + region.implemented_highmpa_percent + '%</strong> Implemented, <strong>' + region.unimplemented_highmpa_percent + '%</strong> Pending';
+								mpahtml += '<br />Proposed: <strong>' + region.proposed_mpa_percent + '%</strong></span>';
 
 								// Load feature from GeoJSON
 								url = region.url + 'features/';
