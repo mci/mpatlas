@@ -448,12 +448,15 @@ INSTALLED_APPS = [
 
     # These are replaced by djangocms_file, picture, etc.
     # We need to convert all instances to the other plugins.
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_folder', # no djangocms version for this, keep filer version
-    # 'cmsplugin_filer_link',
-    # 'cmsplugin_filer_image',
-    # 'cmsplugin_filer_teaser',
-    # 'cmsplugin_filer_video',
+    'cmsplugin_filer_file', # REMOVE ME
+    'cmsplugin_filer_folder', # REMOVE ME, no djangocms version for this, keep filer version
+    'cmsplugin_filer_link', # REMOVE ME
+    'cmsplugin_filer_image', # REMOVE ME
+    'cmsplugin_filer_teaser', # REMOVE ME
+    'cmsplugin_filer_video',# REMOVE ME
+    # No official support, community only
+    'djangocms_teaser', # REMOVE ME, Not Django2.0 compatible
+    'djangocms_inherit', # REMOVE ME
 
     'djangocms_file', #
     'djangocms_googlemap',
@@ -464,10 +467,6 @@ INSTALLED_APPS = [
     'djangocms_snippet', # maybe use this instead of cmsplugin_plaintext if possible
     'djangocms_style', # NEW get rid of aldryn_style
     'djangocms_text_ckeditor',  # note this needs to be above the 'cms' entry
-
-    # No official support, community only
-    'djangocms_teaser',
-    'djangocms_inherit',
 
     # Plaintext Plugin, from our mci github repo
     'cmsplugin_plaintext',
