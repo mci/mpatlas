@@ -167,7 +167,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mpa',
             name='contact',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mpa_main_set', to='mpa.Contact', verbose_name='Main Contact'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='mpa_main_set', to='mpa.Contact', verbose_name='Main Contact'),
         ),
         migrations.AddField(
             model_name='mpa',
@@ -181,18 +181,18 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=500, verbose_name='Data Source Name')),
                 ('version', models.CharField(blank=True, max_length=500, null=True, verbose_name='Version or Access Date')),
                 ('url', models.URLField(blank=True, max_length=500, null=True, verbose_name='Data Source URL')),
-                ('logo', filer.fields.image.FilerImageField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='datasource_logos', to='filer.Image')),
+                ('logo', filer.fields.image.FilerImageField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='datasource_logos', to='filer.Image')),
             ],
         ),
         migrations.AddField(
             model_name='contact',
             name='logo',
-            field=filer.fields.image.FilerImageField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='contact_logos', to='filer.Image'),
+            field=filer.fields.image.FilerImageField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='contact_logos', to='filer.Image'),
         ),
         migrations.AddField(
             model_name='mpa',
             name='datasource',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mpa_datasources', to='mpa.DataSource', verbose_name='Data Source'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='mpa_datasources', to='mpa.DataSource', verbose_name='Data Source'),
         ),
         migrations.AddField(
             model_name='mpa',

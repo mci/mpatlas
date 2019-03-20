@@ -446,18 +446,6 @@ INSTALLED_APPS = [
 
     'djangocms_layouttools',
 
-    # These are replaced by djangocms_file, picture, etc.
-    # We need to convert all instances to the other plugins.
-    'cmsplugin_filer_file', # REMOVE ME
-    'cmsplugin_filer_folder', # REMOVE ME, no djangocms version for this, keep filer version
-    'cmsplugin_filer_link', # REMOVE ME
-    'cmsplugin_filer_image', # REMOVE ME
-    'cmsplugin_filer_teaser', # REMOVE ME
-    'cmsplugin_filer_video',# REMOVE ME
-    # No official support, community only
-    'djangocms_teaser', # REMOVE ME, Not Django2.0 compatible
-    'djangocms_inherit', # REMOVE ME
-
     'djangocms_file', #
     'djangocms_googlemap',
     'djangocms_picture', #

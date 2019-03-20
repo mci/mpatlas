@@ -46,7 +46,7 @@ class Campaign(models.Model):
     sub_location = models.CharField('Sub Location', max_length=100, null=True, blank=True)
     
     # Summary Info
-    logo = FilerImageField(verbose_name='Campaign Logo', related_name='campaign_logos', blank=True, null=True)
+    logo = FilerImageField(verbose_name='Campaign Logo', related_name='campaign_logos', blank=True, null=True, on_delete=models.SET_NULL)
     summary = RichTextField('Campaign Description', null=True, blank=True)
 
     # Associated Organizations
@@ -177,7 +177,7 @@ class Initiative(models.Model):
     slug = models.SlugField(max_length=254, unique=True, blank=True, editable=True)
 
     # Summary Info
-    logo = FilerImageField(verbose_name='Initiative Logo', related_name='initiative_logos', blank=True, null=True)
+    logo = FilerImageField(verbose_name='Initiative Logo', related_name='initiative_logos', blank=True, null=True, on_delete=models.SET_NULL)
     summary = RichTextField('Initiative Description', null=True, blank=True)
 
     # Associated Campaigns
@@ -215,7 +215,7 @@ class Organization(models.Model):
     slug = models.SlugField(max_length=254, unique=True, blank=True, editable=True)
 
     # Summary Info
-    logo = FilerImageField(verbose_name='Organization Logo', related_name='organization_logos', blank=True, null=True)
+    logo = FilerImageField(verbose_name='Organization Logo', related_name='organization_logos', blank=True, null=True, on_delete=models.SET_NULL)
     website = models.URLField('Website', max_length=254, blank=True)
     social_handles = models.CharField('Social Media Handles', max_length=254, blank=True)
     summary = RichTextField('Organization Description', null=True, blank=True)

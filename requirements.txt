@@ -7,7 +7,7 @@ wheel
 mercurial; python_version < '3.0' # only available on Python2
 
 # DJANGO itself
-Django<2.0
+Django>=2.0
 
 # Application and WSGI Utils
 Werkzeug
@@ -75,11 +75,11 @@ djangocms-audio
 djangocms-video
 djangocms-snippet
 djangocms-style
-djangocms-teaser
 
-djangocms-inherit
+# djangocms-teaser
+# djangocms-inherit
 # cmsplugin-filer
-git+https://github.com/russmo/cmsplugin-filer.git@develop#egg=cmsplugin-filer
+# git+https://github.com/russmo/cmsplugin-filer.git@develop#egg=cmsplugin-filer
 
 # Images
 Pillow

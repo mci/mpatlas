@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from django.urls import reverse
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from django.db import connection, transaction
@@ -114,9 +115,7 @@ class Nation(models.Model):
         from mpa.views import mpas_all_nogeom, mpas_norejects_nogeom, mpas_noproposed_nogeom, mpas_proposed_nogeom
         return mpas_norejects_nogeom.exclude(country=None).exclude(country='').filter(country=self.iso3code, is_mpa=False).order_by('name').only('mpa_id', 'name', 'designation', 'designation_eng')
 
-    # @models.permalink
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         try:
             return reverse('country-info', args=[self.iso3code])
         except:
@@ -158,9 +157,8 @@ class Eez(models.Model):
     def __str__(self):
         return self.eez
     
-    @models.permalink
     def get_absolute_url(self):
-        return ('eez-info', (str(self.pk)))
+        return reverse('eez-info', args=[self.pk])
     
     @property
     def name(self):
@@ -206,9 +204,8 @@ class Meow(models.Model):
     def __str__(self):
         return self.realm + '_' + self.province + '_' + self.ecoregion
     
-    @models.permalink
     def get_absolute_url(self):
-        return ('meow-info', (str(self.pk)))
+        return reverse('meow-info', args=[self.pk])
     
     @property
     def name(self):
