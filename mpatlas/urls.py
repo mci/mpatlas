@@ -1,4 +1,8 @@
-from django.conf.urls import include, url
+from django.conf.urls import url, include
+from django.urls import path, re_path
+from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView,
+    PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView)
+
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from django.views.generic import RedirectView

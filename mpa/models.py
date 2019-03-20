@@ -531,7 +531,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=500, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     phone = models.CharField(max_length=500, null=True, blank=True)
-    logo = FilerImageField(null=True, blank=True, related_name="contact_logos")
+    logo = FilerImageField(null=True, blank=True, related_name="contact_logos", on_delete=models.SET_NULL)
     
     # Returns the string representation of the model.
     def __str__(self):
@@ -542,7 +542,7 @@ class DataSource(models.Model):
     name = models.CharField('Data Source Name', max_length=500)
     version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
     url = models.URLField('Data Source URL', max_length=500, null=True, blank=True)
-    logo = FilerImageField(null=True, blank=True, related_name="datasource_logos")
+    logo = FilerImageField(null=True, blank=True, related_name="datasource_logos", on_delete=models.SET_NULL)
         
     # Returns the string representation of the model.
     def __str__(self):
