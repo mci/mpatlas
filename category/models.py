@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.urls import reverse
 from uuslug import uuslug, slugify
 
 from taggit.managers import TaggableManager
@@ -26,7 +27,6 @@ class Category(TagBase):
         return slug
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('category-info', args=[self.slug])
 
 

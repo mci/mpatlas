@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.db import connection, transaction
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.urls import reverse
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
@@ -77,7 +78,6 @@ class Campaign(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('campaign-info', args=[self.slug])
 
     @classmethod
@@ -190,7 +190,6 @@ class Initiative(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('initiative-info', args=[self.slug])
 
     def save(self, *args, **kwargs):
@@ -224,7 +223,6 @@ class Organization(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('org-info', args=[self.slug])
 
     def save(self, *args, **kwargs):
