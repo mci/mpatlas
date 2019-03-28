@@ -10,6 +10,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
 from django.utils.encoding import python_2_unicode_compatible
+from django.urls import reverse
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
@@ -324,7 +325,6 @@ class Mpa(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('mpa-siteinfo', args=[self.pk])
     
     @classmethod
