@@ -137,7 +137,9 @@ def edit_mpa_geom(request, pk):
                     mpa.geom = None
                     mpa.point_geom = None
                 else:
-                    geom = gdal.OGRGeometry(geos.GEOSGeometry(geom_geojson).ewkb)
+                    geom_geos = geos.GEOSGeometry(geom_geojson)
+                    geom = gdal.OGRGeometry(geom_geos.wkb)
+                    geom.srid = geom_geos.srid
                     geom.coord_dim = 2  # Force 2D, drop all z coords
                     geom = geom.geos
                     if geom.geom_type in ('Point', 'MultiPoint'):
