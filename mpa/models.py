@@ -6,9 +6,10 @@ from __future__ import unicode_literals
 
 from django.contrib.gis.db import models
 from django.contrib.gis import geos, gdal
-from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
+from django.db.models import F, Func
+from django.db.models.signals import post_save, post_delete
 from django.utils.encoding import python_2_unicode_compatible
 from django.urls import reverse
 # from tinymce.models import HTMLField
@@ -23,12 +24,18 @@ from taggit.managers import TaggableManager
 from category.models import TaggedItem
 
 from django.contrib.gis.db.models import Extent
+from django.contrib.gis.db.models.functions import IsValid, MakeValid
 
 from spatialdata.models import Nation
 
 from collections import OrderedDict
 
 from filer.fields.image import FilerImageField
+
+import logging
+logger = logging.getLogger('mpa')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
 
 # fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
 # via a .values(*fields) call.  Update this for new columns.
@@ -442,6 +449,35 @@ class Mpa(models.Model):
             return None
     
     @transaction.atomic
+    def clean_geom(self, resolution=1e-09, dry_run=False):
+        '''Clean geometry by running ST_MakeValid and ST_RemoveRepeatedPoints.
+        Uses default decimal degree resolution/tolerance of 1E-09 (~0.1mm),
+        which is default geodatabase XY Resolution in ArcGIS.'''
+        fixed = False
+        mpaset = Mpa.objects.filter(pk=self.mpa_id).annotate(geom_nodup=MakeValid(Func(F('geom'), resolution, function='ST_RemoveRepeatedPoints')))
+        # Run MakeValid first if not valid, doing this on a query set rather than object
+        invalid = mpaset.annotate(valid=IsValid('geom')).filter(valid=False)
+        if invalid.exists():
+            if not dry_run:
+                invalid.update(geom=MakeValid('geom'))
+            # save object at end of function to invoke triggers only if geom was actually updated
+            logger.warning('Fixed Invalid Geometry: mpa_id %s %s %s %s', mpa.mpa_id, mpa.name, mpa.designation, mpa.country)
+            fixed = True
+        # Remove duplicate points at 1e-09 resolution (ArcGIS default), even though PostGIS is differentiating at 15 decimal places
+        # Run MakeValid on resulting geom without duplicates just to be safe
+        mpa = mpaset.first()
+        if (mpa.geom and mpa.geom_nodup.num_coords < mpa.geom.num_coords):
+            # Test for mpa.geom above ensures we don't run this on a null geometry
+            logger.warning('Removed %d Duplicate Points: mpa_id %s %s %s %s', mpa.geom.num_coords - mpa.geom_nodup.num_coords, mpa.mpa_id, mpa.name, mpa.designation, mpa.country)
+            mpa.geom = mpa.geom_nodup 
+            fixed=True
+        if fixed and not dry_run:
+            mpa.save() # save rather than SQL update so Django triggers fire
+            # Because mpa.clean_geom() is in the post_save trigger, this routine probably runs twice
+            # when errors are fixed if clean_geom is called on its own.
+        return fixed
+
+    @transaction.atomic
     def make_point_buffer(self):
         # Raw SQL update geometry fields, much faster than through django
         cursor = connection.cursor()
@@ -476,6 +512,7 @@ class Mpa(models.Model):
         cursor.execute("UPDATE mpa_mpa SET geom = geog::geometry, geom_smerc = ST_TRANSFORM(geog::geometry, 3857)")
         cursor.execute("UPDATE mpa_mpa SET point_geom = point_geog::geometry, point_geom_smerc = ST_TRANSFORM(point_geog::geometry, 3857)")
 
+
 @receiver(post_save, sender=Mpa)
 def mpa_post_save(sender, instance, *args, **kwargs):
     if kwargs['raw']:
@@ -484,6 +521,7 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     # Disconnect post_save so we don't enter recursive loop
     post_save.disconnect(mpa_post_save, sender=Mpa)
     try:
+        instance.clean_geom()
         instance.set_point_within()
         instance.set_bbox()
         instance.set_geog_from_geom()
