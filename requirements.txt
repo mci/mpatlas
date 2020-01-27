@@ -7,7 +7,7 @@ wheel
 mercurial; python_version < '3.0' # only available on Python2
 
 # DJANGO itself
-Django>=2.0
+Django<3.0,>=2.2.9
 
 # Application and WSGI Utils
 Werkzeug
