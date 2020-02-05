@@ -107,6 +107,25 @@ class WdpaAbstract(models.Model):
         return sorted(self.myfields.items())
 
 
+class Wdpa2019Poly(WdpaAbstract):
+    geom = models.MultiPolygonField()
+
+    # GeoDjango-specific: a geometry field (MultiPolygonField), and
+    # overriding the default manager with a GeoManager instance.
+    geom_smerc = models.MultiPolygonField(srid=900913, null=True)
+    geom = models.MultiPolygonField(srid=4326, null=True)
+    geog = models.MultiPolygonField(srid=4326, geography=True, null=True)
+
+    # Calculated geometry fields
+    point_within = models.PointField(srid=4326, null=True)
+    point_within_geojson = models.TextField(null=True)
+    bbox = models.PolygonField(srid=4326, null=True)
+    bbox_geojson = models.TextField(null=True)
+
+class Wdpa2019Point(WdpaAbstract):
+    geom = models.MultiPointField()
+
+
 class Wdpa2018Poly(WdpaAbstract):
     geom = models.MultiPolygonField()
 
@@ -210,6 +229,47 @@ class WdpaPoint(WdpaAbstract):
     geom = models.MultiPointField(srid=4326, null=True)
     geog = models.MultiPointField(srid=4326, geography=True, null=True)
 
+
+# Auto-generated `LayerMapping` dictionary for WDPA_Current model
+wdpa2019point_mapping = {
+    'wdpaid' : 'WDPAID',
+    'wdpa_pid' : 'WDPA_PID',
+    'pa_def' : 'PA_DEF',
+    'name' : 'NAME',
+    'orig_name' : 'ORIG_NAME',
+    'desig' : 'DESIG',
+    'desig_eng' : 'DESIG_ENG',
+    'desig_type' : 'DESIG_TYPE',
+    'iucn_cat' : 'IUCN_CAT',
+    'int_crit' : 'INT_CRIT',
+    'marine' : 'MARINE',
+    'rep_m_area' : 'REP_M_AREA',
+    'rep_area' : 'REP_AREA',
+    'no_take' : 'NO_TAKE',
+    'no_tk_area' : 'NO_TK_AREA',
+    'status' : 'STATUS',
+    'status_yr' : 'STATUS_YR',
+    'gov_type' : 'GOV_TYPE',
+    'own_type' : 'OWN_TYPE',
+    'mang_auth' : 'MANG_AUTH',
+    'mang_plan' : 'MANG_PLAN',
+    'verif' : 'VERIF',
+    'metadataid' : 'METADATAID',
+    'sub_loc' : 'SUB_LOC',
+    'parent_iso3' : 'PARENT_ISO3',
+    'iso3' : 'ISO3',
+    'geom' : 'MULTIPOINT',
+}
+
+
+wdpa2019poly_mapping = wdpa2019point_mapping.copy()
+wdpa2019poly_mapping.update({
+    'gis_m_area' : 'GIS_M_AREA',
+    'gis_area' : 'GIS_AREA',
+    'shape_length' : 'Shape_Length',
+    'shape_area' : 'Shape_Area',
+    'geom' : 'MULTIPOLYGON',
+})
 
 # Auto-generated `LayerMapping` dictionary for WDPA_Current model
 wdpa2018point_mapping = {
