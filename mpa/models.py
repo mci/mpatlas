@@ -456,6 +456,7 @@ class Mpa(models.Model):
         fixed = False
         mpaset = Mpa.objects.filter(pk=self.mpa_id).annotate(geom_nodup=MakeValid(Func(F('geom'), resolution, function='ST_RemoveRepeatedPoints')))
         # Run MakeValid first if not valid, doing this on a query set rather than object
+        mpa = mpaset.first()
         invalid = mpaset.annotate(valid=IsValid('geom')).filter(valid=False)
         if invalid.exists():
             if not dry_run:
@@ -465,7 +466,6 @@ class Mpa(models.Model):
             fixed = True
         # Remove duplicate points at 1e-09 resolution (ArcGIS default), even though PostGIS is differentiating at 15 decimal places
         # Run MakeValid on resulting geom without duplicates just to be safe
-        mpa = mpaset.first()
         if (mpa.geom and mpa.geom_nodup.num_coords < mpa.geom.num_coords):
             # Test for mpa.geom above ensures we don't run this on a null geometry
             logger.warning('Removed %d Duplicate Points: mpa_id %s %s %s %s', mpa.geom.num_coords - mpa.geom_nodup.num_coords, mpa.mpa_id, mpa.name, mpa.designation, mpa.country)
