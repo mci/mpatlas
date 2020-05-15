@@ -135,11 +135,11 @@ mpaset = mpas_all_nogeom.exclude(
         Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
         Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
     ).filter(
-        Q(country__icontains='TLS') | Q(sovereign__icontains='TLS')
+        Q(country__icontains='TUV') | Q(sovereign__icontains='TUV')
     )
 
 wdpa_filter = (
-    Q(iso3__icontains='TLS') | Q(parent_iso3__icontains='TLS')
+    Q(iso3__icontains='TUV') | Q(parent_iso3__icontains='TUV')
 )
 
 wdpa_exclude = (
