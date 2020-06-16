@@ -204,6 +204,13 @@ class Site(models.Model):
     # Summary Info
     summary = RichTextField('MPA Summary Site Description', null=True, blank=True)
 
+    # Returns the string representation of the model.
+    def __str__(self):
+        return "[%s] %s - %s" % (self.site_id, self.name, self.designation_eng)
+
+    # def get_absolute_url(self):
+    #     return reverse('mpa-siteinfo', args=[self.pk])
+
 
 
 @python_2_unicode_compatible  # only if you need to support Python 2
