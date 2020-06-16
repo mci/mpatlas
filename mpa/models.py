@@ -181,6 +181,31 @@ MARINE_CHOICES = (
     (2, '2 - Full Marine'),
 )
 
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Site(models.Model):
+    # ID / Name
+    site_id = models.AutoField('MPA Site ID', primary_key=True, editable=False)
+    wdpa_id = models.IntegerField('WDPA ID', null=True, blank=True, help_text='WDPA ID code.')
+    usmpa_id = models.CharField('US MPA ID', max_length=50, null=True, blank=True, help_text='US NOAA MPA Center ID. You probably should not be changing this.')
+    other_ids = models.CharField('Other reference id codes', max_length=1000, null=True, blank=True, help_text='ID codes used by other groups to identify this area, e.g., TNC Caribbean or Coral Triangle Atlas ids.')
+    name = models.CharField('Name', max_length=254, blank=True, help_text='Protected area site name not including designation title')
+    orig_name = models.CharField('Original Name', max_length=254, blank=True, default='', help_text='Protected area original site name not including designation title')
+    short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
+    slug = models.CharField('URL Slug', max_length=254, blank=True, help_text='URL slug string')
+
+    designation = models.CharField('Designation', max_length=254, null=True, blank=True)
+    designation_eng = models.CharField('English Designation', max_length=254, null=True, blank=True)
+
+    # Taggit TaggableManger used to define categories
+    categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this site to one or more categories by providing a comma-separated list of tags enclosed in quotes (e.g., [ "Shark Sanctuary", "World Heritage Site" ]', blank=True)
+    glores_status = models.CharField('GLORES Status', max_length=100, blank=True, choices=GLORES_CHOICES, default='')
+
+    # Summary Info
+    summary = RichTextField('MPA Summary Site Description', null=True, blank=True)
+
+
+
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Mpa(models.Model):
     # ID / Name
@@ -194,6 +219,8 @@ class Mpa(models.Model):
     long_name = models.CharField(max_length=254, blank=True) # name + designation
     short_name = models.CharField(max_length=254, blank=True, help_text='Nickname if any') # name + designation with abbreviations
     slug = models.CharField(max_length=254, blank=True)
+
+    site = models.ForeignKey('Site', related_name='zones', related_query_name='zone', verbose_name='MPA Parent Site', null=True, blank=True, on_delete=models.SET_NULL)
 
     # Taggit TaggableManger used to define categories
     categories = TaggableManager(through=TaggedItem, verbose_name='Categories', help_text='You can assign this area to one or more categories by providing a comma-separated list of tags enclosed in quotes (e.g., [ "Shark Sanctuary", "World Heritage Site" ]', blank=True)
@@ -297,7 +324,7 @@ class Mpa(models.Model):
     notes = models.TextField('Area Notes', null=True, blank=True, default='')
     
     # Summary Info
-    summary = RichTextField('MPA Summary Site Description', null=True, blank=True)
+    summary = RichTextField('MPA Summary Zone Description', null=True, blank=True)
     
     ## GEOGRAPHY
     is_point = models.BooleanField(default=False)
