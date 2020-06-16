@@ -3,7 +3,7 @@ from django.forms.models import fields_for_model
 from reversion.admin import VersionAdmin
 # import reversion
 from reversion import revisions as reversion
-from .models import Mpa, WikiArticle, Contact, DataSource, CandidateInfo
+from .models import Site, Mpa, WikiArticle, Contact, DataSource, CandidateInfo
 from .views import mpas_all_nogeom
 from django.db.models import When, Case, Value, F, Q, BooleanField
 
@@ -12,6 +12,9 @@ class WikiArticleInline(admin.StackedInline):
 
 class CandidateInfoInline(admin.StackedInline):
     model = CandidateInfo
+
+class SiteAdmin(admin.GeoModelAdmin):
+    model = Site
 
 def get_fields_missing_from_fieldsets(fieldsets, fields):
     missing_fields = list(fields)
@@ -108,6 +111,7 @@ class ContactAdmin(VersionAdmin):
 class DataSourceAdmin(VersionAdmin):
     search_fields = ['name', 'version', 'url']
 
+admin.site.register(Site, SiteAdmin)
 admin.site.register(Mpa, MpaAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(DataSource, DataSourceAdmin)
