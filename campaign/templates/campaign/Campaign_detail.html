@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
+<link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
 
 <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
             
@@ -21,7 +21,7 @@
 
     System.import('{% static "js" %}/campaigndetail').then(function(CampaignDetail) {
         $(function() {
-            L.Icon.Default.imagePath = 'http://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/images';
+            L.Icon.Default.imagePath = 'https://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/images';
             var site_id = {{ campaign.pk }},
                 feature_url = '{% url 'campaign-point-geojson' campaign.pk %}',
                 is_point = false,

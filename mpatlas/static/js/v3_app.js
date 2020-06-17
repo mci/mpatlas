@@ -76,7 +76,7 @@ define(
 	
 				// ESRI World Oceans Base Layer
 				var lyr = new L.TileLayer(
-					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
+					'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
 				);
 				this.bgLayers['World Oceans'] = lyr;
@@ -84,7 +84,7 @@ define(
 
 				// ESRI World Oceans Reference
 				var lyr = new L.TileLayer(
-					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
+					'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: ''}
 				);
 				this.bgLayers['World Ocean Annotation'] = lyr;
@@ -158,7 +158,7 @@ define(
 				var that = this;
 
 				// Designated Marine Protected Areas
-				lyr = cartodb.createLayer(this.map, 'http://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
+				lyr = cartodb.createLayer(this.map, 'https://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
 					{
 						cartodb_logo: false // disable showing cartodb logo for now
 					})

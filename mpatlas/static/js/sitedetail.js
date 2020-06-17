@@ -136,7 +136,7 @@ function ($, Backbone) {
             var that = this;
 
             // Designated Marine Protected Areas
-            lyr = cartodb.createLayer(this.map, 'http://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
+            lyr = cartodb.createLayer(this.map, 'https://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
             	{
             		cartodb_logo: false,
             		legends: false
