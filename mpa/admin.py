@@ -6,6 +6,8 @@ from reversion import revisions as reversion
 from .models import Site, Mpa, WikiArticle, Contact, DataSource, CandidateInfo
 from .views import mpas_all_nogeom
 from django.db.models import When, Case, Value, F, Q, BooleanField
+from django.urls import reverse
+from django.utils.html import mark_safe
 
 class WikiArticleInline(admin.StackedInline):
     model = WikiArticle
@@ -15,6 +17,15 @@ class CandidateInfoInline(admin.StackedInline):
 
 class SiteAdmin(admin.GeoModelAdmin):
     model = Site
+    ordering = ['name']
+    search_fields = ['name', 'orig_name', 'designation', 'designation_eng', 'wdpa_id']
+    list_display = ('name', 'orig_name', 'designation', 'designation_eng', 'zones_display')
+    
+    def zones_display(self, obj):
+        return mark_safe(", ".join([
+            '<a href="%s">%s</a>' % (reverse('admin:mpa_mpa_change', args=(zone.mpa_id,)), zone.name) for zone in obj.zones.all()
+        ]))
+    zones_display.short_description = "Zones"
 
 def get_fields_missing_from_fieldsets(fieldsets, fields):
     missing_fields = list(fields)
@@ -36,13 +47,15 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'has_boundary', 'colored_verification_state')
     # list_display = ('name', 'english_designation', 'mpa_id', 'wdpa_id', 'country', 'sub_location', 'colored_verification_state')
     search_fields = ['name', 'country', 'sub_location', 'mpa_id', 'wdpa_id']
+    autocomplete_fields = ['site']
     fieldsets = [
+        ('Parent Site', {'fields': ['site']}),
         ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasource']}),
+        ('Designation Type', {'fields': ['designation_type', 'int_criteria', 'iucn_category']}),
         ('Categories/Tags', {'fields': ['categories']}),
         ('Is this a Marine Protected Area or a different marine managed area?', {'fields': ['is_mpa']}),
         ('Status', {'fields': ['status', 'status_year', 'implemented', 'implementation_date', 'verification_state', 'verification_reason', 'verified_by', 'verified_date']}),
         ('Summary Information', {'fields': ['summary']}),
-        ('Designation Type', {'fields': ['designation_type', 'int_criteria', 'iucn_category']}),
         ('No-Take Status & Marine Area', {'fields': ['no_take', 'no_take_area', 'rep_m_area', 'calc_m_area', 'rep_area', 'calc_area']}),
         ('Region, Jurisdiction & Management', {'fields': ['sovereign', 'country', 'sub_location', 'gov_type', 'mgmt_auth', 'mgmt_plan_type', 'mgmt_plan_ref']}),
         ('Points of Contact', {'fields': ['contact', 'other_contacts']}),
