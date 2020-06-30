@@ -13,4 +13,4 @@ export PYTHONPATH=$PROJECTDIR:$PYTHONPATH
 
 # Start your Django Unicorn
 # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
-exec $VIRTUALENV/bin/gunicorn ${DJANGO_WSGI_MODULE}:application -c $PROJECTDIR/mpatlas/deploy/gunicorn.conf
+exec $VIRTUALENV/bin/gunicorn ${DJANGO_WSGI_MODULE}:application -c $PROJECTDIR/mpatlas/deploy/gunicorn.conf.py
