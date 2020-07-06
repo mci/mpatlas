@@ -4,7 +4,7 @@ GU_PATH = os.path.join(os.path.abspath(''), 'mpatlas/deploy/')
 sys.path.append(GU_PATH)
 
 sockfile = os.path.join(GU_PATH, 'gunicorn.sock')
-pidfile = os.path.join(GU_PATH, 'gunicorn.pid')
+#pidfile = os.path.join(GU_PATH, 'gunicorn.pid')
 #logfile = os.path.join(GU_PATH, 'gunicorn.log')
 #loglevel = 'debug'
 
