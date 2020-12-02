@@ -104,7 +104,7 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
             color_code = 'f00'
         else:
             color_code = '000'
-        return '<span style="color: #%s;">%s</span>' % (color_code, obj.verification_state)
+        return mark_safe('<span style="color: #%s;">%s</span>' % (color_code, obj.verification_state))
     colored_verification_state.allow_tags = True
     colored_verification_state.admin_order_field = 'verification_state'
     colored_verification_state.short_description = 'Verification state'

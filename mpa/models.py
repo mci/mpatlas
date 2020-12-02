@@ -12,6 +12,7 @@ from django.db.models import F, Func
 from django.db.models.signals import post_save, post_delete
 from django.utils.encoding import python_2_unicode_compatible
 from django.urls import reverse
+from django.contrib.postgres.fields import JSONField
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
@@ -119,12 +120,32 @@ NO_TAKE_CHOICES = (
 )
 
 PROTECTION_LEVEL_CHOICES = (
-    ('Unknown', 'Unknown'),
-    ('Strongly Protected','Strongly Protected'),
-    ('Moderately Protected','Moderately Protected'),
-    ('Protected','Protected'),
-    ('Managed','Managed'),
+    ('full', 'Fully Protected'),
+    ('high', 'Highly Protected'),
+    ('light', 'Lightly Protected'),
+    ('minimal', 'Minimally Protected'),
+    ('incompatible', 'Incompatible with MPA Conservation Goals'),
+    ('unknown', 'Unknown'),
 )
+
+FISHING_PROTECTION_LEVEL_CHOICES = PROTECTION_LEVEL_CHOICES
+PROTECTION_LEVEL_MPAGUIDE_CHOICES = PROTECTION_LEVEL_CHOICES
+
+PROTECTION_LEVEL_RBCS_CHOICES = (
+    (1, '1: No-Take/No-Go'),
+    (2, '2: No-Take/Regulated Access'),
+    (3, '3: No-Take/Unregulated Access'),
+    (4, '4: Highly Regulated Extraction'),
+    (5, '5: Moderately Regulated Extraction'),
+    (6, '6: Weakly Regulated Extraction'),
+    (7, '7: Very Weakly Regulated Extraction'),
+    (8, '8: Unregulated Extraction'),
+    (99, '99: Unknown'),
+)
+
+# Just use the names from above without integer
+PROTECTION_LEVEL_RBCS_NAME_CHOICES = [(j[3:].lower(),j[3:]) for (i,j) in PROTECTION_LEVEL_RBCS_CHOICES]
+
 
 FISHING_CHOICES = (
     ('Unknown', 'Unknown'),
@@ -268,6 +289,7 @@ class Mpa(models.Model):
     status_year_mpatlas = models.IntegerField('Status Year (mpatlas value)', null=True, blank=True)
 
     # Implementation
+    # establishment_stage = proposed, designated, implemented, actively_managed
     implemented = models.BooleanField('Implemented?', help_text='MPA is designated and implemented with regulations enforced', blank=True, default=True)
     implementation_date = models.DateField('Implementation Date', help_text='Date regulations went into effect or will go into effect', null=True, blank=True)
     
@@ -299,9 +321,84 @@ class Mpa(models.Model):
     
     #Conservation Effectiveness
     conservation_effectiveness = models.CharField(max_length=254, null=True, blank=True, choices=CONSERVATION_EFFECTIVENESS_CHOICES, default='Unknown')
-    
-    # Protection Level
-    protection_level = models.CharField(max_length=254, null=True, blank=True, choices=PROTECTION_LEVEL_CHOICES, default='Unknown', editable=False)
+
+    # FISHING PROTECTION LEVEL
+    fishing_protection_level = models.CharField('Fishing Protection Level', max_length=100, default='unknown', blank=True, choices=FISHING_PROTECTION_LEVEL_CHOICES, editable=False)
+    fishing_protection_details = JSONField('Fishing Protection Level Details', default=dict, editable=False)
+    '''EXAMPLE
+        {
+            'method': 'MPA Guide | RBCS | No-Take',
+            'level': 'full | high | light | minimal | incompatible | unknown',
+            'complete': 'complete | incomplete',
+            'assessment_date': '2020-10-22 | None'
+        }
+    '''
+
+    # PROTECTION LEVEL
+    protection_mpaguide_level = models.CharField('Protection Level - MPA Guide', max_length=100, default='unknown', blank=True, choices=PROTECTION_LEVEL_MPAGUIDE_CHOICES, editable=False)
+    protection_mpaguide_details = JSONField('Protection Level Details - MPA Guide', default=dict, editable=False)
+    '''EXAMPLE
+        {
+            'version': '1.0',
+            'level': 'full | high | light | minimal | incompatible | unknown', # if incomplete, highest level allowed
+            'complete': 'complete | incomplete',
+            'assessment_date': '2020-10-22',
+            'classes': {
+                'mining': {
+                    'level': 'full | incompatible | unknown',
+                    'value': 'no | yes | unknown'
+                },
+                'dredging_dumping': {
+                    'level': 'full | light | incompatible | unknown',
+                    'value': 'no | yes, selective | yes, incompatible | yes | unknown'
+                },
+                'anchoring': {
+                    'level': 'full | high | light | minimal | incompatible | unknown',
+                    'value': 'no impact | minimal impact | low impact | moderate impact | large impact | incompatible with conservation | unknown'
+                },
+                'infrastructure': {
+                    'level': 'full | high | light | minimal | incompatible | unknown',
+                    'value': 'minimal impact | low impact | moderate impact | large impact | incompatible with conservation | unknown'
+                },
+                'aquaculture': {
+                    'level': 'full | high | light | minimal | incompatible | unknown',
+                    'value': 'no | low impact | moderate impact | large impact | incompatible with conservation | unknown'
+                },
+                'fishing_extraction': {
+                    'level': 'full | high | light | minimal | incompatible | unknown',
+                    'value': 'no | low impact | moderate impact | large impact | incompatible with conservation | unknown'
+                },
+                'nonextractive_activities': {
+                    'level': 'full | high | light | unknown',
+                    'value': 'minimal impact | low impact | unregulated or high impact | unknown'
+                }
+            }
+        }
+    '''
+
+    # 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 99=unknown
+    # Should we change this to be 1-8 and null for unknown instead of using 99?
+    protection_rbcs_level = models.IntegerField('Protection Level - RBCS', default=1, blank=True, choices=PROTECTION_LEVEL_RBCS_CHOICES, editable=False)
+    # no-take / no-go | no-take / unregulated access | highly regulated extraction | moderately regulated extraction | weakly regulated extraction | very weakly regulated extraction | unregulated extraction | unknown
+    protection_rbcs_level_name = models.CharField('Protection Level Name - RBCS', max_length=100, default='unknown', blank=True, choices=PROTECTION_LEVEL_RBCS_NAME_CHOICES, editable=False)
+    protection_rbcs_details = JSONField('Protection Level Details - RBCS', default=dict, editable=False)
+    '''EXAMPLE
+        {
+            'version': '1 | 2.1',
+            'level': 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 99,
+            'level_name': 'no-take/no-go | no-take/regulated access | no-take/unregulated access | highly regulated extraction | moderately regulated extraction | weakly regulated extraction | very weakly regulated extraction | unregulated extraction | unknown',
+            'range': [max_level_allowed, min_level_allowed], # if incomplete, possible range of values allowed given partial inputs
+            'complete': 'complete | incomplete',
+            'assessment_date': '2020-10-22',
+            'classes': {
+                'aquaculture_bottom_exploitation_index': 0 | 1 | 2 | None,
+                'recreational_access_index': 0 | 1 | 2 | None,
+                'num_gears': 0-99 | None,
+                'max_gear_score': 0-9 | None
+            }
+        }
+    '''
+
     fishing = models.CharField(max_length=254, null=True, blank=True, choices=FISHING_CHOICES, default='Unknown')
     fishing_info = models.TextField(null=True, blank=True)
     fishing_citation = models.TextField(null=True, blank=True)
