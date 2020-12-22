@@ -346,7 +346,7 @@ fields = [
     'protection_focus',
     'protection_focus_citation',
     'protection_focus_info',
-    'protection_level',
+    'fishing_protection_level',
     'rep_area',
     'rep_m_area',
     'short_name',

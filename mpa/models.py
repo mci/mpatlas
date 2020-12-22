@@ -131,21 +131,20 @@ PROTECTION_LEVEL_CHOICES = (
 FISHING_PROTECTION_LEVEL_CHOICES = PROTECTION_LEVEL_CHOICES
 PROTECTION_LEVEL_MPAGUIDE_CHOICES = PROTECTION_LEVEL_CHOICES
 
-PROTECTION_LEVEL_RBCS_CHOICES = (
-    (1, '1: No-Take/No-Go'),
-    (2, '2: No-Take/Regulated Access'),
-    (3, '3: No-Take/Unregulated Access'),
-    (4, '4: Highly Regulated Extraction'),
-    (5, '5: Moderately Regulated Extraction'),
-    (6, '6: Weakly Regulated Extraction'),
-    (7, '7: Very Weakly Regulated Extraction'),
-    (8, '8: Unregulated Extraction'),
-    (99, '99: Unknown'),
-)
+rbcs1_levels = {
+    1: 'No-Take/No-Go',
+    2: 'No-Take/Regulated Access',
+    3: 'No-Take/Unregulated Access',
+    4: 'Highly Regulated Extraction',
+    5: 'Moderately Regulated Extraction',
+    6: 'Weakly Regulated Extraction',
+    7: 'Very Weakly Regulated Extraction',
+    8: 'Unregulated Extraction',
+    99: 'Unknown'
+}
 
-# Just use the names from above without integer
-PROTECTION_LEVEL_RBCS_NAME_CHOICES = [(j[3:].lower(),j[3:]) for (i,j) in PROTECTION_LEVEL_RBCS_CHOICES]
-
+PROTECTION_LEVEL_RBCS_CHOICES = [(i, '%d: %s' % (i,j)) for (i,j) in rbcs1_levels.items()]
+PROTECTION_LEVEL_RBCS_NAME_CHOICES = [(j.lower(),j) for j in rbcs1_levels.values()]
 
 FISHING_CHOICES = (
     ('Unknown', 'Unknown'),
@@ -343,6 +342,7 @@ class Mpa(models.Model):
             'level': 'full | high | light | minimal | incompatible | unknown', # if incomplete, highest level allowed
             'complete': 'complete | incomplete',
             'assessment_date': '2020-10-22',
+            'publish_status': 'draft | review | published | rejected',
             'classes': {
                 'mining': {
                     'level': 'full | incompatible | unknown',
@@ -378,7 +378,7 @@ class Mpa(models.Model):
 
     # 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 99=unknown
     # Should we change this to be 1-8 and null for unknown instead of using 99?
-    protection_rbcs_level = models.IntegerField('Protection Level - RBCS', default=1, blank=True, choices=PROTECTION_LEVEL_RBCS_CHOICES, editable=False)
+    protection_rbcs_level = models.IntegerField('Protection Level - RBCS', default=99, blank=True, choices=PROTECTION_LEVEL_RBCS_CHOICES, editable=False)
     # no-take / no-go | no-take / unregulated access | highly regulated extraction | moderately regulated extraction | weakly regulated extraction | very weakly regulated extraction | unregulated extraction | unknown
     protection_rbcs_level_name = models.CharField('Protection Level Name - RBCS', max_length=100, default='unknown', blank=True, choices=PROTECTION_LEVEL_RBCS_NAME_CHOICES, editable=False)
     protection_rbcs_details = JSONField('Protection Level Details - RBCS', default=dict, editable=False)
@@ -390,11 +390,12 @@ class Mpa(models.Model):
             'range': [max_level_allowed, min_level_allowed], # if incomplete, possible range of values allowed given partial inputs
             'complete': 'complete | incomplete',
             'assessment_date': '2020-10-22',
+            'publish_status': 'draft | review | published | rejected',
             'classes': {
-                'aquaculture_bottom_exploitation_index': 0 | 1 | 2 | None,
-                'recreational_access_index': 0 | 1 | 2 | None,
-                'num_gears': 0-99 | None,
-                'max_gear_score': 0-9 | None
+                'aquaculture_bottom_exploitation_index': 0 | 1 | 2 | null,
+                'recreational_access_index': 0 | 1 | 2 | null,
+                'num_gears': 0-99 | null,
+                'max_gear_score': 0-9 | null
             }
         }
     '''
@@ -426,6 +427,10 @@ class Mpa(models.Model):
     # Notes
     wdpa_notes = models.CharField('Area Notes (from WDPA)', max_length=250, null=True, blank=True, editable=False)
     notes = models.TextField('Area Notes', null=True, blank=True, default='')
+
+    # WDPA Additional Fields
+    supp_info_wdpa = models.CharField(max_length=254, null=True, blank=True)
+    cons_obj_wdpa = models.CharField(max_length=100, null=True, blank=True)
     
     # Summary Info
     summary = RichTextField('MPA Summary Zone Description', null=True, blank=True)
@@ -823,7 +828,10 @@ mpa_export_fields = [
     'fishing',
     'fishing_citation',
     'fishing_info',
+    'fishing_protection_level',
+    'fishing_protection_details',
     'gov_type',
+    'glores_status',
     'implementation_date',
     'implemented',
     'int_criteria',
@@ -839,6 +847,7 @@ mpa_export_fields = [
     'no_take_area',
     'notes',
     'other_ids',
+    'pa_def',
     'permanence',
     'permanence_citation',
     'primary_conservation_focus',
@@ -847,7 +856,11 @@ mpa_export_fields = [
     'protection_focus',
     'protection_focus_citation',
     'protection_focus_info',
-    'protection_level',
+    'protection_mpaguide_level',
+    'protection_mpaguide_details',
+    'protection_rbcs_level',
+    'protection_rbcs_level_name',
+    'protection_rbcs_details',
     'rep_area',
     'rep_m_area',
     'short_name',
@@ -858,11 +871,14 @@ mpa_export_fields = [
     'sub_location',
     'summary',
     'usmpa_id',
+    'verify_wdpa',
     'verification_reason',
     'verification_state',
     'verified_by',
     'verified_date',
     'wdpa_id',
-    'wdpa_notes'
+    'wdpa_notes',
+    'supp_info_wdpa',
+    'cons_obj_wdpa',
 ]
 

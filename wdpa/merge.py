@@ -1,6 +1,6 @@
 from __future__ import print_function
-from .models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
-from .models import Wdpa2018Poly, Wdpa2018Point, Wdpa2019Poly, Wdpa2019Point
+# from .models import WdpaPolygon, WdpaPoint, Wdpa2014Polygon, Wdpa2014Point
+from .models import WdpaPoly_prev, WdpaPoint_prev, WdpaPoly_new, WdpaPoint_new
 from mpa.models import Mpa, VersionMetadata, mpa_post_save
 from mpa.views import mpas_all_nogeom
 from mpa import admin as mpa_admin # needed to kick in reversion registration
@@ -34,10 +34,10 @@ import copy
 # merge.updateMpasFromWdpaList(ids=updatelist, existingrevisions=existingrevisions)
 ####
 
-WDPA_POLY_NEW = Wdpa2019Poly
-WDPA_POINT_NEW = Wdpa2019Point
-WDPA_POLY_OLD = Wdpa2018Poly
-WDPA_POINT_OLD = Wdpa2018Point
+WDPA_POLY_NEW = WdpaPoly_new
+WDPA_POINT_NEW = WdpaPoint_new
+WDPA_POLY_OLD = WdpaPoly_prev
+WDPA_POINT_OLD = WdpaPoint_prev
 
 WDPA_FIELD_MAP = {
     'wdpa_id': 'wdpaid',
@@ -70,12 +70,25 @@ WDPA_FIELD_MAP = {
     'pa_def': 'pa_def',
     'verify_wdpa': 'verif',
     'wdpa_metadataid': 'metadataid',
+    'supp_info_wdpa': 'supp_info',
+    'cons_obj_wdpa': 'cons_obj',
 }
 WDPA_FIELD_MAP_INVERSE = {v: k for k, v in WDPA_FIELD_MAP.items()}
 
 # Try to keep original WDPA values for these fields
 WDPA_RESERVED_FIELDS = (
-    'pa_def', 'metadataid', 'verif'
+    'pa_def',
+    'metadataid',
+    'verif',
+    'supp_info',
+    'cons_obj',
+)
+
+WDPA_GEOM_CALC_FIELDS = (
+    'rep_m_area',
+    'rep_area',
+    'gis_area',
+    'gis_m_area',
 )
 
 WDPA_USE_IF_MPA_BLANK = {
@@ -122,38 +135,39 @@ UsaCodes = ['USA','UMI','VIR','PRI','ASM','GUM','MNP']
 # )
 
 mpaset = mpas_all_nogeom.exclude(
-        Q(country__icontains='USA') | Q(sovereign__icontains='USA') |
-        Q(country__icontains='UMI') | Q(sovereign__icontains='UMI') |
-        Q(country__icontains='VIR') | Q(sovereign__icontains='VIR') |
-        Q(country__icontains='PRI') | Q(sovereign__icontains='PRI') |
-        Q(country__icontains='ASM') | Q(sovereign__icontains='ASM') |
-        Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
-        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
-    ).exclude(
-        Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
-        Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
-        Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
-        Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
+    #     Q(country__icontains='USA') | Q(sovereign__icontains='USA') |
+    #     Q(country__icontains='UMI') | Q(sovereign__icontains='UMI') |
+    #     Q(country__icontains='VIR') | Q(sovereign__icontains='VIR') |
+    #     Q(country__icontains='PRI') | Q(sovereign__icontains='PRI') |
+    #     Q(country__icontains='ASM') | Q(sovereign__icontains='ASM') |
+    #     Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
+    #     Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
+    # ).exclude(
+    #     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
+    #     Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
+    #     Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
+    #     Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
     ).filter(
-        Q(country__icontains='TUV') | Q(sovereign__icontains='TUV')
+        Q(country__icontains='CHL') | Q(sovereign__icontains='CHL')
     )
 
 wdpa_filter = (
-    Q(iso3__icontains='TUV') | Q(parent_iso3__icontains='TUV')
+    Q(iso3__icontains='CHL') | Q(parent_iso3__icontains='CHL')
 )
 
 wdpa_exclude = (
-    Q(iso3__icontains='USA') | Q(parent_iso3__icontains='USA') |
-    Q(iso3__icontains='UMI') | Q(parent_iso3__icontains='UMI') |
-    Q(iso3__icontains='VIR') | Q(parent_iso3__icontains='VIR') |
-    Q(iso3__icontains='PRI') | Q(parent_iso3__icontains='PRI') |
-    Q(iso3__icontains='ASM') | Q(parent_iso3__icontains='ASM') |
-    Q(iso3__icontains='GUM') | Q(parent_iso3__icontains='GUM') |
-    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP') |
-    Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
-    Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
-    Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
-    Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
+    # Q(iso3__icontains='USA') | Q(parent_iso3__icontains='USA') |
+    # Q(iso3__icontains='UMI') | Q(parent_iso3__icontains='UMI') |
+    # Q(iso3__icontains='VIR') | Q(parent_iso3__icontains='VIR') |
+    # Q(iso3__icontains='PRI') | Q(parent_iso3__icontains='PRI') |
+    # Q(iso3__icontains='ASM') | Q(parent_iso3__icontains='ASM') |
+    # Q(iso3__icontains='GUM') | Q(parent_iso3__icontains='GUM') |
+    # Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP') |
+    # Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
+    # Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
+    # Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
+    # Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
+    Q()
 )
 
 # mpaset = mpas_all_nogeom.filter(
@@ -287,12 +301,12 @@ def getRemoveWdpaList(verbose=False, logfile=None):
         log = open(logfile, 'w', buffering=1)
         log.write('{\n')
     mpa_wdpaid_list = mpaset.filter(wdpa_id__isnull=False, wdpa_id__gt=0).order_by('wdpa_id').values_list('wdpa_id', flat=True)
-    poly_wdpa2019_list = Wdpa2019Poly.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
-    point_wdpa2019_list = Wdpa2019Point.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
-    wdpa2019_list = list(set(list(poly_wdpa2019_list) + list(point_wdpa2019_list)))
+    poly_wdpa_new_list = WdpaPoly_new.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
+    point_wdpa_new_list = WdpaPoint_new.objects.all().order_by('wdpaid').values_list('wdpaid', flat=True)
+    wdpa_new_list = list(set(list(poly_wdpa_new_list) + list(point_wdpa_new_list)))
     for wdpaid in mpa_wdpaid_list:
         count += 1
-        if wdpaid not in wdpa2019_list:
+        if wdpaid not in wdpa_new_list:
             # wdpaid has been removed from 2019 wdpaid
             wdpa2remove.append(wdpaid)
             if verbose:
@@ -334,22 +348,22 @@ def getAddWdpaList(verbose=False):
     # Mark new WDPA 2019 records for direct import, no merge necessary
     count = 0
     wdpa2add = []
-    poly_wdpa2019_list = Wdpa2019Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
-    point_wdpa2019_list = Wdpa2019Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
-    wdpa2019_list = list(set(list(poly_wdpa2019_list) + list(point_wdpa2019_list)))
+    poly_wdpa_new_list = WdpaPoly_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    point_wdpa_new_list = WdpaPoint_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    wdpa_new_list = list(set(list(poly_wdpa_new_list) + list(point_wdpa_new_list)))
     
-    poly_wdpa2018_list = Wdpa2018Poly.objects.filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
-    point_wdpa2018_list = Wdpa2018Point.objects.filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
-    wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
-    for wdpaid in wdpa2019_list:
+    poly_wdpa_prev_list = WdpaPoly_prev.objects.filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    point_wdpa_prev_list = WdpaPoint_prev.objects.filter(marine__in=('1','2')).order_by('wdpaid').values_list('wdpaid', flat=True)
+    wdpa_prev_list = list(set(list(poly_wdpa_prev_list) + list(point_wdpa_prev_list)))
+    for wdpaid in wdpa_new_list:
         count += 1
-        if wdpaid not in wdpa2018_list:
+        if wdpaid not in wdpa_prev_list:
             # old record doesn't exist
             wdpa2add.append(wdpaid)
             if verbose:
                 print(wdpaid, ':', count, 'processed')
-    newpolys = Wdpa2019Poly.objects.filter(wdpaid__in=wdpa2add)
-    newpoints = Wdpa2019Point.objects.filter(wdpaid__in=wdpa2add)
+    newpolys = WdpaPoly_new.objects.filter(wdpaid__in=wdpa2add)
+    newpoints = WdpaPoint_new.objects.filter(wdpaid__in=wdpa2add)
     # newpolys.update(new=True, updateme=True)
     # newpoints.update(new=True, updateme=True)
     return wdpa2add
@@ -358,22 +372,22 @@ def getAddWdpaPidList(verbose=False):
     ####
     # Mark WDPA 2019 records with new PIDs
     wdpa2add = []
-    poly_wdpa2018_list = Wdpa2018Poly.objects.filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
-    point_wdpa2018_list = Wdpa2018Point.objects.filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
-    wdpa2018_list = list(set(list(poly_wdpa2018_list) + list(point_wdpa2018_list)))
-    wpolys = Wdpa2019Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
+    poly_wdpa_prev_list = WdpaPoly_prev.objects.filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
+    point_wdpa_prev_list = WdpaPoint_prev.objects.filter(marine__in=('1','2')).order_by('wdpa_pid').values_list('wdpa_pid', flat=True)
+    wdpa_prev_list = list(set(list(poly_wdpa_prev_list) + list(point_wdpa_prev_list)))
+    wpolys = WdpaPoly_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
             marine__in=('1','2'),
         ).exclude(
             Q(wdpa_pid=Func(F('wdpaid'), function='INTEGER', template='(%(expressions)s::%(function)s)::text'))
         ).exclude(
-            wdpa_pid__in=wdpa2018_list
+            wdpa_pid__in=wdpa_prev_list
         ).values_list('wdpa_pid', flat=True)
-    wpoints = Wdpa2019Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
+    wpoints = WdpaPoint_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).filter(
             marine__in=('1','2'),
         ).exclude(
             Q(wdpa_pid=Func(F('wdpaid'), function='INTEGER', template='(%(expressions)s::%(function)s)::text'))
         ).exclude(
-            wdpa_pid__in=wdpa2018_list
+            wdpa_pid__in=wdpa_prev_list
         ).only('wdpa_pid').values_list('wdpa_pid', flat=True)
     wdpa2add = wdpa2add + list(set(list(wpolys) + list(wpoints)))
     if verbose:
@@ -382,8 +396,8 @@ def getAddWdpaPidList(verbose=False):
         for a in wdpa2add:
             count += 1
             print(a, ':', count, 'processed')
-    newpolys = Wdpa2019Poly.objects.filter(wdpa_pid__in=wdpa2add)
-    newpoints = Wdpa2019Point.objects.filter(wdpa_pid__in=wdpa2add)
+    newpolys = WdpaPoly_new.objects.filter(wdpa_pid__in=wdpa2add)
+    newpoints = WdpaPoint_new.objects.filter(wdpa_pid__in=wdpa2add)
     # newpolys.update(new=True, updateme=True)
     # newpoints.update(new=True, updateme=True)
     return wdpa2add
@@ -396,15 +410,15 @@ def getUpdateWdpaList():
     count = 0
     wdpa2update = []
     querysets = (
-        Wdpa2019Poly.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*Wdpa2019Poly.get_geom_fields()).filter(marine='1', new=False),
-        Wdpa2019Point.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*Wdpa2019Point.get_geom_fields()).filter(marine='1', new=False)
+        WdpaPoly_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*WdpaPoly_new.get_geom_fields()).filter(marine='1', new=False),
+        WdpaPoint_new.objects.exclude(wdpa_exclude).filter(wdpa_filter).defer(*WdpaPoint_new.get_geom_fields()).filter(marine='1', new=False)
     )
     for q in querysets: 
         for w in q:
             count += 1
             try:
-                wold = Wdpa2018Poly.objects.defer(*Wdpa2018Poly.get_geom_fields()).filter(wdpaid = w.wdpaid).first() or Wdpa2018Point.objects.defer(*Wdpa2018Point.get_geom_fields()).filter(wdpaid = w.wdpaid).first()
-                for field in Wdpa2019Poly._meta.fields:
+                wold = WdpaPoly_prev.objects.defer(*WdpaPoly_prev.get_geom_fields()).filter(wdpaid = w.wdpaid).first() or WdpaPoint_prev.objects.defer(*WdpaPoint_prev.get_geom_fields()).filter(wdpaid = w.wdpaid).first()
+                for field in WdpaPoly_new._meta.fields:
                     if field.name in ('id', 'updateme', 'new', 'parent_iso3', 'gis_m_area', 'gis_area', 'shape_leng', 'shape_area', 'geom', 'geom_smerc', 'geog', 'point_within', 'point_within_geojson', 'bbox', 'bbox_geojson'):
                         continue
                     valnew = getattr(w, field.name)
@@ -418,8 +432,8 @@ def getUpdateWdpaList():
                         break
             except:
                 raise
-    updatepolys = Wdpa2019Poly.objects.filter(wdpaid__in=wdpa2update)
-    updatepoints = Wdpa2019Point.objects.filter(wdpaid__in=wdpa2update)
+    updatepolys = WdpaPoly_new.objects.filter(wdpaid__in=wdpa2update)
+    updatepoints = WdpaPoint_new.objects.filter(wdpaid__in=wdpa2update)
     updatepolys.update(updateme=True)
     updatepoints.update(updateme=True)
     return wdpa2update
@@ -459,6 +473,8 @@ def diffMpaWdpa(mpa, wdpa, poly=True):
         'pa_def': 'pa_def',
         'verify_wdpa': 'verif',
         'wdpa_metadataid': 'metadataid',
+        'supp_info_wdpa': 'supp_info',
+        'cons_obj_wdpa': 'cons_obj',
     }
     diff = {'mpa_id': mpa.mpa_id, 'country': wdpa.iso3 , 'sovereign': wdpa.parent_iso3 , 'mpa': {}, 'wdpa': {}}
     for mf, wf in fieldmap.items():
@@ -511,6 +527,8 @@ def diffWdpa(wdpanew, wdpaold):
         'sub_loc',
         'verif',
         'metadataid',
+        'supp_info',
+        'cons_obj',
     )
     diff = {'wdpa_pid': wdpanew.wdpa_pid, 'country': wdpanew.iso3 , 'sovereign': wdpanew.parent_iso3 , 'wdpa_new': {}, 'wdpa_old': {}}
     for f in fields:
@@ -527,15 +545,15 @@ def diffWdpa(wdpanew, wdpaold):
     return diff
 
 def updateMpasFromWdpaList(ids=[]):
-    points = Wdpa2019Point.objects.filter(wdpaid__in=ids).defer(*Wdpa2019Point.get_geom_fields()).order_by('wdpaid')
-    polys = Wdpa2019Poly.objects.filter(wdpaid__in=ids).defer(*Wdpa2019Poly.get_geom_fields()).order_by('wdpaid')
+    points = WdpaPoint_new.objects.filter(wdpaid__in=ids).defer(*WdpaPoint_new.get_geom_fields()).order_by('wdpaid')
+    polys = WdpaPoly_new.objects.filter(wdpaid__in=ids).defer(*WdpaPoly_new.get_geom_fields()).order_by('wdpaid')
     updateMpasFromWdpaQueryset(qs=points, poly=False)
     updateMpasFromWdpaQueryset(qs=polys, poly=True)
 
 
 def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None, dryrun=False):
     if qs is None:
-        qs = Wdpa2019Poly.objects.all().defer(*Wdpa2019Poly.get_geom_fields()).order_by('wdpa_pid')
+        qs = WdpaPoly_new.objects.all().defer(*WdpaPoly_new.get_geom_fields()).order_by('wdpa_pid')
     total = max(qs.count(), Mpa.objects.filter(wdpa_pid__in=qs.values_list('wdpa_pid', flat=True).distinct()).count())
     count = 0
     diffcount = 0
@@ -618,8 +636,8 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
             if not dryrun:
                 with transaction.atomic(), reversion.create_revision():
                     updateMpaFromWdpaSmart(wpoly, mpa, poly, created, dryrun)
-                    comment = 'Updated record from WDPA November 2019'
-                    reference = 'World Database on Protected Areas, November 2019'
+                    comment = 'Updated record from WDPA December 2020'
+                    reference = 'World Database on Protected Areas, December 2020'
                     reversion.set_comment(comment)
                     User = get_user_model()
                     user = User.objects.get(username='russmo')
@@ -812,16 +830,21 @@ def updateMpaFromWdpaSmart(wdpa, mpa, poly=True, created=False, dryrun=False):
         if (m_area > 0 and w_area > 0):
             similarity_pct_new = abs((m_area - w_area)/m_area)
         similarity_pct_min = min(similarity_pct_old, similarity_pct_new)
-        if not created and (similarity_pct_min < 1e-06 or m_area == 0):
-            # MPAtlas has different boundaries than WDPA,
-            # BUT they are very close in area, so just use new WDPA boundary instead
+        if created:
+            # new record, so use WDPA geom
             keep_mpatlas_geom = False
-            if m_area == 0:
-                print('    MPAtlas orig geom area is zero, using WDPA boundaries')
-            else:
-                print('    Geom areas similar (%s%%), using WDPA boundaries' % (similarity_pct_min*100))
-            if 'geom' in mpa_changedfields_old:
-                mpa_changedfields_old.remove('geom')
+        else:
+            # not created, mpatlas record found
+            if (similarity_pct_min < 1e-06 or m_area == 0):
+                # MPAtlas has different boundaries than WDPA,
+                # BUT they are very close in area, so just use new WDPA boundary instead
+                keep_mpatlas_geom = False
+                if m_area == 0:
+                    print('    MPAtlas orig geom area is zero, using WDPA boundaries')
+                else:
+                    print('    Geom areas similar (%s%%), using WDPA boundaries' % (similarity_pct_min*100))
+                if 'geom' in mpa_changedfields_old:
+                    mpa_changedfields_old.remove('geom')
         if keep_mpatlas_geom:
             # MPAtlas has different boundaries than old WDPA, with different area,
             # so keep existing MPAtlas boundaries and don't import new WDPA boundaries
@@ -836,6 +859,12 @@ def updateMpaFromWdpaSmart(wdpa, mpa, poly=True, created=False, dryrun=False):
                 pass
             mpa.geom = newgeom
 
+            # force use of WDPA geom calc and reported fields if we use WDPA geom
+            for wf in WDPA_GEOM_CALC_FIELDS:
+                mf = WDPA_FIELD_MAP_INVERSE[wf]
+                setattr(mpa, mf, getattr(wdpa, wf))
+                if mf in mpa_changedfields_old:
+                    mpa_changedfields_old.remove(mf)
     else:
         mpa.point_geom = wdpa.geom
     
