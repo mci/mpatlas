@@ -10,7 +10,7 @@ from itertools import chain
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
-from wdpa.models import WdpaPolygon
+from wdpa.models import WdpaPoly_new
 from mpa.models import MpaCandidate
 
 class MpaListView(ListView):
@@ -111,28 +111,28 @@ def lookup_point(request):
             point.transform(900913) # Google Spherical Mercator srid
             point360.transform(900913)
             #mpa_list = WdpaPolygon.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
-            mpa_list = WdpaPolygon.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*WdpaPoly_new.get_geom_fields())
             search = point
         elif (method == 'webmercator_buffer'):
             point.transform(900913) # Google Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
-            mpa_list = WdpaPolygon.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPoly_new.get_geom_fields())
             search = searchbuffer
         elif (method == 'webmercator_box'):
             point.transform(900913) # Google Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
-            mpa_list = WdpaPolygon.objects.filter(geog__intersects=searchbuffer.envelope).defer(*WdpaPolygon.get_geom_fields()) # use simple bounding box instead
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer.envelope).defer(*WdpaPoly_new.get_geom_fields()) # use simple bounding box instead
             search = searchbuffer.envelope
         elif (method == 'webmercator_simple'):
             point.transform(900913) # Google Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
-            mpa_list = WdpaPolygon.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPoly_new.get_geom_fields())
             search = searchbuffer
         elif (method == 'greatcircle'):
-            mpa_list = WdpaPolygon.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*WdpaPoly_new.get_geom_fields())
             search = point
         elif (method == 'point'):
-            mpa_list = WdpaPolygon.objects.filter(geog__intersects=point).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=point).defer(*WdpaPoly_new.get_geom_fields())
             search = point
         candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
         mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
