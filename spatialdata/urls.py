@@ -69,7 +69,7 @@ urlpatterns = [
         name='eez-list'),
     url(r'^eez/json/$',
         EezJsonListView.as_view(
-            queryset=Eez.objects.order_by('name').defer(*Eez.get_geom_fields()),
+            queryset=Eez.objects.order_by('eez').defer(*Eez.get_geom_fields()),
             context_object_name='country_list',
             paginate_by=None,
             template_name='spatialdata/Country_list.json'),
@@ -95,14 +95,14 @@ urlpatterns = [
     
     url(r'^meow/$',
         EezListView.as_view(
-            queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
+            queryset=Meow.objects.order_by('ecoregion').defer(*Meow.get_geom_fields()),
             context_object_name='country_list',
             paginate_by=30,
             template_name='spatialdata/Country_list.html'),
         name='meow-list'),
     url(r'^meow/json/$',
         EezJsonListView.as_view(
-            queryset=Meow.objects.order_by('name').defer(*Meow.get_geom_fields()),
+            queryset=Meow.objects.order_by('ecoregion').defer(*Meow.get_geom_fields()),
             context_object_name='country_list',
             paginate_by=None,
             template_name='spatialdata/Country_list.json'),

@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-from django.shortcuts import get_object_or_404, render_to_response, render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.template import RequestContext

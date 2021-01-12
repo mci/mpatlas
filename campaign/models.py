@@ -8,7 +8,6 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db import connection, transaction
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
 from django.urls import reverse
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
@@ -32,7 +31,6 @@ campaign_export_fields = []
 
 YEAR_CHOICES = [(None, None)] + [(r,r) for r in range(1990, datetime.date.today().year+1)]
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Campaign(models.Model):
     # ID / Name
     id = models.AutoField('Campaign id', primary_key=True, editable=False)
@@ -169,7 +167,6 @@ def campaign_post_delete(sender, instance, *args, **kwargs):
         pass # let this fail silently, maybe Carto is unreachable
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Initiative(models.Model):
     # ID / Name
     id = models.AutoField('Initiative id', primary_key=True, editable=False)
@@ -205,7 +202,6 @@ class Initiative(models.Model):
         super(Initiative, self).save(*args, **kwargs)
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Organization(models.Model):
     # ID / Name
     id = models.AutoField('Organization id', primary_key=True, editable=False)

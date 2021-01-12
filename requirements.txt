@@ -7,7 +7,8 @@ wheel
 mercurial; python_version < '3.0' # only available on Python2
 
 # DJANGO itself
-Django<3.0,>=2.2.9
+#Django<3.0,>=2.2.9
+Django>=3.1
 
 # Application and WSGI Utils
 Werkzeug
@@ -142,7 +143,8 @@ requests_oauthlib
 webencodings
 
 # WIKI
-git+git://github.com/benjaoming/django-wiki.git#egg=wiki
+#git+git://github.com/benjaoming/django-wiki.git#egg=wiki
+wiki
 
 # NOT USED
 #hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages

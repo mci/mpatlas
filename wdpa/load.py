@@ -53,6 +53,8 @@ def run_point2020_nogeom(source=wdpa_202012_point_gdb):
             except:
                 obj = WdpaPoint_new(wdpa_pid=feat.get('WDPA_PID'))
             for f in wdpa2020point_mapping.items():
+                if f[0]=='geom':
+                    continue
                 setattr(obj, f[0], feat.get(f[1]))
             obj.save()
 

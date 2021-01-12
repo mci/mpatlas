@@ -1,7 +1,5 @@
 from django.contrib.gis.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class USMpaPolygon(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile
     site_id = models.CharField(max_length=10)
