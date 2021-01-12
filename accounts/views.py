@@ -11,7 +11,7 @@ from django.utils.http import int_to_base36
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from accounts.forms import UserCreationForm
 from django.contrib.auth.tokens import default_token_generator

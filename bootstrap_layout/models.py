@@ -1,7 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
 from filer.fields.image import FilerImageField
 from cms.models.pluginmodel import CMSPlugin
@@ -61,7 +60,6 @@ CONTAINER_CHOICES = (
     ('container-fluid', '.container-fluid (full-width with slight padding on sides)'),
 )
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Section(CMSPlugin):
     name = models.CharField('Section Name', max_length=25, default='', help_text='Descriptive name [not rendered on page]', blank=True, null=True)
     min_height = models.CharField('Minimum Section Height', max_length=25, default='0px', help_text='0 is default. Set it larger to expand height of section.')

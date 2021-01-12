@@ -1,9 +1,7 @@
 from django.contrib.gis.db import models
-from django.utils.encoding import python_2_unicode_compatible
 
 from django.contrib.gis.measure import Distance
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class WdpaSource(models.Model):
     metadataid = models.IntegerField()
     data_title = models.CharField(max_length=255)
@@ -20,7 +18,6 @@ class WdpaSource(models.Model):
     language = models.CharField(max_length=255)
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class WdpaAbstract(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile
     wdpaid = models.FloatField()  # this comes in as float, should we convert to int? No records have 0.X decimal values
