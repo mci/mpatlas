@@ -52,7 +52,7 @@ $(function() {
 
     var esriocean = new OpenLayers.Layer.XYZ(
         "ESRI Ocean Layer",
-        "http://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer",
+        "https://services.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer",
         {
             type: 'png',
             getURL: getEsriOceanURL,
@@ -90,7 +90,7 @@ $(function() {
 
     var mpas = new OpenLayers.Layer.XYZ(
         "Existing MPAs",
-        "http://cdn.mpatlas.org/tilecache/mpas/",
+        "https://cdn.mpatlas.org/tilecache/mpas/",
         {
             type: 'png',
             getURL: get_mpa_url,
@@ -105,7 +105,7 @@ $(function() {
     );
     var proposed = new OpenLayers.Layer.XYZ(
         "Proposed MPAs",
-        "http://cdn.mpatlas.org/tilecache/candidates/",
+        "https://cdn.mpatlas.org/tilecache/candidates/",
         {
             type: 'png',
             getURL: get_mpa_url,
@@ -119,7 +119,7 @@ $(function() {
     );
     var eezs = new OpenLayers.Layer.XYZ(
         'Exclusive Economic Zones (EEZs)',
-    	"http://cdn.mpatlas.org/tilecache/eezs/",
+    	"https://cdn.mpatlas.org/tilecache/eezs/",
 		{
 			type: 'png',
 			getURL: get_mpa_url,
