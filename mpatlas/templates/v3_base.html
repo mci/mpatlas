@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
     <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
 
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700|Open+Sans+Condensed:200,300,400,500,600,700|Roboto+Condensed:400,400italic,700,700italic'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700|Open+Sans+Condensed:200,300,400,500,600,700|Roboto+Condensed:400,400italic,700,700italic'>
 
     <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -41,7 +41,7 @@
             SystemJS.config({
                 map: {
                     cartodb: 'https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
-                    //cartodb: 'https://crossorigin.me/http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
+                    //cartodb: 'https://crossorigin.me/https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb_noleaflet'
                 },
                 meta: {
                     'cartodb': {
@@ -93,7 +93,7 @@
     <!-- PAGE TOPPER for messages, alerts, special content -->
     <div class="pagetopper">
         <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         {% block pagetopper %}
             <div class="container">

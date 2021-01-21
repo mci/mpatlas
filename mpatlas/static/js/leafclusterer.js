@@ -91,7 +91,7 @@ function LeafClusterer(map, opt_markers, opt_opts) {
 	var i = 0;
 	for (i = 1; i <= 5; i++) {
 		styles_.push({
-			'url': "http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/images/m" + i + ".png",
+			'url': "https://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/images/m" + i + ".png",
 			'height': sizes[i - 1],
 			'width': sizes[i - 1]
 		});

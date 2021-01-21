@@ -15,7 +15,7 @@
 
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         
-        <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700|Josefin+Sans:300,400,500,600,700,800|Open+Sans:400,700|Open+Sans+Condensed:300,700|Roboto+Condensed:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
+        <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:200,300,400,500,600,700|Josefin+Sans:300,400,500,600,700,800|Open+Sans:400,700|Open+Sans+Condensed:300,700|Roboto+Condensed:400,400italic,700,700italic' rel='stylesheet' type='text/css' />
 
         <link rel="stylesheet" href="{% static 'css/fonts2.css' %}" type="text/css" charset="utf-8" />
         
@@ -59,7 +59,7 @@
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+          <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         
         <script type="text/javascript">
@@ -105,7 +105,7 @@
             <div id='header_full'>
                 <div id='header_center'>
                     <a id="mainlogo" href="/">MPAtlas - discover the world's marine protected areas</a>
-                    <a id="mcilogo" href="http://marine-conservation.org">Marine Conservation Institute</a>
+                    <a id="mcilogo" href="https://marine-conservation.org">Marine Conservation Institute</a>
                     <ul id="mainmenu">
                         <li>
                             <a href="/explore/">Map</a>
@@ -171,7 +171,7 @@
                         Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %} <a id='user_logout' href="{% url 'logout' %}?next={{ request.path }}">[x]</a>
                     {% else %}
                         <!--
-                        <input style="float:right;" class="facebook" type="image" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
+                        <input style="float:right;" class="facebook" type="image" src="https://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_short.gif" alt="facebookconnect">
                         -->
                         <div id='user_logintab' style="float:right;">
                             <a id='user_loginlink' class='user_loginlink' href="{% url 'login' %}?next={{ request.path }}">Sign In</a>
