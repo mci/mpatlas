@@ -10,9 +10,13 @@ from django.dispatch import receiver
 from django.db import connection, transaction
 from django.db.models import F, Func
 from django.db.models.signals import post_save, post_delete
-from django.utils.encoding import python_2_unicode_compatible
 from django.urls import reverse
-from django.contrib.postgres.fields import JSONField
+try:
+    # Django >= 3.0
+    from django.contrib.gis.db.models import JSONField
+except:
+    # Django < 3.0
+    from django.contrib.postgres.fields import JSONField
 # from tinymce.models import HTMLField
 from ckeditor.fields import RichTextField
 from bs4 import BeautifulSoup
@@ -202,7 +206,6 @@ MARINE_CHOICES = (
 )
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Site(models.Model):
     # ID / Name
     site_id = models.AutoField('MPA Site ID', primary_key=True, editable=False)
@@ -233,7 +236,6 @@ class Site(models.Model):
 
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Mpa(models.Model):
     # ID / Name
     mpa_id = models.AutoField('MPA ID', primary_key=True, editable=False)
@@ -681,7 +683,6 @@ def mpa_post_delete(sender, instance, *args, **kwargs):
         pass # let this fail silently, maybe Carto is unreachable
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class WikiArticle(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     url = models.URLField('Link to Wikipedia Article', null=True, blank=True)
@@ -698,7 +699,6 @@ class WikiArticle(models.Model):
         super(WikiArticle, self).save(*args, **kwargs)
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class Contact(models.Model):
     agency = models.CharField(max_length=500)
     url = models.URLField(max_length=500, null=True, blank=True)
@@ -711,7 +711,6 @@ class Contact(models.Model):
     def __str__(self):
         return 'Contact: %s' % (self.agency)
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class DataSource(models.Model):
     name = models.CharField('Data Source Name', max_length=500)
     version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
@@ -743,7 +742,6 @@ CANDIDATE_SCOPE_CHOICES = (
 )
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class CandidateInfo(models.Model):
     mpa = models.OneToOneField(Mpa, primary_key=True, on_delete=models.CASCADE)
     summary = RichTextField('Candidate MPA Summary Description', null=True, blank=True)
@@ -769,7 +767,6 @@ class CandidateInfo(models.Model):
         return 'Candidate Info: %s' % (self.mpa.name)
 
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class MpaCandidate(models.Model):
     # Regular fields corresponding to attributes in wdpa shpfile  
     name = models.CharField(max_length=56)

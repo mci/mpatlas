@@ -5,10 +5,10 @@
 
 {% block base_head_extra %}
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.3/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
+<link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
 
 <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -18,7 +18,7 @@
         paths: {
             jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
             jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min',
-            leaflet: 'http://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
+            leaflet: 'https://libs.cartocdn.com/cartodb.js/v3/3.12.12/cartodb',
             //leaflet: '//cdn.leafletjs.com/leaflet-0.7.3/leaflet',
             //leaflet: '{{ STATIC_URL }}Leaflet/leaflet',
             json2: '//ajax.cdnjs.com/ajax/libs/json2/20110223/json2',

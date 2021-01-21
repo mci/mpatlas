@@ -3,7 +3,6 @@ from django.db import models
 from django_countries.fields import CountryField
 from django.db.models.signals import post_save
 from django.contrib import auth
-from django.utils.encoding import python_2_unicode_compatible
 
 TITLE_CHOICES = (
     ('--', ''),
@@ -14,7 +13,6 @@ TITLE_CHOICES = (
     ('Dr', 'Dr'),
 )
 
-@python_2_unicode_compatible  # only if you need to support Python 2
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

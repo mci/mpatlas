@@ -11,9 +11,9 @@ define([
 function ($, Backbone) {  
     var CampaignDetail = Backbone.View.extend({
 		proxy: '',
-		domain: 'http://' + document.domain,
+		domain: window.location.origin + '/',
 		//proxy: '/terraweave/features.ashx?url=', // handle cross-domain if necessary. used for testing
-		//domain: 'http://mpatlas.org/',
+		//domain: 'https://mpatlas.org/',
         
         initialize: function(map, siteid, feature_url, is_point, point, bbox) {
             var that = this;
@@ -46,7 +46,7 @@ function ($, Backbone) {
 
 			// ESRI World Oceans Base Layer
 			var lyr = new L.TileLayer(
-				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
+				'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
 				{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
 			);
 			this.bgLayers['World Oceans'] = lyr;
@@ -54,7 +54,7 @@ function ($, Backbone) {
 
 			// ESRI World Oceans Reference
 			var lyr = new L.TileLayer(
-				'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
+				'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
 				{id: 10, maxZoom: 10, opacity: 1, attribution: ''}
 			);
 			this.bgLayers['World Ocean Annotation'] = lyr;
@@ -70,7 +70,7 @@ function ($, Backbone) {
 			
 			// EEZs / Nations		
 			lyr = new L.TileLayer(
-				'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
+				'https://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
 				{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74'}
 			);
 			this.overlayLayers['Exclusive Economic Zones'] = lyr;
@@ -78,21 +78,21 @@ function ($, Backbone) {
 			
 			// Marine Eco-Regions
 			lyr = new L.TileLayer(
-				'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
+				'https://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
 				{id: 4, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#CC00CC'}
 			);
 			this.overlayLayers['Marine Eco-Regions'] = lyr;
 			
 			// FAO Fishing Zones
 			lyr = new L.TileLayer(
-				'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
+				'https://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
 				{id: 5, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#FFFF00'}
 			);
 			this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
 			
 			// Designated Marine Protected Areas
 			lyr = new L.TileLayer(
-				'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
+				'https://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png',
 				{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA'}
 			);
 			this.overlayLayers['Designated Marine Protected Areas'] = lyr;
@@ -101,7 +101,7 @@ function ($, Backbone) {
 			
 			// Candidate Marine Protected Areas
 			lyr = new L.TileLayer(
-				'http://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
+				'https://tile{s}.mpatlas.org/tilecache/candidates/{z}/{x}/{y}.png',
 				{id: 2, maxZoom: 10, opacity: 0.6, tms: false, subdomains: subdomains, color: '#FF8000'}
 			);
 			this.overlayLayers['Candidate Marine Protected Areas'] = lyr;

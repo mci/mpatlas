@@ -35,10 +35,12 @@ define(
 		var _MPAtlas = Backbone.View.extend({
 			//** TODO be sure to set the proxy and domain before sending to production!
 			proxy: '',
-			domain: 'http://' + document.domain + (window.location.port ? ':' + window.location.port: '') + '/',
+			domain: window.location.origin + '/',
+			// domain: 'https://' + document.domain + (window.location.port ? ':' + window.location.port: '') + '/',
+
 			/*
 			proxy: '/proxy/?mode=native&url=',
-			domain: 'http://dev.mpatlas.org/',
+			domain: 'https://dev.mpatlas.org/',
 			*/
 			
 			exploreModes: ['mpas', 'country', 'meow', 'fao'],
@@ -76,7 +78,7 @@ define(
 	
 				// ESRI World Oceans Base Layer
 				var lyr = new L.TileLayer(
-					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
+					'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: 'Basemap &copy; ESRI'}
 				);
 				this.bgLayers['World Oceans'] = lyr;
@@ -84,7 +86,7 @@ define(
 
 				// ESRI World Oceans Reference
 				var lyr = new L.TileLayer(
-					'http://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
+					'https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}.png',
 					{id: 10, maxZoom: 10, opacity: 1, attribution: ''}
 				);
 				this.bgLayers['World Ocean Annotation'] = lyr;
@@ -100,7 +102,7 @@ define(
 				// Designated Marine Protected Areas
 				/*
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png?v=20141001',
+					'https://tile{s}.mpatlas.org/tilecache/mpas/{z}/{x}/{y}.png?v=20141001',
 					{id: 1, maxZoom: 10, opacity: 0.9, tms: false, subdomains: subdomains, color: '#0000AA', attribution: 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>'}
 				);
 				this.overlayLayers['Designated Marine Protected Areas'] = lyr;
@@ -120,7 +122,7 @@ define(
 	
 				// EEZs / Countries		
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
+					'https://tile{s}.mpatlas.org/tilecache/eezs/{z}/{x}/{y}.png',
 					{id: 3, maxZoom: 10, opacity: 0.2, tms: true, subdomains: subdomains, color: '#01DF74', attribution: 'EEZs <a href="http://marineregions.org">marineregions.org</a>'}
 				);
 				this.overlayLayers['Exclusive Economic Zones'] = lyr;
@@ -128,14 +130,14 @@ define(
 				
 				// Marine Eco-Regions
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
+					'https://tile{s}.mpatlas.org/tilecache/meow/{z}/{x}/{y}.png',
 					{id: 4, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#CC00CC'}
 				);
 				this.overlayLayers['Marine Eco-Regions'] = lyr;
 				
 				// FAO Fishing Zones
 				lyr = new L.TileLayer(
-					'http://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
+					'https://tile{s}.mpatlas.org/tilecache/fao/{z}/{x}/{y}.png',
 					{id: 5, maxZoom: 10, opacity: 0.4, tms: true, subdomains: subdomains, color: '#FFFF00'}
 				);
 				this.overlayLayers['FAO Fishery Mgmt Regions'] = lyr;
@@ -158,12 +160,12 @@ define(
 				var that = this;
 
 				// Designated Marine Protected Areas
-				lyr = cartodb.createLayer(this.map, 'http://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
+				lyr = cartodb.createLayer(this.map, 'https://mpatlas.cartodb.com/api/v2/viz/15af8902-c9dc-11e4-a3d3-0e0c41326911/viz.json',
 					{
 						cartodb_logo: false // disable showing cartodb logo for now
 					})
 				    .on('done', function(layer) {
-				      layer.options.attribution = 'MPA data from <a href="http://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>';
+				      layer.options.attribution = 'MPA data from <a href="https://www.mpatlas.org">MPAtlas</a>, <a href="http://www.protectedplanet.net">WDPA/ProtectedPlanet</a>, <a href="http://www.mpa.gov">US MPA Center</a>';
 				      that.overlayLayers['Designated Marine Protected Areas'] = layer;
 				      that.layers.unshift(layer);
 				      that.mpalayer = layer;

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% load cms_tags sekizai_tags i18n %}
 
 {% block title %}{{ campaign.name }}{% endblock %}
@@ -7,16 +7,16 @@
 {% block base_head_extra %}
 
 {% comment %}
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.3/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 {% endcomment %}
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.3/dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
 
 <link href='{{ STATIC_URL }}css/leaflet.label.css' rel='stylesheet' />
 
-<link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
+<link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.12/themes/css/cartodb.css" />
 
 <!-- <link href="{{ STATIC_URL }}css/sitedetail.css" media="screen" rel="stylesheet" type="text/css" /> -->
 
