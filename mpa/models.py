@@ -269,8 +269,15 @@ class Mpa(models.Model):
     verified_date = models.DateField('Date Verified', null=True, blank=True)
     verify_wdpa = models.CharField('Verification by WDPA', max_length=20, null=True, blank=True, default='Not Reported', choices=VERIFY_WDPA_CHOICES)
 
-    # Data Source
-    datasource = models.ForeignKey('DataSource', related_name='mpa_datasources', verbose_name='Data Source', null=True, blank=True, on_delete=models.SET_NULL)
+    # Data Sources
+    datasources = JSONField('Data Sources', default=dict, editable=True)
+    '''EXAMPLE
+        {
+            'attributes': [{'name': “WDPA”, 'version': "2020-12", 'url': "", 'notes':""}],
+            'geospatial': [{'name': "MPAtlas/MCI", version: "", 'url':"", 'notes':""}],
+            'metadata': ""
+        }
+    '''
     wdpa_metadataid = models.IntegerField('WDPA Source Metadata ID', null=True, blank=True, editable=False)
 
     # Modification History
@@ -711,15 +718,15 @@ class Contact(models.Model):
     def __str__(self):
         return 'Contact: %s' % (self.agency)
 
-class DataSource(models.Model):
-    name = models.CharField('Data Source Name', max_length=500)
-    version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
-    url = models.URLField('Data Source URL', max_length=500, null=True, blank=True)
-    logo = FilerImageField(null=True, blank=True, related_name="datasource_logos", on_delete=models.SET_NULL)
+# class DataSource(models.Model):
+#     name = models.CharField('Data Source Name', max_length=500)
+#     version = models.CharField('Version or Access Date', max_length=500, null=True, blank=True)
+#     url = models.URLField('Data Source URL', max_length=500, null=True, blank=True)
+#     logo = FilerImageField(null=True, blank=True, related_name="datasource_logos", on_delete=models.SET_NULL)
         
-    # Returns the string representation of the model.
-    def __str__(self):
-        return 'Data Source: %s - %s' % (self.name, self.version)
+#     # Returns the string representation of the model.
+#     def __str__(self):
+#         return 'Data Source: %s - %s' % (self.name, self.version)
 
 
 class VersionMetadata(models.Model):

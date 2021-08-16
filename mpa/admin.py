@@ -3,7 +3,7 @@ from django.forms.models import fields_for_model
 from reversion.admin import VersionAdmin
 # import reversion
 from reversion import revisions as reversion
-from .models import Site, Mpa, WikiArticle, Contact, DataSource, CandidateInfo
+from .models import Site, Mpa, WikiArticle, Contact, CandidateInfo
 from .views import mpas_all_nogeom
 from django.db.models import When, Case, Value, F, Q, BooleanField
 from django.urls import reverse
@@ -50,7 +50,7 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     autocomplete_fields = ['site']
     fieldsets = [
         ('Parent Site', {'fields': ['site']}),
-        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasource']}),
+        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasources']}),
         ('Designation Type', {'fields': ['designation_type', 'int_criteria', 'iucn_category']}),
         ('Categories/Tags', {'fields': ['categories']}),
         ('Is this a Marine Protected Area or a different marine managed area?', {'fields': ['is_mpa']}),
@@ -121,12 +121,8 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
 class ContactAdmin(VersionAdmin):
     search_fields = ['agency', 'url', 'email', 'address']
 
-class DataSourceAdmin(VersionAdmin):
-    search_fields = ['name', 'version', 'url']
-
 admin.site.register(Site, SiteAdmin)
 admin.site.register(Mpa, MpaAdmin)
 admin.site.register(Contact, ContactAdmin)
-admin.site.register(DataSource, DataSourceAdmin)
 # admin.site.register(WikiArticle, VersionAdmin)
 # admin.site.register(MpaCandidate, admin.GeoModelAdmin)
