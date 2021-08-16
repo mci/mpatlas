@@ -73,6 +73,7 @@ AS SELECT m.mpa_id,
     m.verification_reason,
     m.verified_by,
     m.verify_wdpa,
+    m.datasources,
     m.conservation_focus_info,
     m.access_info
    FROM mpa_mpa m,
@@ -166,6 +167,7 @@ CREATE OR REPLACE RULE mpa_polygon_category_view_withrejects_INSERT as
     verification_reason,
     verified_by,
     verify_wdpa,
+    datasources,
     conservation_focus_info,
     access_info)
     VALUES
@@ -241,6 +243,7 @@ CREATE OR REPLACE RULE mpa_polygon_category_view_withrejects_INSERT as
     NEW.verification_reason,
     NEW.verified_by,
     NEW.verify_wdpa,
+    NEW.datasources,
     NEW.conservation_focus_info,
     NEW.access_info);
 
@@ -321,6 +324,7 @@ CREATE OR REPLACE RULE mpa_polygon_category_view_withrejects_UPDATE AS
         verification_reason,
         verified_by,
         verify_wdpa,
+        datasources,
         conservation_focus_info,
         access_info)
         =
@@ -397,6 +401,7 @@ CREATE OR REPLACE RULE mpa_polygon_category_view_withrejects_UPDATE AS
         NEW.verification_reason,
         NEW.verified_by,
         NEW.verify_wdpa,
+        NEW.datasources,
         NEW.conservation_focus_info,
         NEW.access_info)
     WHERE mpa_id = NEW.mpa_id;
