@@ -273,7 +273,7 @@ class Mpa(models.Model):
     datasources = JSONField('Data Sources', default=dict, editable=True)
     '''EXAMPLE
         {
-            'attributes': [{'name': “WDPA”, 'version': "2020-12", 'url': "", 'notes':""}],
+            'attributes': [{'name': "WDPA", 'version': "2020-12", 'url': "", 'notes':""}],
             'geospatial': [{'name': "MPAtlas/MCI", version: "", 'url':"", 'notes':""}],
             'metadata': ""
         }

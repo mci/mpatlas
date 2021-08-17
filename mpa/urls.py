@@ -40,7 +40,7 @@ urlpatterns = [
         name='mpa-siteslistall'),
     url(r'^sites/json/$',
         MpaJsonListView.as_view(
-            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'status', 'mpa_id', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
+            queryset=mpas_norejects_nogeom.order_by('name').only('name', 'designation_eng', 'country', 'status', 'mpa_id', 'site', 'point_within', 'bbox_lowerleft', 'bbox_upperright'),
             context_object_name='mpa_list',
             paginate_by=None,
             template_name='mpa/Mpa_list.json'),
