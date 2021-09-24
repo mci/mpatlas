@@ -270,7 +270,7 @@ class Mpa(models.Model):
     verify_wdpa = models.CharField('Verification by WDPA', max_length=20, null=True, blank=True, default='Not Reported', choices=VERIFY_WDPA_CHOICES)
 
     # Data Sources
-    datasources = JSONField('Data Sources', default=dict, editable=True)
+    datasources = JSONField('Data Sources', default=dict, editable=False)
     '''EXAMPLE
         {
             'attributes': [{'name': "WDPA", 'version': "2020-12", 'url': "", 'notes':""}],
