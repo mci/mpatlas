@@ -50,7 +50,7 @@ class MpaAdmin(VersionAdmin, admin.GeoModelAdmin):
     autocomplete_fields = ['site']
     fieldsets = [
         ('Parent Site', {'fields': ['site']}),
-        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids', 'datasources']}),
+        ('Protected Area Name', {'fields': ['name', 'designation', 'designation_eng', 'long_name', 'short_name', 'slug', 'wdpa_id', 'usmpa_id', 'other_ids']}),
         ('Designation Type', {'fields': ['designation_type', 'int_criteria', 'iucn_category']}),
         ('Categories/Tags', {'fields': ['categories']}),
         ('Is this a Marine Protected Area or a different marine managed area?', {'fields': ['is_mpa']}),
