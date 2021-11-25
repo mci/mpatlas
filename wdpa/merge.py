@@ -141,10 +141,12 @@ mpaset = mpas_all_nogeom.exclude(
         Q(country__icontains='PRI') | Q(sovereign__icontains='PRI') |
         Q(country__icontains='ASM') | Q(sovereign__icontains='ASM') |
         Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
-        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP') |
-        Q(country__icontains='CHL') | Q(sovereign__icontains='CHL')
+        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
     ).filter(
-        Q()
+        Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
+        Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
+        Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
+        Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
     )
 
     # ).exclude(
@@ -165,8 +167,7 @@ wdpa_exclude = (
     Q(iso3__icontains='PRI') | Q(parent_iso3__icontains='PRI') |
     Q(iso3__icontains='ASM') | Q(parent_iso3__icontains='ASM') |
     Q(iso3__icontains='GUM') | Q(parent_iso3__icontains='GUM') |
-    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP') |
-    Q(iso3__icontains='CHL') | Q(parent_iso3__icontains='CHL')
+    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP')
 )
 
 # mpaset = mpas_all_nogeom.filter(

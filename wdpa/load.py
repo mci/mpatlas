@@ -38,7 +38,7 @@ def clear_wdpa_tables():
     WdpaPoint_new.objects.all().delete()
     WdpaPoly_new.objects.all().delete()
 
-def run_point2021(source=wdpa_202012_point_gdb, strict=True, verbose=True, **kwargs):
+def run_point2021(source=wdpa_202111_gdb, strict=True, verbose=True, **kwargs):
     lm_point = LayerMapping(WdpaPoint_new, source, wdpa2021point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
     lm_point.save(strict=strict, verbose=verbose, **kwargs)
 

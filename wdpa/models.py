@@ -14,7 +14,7 @@ class WdpaSource(models.Model):
     scale = models.CharField(max_length=255)
     lineage = models.CharField(max_length=264)
     citation = models.CharField(max_length=261)
-    disclaimer = models.CharField(max_length=264)
+    disclaimer = models.CharField(max_length=264, null=True)
     language = models.CharField(max_length=255)
 
 
