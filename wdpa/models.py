@@ -177,7 +177,7 @@ wdpa2021point_mapping = {
     'geom' : 'MULTIPOINT',
 }
 
-wdpa2021poly_mapping = wdpa2020point_mapping.copy()
+wdpa2021poly_mapping = wdpa2021point_mapping.copy()
 wdpa2021poly_mapping.update({
     'gis_m_area' : 'GIS_M_AREA',
     'gis_area' : 'GIS_AREA',
