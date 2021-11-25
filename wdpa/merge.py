@@ -157,7 +157,10 @@ mpaset = mpas_all_nogeom.exclude(
     # )
 
 wdpa_filter = (
-    Q()
+    Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
+    Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
+    Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
+    Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
 )
 
 wdpa_exclude = (
