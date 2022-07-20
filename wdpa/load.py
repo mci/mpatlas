@@ -68,22 +68,3 @@ def run_source2022(source=wdpa_202207_gdb):
         print(feat.fid, end='\r', flush=True)
 
 
-def run_point2019(source=wdpa_201911_gdb, strict=True, verbose=True, **kwargs):
-    lm_point = LayerMapping(WdpaPoint_prev, source, wdpa2019point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
-    lm_point.save(strict=strict, verbose=verbose, **kwargs)
-
-def run_poly2019(source=wdpa_201911_gdb, strict=True, verbose=True, **kwargs):
-    lm_poly = LayerMapping(WdpaPoly_prev, source, wdpa2019poly_mapping, layer=identify_layers(source=source)['poly'], transform=False, encoding='utf-8')
-    lm_poly.save(strict=strict, verbose=verbose, **kwargs)
-
-def run_source2019(source=wdpa_201911_gdb):
-    ds = DataSource(source)
-    src = ds[identify_layers(source=source)['source']]
-    print('Importing', len(src), 'records from Source table')
-    for feat in src:
-        obj,created = WdpaSource.objects.get_or_create(metadataid=feat.get('METADATAID'))
-        for f in wdpasource_mapping.items():
-            setattr(obj, f[0], feat.get(f[1]))
-        obj.save()
-        print(feat.fid, end='\r', flush=True)
-
