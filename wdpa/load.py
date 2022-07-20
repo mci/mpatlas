@@ -5,7 +5,7 @@ from .models import WdpaPoly_prev, WdpaPoint_prev, WdpaSource
 from .models import wdpa2019poly_mapping, wdpa2019point_mapping, wdpasource_mapping
 
 from .models import WdpaPoly_new, WdpaPoint_new, WdpaSource
-from .models import wdpa2021poly_mapping, wdpa2021point_mapping, wdpasource_mapping
+from .models import wdpa2022poly_mapping, wdpa2022point_mapping, wdpasource_mapping
 
 wdpapolygon_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepolygons.shp'))
 wdpapoint_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepoints.shp'))
@@ -23,7 +23,10 @@ wdpa_202012_source_csv = os.path.abspath('/Users/russmo/Code/wdpa/202012_WDPA_WD
 wdpa_202111_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Nov2021_Public/WDPA_Nov2021_Public.gdb')
 #wdpa_202111_source_csv = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Nov2021_Public/WDPA_sources.csv')
 
-def identify_layers(source=wdpa_202111_gdb):
+wdpa_202207_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
+# wdpa_202207_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
+
+def identify_layers(source=wdpa_202207_gdb):
     ds = DataSource(source)
     layers = {'point': None, 'poly': None, 'source': None}
     for lyrid in range(0, len(ds)):
@@ -38,11 +41,11 @@ def clear_wdpa_tables():
     WdpaPoint_new.objects.all().delete()
     WdpaPoly_new.objects.all().delete()
 
-def run_point2021(source=wdpa_202111_gdb, strict=True, verbose=True, **kwargs):
-    lm_point = LayerMapping(WdpaPoint_new, source, wdpa2021point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
+def run_point2022(source=wdpa_202207_gdb, strict=True, verbose=True, **kwargs):
+    lm_point = LayerMapping(WdpaPoint_new, source, wdpa2022point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
     lm_point.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_point2021_nogeom(source=wdpa_202111_gdb):
+def run_point2022_nogeom(source=wdpa_202207_gdb):
     ds = DataSource(source)
     src = ds[identify_layers(source=source)['point']]
     pt_pids = WdpaPoint_new.objects.all().values_list('wdpa_pid', flat=True)
@@ -55,17 +58,17 @@ def run_point2021_nogeom(source=wdpa_202111_gdb):
                 print(feat.fid, 'fid', feat.get('WDPA_PID'), 'WDPA_PID already exists, overwriting fields')
             except:
                 obj = WdpaPoint_new(wdpa_pid=feat.get('WDPA_PID'))
-            for f in wdpa2021point_mapping.items():
+            for f in wdpa2022point_mapping.items():
                 if f[0]=='geom':
                     continue
                 setattr(obj, f[0], feat.get(f[1]))
             obj.save()
 
-def run_poly2021(source=wdpa_202111_gdb, strict=True, verbose=True, **kwargs):
-    lm_poly = LayerMapping(WdpaPoly_new, source, wdpa2021poly_mapping, layer=identify_layers(source=source)['poly'], transform=False, encoding='utf-8')
+def run_poly2022(source=wdpa_202207_gdb, strict=True, verbose=True, **kwargs):
+    lm_poly = LayerMapping(WdpaPoly_new, source, wdpa2022poly_mapping, layer=identify_layers(source=source)['poly'], transform=False, encoding='utf-8')
     lm_poly.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_source2021(source=wdpa_202111_gdb):
+def run_source2022(source=wdpa_202207_gdb):
     ds = DataSource(source)
     src = ds[identify_layers(source=source)['source']]
     print('Importing', len(src), 'records from Source table')

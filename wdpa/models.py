@@ -141,11 +141,11 @@ class WdpaPoly_prev(WdpaAbstract):
     bbox_geojson = models.TextField(null=True)
 
 class WdpaPoint_prev(WdpaAbstract):
-    geom = models.MultiPointField()
+    geom = models.MultiPointField(srid=4326, null=True)
 
 
 # Auto-generated `LayerMapping` dictionary for WDPA_Current model
-wdpa2021point_mapping = {
+wdpa2022point_mapping = {
     'wdpaid' : 'WDPAID',
     'wdpa_pid' : 'WDPA_PID',
     'pa_def' : 'PA_DEF',
@@ -177,8 +177,8 @@ wdpa2021point_mapping = {
     'geom' : 'MULTIPOINT',
 }
 
-wdpa2021poly_mapping = wdpa2021point_mapping.copy()
-wdpa2021poly_mapping.update({
+wdpa2022poly_mapping = wdpa2022point_mapping.copy()
+wdpa2022poly_mapping.update({
     'gis_m_area' : 'GIS_M_AREA',
     'gis_area' : 'GIS_AREA',
     'geom' : 'MULTIPOLYGON',

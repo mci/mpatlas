@@ -676,16 +676,20 @@ def mpa_post_save(sender, instance, *args, **kwargs):
     finally:
         post_save.connect(mpa_post_save, sender=Mpa)
     try:
-        from mpatlas.utils import cartompa
-        cartompa.updateMpa(instance.pk)
+        pass
+        # no longer using Carto
+        # from mpatlas.utils import cartompa
+        # cartompa.updateMpa(instance.pk)
     except:
         pass # let this fail silently, maybe Carto is unreachable
 
 @receiver(post_delete, sender=Mpa)
 def mpa_post_delete(sender, instance, *args, **kwargs):
     try:
-        from mpatlas.utils import cartompa
-        cartompa.purgeCartoMpas()
+        pass
+        # no longer using Carto
+        # from mpatlas.utils import cartompa
+        # cartompa.purgeCartoMpas()
     except:
         pass # let this fail silently, maybe Carto is unreachable
 

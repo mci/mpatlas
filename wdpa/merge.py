@@ -143,11 +143,15 @@ mpaset = mpas_all_nogeom.exclude(
         Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
         Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
     ).filter(
-        Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
-        Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
-        Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
-        Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
+        Q(country__icontains='GRC') | Q(sovereign__icontains='GRC')
     )
+
+    # ).filter(
+    #     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
+    #     Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
+    #     Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
+    #     Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
+    # )
 
     # ).exclude(
     #     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
@@ -157,11 +161,15 @@ mpaset = mpas_all_nogeom.exclude(
     # )
 
 wdpa_filter = (
-    Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
-    Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
-    Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
-    Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
+    Q(iso3__icontains='GRC') | Q(parent_iso3__icontains='GRC')
 )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
+#     Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
+#     Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
+#     Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
+# )
 
 wdpa_exclude = (
     Q(iso3__icontains='USA') | Q(parent_iso3__icontains='USA') |
