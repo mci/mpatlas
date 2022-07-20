@@ -7,24 +7,10 @@ from .models import wdpa2019poly_mapping, wdpa2019point_mapping, wdpasource_mapp
 from .models import WdpaPoly_new, WdpaPoint_new, WdpaSource
 from .models import wdpa2022poly_mapping, wdpa2022point_mapping, wdpasource_mapping
 
-wdpapolygon_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepolygons.shp'))
-wdpapoint_shp = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data/wdpa_20111014/CurrentWDPAMarinepoints.shp'))
-
-wdpa2014gdb = os.path.abspath('/Users/russmo/Documents/MPAtlas/WDPA_Oct2014_Public/WDPA_Oct2014_Public.gdb')
-
-wdpa_201809_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Sept2018_Public/WDPA_Sept_2018_Public/WDPA_Sept2018_Public.gdb')
-wdpa_201810_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Oct2018_Public//WDPA_Oct2018_Public.gdb')
-
-wdpa_201911_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Nov2019_Public/WDPA_Nov2019_Public.gdb')
-wdpa_202012_point_gdb = os.path.abspath('/Users/russmo/Code/wdpa/202012_WDPA_WDOECM_wdpa_gdb/WDPA_WDOECM_wdpa_gdb_points.gdb')
-wdpa_202012_poly_gdb = os.path.abspath('/Users/russmo/Code/wdpa/202012_WDPA_WDOECM_wdpa_gdb/WDPA_WDOECM_wdpa_gdb_polygons.gdb')
-wdpa_202012_source_csv = os.path.abspath('/Users/russmo/Code/wdpa/202012_WDPA_WDOECM_wdpa_gdb/WDPA_sources.csv')
-
 wdpa_202111_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Nov2021_Public/WDPA_Nov2021_Public.gdb')
-#wdpa_202111_source_csv = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Nov2021_Public/WDPA_sources.csv')
+# wdpa_202111_source_csv = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Nov2021_Public/WDPA_sources.csv')
 
-wdpa_202207_gdb = os.path.abspath('/Users/russmo/Code/wdpa/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
-# wdpa_202207_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
+wdpa_202207_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
 
 def identify_layers(source=wdpa_202207_gdb):
     ds = DataSource(source)
