@@ -12,7 +12,9 @@ wdpa_202111_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Nov2021_Public/W
 
 wdpa_202207_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Jul2022_Public/WDPA_Jul2022_Public.gdb')
 
-def identify_layers(source=wdpa_202207_gdb):
+wdpa_202212_gdb = os.path.abspath('/home/mpatlas/workspace/WDPA_Dec2022_Public/WDPA_Dec2022_Public.gdb')
+
+def identify_layers(source=wdpa_202212_gdb):
     ds = DataSource(source)
     layers = {'point': None, 'poly': None, 'source': None}
     for lyrid in range(0, len(ds)):
@@ -27,11 +29,11 @@ def clear_wdpa_tables():
     WdpaPoint_new.objects.all().delete()
     WdpaPoly_new.objects.all().delete()
 
-def run_point2022(source=wdpa_202207_gdb, strict=True, verbose=True, **kwargs):
+def run_point2022(source=wdpa_202212_gdb, strict=True, verbose=True, **kwargs):
     lm_point = LayerMapping(WdpaPoint_new, source, wdpa2022point_mapping, layer=identify_layers(source=source)['point'], transform=False, encoding='utf-8')
     lm_point.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_point2022_nogeom(source=wdpa_202207_gdb):
+def run_point2022_nogeom(source=wdpa_202212_gdb):
     ds = DataSource(source)
     src = ds[identify_layers(source=source)['point']]
     pt_pids = WdpaPoint_new.objects.all().values_list('wdpa_pid', flat=True)
@@ -50,11 +52,11 @@ def run_point2022_nogeom(source=wdpa_202207_gdb):
                 setattr(obj, f[0], feat.get(f[1]))
             obj.save()
 
-def run_poly2022(source=wdpa_202207_gdb, strict=True, verbose=True, **kwargs):
+def run_poly2022(source=wdpa_202212_gdb, strict=True, verbose=True, **kwargs):
     lm_poly = LayerMapping(WdpaPoly_new, source, wdpa2022poly_mapping, layer=identify_layers(source=source)['poly'], transform=False, encoding='utf-8')
     lm_poly.save(strict=strict, verbose=verbose, **kwargs)
 
-def run_source2022(source=wdpa_202207_gdb):
+def run_source2022(source=wdpa_202212_gdb):
     ds = DataSource(source)
     src = ds[identify_layers(source=source)['source']]
     print('Importing', len(src), 'records from Source table')
