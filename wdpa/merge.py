@@ -640,8 +640,8 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
             if not dryrun:
                 with transaction.atomic(), reversion.create_revision():
                     updateMpaFromWdpaSmart(wpoly, mpa, poly, created, dryrun)
-                    comment = 'Updated record from WDPA December 2020'
-                    reference = 'World Database on Protected Areas, December 2020'
+                    comment = 'Updated record from WDPA July 2022'
+                    reference = 'World Database on Protected Areas, July 2022'
                     reversion.set_comment(comment)
                     User = get_user_model()
                     user = User.objects.get(username='russmo')
