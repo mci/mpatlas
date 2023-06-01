@@ -141,18 +141,24 @@ mpaset = mpas_all_nogeom.exclude(
         Q(country__icontains='PRI') | Q(sovereign__icontains='PRI') |
         Q(country__icontains='ASM') | Q(sovereign__icontains='ASM') |
         Q(country__icontains='GUM') | Q(sovereign__icontains='GUM') |
-        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP') |
-        Q(country__icontains='CHL') | Q(sovereign__icontains='CHL')
+        Q(country__icontains='MNP') | Q(sovereign__icontains='MNP')
     ).filter(
         Q()
     )
 
-    # ).exclude(
+    # ).filter(
     #     Q(country__icontains='MEX') | Q(country__icontains='CHL') | Q(country__icontains='IDN') | 
     #     Q(country__icontains='CHN') | Q(country__icontains='JPN') | 
     #     Q(sovereign__icontains='MEX') | Q(sovereign__icontains='CHL') | Q(sovereign__icontains='IDN') |
     #     Q(sovereign__icontains='CHN') | Q(sovereign__icontains='JPN')
     # )
+
+# wdpa_filter = (
+#     Q(iso3__icontains='MEX') | Q(iso3__icontains='CHL') | Q(iso3__icontains='IDN') | 
+#     Q(iso3__icontains='CHN') | Q(iso3__icontains='JPN') | 
+#     Q(parent_iso3__icontains='MEX') | Q(parent_iso3__icontains='CHL') | Q(parent_iso3__icontains='IDN') |
+#     Q(parent_iso3__icontains='CHN') | Q(parent_iso3__icontains='JPN')
+# )
 
 wdpa_filter = (
     Q()
@@ -165,8 +171,7 @@ wdpa_exclude = (
     Q(iso3__icontains='PRI') | Q(parent_iso3__icontains='PRI') |
     Q(iso3__icontains='ASM') | Q(parent_iso3__icontains='ASM') |
     Q(iso3__icontains='GUM') | Q(parent_iso3__icontains='GUM') |
-    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP') |
-    Q(iso3__icontains='CHL') | Q(parent_iso3__icontains='CHL')
+    Q(iso3__icontains='MNP') | Q(parent_iso3__icontains='MNP')
 )
 
 # mpaset = mpas_all_nogeom.filter(
@@ -635,8 +640,8 @@ def updateMpasFromWdpaQueryset(qs=None, poly=True, logfile=None, geologfile=None
             if not dryrun:
                 with transaction.atomic(), reversion.create_revision():
                     updateMpaFromWdpaSmart(wpoly, mpa, poly, created, dryrun)
-                    comment = 'Updated record from WDPA December 2020'
-                    reference = 'World Database on Protected Areas, December 2020'
+                    comment = 'Updated record from WDPA July 2022'
+                    reference = 'World Database on Protected Areas, July 2022'
                     reversion.set_comment(comment)
                     User = get_user_model()
                     user = User.objects.get(username='russmo')

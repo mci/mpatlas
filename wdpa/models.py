@@ -14,7 +14,7 @@ class WdpaSource(models.Model):
     scale = models.CharField(max_length=255)
     lineage = models.CharField(max_length=264)
     citation = models.CharField(max_length=261)
-    disclaimer = models.CharField(max_length=264)
+    disclaimer = models.CharField(max_length=264, null=True)
     language = models.CharField(max_length=255)
 
 
@@ -141,11 +141,11 @@ class WdpaPoly_prev(WdpaAbstract):
     bbox_geojson = models.TextField(null=True)
 
 class WdpaPoint_prev(WdpaAbstract):
-    geom = models.MultiPointField()
+    geom = models.MultiPointField(srid=4326, null=True)
 
 
 # Auto-generated `LayerMapping` dictionary for WDPA_Current model
-wdpa2020point_mapping = {
+wdpa2022point_mapping = {
     'wdpaid' : 'WDPAID',
     'wdpa_pid' : 'WDPA_PID',
     'pa_def' : 'PA_DEF',
@@ -177,8 +177,8 @@ wdpa2020point_mapping = {
     'geom' : 'MULTIPOINT',
 }
 
-wdpa2020poly_mapping = wdpa2020point_mapping.copy()
-wdpa2020poly_mapping.update({
+wdpa2022poly_mapping = wdpa2022point_mapping.copy()
+wdpa2022poly_mapping.update({
     'gis_m_area' : 'GIS_M_AREA',
     'gis_area' : 'GIS_AREA',
     'geom' : 'MULTIPOLYGON',
