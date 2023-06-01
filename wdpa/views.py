@@ -11,31 +11,31 @@ from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
 
 from wdpa.models import WdpaPoly_new
-from mpa.models import MpaCandidate
 
-class MpaListView(ListView):
+
+class WDPAListView(ListView):
     def get_paginate_by(self, queryset):
         try:
-            paginate_by = int(self.request.GET.get('paginate_by'))
+            paginate_by = int(self.request.GET.get("paginate_by"))
             if paginate_by > 0:
                 return paginate_by
         except:
             pass
         return self.paginate_by
-    
+
     def get_queryset(self):
         qs = self.queryset
         try:
-            q = self.request.GET.get('q')
+            q = self.request.GET.get("q")
             if q:
-                #return self.queryset.filter(name__istartswith=q)
+                # return self.queryset.filter(name__istartswith=q)
                 # \m is Postgresql regex word boundary, Python used \b
                 # (?i) is a Postgresql regex mode modifier to make regex case insensitive
-                qs = qs.filter(name__regex=r'(?i)\m' + re.escape(q))
-            sortby = self.request.GET.get('sort')
-            direction = self.request.GET.get('dir')
+                qs = qs.filter(name__regex=r"(?i)\m" + re.escape(q))
+            sortby = self.request.GET.get("sort")
+            direction = self.request.GET.get("dir")
             if sortby:
-                dirflag = '-' if (direction and direction.lower() == 'desc') else ''
+                dirflag = "-" if (direction and direction.lower() == "desc") else ""
                 qs = qs.order_by(dirflag + sortby)
             return qs
         except:
@@ -43,25 +43,34 @@ class MpaListView(ListView):
         else:
             return self.queryset
 
-class MpaJsonListView(MpaListView):
+
+class WDPAJsonListView(WDPAListView):
     def render_to_response(self, context, **kwargs):
-        return super(MpaJsonListView, self).render_to_response(context, content_type='application/json; charset=utf-8', **kwargs)
+        return super(WDPAJsonListView, self).render_to_response(
+            context, content_type="application/json; charset=utf-8", **kwargs
+        )
+
 
 def normalize_lon(lon):
-    if (not -180 <= lon <= 180):
+    if not -180 <= lon <= 180:
         lon = lon % 360
         # could also do lon >=180 to cast all 180 to -180
-        if (lon > 180):
+        if lon > 180:
             lon -= 360
     return lon
 
+
 class Error(Exception):
     """Base class for exceptions in this module."""
+
     pass
+
 
 class LookupMethodError(Error):
     """Unknown or malformed spatial lookup method."""
+
     pass
+
 
 def lookup_point(request):
     """Find nearby polygons with a point and search radius.
@@ -77,68 +86,102 @@ def lookup_point(request):
     Different methods are needed if a regular Geometry column is used
     in order to handle cases across the dateline."""
     mpa_list = ()
-    default_method = 'webmercator'
+    default_method = "webmercator"
     try:
-        lon = float(request.GET['lon'])
-        lat = float(request.GET['lat'])
+        lon = float(request.GET["lon"])
+        lat = float(request.GET["lat"])
         try:
-            radius = float(request.GET['radius'])
+            radius = float(request.GET["radius"])
         except:
-            radius = 225.0 # km
+            radius = 225.0  # km
         try:
-            method = request.GET['method'] or default_method # set default if empty string passed
-        except (KeyError):
+            method = (
+                request.GET["method"] or default_method
+            )  # set default if empty string passed
+        except KeyError:
             method = default_method
-        if method not in ('point', 'greatcircle', 'webmercator', 'webmercator_buffer', 'webmercator_box', 'webmercator_simple'):
-            raise LookupMethodError('Unknown or malformed lookup method passed in GET query string.')
-        if (radius == 0):
-            method = 'point'
+        if method not in (
+            "point",
+            "greatcircle",
+            "webmercator",
+            "webmercator_buffer",
+            "webmercator_box",
+            "webmercator_simple",
+        ):
+            raise LookupMethodError(
+                "Unknown or malformed lookup method passed in GET query string."
+            )
+        if radius == 0:
+            method = "point"
     except:
         # Bad input, return empty list
-        return render(request, 'wdpa/mpalookup.json', {
-            'mpa_list': mpa_list,
-        }, content_type='application/json; charset=utf-8')
+        return render(
+            request,
+            "wdpa/mpalookup.json",
+            {
+                "mpa_list": mpa_list,
+            },
+            content_type="application/json; charset=utf-8",
+        )
     else:
         # We need to normalize the longitude into the range -180 to 180 so we don't
         # make the cast to PostGIS Geography type complain
-        point = geos.Point(normalize_lon(lon), lat, srid=gdal.SpatialReference('WGS84').srid) # srid=4326 , WGS84 geographic
-        if (method == 'webmercator'):
-            if (normalize_lon(lon) < 0):
+        point = geos.Point(
+            normalize_lon(lon), lat, srid=gdal.SpatialReference("WGS84").srid
+        )  # srid=4326 , WGS84 geographic
+        if method == "webmercator":
+            if normalize_lon(lon) < 0:
                 lon360 = normalize_lon(lon) + 360
             else:
                 lon360 = normalize_lon(lon) - 360
-            point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference('WGS84').srid)
-            point.transform(900913) # Google Spherical Mercator srid
+            point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference("WGS84").srid)
+            point.transform(900913)  # Google Spherical Mercator srid
             point360.transform(900913)
-            #mpa_list = WdpaPolygon.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
-            mpa_list = WdpaPoly_new.objects.filter(Q(geom_smerc__dwithin=(point, Distance(km=radius))) | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))).defer(*WdpaPoly_new.get_geom_fields())
+            # mpa_list = WdpaPolygon.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
+            mpa_list = WdpaPoly_new.objects.filter(
+                Q(geom_smerc__dwithin=(point, Distance(km=radius)))
+                | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))
+            ).defer(*WdpaPoly_new.get_geom_fields())
             search = point
-        elif (method == 'webmercator_buffer'):
-            point.transform(900913) # Google Spherical Mercator srid
-            searchbuffer = point.buffer(radius * 1000) # convert km to m, create buffer
-            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPoly_new.get_geom_fields())
+        elif method == "webmercator_buffer":
+            point.transform(900913)  # Google Spherical Mercator srid
+            searchbuffer = point.buffer(radius * 1000)  # convert km to m, create buffer
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(
+                *WdpaPoly_new.get_geom_fields()
+            )
             search = searchbuffer
-        elif (method == 'webmercator_box'):
-            point.transform(900913) # Google Spherical Mercator srid
+        elif method == "webmercator_box":
+            point.transform(900913)  # Google Spherical Mercator srid
             searchbuffer = point.buffer(radius * 1000)
-            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer.envelope).defer(*WdpaPoly_new.get_geom_fields()) # use simple bounding box instead
+            mpa_list = WdpaPoly_new.objects.filter(
+                geog__intersects=searchbuffer.envelope
+            ).defer(
+                *WdpaPoly_new.get_geom_fields()
+            )  # use simple bounding box instead
             search = searchbuffer.envelope
-        elif (method == 'webmercator_simple'):
-            point.transform(900913) # Google Spherical Mercator srid
-            searchbuffer = point.buffer(radius * 1000, quadsegs=2) # simple buffer with 2 segs per quarter circle
-            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(*WdpaPoly_new.get_geom_fields())
+        elif method == "webmercator_simple":
+            point.transform(900913)  # Google Spherical Mercator srid
+            searchbuffer = point.buffer(
+                radius * 1000, quadsegs=2
+            )  # simple buffer with 2 segs per quarter circle
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=searchbuffer).defer(
+                *WdpaPoly_new.get_geom_fields()
+            )
             search = searchbuffer
-        elif (method == 'greatcircle'):
-            mpa_list = WdpaPoly_new.objects.filter(geog__dwithin=(point, Distance(km=radius))).defer(*WdpaPoly_new.get_geom_fields())
+        elif method == "greatcircle":
+            mpa_list = WdpaPoly_new.objects.filter(
+                geog__dwithin=(point, Distance(km=radius))
+            ).defer(*WdpaPoly_new.get_geom_fields())
             search = point
-        elif (method == 'point'):
-            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=point).defer(*WdpaPoly_new.get_geom_fields())
+        elif method == "point":
+            mpa_list = WdpaPoly_new.objects.filter(geog__intersects=point).defer(
+                *WdpaPoly_new.get_geom_fields()
+            )
             search = point
-        candidate_radius = radius * 2.2 # We're using big icons on a point, this let's us catch it better
-        mpa_candidate_list = MpaCandidate.objects.filter(geog__dwithin=(point, Distance(km=candidate_radius))).defer(*MpaCandidate.get_geom_fields())
         search.transform(4326)
-        return render(request, 'wdpa/mpalookup.json', {
-            'search': search.coords,
-            'mpa_list': mpa_list,
-            'mpa_candidate_list': mpa_candidate_list,
-        }, content_type='application/json; charset=utf-8')
+        return render(
+            request,
+            "wdpa/mpalookup.json",
+            {"search": search.coords, "mpa_list": mpa_list},
+            content_type="application/json; charset=utf-8",
+        )

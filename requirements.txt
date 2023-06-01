@@ -3,12 +3,9 @@ pip
 setuptools
 wheel
 
-# Versioning Tools
-mercurial; python_version < '3.0' # only available on Python2
-
 # DJANGO itself
 #Django<3.0,>=2.2.9
-Django>=3.1
+Django<4.0
 
 # Application and WSGI Utils
 Werkzeug
@@ -22,7 +19,6 @@ whitenoise
 psycogreen
 psycopg2-binary
 SQLAlchemy
-pysqlite; python_version < '3.0' # only needed on Python2, use sqlite3 in Python3 library
 
 # Django Utils
 django-admin-tools
@@ -30,7 +26,7 @@ django-appconf
 django-appmedia
 django-debug-toolbar
 django-extensions
-git+git://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
+git+https://github.com/litchfield/django-safelogging.git@master#egg=django-safelogging
 django-classy-tags
 
 # Django Models, Fields, Addons
@@ -57,7 +53,7 @@ django-filer
 # DjangoCMS
 django-cms
 djangocms-admin-style
-git+git://github.com/divio/djangocms-history#egg=djangocms-history
+git+https://github.com/divio/djangocms-history#egg=djangocms-history
 djangocms-attributes-field
 
 # DjangoCMS Plugins
@@ -91,7 +87,7 @@ sorl-thumbnail
 django-haystack
 
 # CartoDB API
-git+git://github.com/CartoDB/cartodb-python.git#egg=carto
+git+https://github.com/CartoDB/cartodb-python.git#egg=carto
 
 # Authentication
 git+https://github.com/mci/django-social-auth.git@django1.9#egg=django-social-auth

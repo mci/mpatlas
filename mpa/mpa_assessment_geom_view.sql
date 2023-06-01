@@ -63,7 +63,7 @@ LEFT OUTER JOIN
     	n.permanence_citation as mpatlas_permanence_citation,
     	n.wdpa_notes as mpatlas_wdpa_notes,
     	n.notes as mpatlas_notes,
-    	n.summary as mpatlas_summary,
+    	SUBSTRING(n.summary,0,32000) as mpatlas_summary,
     	n.is_point as mpatlas_is_point,
     	n.verification_state as mpatlas_verification_state,
     	n.verified_date as mpatlas_verified_date,
