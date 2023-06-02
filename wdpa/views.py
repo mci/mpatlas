@@ -192,7 +192,7 @@ def lookup_point(request):
             point360 = geos.Point(lon360, lat, srid=gdal.SpatialReference("WGS84").srid)
             point.transform(900913)  # Google Spherical Mercator srid
             point360.transform(900913)
-            # mpa_list = WdpaPolygon.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPolygon.get_geom_fields())
+            # mpa_list = WdpaPoly_new.objects.filter(geom_smerc__dwithin=(point, Distance(km=radius))).defer(*WdpaPoly_new.get_geom_fields())
             mpa_list = WdpaPoly_new.objects.filter(
                 Q(geom_smerc__dwithin=(point, Distance(km=radius)))
                 | Q(geom_smerc__dwithin=(point360, Distance(km=radius)))
