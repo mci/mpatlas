@@ -114,7 +114,7 @@ class WdpaAbstract(models.Model):
     @property
     def myfields(self):
         d = {}
-        for field in WdpaPolygon._meta.fields:
+        for field in self.__class__._meta.fields:
             d[field.name] = {
                 "verbose": field.verbose_name,
                 "value": field.value_to_string(self),
