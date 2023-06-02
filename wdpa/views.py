@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic import ListView
@@ -10,6 +10,7 @@ from itertools import chain
 
 from django.contrib.gis import geos, gdal
 from django.contrib.gis.measure import Distance
+from django.contrib.gis.db.models.functions import AsGeoJSON
 
 from wdpa.models import WdpaPoly_new
 
