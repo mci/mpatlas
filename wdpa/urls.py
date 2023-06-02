@@ -53,5 +53,15 @@ urlpatterns = [
         ),
         name="wdpa-siteinfo",
     ),
+    url(
+        r"^sites/(?P<pk>\d+)/json/$",
+        WDPAJsonView.as_view(
+            model=WdpaPoly_new,
+            queryset=WdpaPoly_new.objects.all(),
+            context_object_name="wdpa",
+        ),
+        name="wdpa-infojson",
+    ),
+    url(r"^sites/(?P<pk>\d+)/features/$", get_wdpa_geom_json, name="wdpa-geojson"),
     url(r"^lookup/point/$", lookup_point),
 ]

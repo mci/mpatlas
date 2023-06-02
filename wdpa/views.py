@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.template import RequestContext
 from django.views.generic import ListView
+from django.views.generic.detail import BaseDetailView
 from django.db.models import Q
 import re
 from itertools import chain
@@ -49,6 +50,60 @@ class WDPAJsonListView(WDPAListView):
         return super(WDPAJsonListView, self).render_to_response(
             context, content_type="application/json; charset=utf-8", **kwargs
         )
+
+
+class WDPAJsonView(BaseDetailView):
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Return a response, using the application/json content_type.
+        json.dump a dict of wdpa fields and values.
+        """
+        w = WdpaPoly_new.objects.get(pk=self.object.pk)
+        wdpa_export = w.export_dict
+        # Allow unicode to pass through json.dumps with ensure_ascii=False.
+        # We rely on Django's Json/HttpReponse() to encode content to utf-8 automatically via force_bytes()
+        return JsonResponse(
+            wdpa_export or "{}",
+            json_dumps_params={"ensure_ascii": False},
+            content_type="application/json; charset=utf-8",
+        )
+        # mpa_json = json.dumps(mpa_export, ensure_ascii=False, default=json_serial)
+
+
+def get_wdpa_geom_json(request, pk, simplified=True, webmercator=False):
+    try:
+        simplified = request.GET["simplified"].lower() not in (
+            "false",
+            "f",
+            "no",
+            "0",
+            0,
+        )
+    except:
+        pass
+    try:
+        webmercator = request.GET["webmercator"].upper() == "TRUE"
+    except:
+        pass
+    geomfield = sgeomfield = "geom"
+    if webmercator:
+        geomfield = "geom_smerc"
+    wdpaq = (
+        WdpaPoly_new.objects.annotate(geojson=AsGeoJSON(geomfield))
+        .annotate(geojson_point=AsGeoJSON("point_within"))
+        .defer(*WdpaPoly_new.get_geom_fields())
+    )
+    if simplified:
+        sgeomfield = "simple_" + geomfield
+        wdpaq = wdpaq.annotate(geojson_simple=AsGeoJSON(sgeomfield))
+    wdpa = wdpaq.get(pk=pk)
+    if wdpa.is_point:
+        geojson = wdpa.geojson_point
+    else:
+        geojson = wdpa.geojson if not simplified else wdpa.geojson_simple
+    if not geojson and simplified:
+        geojson = wdpa.geojson
+    return HttpResponse(geojson or "{}", content_type="application/json; charset=utf-8")
 
 
 def normalize_lon(lon):
