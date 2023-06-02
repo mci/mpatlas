@@ -13,5 +13,5 @@ class PrefixedPhraseQuery(SearchQuery):
         glue = ":* & " if self.all_partial else " & "
         value_prefix = "%s:*" % glue.join(value.split())
         super(PrefixedPhraseQuery, self).__init__(
-            value_prefix, search_type=search_type**kwargs
+            value_prefix, search_type=search_type, **kwargs
         )

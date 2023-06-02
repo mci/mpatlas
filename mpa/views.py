@@ -266,7 +266,7 @@ class MpaListView(ListView):
                 qs = apply_filters(qs, filters)
             return qs
         except:
-            pass
+            raise
         else:
             return self.queryset
 
