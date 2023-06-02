@@ -95,11 +95,12 @@ def get_wdpa_geom_json(request, pk, simplified=True, webmercator=False):
         .defer(*WdpaPoly_new.get_geom_fields())
     )
     if simplified:
-        # Simplified geometry field does not exist for WDPA, unocomment to reenable
+        # Simplified geometry field does not exist for WDPA, unocomment to re-enable
         # sgeomfield = "simple_" + geomfield
         wdpaq = wdpaq.annotate(geojson_simple=AsGeoJSON(sgeomfield))
     wdpa = wdpaq.get(pk=pk)
-    if wdpa.is_point:
+    if 0 and wdpa.is_point:
+        # bypass this for now
         geojson = wdpa.geojson_point
     else:
         geojson = wdpa.geojson if not simplified else wdpa.geojson_simple
