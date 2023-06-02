@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.measure import Distance
+from collections import OrderedDict
 
 # fields variable is overwritten at end of module, listing all fields needed to pull from mpatlas
 # via a .values(*fields) call.  Update this for new columns.
