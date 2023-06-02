@@ -737,7 +737,7 @@ class Mpa(models.Model):
     # Summary Info
     summary = RichTextField("MPA Summary Zone Description", null=True, blank=True)
 
-    ## GEOGRAPHY
+    # GEOGRAPHY
     is_point = models.BooleanField(default=False)
 
     # Full-res polygon features
@@ -1017,14 +1017,8 @@ class Mpa(models.Model):
 
     @transaction.atomic
     def make_point_buffer(self):
-        # Raw SQL update geometry fields, much faster than through django
-        cursor = connection.cursor()
-        cursor.execute(
-            "UPDATE mpa_mpa SET simple_geom = ST_Multi("
-            + st_simplify
-            + "(geom, %s)) WHERE mpa_id = %s",
-            (tolerance, self.mpa_id),
-        )
+        # Not yet defined
+        pass
 
     @transaction.atomic
     def make_simplified_geom(self, tolerance=0.005, preservetopology=False):

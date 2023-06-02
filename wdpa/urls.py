@@ -4,7 +4,13 @@ from django.views.generic import TemplateView, DetailView, ListView
 from wdpa.models import WdpaPoly_new
 
 # from mpa.models import MpaCandidate
-from wdpa.views import WDPAListView, WDPAJsonListView, lookup_point
+from wdpa.views import (
+    WDPAListView,
+    WDPAJsonListView,
+    WDPAJsonView,
+    get_wdpa_geom_json,
+    lookup_point,
+)
 
 urlpatterns = [
     url(
