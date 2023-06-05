@@ -3,47 +3,78 @@ from django_countries.fields import CountryField
 from django_countries import countries
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
+
 try:
     from django.contrib.sites.models import get_current_site
 except ImportError:
     from django.contrib.sites.shortcuts import get_current_site
 from django.template import Context, loader
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.http import int_to_base36
 
 from accounts.models import TITLE_CHOICES
 
 User = get_user_model()
 
+
 class UserCreationForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and password.
     """
-    username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^[\w.@+-]+$',
-        help_text = _("Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."),
-        error_messages = {'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
+
+    username = forms.RegexField(
+        label=_("Username"),
+        max_length=30,
+        regex=r"^[\w.@+-]+$",
+        help_text=_(
+            "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+        error_messages={
+            "invalid": _(
+                "This value may contain only letters, numbers and @/./+/-/_ characters."
+            )
+        },
+    )
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput,
-        help_text = _("Enter the same password as above, for verification."))
-    email1 = forms.EmailField(label="Email", max_length=75,
-        help_text = "A confirmation email will be sent to this address.")
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        widget=forms.PasswordInput,
+        help_text=_("Enter the same password as above, for verification."),
+    )
+    email1 = forms.EmailField(
+        label="Email",
+        max_length=75,
+        help_text="A confirmation email will be sent to this address.",
+    )
     # email2 = forms.EmailField(label="Email confirmation", max_length=75,
     #     help_text = "Enter your email address again.")
     title = forms.ChoiceField(label=_("Title"), choices=TITLE_CHOICES)
     first_name = forms.CharField(label=_("First Name"), max_length=30)
     last_name = forms.CharField(label=_("Last Name"), max_length=30)
-    affiliation = forms.CharField(label=_("Affiliation/Organization"), max_length=300, required=False)
-    country = forms.ChoiceField(label=_("Country"), choices=countries, initial='US')
+    affiliation = forms.CharField(
+        label=_("Affiliation/Organization"), max_length=300, required=False
+    )
+    country = forms.ChoiceField(label=_("Country"), choices=countries, initial="US")
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email1', 'title', 'first_name', 'last_name', 'affiliation', 'country',)
-    
+        fields = (
+            "username",
+            "password1",
+            "password2",
+            "email1",
+            "title",
+            "first_name",
+            "last_name",
+            "affiliation",
+            "country",
+        )
+
     def __init__(self, *args, **kwargs):
         self.user_cache = None
         super(UserCreationForm, self).__init__(*args, **kwargs)
-    
+
     def clean_username(self):
         username = self.cleaned_data["username"]
         try:
@@ -58,7 +89,7 @@ class UserCreationForm(forms.ModelForm):
         if password1 != password2:
             raise forms.ValidationError(_("The two password fields didn't match."))
         return password2
-    
+
     def clean_email1(self):
         email1 = self.cleaned_data["email1"]
         users_found = User.objects.filter(email__iexact=email1)
@@ -72,7 +103,7 @@ class UserCreationForm(forms.ModelForm):
         if email1 != email2:
             raise forms.ValidationError("The two email fields didn't match.")
         return email2
-    
+
     def get_user_id(self):
         if self.user_cache:
             return self.user_cache.id
@@ -92,7 +123,7 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         # UserProfile is created by post_save signal on User
         # profile = user.get_profile()
-        user = User.objects.get(pk=user.pk) # refresh to get auto-created profile
+        user = User.objects.get(pk=user.pk)  # refresh to get auto-created profile
         profile = user.userprofile
         profile.title = self.cleaned_data["title"]
         profile.affiliation = self.cleaned_data["affiliation"]

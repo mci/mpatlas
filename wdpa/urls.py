@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import path, re_path, include
 from django.views.generic import TemplateView, DetailView, ListView
 
 from wdpa.models import WdpaPoly_new
@@ -13,7 +13,7 @@ from wdpa.views import (
 )
 
 urlpatterns = [
-    url(
+    re_path(
         r"^sites/$",
         WDPAListView.as_view(
             queryset=WdpaPoly_new.objects.order_by("name").defer(
@@ -25,7 +25,7 @@ urlpatterns = [
         ),
         name="wdpa-siteslist",
     ),
-    url(
+    re_path(
         r"^sites/all/$",
         ListView.as_view(
             queryset=WdpaPoly_new.objects.order_by("name").defer(
@@ -37,7 +37,7 @@ urlpatterns = [
         ),
         name="wdpa-siteslistall",
     ),
-    url(
+    re_path(
         r"^sites/json/$",
         WDPAJsonListView.as_view(
             queryset=WdpaPoly_new.objects.order_by("name").defer(
@@ -49,7 +49,7 @@ urlpatterns = [
         ),
         name="wdpa-siteslistjson",
     ),
-    url(
+    re_path(
         r"^sites/(?P<pk>\d+)/$",
         DetailView.as_view(
             model=WdpaPoly_new,
@@ -59,7 +59,7 @@ urlpatterns = [
         ),
         name="wdpa-siteinfo",
     ),
-    url(
+    re_path(
         r"^sites/(?P<pk>\d+)/json/$",
         WDPAJsonView.as_view(
             model=WdpaPoly_new,
@@ -68,6 +68,6 @@ urlpatterns = [
         ),
         name="wdpa-infojson",
     ),
-    url(r"^sites/(?P<pk>\d+)/features/$", get_wdpa_geom_json, name="wdpa-geojson"),
-    url(r"^lookup/point/$", lookup_point),
+    re_path(r"^sites/(?P<pk>\d+)/features/$", get_wdpa_geom_json, name="wdpa-geojson"),
+    re_path(r"^lookup/point/$", lookup_point),
 ]

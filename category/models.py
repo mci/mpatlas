@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from uuslug import uuslug, slugify
 
@@ -7,6 +7,7 @@ from taggit.managers import TaggableManager
 from taggit.models import TagBase, GenericTaggedItemBase, TaggedItemBase
 
 from ckeditor.fields import RichTextField
+
 
 class Category(TagBase):
     # name and slug provided by TagBase
@@ -25,26 +26,27 @@ class Category(TagBase):
         return slug
 
     def get_absolute_url(self):
-        return reverse('category-info', args=[self.slug])
+        return reverse("category-info", args=[self.slug])
 
 
 class TaggedItem(GenericTaggedItemBase):
     # Here is where you provide your custom Tag class.
-    tag = models.ForeignKey(Category,
-        on_delete=models.CASCADE,
-        related_name="%(app_label)s_%(class)s_items")
-    
+    tag = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="%(app_label)s_%(class)s_items"
+    )
+
     class Meta:
         verbose_name = _("Tagged Item")
         verbose_name_plural = _("Tagged Items")
 
+
 class Details(models.Model):
-    category = models.OneToOneField('Category', on_delete=models.CASCADE)
-    summary = RichTextField('Short Summary', null=True, blank=True)
-    description = RichTextField('Description', null=True, blank=True)
+    category = models.OneToOneField("Category", on_delete=models.CASCADE)
+    summary = RichTextField("Short Summary", null=True, blank=True)
+    description = RichTextField("Description", null=True, blank=True)
 
     def __str__(self):
-        return self.category.name + ' details'
+        return self.category.name + " details"
 
     class Meta:
         verbose_name = _("Category Details")
