@@ -1,0 +1,107 @@
+[tool.poetry]
+name = "mpatlas"
+version = "3.1.0"
+description = "Django admin backend and data models for MPAtlas (admin.mpatlas.org)"
+authors = ["Russell Moffitt <russ@russmoffitt.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = ">=4.0"
+wheel = "^0.40.0"
+eventlet = "^0.33.3"
+gevent = "^22.10.2"
+greenlet = "^2.0.2"
+gunicorn = "^20.1.0"
+psycogreen = "^1.0.2"
+psycopg2-binary = "^2.9.6"
+SQLAlchemy = "^2.0.15"
+django-admin-tools = "^0.9.2"
+django-appconf = "^1.0.5"
+django-appmedia = "^1.0.1"
+django-extensions = "^3.2.3"
+django-safelogging = {git = "https://github.com/litchfield/django-safelogging.git", rev = "master"}
+django-classy-tags = "^4.0.0"
+django-countries = "^7.5.1"
+django-durationfield = "^0.5.5"
+unidecode = "^1.3.6"
+python-slugify = "^8.0.1"
+django-uuslug = "^2.0.0"
+django-taggit = "^4.0.0"
+django-cors-headers = "^4.0.0"
+django-reversion = "^5.0.4"
+django-select2 = "^8.1.2"
+django-mptt = "^0.14.0"
+django-polymorphic = "^3.1.0"
+django-ckeditor = "^6.5.1"
+django-tinymce = "^3.6.1"
+django-cms = "^3.11.3"
+djangocms-admin-style = "^3.2.4"
+djangocms-attributes-field = "^3.0.0"
+django-filer = {git = "https://github.com/django-cms/django-filer.git", allow-prereleases = true}
+djangocms-history = {git = "https://github.com/divio/djangocms-history.git"}
+aldryn-bootstrap3 = {git = "https://github.com/russmo/aldryn-bootstrap3.git"}
+djangocms-layouttools = {git = "https://github.com/mci/djangocms-layout.git"}
+aldryn-style = "^1.1.4"
+djangocms-text-ckeditor = {git = "https://github.com/divio/djangocms-text-ckeditor.git"}
+cmsplugin-plaintext-djangocms3 = {git = "https://github.com/russmo/cmsplugin-plaintext.git"}
+djangocms-file = "^3.0.0"
+djangocms-googlemap = "^2.0.0"
+djangocms-link = "^3.1.1"
+djangocms-picture = "^4.0.0"
+djangocms-audio = "^2.0.0"
+djangocms-video = "^3.0.0"
+djangocms-snippet = "^3.1.0"
+djangocms-style = "^3.0.0"
+pillow = "^9.5.0"
+easy-thumbnails = "^2.8.5"
+sorl-thumbnail = "^12.9.0"
+django-haystack = "^3.2.1"
+carto = {git = "https://github.com/CartoDB/cartodb-python.git"}
+django-social-auth = {git = "https://github.com/mci/django-social-auth.git", rev = "django1.9"}
+python-social-auth = "^0.3.6"
+boto = "^2.49.0"
+python-geoip = "^1.2"
+python-geoip-geolite2 = "^2015.303"
+pygeoip = "^0.3.2"
+geoip2 = "^4.7.0"
+fabric = "^3.1.0"
+argparse = "^1.4.0"
+beautifulsoup4 = "^4.12.2"
+cryptography = "^41.0.1"
+docutils = "^0.20.1"
+feedparser = "^6.0.10"
+httplib2 = "^0.22.0"
+ipython = "^8.14.0"
+jupyter = "^1.0.0"
+markdown = "^3.4.3"
+ndg-httpsclient = "^0.5.1"
+oauth2 = "^1.9.0.post1"
+path-py = "^12.5.0"
+pycryptodome = "^3.18.0"
+pyenchant = "^3.2.2"
+pygments = "^2.15.1"
+python-memcached = "^1.59"
+setproctitle = "^1.3.2"
+simplejson = "^3.19.1"
+requests = "^2.31.0"
+requests-oauthlib = "^1.3.1"
+webencodings = "^0.5.1"
+
+[tool.poetry.group.dev.dependencies]
+Werkzeug = "^2.3.4"
+whitenoise = "^6.4.0"
+django-debug-toolbar = "^4.1.0"
+pytest = "^7.3.1"
+
+
+[tool.poetry.group.geo.dependencies]
+fiona = "^1.9.4.post1"
+shapely = "^2.0.1"
+django-shapes = "^0.2.0"
+geographiclib = "^2.0"
+django-shape-engine = {git = "https://github.com/sigma-geosistemas/django-shape-engine.git"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

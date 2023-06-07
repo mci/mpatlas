@@ -53,7 +53,7 @@ django-filer
 # DjangoCMS
 django-cms
 djangocms-admin-style
-git+https://github.com/divio/djangocms-history#egg=djangocms-history
+git+https://github.com/divio/djangocms-history#egg=djangocms-history.gitr
 djangocms-attributes-field
 
 # DjangoCMS Plugins
@@ -141,7 +141,7 @@ webencodings
 
 # WIKI
 #git+git://github.com/benjaoming/django-wiki.git#egg=wiki
-wiki
+# wiki
 
 # NOT USED
 #hg+https://bitbucket.org/russmo/django-storages-multi#egg=django-storages
