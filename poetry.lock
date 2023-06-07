@@ -1181,26 +1181,6 @@ files = [
 ]
 
 [[package]]
-name = "django-social-auth"
-version = "0.7.28"
-description = "Django social authentication made simple."
-optional = false
-python-versions = "*"
-files = []
-develop = false
-
-[package.dependencies]
-Django = ">=1.2.5"
-oauth2 = ">=1.5.167"
-python-openid = ">=2.2"
-
-[package.source]
-type = "git"
-url = "https://github.com/mci/django-social-auth.git"
-reference = "django1.9"
-resolved_reference = "9e7a79e8d74f94ec2dd5cfbd92e372d1911db72e"
-
-[[package]]
 name = "django-taggit"
 version = "4.0.0"
 description = "django-taggit is a reusable Django application for simple tagging."
@@ -3424,23 +3404,6 @@ files = [
 plugins = ["importlib-metadata"]
 
 [[package]]
-name = "pyjwt"
-version = "2.7.0"
-description = "JSON Web Token implementation in Python"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "PyJWT-2.7.0-py3-none-any.whl", hash = "sha256:ba2b425b15ad5ef12f200dc67dd56af4e26de2331f965c5439994dad075876e1"},
-    {file = "PyJWT-2.7.0.tar.gz", hash = "sha256:bd6ca4a3c4285c1a2d4349e5a035fdf8fb94e04ccd0fcbe6ba289dae9cc3e074"},
-]
-
-[package.extras]
-crypto = ["cryptography (>=3.4.0)"]
-dev = ["coverage[toml] (==5.0.4)", "cryptography (>=3.4.0)", "pre-commit", "pytest (>=6.0.0,<7.0.0)", "sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
-docs = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
-tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
-
-[[package]]
 name = "pynacl"
 version = "1.5.0"
 description = "Python binding to the Networking and Cryptography (NaCl) library"
@@ -3634,17 +3597,6 @@ files = [
 six = ">=1.4.0"
 
 [[package]]
-name = "python-openid"
-version = "2.2.5"
-description = "OpenID support for servers and consumers."
-optional = false
-python-versions = "*"
-files = [
-    {file = "python-openid-2.2.5.tar.gz", hash = "sha256:92c51c3ecec846cbec4aeff11f9ff47303d4a63f93b0e6ac0ec02a091fed70ef"},
-    {file = "python-openid-2.2.5.zip", hash = "sha256:c2d133e47e0a7705c9272eef00d7a09c174f5bf17a127fed8e2c6499556cc782"},
-]
-
-[[package]]
 name = "python-slugify"
 version = "8.0.1"
 description = "A Python slugify application that also handles Unicode"
@@ -3660,50 +3612,6 @@ text-unidecode = ">=1.3"
 
 [package.extras]
 unidecode = ["Unidecode (>=1.1.1)"]
-
-[[package]]
-name = "python-social-auth"
-version = "0.3.6"
-description = "Python social authentication made simple."
-optional = false
-python-versions = "*"
-files = [
-    {file = "python-social-auth-0.3.6.tar.gz", hash = "sha256:6986220df76934aee15c54938a13ebe370a1976e043af01fa3bea417f6722e74"},
-    {file = "python_social_auth-0.3.6-py2-none-any.whl", hash = "sha256:9aaad6f7bf83fd129620eadaab1e78e63200da61a5d8898fd1aa243686b36575"},
-    {file = "python_social_auth-0.3.6-py3-none-any.whl", hash = "sha256:8aac8531f7dd4d1b9af606654532fef4f615cb437774a7a1f8dcdebe89c17664"},
-]
-
-[package.dependencies]
-social-auth-core = "*"
-
-[package.extras]
-cherrypy = ["social-auth-app-cherrypy"]
-django = ["social-auth-app-django"]
-django-mongoengine = ["social-auth-app-django-mongoengine"]
-flask = ["social-auth-app-flask", "social-auth-app-flask-sqlalchemy"]
-flask-mongoengine = ["social-auth-app-flask-mongoengine"]
-flask-peewee = ["social-auth-app-flask-peewee"]
-pyramid = ["social-auth-app-pyramid"]
-tornado = ["social-auth-app-tornado"]
-webpy = ["social-auth-app-webpy"]
-
-[[package]]
-name = "python3-openid"
-version = "3.2.0"
-description = "OpenID support for modern servers and consumers."
-optional = false
-python-versions = "*"
-files = [
-    {file = "python3-openid-3.2.0.tar.gz", hash = "sha256:33fbf6928f401e0b790151ed2b5290b02545e8775f982485205a066f874aaeaf"},
-    {file = "python3_openid-3.2.0-py3-none-any.whl", hash = "sha256:6626f771e0417486701e0b4daff762e7212e820ca5b29fcc0d05f6f8736dfa6b"},
-]
-
-[package.dependencies]
-defusedxml = "*"
-
-[package.extras]
-mysql = ["mysql-connector-python"]
-postgresql = ["psycopg2"]
 
 [[package]]
 name = "pywin32"
@@ -4303,33 +4211,6 @@ files = [
 ]
 
 [[package]]
-name = "social-auth-core"
-version = "4.4.2"
-description = "Python social authentication made simple."
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "social-auth-core-4.4.2.tar.gz", hash = "sha256:9791d7c7aee2ac8517fe7a2ea2f942a8a5492b3a4ccb44a9b0dacc87d182f2aa"},
-    {file = "social_auth_core-4.4.2-py3-none-any.whl", hash = "sha256:ea7a19c46b791b767e95f467881b53c5fd0d1efb40048d9ed3dbc46daa05c954"},
-]
-
-[package.dependencies]
-cryptography = ">=1.4"
-defusedxml = ">=0.5.0rc1"
-oauthlib = ">=1.0.3"
-PyJWT = ">=2.0.0"
-python3-openid = ">=3.0.10"
-requests = ">=2.9.1"
-requests-oauthlib = ">=0.6.1"
-
-[package.extras]
-all = ["cryptography (>=2.1.1)", "python-jose (>=3.0.0)", "python3-saml (>=1.5.0)"]
-allpy3 = ["cryptography (>=2.1.1)", "python-jose (>=3.0.0)", "python3-saml (>=1.5.0)"]
-azuread = ["cryptography (>=2.1.1)"]
-openidconnect = ["python-jose (>=3.0.0)"]
-saml = ["python3-saml (>=1.5.0)"]
-
-[[package]]
 name = "sorl-thumbnail"
 version = "12.9.0"
 description = "Thumbnails for Django"
@@ -4891,4 +4772,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "372350d77f99d0bfa6105b4626dd626bc57ebc660510e039f0e9a7e75dc84cb9"
+content-hash = "635d2687666a62b65c78f5c5c130c063f054d2a84c3d28d36e7e3d884a59d100"

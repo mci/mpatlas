@@ -58,8 +58,6 @@ easy-thumbnails = "^2.8.5"
 sorl-thumbnail = "^12.9.0"
 django-haystack = "^3.2.1"
 carto = {git = "https://github.com/CartoDB/cartodb-python.git"}
-django-social-auth = {git = "https://github.com/mci/django-social-auth.git", rev = "django1.9"}
-python-social-auth = "^0.3.6"
 boto = "^2.49.0"
 python-geoip = "^1.2"
 python-geoip-geolite2 = "^2015.303"
