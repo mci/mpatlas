@@ -10,7 +10,7 @@ source ~/.bashrc
 # source $VIRTUALENV/bin/activate
 cd $PROJECTDIR
 
-export DJANGO_SETTINGS_MODULE=ratemympa.settings
+export DJANGO_SETTINGS_MODULE=mpatlas.settings
 export PYTHONPATH=$PROJECTDIR:$PYTHONPATH
 
 # Start your Django Unicorn
