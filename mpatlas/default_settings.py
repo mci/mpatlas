@@ -35,6 +35,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+CSRF_TRUSTED_ORIGINS = ["https://admin.mpatlas.org", "https://old.mpatlas.org"]
 ALLOWED_HOSTS = [".mpatlas.org", "54.68.154.94", "localhost", "127.0.0.1"]
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
