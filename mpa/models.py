@@ -970,34 +970,41 @@ class Mpa(models.Model):
             return None
 
     @transaction.atomic
-    def clean_geom(self, resolution=1e-09, dry_run=False):
+    def clean_geom(self, resolution=1e-09, dry_run=False, save=True):
         """Clean geometry by running ST_MakeValid and ST_RemoveRepeatedPoints.
         Uses default decimal degree resolution/tolerance of 1E-09 (~0.1mm),
         which is default geodatabase XY Resolution in ArcGIS."""
         fixed = False
         mpaset = Mpa.objects.filter(pk=self.mpa_id).annotate(
+            valid=IsValid("geom"),
             geom_nodup=MakeValid(
-                Func(F("geom"), resolution, function="ST_RemoveRepeatedPoints")
-            )
+                Func(
+                    F("geom"),
+                    resolution,
+                    function="ST_RemoveRepeatedPoints",
+                    output_field=models.MultiPolygonField(),
+                )
+            ),
         )
         # Run MakeValid first if not valid, doing this on a query set rather than object
-        mpa = mpaset.first()
-        invalid = mpaset.annotate(valid=IsValid("geom")).filter(valid=False)
+        orig_mpa = mpaset.first()
+        invalid = mpaset.filter(valid=False)
         if invalid.exists():
             if not dry_run:
                 invalid.update(geom=MakeValid("geom"))
             # save object at end of function to invoke triggers only if geom was actually updated
             logger.warning(
                 "Fixed Invalid Geometry: mpa_id %s %s %s %s",
-                mpa.mpa_id,
-                mpa.name,
-                mpa.designation,
-                mpa.country,
+                orig_mpa.mpa_id,
+                orig_mpa.name,
+                orig_mpa.designation,
+                orig_mpa.country,
             )
             fixed = True
         # Remove duplicate points at 1e-09 resolution (ArcGIS default), even though PostGIS is differentiating at 15 decimal places
         # Run MakeValid on resulting geom without duplicates just to be safe
-        if mpa.geom and mpa.geom_nodup.num_coords < mpa.geom.num_coords:
+        new_mpa = Mpa.objects.get(pk=self.pk)  # get fresh instance with updated geom
+        if new_mpa.geom and orig_mpa.geom_nodup.num_coords < new_mpa.geom.num_coords:
             # Test for mpa.geom above ensures we don't run this on a null geometry
             logger.warning(
                 "Removed %d Duplicate Points: mpa_id %s %s %s %s",
@@ -1007,10 +1014,10 @@ class Mpa(models.Model):
                 mpa.designation,
                 mpa.country,
             )
-            mpa.geom = mpa.geom_nodup
+            new_mpa.geom = mpa.geom_nodup
             fixed = True
-        if fixed and not dry_run:
-            mpa.save()  # save rather than SQL update so Django triggers fire
+        if save and fixed and not dry_run:
+            new_mpa.save()  # save rather than SQL update so Django triggers fire
             # Because mpa.clean_geom() is in the post_save trigger, this routine probably runs twice
             # when errors are fixed if clean_geom is called on its own.
         return fixed

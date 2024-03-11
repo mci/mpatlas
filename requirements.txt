@@ -54,6 +54,7 @@ django-filer
 django-cms
 djangocms-admin-style
 git+https://github.com/divio/djangocms-history#egg=djangocms-history.gitr
+git+https://github.com/django-cms/django-filer.git#egg=django-filer
 djangocms-attributes-field
 
 # DjangoCMS Plugins
