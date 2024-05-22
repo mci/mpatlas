@@ -88,7 +88,7 @@ webencodings = "^0.5.1"
 jupyterlab = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
-Werkzeug = "^2.3.4"
+Werkzeug = "^3.0.3"
 whitenoise = "^6.4.0"
 django-debug-toolbar = "^4.1.0"
 pytest = "^7.3.1"
