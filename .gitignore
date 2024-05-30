@@ -8,6 +8,7 @@
 /media
 /static
 /fixtures
+!*.gitkeep
 
 # Distribution / packaging
 .Python
