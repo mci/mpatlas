@@ -1,5 +1,5 @@
 #!/bin/bash
-PROJECTDIR=/home/mpatlas/projects/django_mpatlas
+PROJECTDIR=/home/mpatlas/projects/mpatlas
 DJANGO_WSGI_MODULE=mpatlas.wsgi
 POETRY=/home/mpatlas/.local/bin/poetry
 # VIRTUALENV=/home/mpatlas/.cache/pypoetry/virtualenvs/mpatlas-4TWYxWy3-py3.11
