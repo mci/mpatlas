@@ -35,7 +35,7 @@ django-mptt = "^0.16.0"
 django-polymorphic = "^3.1.0"
 django-ckeditor = "^6.7.1"
 django-tinymce = "^4.0.0"
-django-cms = "^4.1.1"
+django-cms = "<4.0"
 djangocms-admin-style = "^3.3.1"
 djangocms-attributes-field = "^3.0.0"
 django-filer = {git = "https://github.com/django-cms/django-filer.git", allow-prereleases = true}
