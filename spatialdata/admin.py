@@ -1,8 +1,10 @@
 from django.contrib.gis import admin
 from .models import Nation, Eez
 
-class NationAdmin(admin.GeoModelAdmin):
-    list_display = ('name',)
 
-admin.site.register(Eez, admin.GeoModelAdmin)
+class NationAdmin(admin.GISModelAdmin):
+    list_display = ("name",)
+
+
+admin.site.register(Eez, admin.GISModelAdmin)
 admin.site.register(Nation, NationAdmin)
